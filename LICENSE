@@ -2,40 +2,23 @@
                             Introduction
 
 The li_can_slv (lcs) source code is licensed by the modified GNU General 
-Public License (GPL) text provided below. The download could also includes 
+Public License (GPL) text provided below. The download could also include 
 demo application source code and libraries, some of which are provided by 
 third parties AND ARE LICENSED SEPARATELY FROM LI_CAN_SLV. For the avoidance
 of any doubt refer to the comment included at the top of each source and 
 header file for license and copyright information.
 
-This is a list of files for which Liebherr is not the copyright owner and 
-these are NOT COVERED BY THE GPL.
+Liebherr is not the copyright owner for various third party libraries 
+(canpie, unity, etc) with source code and binaries.
 
-1. Various header files provided by silicon manufacturers and tool vendors 
-that define processor specific memory addresses and utility macros. 
-Permission has been granted by the various copyright holders for these 
-files to be included in the lcs download. Users must ensure license 
-conditions are adhered to for any use other than compilation of the lcs 
-demo applications.
-2. Various peripheral driver source files and binaries provided by silicon 
-manufacturers and tool vendors. Permission has been granted by the various 
-copyright holders for these files to be included in the lcs download. 
-Users must ensure license conditions are adhered to for any use other than
-compilation of the lcs demo applications.
-3. Various third party libraries (canpie, etc) with source code and binaries. 
-Permission has been granted by the various copyright holders for these 
-files to be included in the lcs download. Users must ensure license 
-conditions are adhered to for any use other than compilation of the lcs
-demo applications.
-
-4. Errors and omissions should be reported to Liebherr. 
+Errors and omissions should be reported to oss.lwn(at)liebherr.com 
 
 The GPL license text follows.
 
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
- Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 
