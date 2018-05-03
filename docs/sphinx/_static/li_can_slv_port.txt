@@ -1,0 +1,279 @@
+/****************************************************************************/
+/*                                                                          */
+/*                     Copyright 2015, Liebherr PME1                    	*/
+/*                         ALL RIGHTS RESERVED                              */
+/*                                                                          */
+/****************************************************************************/
+
+/**
+ * @file li_can_slv_port.txt
+ * @defgroup li_can_slv_port Port File
+ * @addtogroup li_can_slv_port
+ * @{
+ */
+
+#ifndef LI_CAN_SLV_PORT_H_
+#define LI_CAN_SLV_PORT_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif // #ifdef __cplusplus
+
+/*--------------------------------------------------------------------------*/
+/* included files                                                           */
+/*--------------------------------------------------------------------------*/
+#include "li_can_slv_api.h"
+
+#ifdef LI_CAN_SLV_ASYNC_TUNNEL
+#include "com_echo_example.h"
+#endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
+
+#include "io_app_port.h"
+
+#include <string.h>
+/*--------------------------------------------------------------------------*/
+/* general definitions                                                      */
+/*--------------------------------------------------------------------------*/
+/**
+ * LI_CAN_SLV_PORT_STATIC_INLINE
+ */
+#define LI_CAN_SLV_PORT_STATIC_INLINE static INLINE
+
+/**
+ * li_can_slv_port_get_system_ticks
+ */
+#define li_can_slv_port_get_system_ticks()	get_system_tick()
+
+#if defined(LI_CAN_SLV_ASYNC_TUNNEL) || defined(LI_CAN_SLV_RECONNECT)
+/**
+ * li_can_slv_port_msec_2_ticks
+ */
+#define li_can_slv_port_msec_2_ticks(a)	(a)
+#endif // #if defined(LI_CAN_SLV_ASYNC_TUNNEL) || defined(LI_CAN_SLV_RECONNECT)
+
+/**
+ * li_can_slv_port_disable_irq
+ */
+#define li_can_slv_port_disable_irq()	__disable_irq()
+
+/**
+ * li_can_slv_port_enable_irq
+ */
+#define li_can_slv_port_enable_irq()	__enable_irq()
+
+/**
+ * This functions compares the first size bytes of memory regions ```ptr1 ``` and ```ptr2```.
+ * @param ptr1 The Pointer to the first memory region to compare (const void *)
+ * @param ptr2 The Pointer to the second memory region to compare (const void *)
+ * @param size The number of bytes to compare with each other (size_t size)
+ * @return
+\rst
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+| return (int) | indicates                                                                                                                                        |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+|      <0      | the first byte that does not match in both memory blocks has a lower value in ``ptr1`` than in ``ptr2`` (if evaluated as unsigned char values)   |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+|       0      | the contents of both memory blocks are equal                                                                                                     |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+|      >0      | the first byte that does not match in both memory blocks has a greater value in ``ptr1`` than in ``ptr2`` (if evaluated as unsigned char values) |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+\endrst
+ */
+#define li_can_slv_port_memory_cmp(ptr1, ptr2, size) memcmp(ptr1, ptr2, size)
+
+/**
+ * This function copies size bytes from source to dest.
+ * @param dest The pointer to the destination memory region (void *)
+ * @param source The pointer to the source memory region (const void *)
+ * @param size The number of bytes to copy (size_t size)
+ * @return the destination is returned (void *)
+ */
+#define li_can_slv_port_memory_cpy(dest, source, size) memcpy(dest, source, size)
+
+/**
+ * This function sets the first num bytes of the block of memory pointed
+ * by ptr to the specified value (interpreted as an unsigned char).
+ * @param ptr Pointer to the destination memory region to set (void *)
+ * @param value Value to be set. (int)
+ * @param num The number of bytes to be set to the value. (size_t)
+ * @return ptr ist returned (void *)
+*/
+#define li_can_slv_port_memory_set(ptr, value, num) memset(ptr, value, num)
+
+/**
+ * This function compares the C string ```str1``` to the C string ```str2```.
+ * @param str1 First string to be compared. (const char *)
+ * @param str2 Second string to be compared. (const char *)
+ * @return
+\rst
++--------------+------------------------------------------------------------------------------------------+
+| return (int) | indicates                                                                                |
++--------------+------------------------------------------------------------------------------------------+
+|      <0      | the first character that does not match has a lower value in ``str1`` than in ``str2``   |
++--------------+------------------------------------------------------------------------------------------+
+|       0      | the contents of both strings are equal                                                   |
++--------------+------------------------------------------------------------------------------------------+
+|      >0      | the first character that does not match has a greater value in ``str1`` than in ``str2`` |
++--------------+------------------------------------------------------------------------------------------+
+\endrst
+ */
+#define li_can_slv_port_string_cmp(str1, str2) strcmp(str1, str2)
+
+/**
+ * This function compares up to num characters of the C string ```str1``` to those of the C string ```str2```.
+ * @param str1 First string to be compared. (const char *)
+ * @param str2 Second string to be compared. (const char *)
+ * @param num Maximum number of characters to compare (size_t)
+ * @return
+\rst
++--------------+-----------------------------------------------------------------------------------------+
+| return (int) | indicates                                                                               |
++--------------+-----------------------------------------------------------------------------------------+
+|      <0      | the first character that does not match has a lower value in ``str1`` than in ``str2``  |
++--------------+-----------------------------------------------------------------------------------------+
+|       0      | the contents of both strings are equal                                                  |
++--------------+-----------------------------------------------------------------------------------------+
+|      >0      | the first character that does not match has a greater value in ``str1`` than in ``str2``|
++--------------+-----------------------------------------------------------------------------------------+
+\endrst
+ */
+#define li_can_slv_port_string_n_cmp(str1, str2, num) strncmp(str1, str2, num)
+
+/**
+ *
+ * @param dest Pointer to the destination buffer where the content is to be copied. (char *)
+ * @param source The source C string (char *)
+ * @return The destination is returned (char *)
+ */
+#define li_can_slv_port_string_cpy(dest, source) strcpy(dest, source)
+
+/**
+ * This function copies the first size characters of source to destination. If the end of the source
+ * C string (which is signaled by a null-character) is found before size characters have been copied,
+ * destination is padded with zeros until a total of size characters have been written to it.
+ * @param dest Pointer to the destination buffer where the content is to be copied (char *)
+ * @param source C string to be copied (const char *)
+ * @param size Maximum number of characters to copy (size_t)
+ * @return size Maximum number of characters to copied (size_t)
+ */
+#define li_can_slv_port_string_n_cpy(dest, source, size) strncpy(dest, source, size)
+
+/**
+ * li_can_slv_port_get_boot_kernel_version_major
+ */
+#define li_can_slv_port_get_boot_kernel_version_major()		(9)
+/**
+ * li_can_slv_port_get_boot_kernel_version_minor
+ */
+#define li_can_slv_port_get_boot_kernel_version_minor()		(999)
+
+/**
+ * li_can_slv_port_get_modul_software_version_major
+ */
+#define li_can_slv_port_get_modul_software_version_major()	(9)
+/**
+ * li_can_slv_port_get_modul_software_version_minor
+ */
+#define li_can_slv_port_get_modul_software_version_minor()	(999)
+
+/**
+ * li_can_slv_port_get_identnumber
+ */
+#define li_can_slv_port_get_identnumber()	(99999999)
+/**
+ * li_can_slv_port_get_changeindex
+ */
+#define li_can_slv_port_get_changeindex()	(1)
+/**
+ * li_can_slv_port_get_serialnumber
+ */
+#define li_can_slv_port_get_serialnumber()	(9999999)
+
+#if defined (LI_CAN_SLV_RECONNECT) && defined (LI_CAN_SLV_MAIN_MON)
+/**
+ \rst
+ This function is mandatory on :ref:`defines_mainmon` if :ref:`defines_reconnect` is used.
+ The functions prototype should look like this:
+ ::
+   void my_li_can_slv_port_sync_baudrate(lcsa_bdr_t baudrate);
+
+ So in the :ref:`lcs-defines` the define should be added like that:
+ ::
+   #define li_can_slv_port_sync_baudrate(baudrate) my_li_can_slv_port_sync_baudrate(baudrate)
+ \endrst
+ */
+#define li_can_slv_port_sync_baudrate(baudrate) my_li_can_slv_port_sync_baudrate(baudrate)
+#endif // #if defined (LI_CAN_SLV_RECONNECT) && defined (LI_CAN_SLV_MAIN_MON)
+
+#ifdef LI_CAN_SLV_MAIN_MON
+/**
+ * li_can_slv_port_get_mainmon_type
+ */
+#define li_can_slv_port_get_mainmon_type() app_get_mainmon_type()
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+
+/**
+ * li_can_slv_port_sw_reset
+ */
+#define li_can_slv_port_sw_reset() NVIC_SystemReset()
+
+#ifdef LI_CAN_SLV_ASYNC_TUNNEL
+/**
+ * li_can_slv_port_async_tunnel_xon_rx_handle
+ */
+#define li_can_slv_port_async_tunnel_xon_rx_handle() com_xon_rx();
+/**
+ * li_can_slv_port_async_tunnel_xoff_rx_handle
+ */
+#define li_can_slv_port_async_tunnel_xoff_rx_handle()  com_xoff_rx();
+/**
+ * li_can_slv_port_async_tunnel_open_handle
+ */
+#define li_can_slv_port_async_tunnel_open_handle(pputc, pxon, pxoff) com_chan_init(pputc, pxon, pxoff);
+/**
+ * li_can_slv_port_async_tunnel_free_handle
+ */
+#define li_can_slv_port_async_tunnel_free_handle() com_chan_close();
+/**
+ * li_can_slv_port_async_tunnel_clear_rx_buffer_handle
+ */
+#define li_can_slv_port_async_tunnel_clear_rx_buffer_handle() com_clear_rx_buffer();
+/**
+ * li_can_slv_port_async_tunnel_data_rx_handle
+ */
+#define li_can_slv_port_async_tunnel_data_rx_handle(pdata, len) com_data_rx(pdata, len);
+#ifdef SPS_MONITOR_CONNECTION_TYPE_LP
+/**
+ * li_can_slv_start_sps_monitor_handle
+ */
+#define li_can_slv_start_sps_monitor_handle() out_start_monitor_server();
+#endif // #ifdef SPS_MONITOR_CONNECTION_TYPE_LP
+#endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
+
+#ifdef LI_CAN_SLV_BYTE_ORDER_BIG_ENDIAN
+/**
+ * @def li_can_slv_port_swap_uint16
+ * @brief li_can_slv_port_swap_uint16
+ */
+#define li_can_slv_port_swap_uint16(a)
+#endif // #ifdef LI_CAN_SLV_BYTE_ORDER_BIG_ENDIAN
+
+
+/*--------------------------------------------------------------------------*/
+/* structure/type definitions                                               */
+/*--------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------*/
+/* global variables                                                         */
+/*--------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------*/
+/* function prototypes                                                      */
+/*--------------------------------------------------------------------------*/
+#ifdef __cplusplus
+}// closing brace for extern "C"
+#endif // #ifdef __cplusplus
+
+#endif // #ifndef LI_CAN_SLV_PORT_H_
+
+/** @} */

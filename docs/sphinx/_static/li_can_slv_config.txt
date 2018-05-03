@@ -1,0 +1,71 @@
+/**
+ * @brief Liebherr CAN Slave Stack configuration
+ * @copyright Liebherr PME1 ALL RIGHTS RESERVED
+ * @date 2016
+ * @file li_can_slv_config.txt
+ * @addtogroup li_can_slv_config
+ * @{
+ */
+
+#ifndef LI_CAN_SLV_CONFIG_H_
+#define LI_CAN_SLV_CONFIG_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif // #ifdef __cplusplus
+
+/*--------------------------------------------------------------------------*/
+/* general definitions                                                      */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_BASIC
+#define LI_CAN_SLV_SET_MAX_NR_OF_LOGICAL_MODULES (1)
+
+/*--------------------------------------------------------------------------*/
+/* special definitions                                                      */
+/*--------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------*/
+/* main/monitor definitions                                                 */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_USE_MAIN_MON
+
+/*--------------------------------------------------------------------------*/
+/* reconnect definitions                                                    */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE
+#define LI_CAN_SLV_USE_RECONNECT_CHANGE_BAUDRATE_CALLBACK
+
+/*--------------------------------------------------------------------------*/
+/* LI_CAN_SLV System protocol definitions                                   */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_USE_SYS_ERROR_16_BIT
+#define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_NUMBER
+
+/*--------------------------------------------------------------------------*/
+/* LI_CAN_SLV Synchronous protocol definitions                              */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_SET_SYNC_PROCESS_PERIODE_MAX (50)
+
+/*--------------------------------------------------------------------------*/
+/* LI_CAN_SLV Asynchronous protocol definitions                             */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_USE_ASYNC
+#define LI_CAN_SLV_USE_ASYNC_DOWNLOAD
+#define LI_CAN_SLV_USE_ASYNC_TUNNEL
+
+#define LI_CAN_SLV_USE_ASYNC_UPLOAD
+
+/*--------------------------------------------------------------------------*/
+/* HW/architecture definitions                                              */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
+#define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
+
+
+#ifdef __cplusplus
+}// closing brace for extern "C"
+#endif // #ifdef __cplusplus
+
+#endif // #ifndef LI_CAN_SLV_CONFIG_H_
+
+/** @} */
