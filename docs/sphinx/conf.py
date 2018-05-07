@@ -15,6 +15,7 @@
 import sys
 import os
 import subprocess
+import shutil
 
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -336,8 +337,10 @@ def run_invoke():
 
 
 def generate_doxygen_xml(app):
+    print("generate doxy...")
     if on_rtd:
-        call(['doxygen', './../../build/docs/doxy/li_can_slv.doxyfile'])
+        subprocess.call(['doxygen', './../doxy/li_can_slv.doxyfile'])
+        shutil.copytree('./../../build/docs/doxy/xml', '_doxy/xml')
     else:
         run_invoke()
 
