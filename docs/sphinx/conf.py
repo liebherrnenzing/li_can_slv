@@ -336,7 +336,10 @@ def run_invoke():
 
 
 def generate_doxygen_xml(app):
-    run_invoke()
+    if on_rtd:
+        call(['doxygen', './../../build/docs/doxy/li_can_slv.doxyfile'])
+    else:
+        run_invoke()
 
 
 def setup(app):
