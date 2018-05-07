@@ -8,6 +8,8 @@ import shutil
 BUILD_PATH = 'build'
 PROJECT_NAME = 'li_can_slv'
 
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
 
 @task
 def env(ctx):
@@ -90,13 +92,19 @@ def diff(ctx):
 
 @task
 def doxy(ctx):
+    if on_rtd:
+        print("invoke RTD build...")
+        print(os.getcwd())
+    else:
+        print("invoke Normal build...")
+        print(os.getcwd())
+
     shutil.rmtree('build/docs/doxy', ignore_errors=True)
     shutil.rmtree('docs/sphinx/_doxy', ignore_errors=True)
     os.makedirs('build/docs/doxy')
     print("\n\ndoxy: " + os.getcwd() + '\n\n')
     with ctx.cd('docs/doxy'):
-        read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
-        if read_the_docs_build:
+        if on_rtd:
             ctx.run('doxygen li_can_slv.doxyfile'.format(ctx.tools.doxygen))
         else:
             ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))

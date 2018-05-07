@@ -40,6 +40,15 @@ extensions = ['breathe',
 plantuml = ['java',  '-jar', os.path.abspath(os.path.join(
     os.path.dirname(__file__), '..', 'utils', 'plantuml.jar'))]
 
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+if on_rtd:
+    print("RTD build...")
+    print(os.getcwd())
+else:
+    print("Normal build...")
+    print(os.getcwd())
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -129,8 +138,6 @@ todo_include_todos = False
 # html_theme = 'alabaster'
 # html_theme = 'bootstrap'
 # html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
     html_theme = 'default'
 else:
@@ -334,4 +341,4 @@ def generate_doxygen_xml(app):
 
 def setup(app):
     # Add hook for building doxygen xml when needed
-    app.connect("builder-inited", generate_doxygen_xml)
+    app.connect("builder-inited", generate_doxygen_xml)
