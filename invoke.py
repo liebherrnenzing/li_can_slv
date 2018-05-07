@@ -1,3 +1,7 @@
+tasks = {
+    "auto_dash_names": False
+}
+
 path = {
     "gnu_arm": "c:\\Program Files (x86)\\GNU Tools ARM Embedded\\4.9 2015q2\\bin",
     "mingw32": "c:\\MinGW32\bin",
@@ -16,8 +20,4 @@ tools = {
     "doxygen": "c:\\Program Files\\doxygen\\bin\\doxygen.exe",
     "ant_bat": "c:\\v_infrastructure\\ant\\bin\\ant.bat",
     "cmake": "{}\\cmake.exe".format(path["cmake"]),
-}
-
-run = {
-    "shell": "C:\Windows\System32\cmd.exe",
 }
