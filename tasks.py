@@ -102,12 +102,20 @@ def doxy(ctx):
         path_prefix = './'
 
     shutil.rmtree(path_prefix + 'build/docs/doxy', ignore_errors=True)
-    shutil.rmtree(path_prefix + 'docs/sphinx/_doxy', ignore_errors=True)
     os.makedirs(path_prefix + 'build/docs/doxy')
+
+    print("A")
+
+    shutil.rmtree(path_prefix + 'docs/sphinx/_doxy', ignore_errors=True)
+
+    print("B")
+
     with ctx.cd(path_prefix + 'docs/doxy'):
         if on_rtd:
+            print("C")
             ctx.run('doxygen li_can_slv.doxyfile')
         else:
+            print("D")
             ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
 
     shutil.copytree(path_prefix + 'build/docs/doxy/xml', path_prefix + 'docs/sphinx/_doxy/xml')
