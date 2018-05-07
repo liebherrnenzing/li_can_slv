@@ -105,7 +105,7 @@ def doxy(ctx):
     print("\n\ndoxy: " + os.getcwd() + '\n\n')
     with ctx.cd('docs/doxy'):
         if on_rtd:
-            ctx.run('doxygen li_can_slv.doxyfile'.format(ctx.tools.doxygen))
+            ctx.run('doxygen li_can_slv.doxyfile')
         else:
             ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
 

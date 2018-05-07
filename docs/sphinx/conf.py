@@ -340,12 +340,7 @@ def run_invoke():
 
 
 def generate_doxygen_xml(app):
-    print("generate doxy...")
-    if on_rtd:
-        subprocess.call(['doxygen', './../doxy/li_can_slv.doxyfile'])
-        shutil.copytree('./../../build/docs/doxy/xml', '_doxy/xml')
-    else:
-        run_invoke()
+    run_invoke()
 
 
 def setup(app):
