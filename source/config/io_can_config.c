@@ -1587,7 +1587,7 @@ li_can_slv_errorcode_t can_config_get_module_silent_awake(uint16_t table_pos, ca
 #if defined(OUTER) || defined(OUTER_APP)
 /**
  * @brief can_config_get_nr_of_modules
- * @param	nr_of_modules number of defined modules
+ * @param nr_of_modules number of defined modules
  */
 void can_config_get_nr_of_modules(uint16_t *nr_of_modules)
 {

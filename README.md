@@ -5,7 +5,7 @@ The Liebherr CAN protocol describes the communication of a distributed control s
 Some more information is coming soon...
 
 
-# Licensing
+## Licensing
 li_can_slv stack is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. 
 
 The freedom that this GNU GPL license offers, comes with responsibilities and side effects that are not always desirable. This is especially the case if you want to integrate li_can_slv in your closed source product and/or don`t want your customers to know that your product contains li_can_slv.
