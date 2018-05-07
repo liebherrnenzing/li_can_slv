@@ -350,5 +350,5 @@ def generate_doxygen_xml(app):
 
 def setup(app):
     # Add hook for building doxygen xml when needed
-    app.connect("builder-inited", generate_doxygen_xml)
     print("A1")
+    app.connect("builder-inited", generate_doxygen_xml)
