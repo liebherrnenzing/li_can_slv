@@ -41,6 +41,10 @@ extensions = ['breathe',
 plantuml = ['java',  '-jar', os.path.abspath(os.path.join(
     os.path.dirname(__file__), '..', 'utils', 'plantuml.jar'))]
 
+print("plantuml: ")
+print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'utils', 'plantuml.jar')))
+print("\n")
+
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if on_rtd:
@@ -331,16 +335,20 @@ texinfo_documents = [
 def run_invoke():
     try:
         retcode = subprocess.call("invoke doxy", shell=True)
+        print("C1")
         if retcode < 0:
             sys.stderr.write("invoke doxy terminated by signal %s" % (-retcode))
     except OSError as e:
+        print("D1")
         sys.stderr.write("doxygen execution failed: %s" % e)
 
 
 def generate_doxygen_xml(app):
+    print("B1")
     run_invoke()
 
 
 def setup(app):
     # Add hook for building doxygen xml when needed
     app.connect("builder-inited", generate_doxygen_xml)
+    print("A1")
