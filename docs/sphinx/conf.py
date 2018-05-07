@@ -14,8 +14,6 @@
 
 import sys
 import os
-# import sphinx_bootstrap_theme
-import sphinx_rtd_theme
 import subprocess
 
 
@@ -132,8 +130,13 @@ todo_include_todos = False
 # html_theme = 'bootstrap'
 # html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
-html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if on_rtd:
+    html_theme = 'default'
+else:
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -321,10 +324,8 @@ def run_invoke():
         retcode = subprocess.call("invoke doxy", shell=True)
         if retcode < 0:
             sys.stderr.write("invoke doxy terminated by signal %s" % (-retcode))
-            print("... B ...")
     except OSError as e:
-        sys.stderr.write("invoke doxy execution failed: %s" % e)
-        print("... C ...")
+        sys.stderr.write("doxygen execution failed: %s" % e)
 
 
 def generate_doxygen_xml(app):
@@ -332,15 +333,5 @@ def generate_doxygen_xml(app):
 
 
 def setup(app):
-    # Approach borrowed from the Sphinx docs
-    app.add_object_type(
-        'confval',
-        'confval',
-        objname='configuration value',
-        indextemplate='pair: %s; configuration value'
-    )
-
     # Add hook for building doxygen xml when needed
-    app.connect("builder-inited", generate_doxygen_xml)
-
-    app.add_config_value('documentation_build', 'development', True)
+    app.connect("builder-inited", generate_doxygen_xml)

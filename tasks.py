@@ -95,7 +95,12 @@ def doxy(ctx):
     os.makedirs('build/docs/doxy')
     print("\n\ndoxy: " + os.getcwd() + '\n\n')
     with ctx.cd('docs/doxy'):
-        ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
+        read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+        if read_the_docs_build:
+            ctx.run('doxygen li_can_slv.doxyfile'.format(ctx.tools.doxygen))
+        else:
+            ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
+
     shutil.copytree('build/docs/doxy/xml', 'docs/sphinx/_doxy/xml')
 
 
