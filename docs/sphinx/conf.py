@@ -46,8 +46,6 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
     print("RTD build...")
     print(os.getcwd())
-    # On RTD we'll be in the 'source' directory
-    sys.path.append('../../')
 
 else:
     print("Normal build...")

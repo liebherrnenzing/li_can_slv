@@ -95,21 +95,22 @@ def doxy(ctx):
     if on_rtd:
         print("invoke RTD build...")
         print(os.getcwd())
+        path_prefix = './../../'
     else:
         print("invoke Normal build...")
         print(os.getcwd())
+        path_prefix = './'
 
-    shutil.rmtree('build/docs/doxy', ignore_errors=True)
-    shutil.rmtree('docs/sphinx/_doxy', ignore_errors=True)
-    os.makedirs('build/docs/doxy')
-    print("\n\ndoxy: " + os.getcwd() + '\n\n')
-    with ctx.cd('docs/doxy'):
+    shutil.rmtree(path_prefix + 'build/docs/doxy', ignore_errors=True)
+    shutil.rmtree(path_prefix + 'docs/sphinx/_doxy', ignore_errors=True)
+    os.makedirs(path_prefix + 'build/docs/doxy')
+    with ctx.cd(path_prefix + 'docs/doxy'):
         if on_rtd:
             ctx.run('doxygen li_can_slv.doxyfile')
         else:
             ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
 
-    shutil.copytree('build/docs/doxy/xml', 'docs/sphinx/_doxy/xml')
+    shutil.copytree(path_prefix + 'build/docs/doxy/xml', path_prefix + 'docs/sphinx/_doxy/xml')
 
 
 @task
