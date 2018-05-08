@@ -63,7 +63,7 @@ else:
 templates_path = ['_templates']
 
 # will be set from the build script
-breathe_projects = {"li_can_slv": "_doxy/xml"}
+breathe_projects = {"li_can_slv": ".//_doxy//xml"}
 
 breathe_default_project = "li_can_slv"
 breathe_domain_by_extension = {"h": "c", }
