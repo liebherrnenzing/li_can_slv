@@ -45,9 +45,13 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if on_rtd:
     print("RTD build...")
+
+    shutil.rmtree('.\\..\\..\\build\\docs\\doxy', ignore_errors=True)
+    os.makedirs('.\\..\\..\\build\\docs\\doxy')
+
     shutil.rmtree('_doxy/xml', ignore_errors=True)
-    subprocess.call('doxygen li_can_slv.doxyfile', cwd="./../doxy/", shell=True)
-    shutil.copytree('./../../build/docs/doxy/xml', '_doxy/xml')
+    subprocess.call('doxygen li_can_slv.doxyfile', cwd=".\\..\\doxy\\", shell=True)
+    shutil.copytree('.\\..\\..\\build\\docs\\doxy\\xml', '_doxy\\xml')
 else:
     print("Normal build...")
     print(os.getcwd())
@@ -331,15 +335,11 @@ texinfo_documents = [
 
 def run_invoke():
     try:
-        if on_rtd:
-            retcode = subprocess.call("invoke doxy", shell=True, cwd='./../../')
-        else:
-            retcode = subprocess.call("invoke doxy", shell=True)
+        retcode = subprocess.call("invoke doxy", shell=True)
         print("C1")
         if retcode < 0:
             sys.stderr.write("invoke doxy terminated by signal %s" % (-retcode))
     except OSError as e:
-        print("D1")
         sys.stderr.write("doxygen execution failed: %s" % e)
 
 
