@@ -3,3 +3,4 @@
 *.out
 /docs/sphinx/_doxy/xml
 *_Runner.c
+/docs/sphinx/_build
