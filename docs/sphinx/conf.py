@@ -18,12 +18,6 @@ import subprocess
 import shutil
 
 
-def setup(app):
-    # Add hook for building doxygen xml when needed
-    print("A1")
-    app.connect("builder-inited", generate_doxygen_xml)
-
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -56,6 +50,9 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if on_rtd:
     print("RTD build...")
     print(os.getcwd())
+
+    subprocess.call('doxygen ./../doxy/li_can_slv.doxyfile', shell=True)
+    shutil.copytree('./../../build/docs/doxy/xml', '_doxy/xml')
 
 else:
     print("Normal build...")
@@ -354,4 +351,13 @@ def run_invoke():
 
 def generate_doxygen_xml(app):
     print("B1")
-    run_invoke()
+    if on_rtd:
+        pass
+    else:
+        run_invoke()
+
+
+def setup(app):
+    # Add hook for building doxygen xml when needed
+    print("A1")
+    app.connect("builder-inited", generate_doxygen_xml)
