@@ -340,7 +340,10 @@ texinfo_documents = [
 
 def run_invoke():
     try:
-        retcode = subprocess.call("invoke doxy", shell=True)
+        if on_rtd:
+            retcode = subprocess.call("invoke doxy", shell=True, cwd='./../../')
+        else:
+            retcode = subprocess.call("invoke doxy", shell=True)
         print("C1")
         if retcode < 0:
             sys.stderr.write("invoke doxy terminated by signal %s" % (-retcode))
@@ -351,4 +354,4 @@ def run_invoke():
 
 def generate_doxygen_xml(app):
     print("B1")
-    run_invoke()
+    run_invoke()
