@@ -46,9 +46,9 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if on_rtd:
     print("RTD build...")
-    doxy_path = str(Path('./../../build/docs/doxy'))
-    print(doxy_path)
+    print(os.getcwd())
 
+    doxy_path = str(Path('./../../build/docs/doxy'))
     shutil.rmtree(doxy_path, ignore_errors=True)
     os.makedirs(doxy_path)
 
@@ -148,12 +148,12 @@ todo_include_todos = False
 # html_theme = 'alabaster'
 # html_theme = 'bootstrap'
 # html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-
-if not on_rtd:  # only import and set the theme if we're building docs locally
+if on_rtd:
+    html_theme = 'default'
+else:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
     html_theme_path = ['.', sphinx_rtd_theme.get_html_theme_path()]
-
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -184,9 +184,9 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static', '_doxy', '_doxy/xml']
 
-html_context = {
-    'css_files': ['_static/custom.css'],
-}
+# html_context = {
+#     'css_files': ['_static/custom.css'],
+# }
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -357,3 +357,4 @@ def setup(app):
     # Add hook for building doxygen xml when needed
     print("A1")
     app.connect("builder-inited", generate_doxygen_xml)
+    app.add_stylesheet('custom.css')
