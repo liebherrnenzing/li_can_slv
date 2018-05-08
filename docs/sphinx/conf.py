@@ -41,19 +41,13 @@ extensions = ['breathe',
 plantuml = ['java',  '-jar', os.path.abspath(os.path.join(
     os.path.dirname(__file__), '..', 'utils', 'plantuml.jar'))]
 
-print("plantuml: ")
-print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'utils', 'plantuml.jar')))
-print("\n")
-
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if on_rtd:
     print("RTD build...")
-    print(os.getcwd())
-
-    subprocess.call('doxygen ./../doxy/li_can_slv.doxyfile', shell=True)
+    shutil.rmtree('_doxy/xml', ignore_errors=True)
+    subprocess.call('doxygen li_can_slv.doxyfile', cwd="./../doxy/", shell=True)
     shutil.copytree('./../../build/docs/doxy/xml', '_doxy/xml')
-
 else:
     print("Normal build...")
     print(os.getcwd())
