@@ -16,6 +16,7 @@ import sys
 import os
 import subprocess
 import shutil
+from pathlib import Path
 
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -45,13 +46,15 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if on_rtd:
     print("RTD build...")
+    doxy_path = str(Path('./../../build/docs/doxy'))
+    print(doxy_path)
 
-    shutil.rmtree('.\\..\\..\\build\\docs\\doxy', ignore_errors=True)
-    os.makedirs('.\\..\\..\\build\\docs\\doxy')
+    shutil.rmtree(doxy_path, ignore_errors=True)
+    os.makedirs(doxy_path)
 
-    shutil.rmtree('_doxy/xml', ignore_errors=True)
-    subprocess.call('doxygen li_can_slv.doxyfile', cwd=".\\..\\doxy\\", shell=True)
-    shutil.copytree('.\\..\\..\\build\\docs\\doxy\\xml', '_doxy\\xml')
+    shutil.rmtree(str(Path('_doxy/xml')), ignore_errors=True)
+    subprocess.call('doxygen li_can_slv.doxyfile', cwd=str(Path("./../doxy/")), shell=True)
+    shutil.copytree(str(Path('./../../build/docs/doxy/xml')), str(Path('_doxy/xml')))
 else:
     print("Normal build...")
     print(os.getcwd())
