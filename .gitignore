@@ -4,3 +4,5 @@
 /docs/sphinx/_doxy/xml
 *_Runner.c
 /docs/sphinx/_build
+/docs/sphinx/doxyhtml
+/docs/sphinx/doxyxml
