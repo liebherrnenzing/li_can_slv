@@ -344,7 +344,7 @@ def generate_doxygen_xml(app):
         doxdir = os.path.abspath(os.path.dirname(__file__))
         print("Doxydir:")
         print(doxdir)
-
+        subprocess.call('doxygen -v', cwd=str(Path(doxdir)), shell=True)
         subprocess.call('doxygen Doxyfile', cwd=str(Path(doxdir)), shell=True)
         #call('cd %s; doxygen' % doxdir, shell=True)
     else:
