@@ -56,7 +56,7 @@ if on_rtd:
     subprocess.call('doxygen li_can_slv.doxyfile', cwd=str(Path("./../doxy/")), shell=True)
     shutil.copytree(str(Path('./../../build/docs/doxy/xml')), str(Path('_doxy/xml')))
     print("print index.xml from _doxy/xml")
-    with open(fname, str(Path('_doxy/xml/index.xml'))) as fin:
+    with open(str(Path('_doxy/xml/index.xml'))) as fin:
         print(fin.read())
 else:
     print("Normal build...")
