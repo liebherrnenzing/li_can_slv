@@ -20,12 +20,12 @@
 
 /**
  * \brief Includes all routines to RX and TX the the Liebherr CAN bus system commands / system messages.
-	Every system messages is processed directly in the interrupt service routine of the main CAN-controller.<br>
+	Every system messages is processed directly in the callback / interrupt service routine of the main
+	CAN-controller.<br>
 
 	<h3>system messages from master to module</h3>
 	System messages with a DLC != 8 will be not accepted (no reaction). If a correct system message is received
-	it will be processed by functions of this software module. The following system messages are currently
-	implemented:<br>
+	it will be processed by functions of this software module.<br>
 
 	<table>
 	<tr> <td ><b>system message</b>               <td ><b>Byte1 (ID of the message)</b> </td> </tr>
@@ -39,6 +39,8 @@
 	<tr> <td >stay silent and stop transmission   <td >0x21 </td></tr>
 	<tr> <td >awake and resume transmission       <td >0x22 </td></tr>
 	<tr> <td >show module identification          <td >0x23 </td></tr>
+	<tr> <td >Factory Reset                       <td >0x30 </td></tr>
+	<tr> <td >Change module type                  <td >0x31 </td></tr>
 	</table>
 
 	<h3>system messages from module to master</h3>
@@ -93,7 +95,11 @@
 static uint16_t can_sys_status_ackn_delay; /**< */
 #endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
 static uint16_t can_sys_first_status_detect = 0;
-static void(*can_sys_first_status_request_call)(void) = NULL;
+static void(*li_can_slv_sys_first_status_request_cbk)(void) = NULL;
+
+#ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+static li_can_slv_factory_reset_cbk_funcp_t li_can_slv_factory_reset_cbk = NULL;
+#endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -122,7 +128,7 @@ static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_num
 li_can_slv_errorcode_t can_sys_init(void)
 {
 	can_sys_first_status_detect = 0;
-	can_sys_first_status_request_call = NULL;
+	li_can_slv_sys_first_status_request_cbk = NULL;
 	return (LI_CAN_SLV_ERR_OK);
 }
 
@@ -238,9 +244,9 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			if (can_sys_first_status_detect == 0)
 			{
 				can_sys_first_status_detect = 1;
-				if (NULL != can_sys_first_status_request_call)
+				if (NULL != li_can_slv_sys_first_status_request_cbk)
 				{
-					can_sys_first_status_request_call();
+					li_can_slv_sys_first_status_request_cbk();
 				}
 			}
 #ifdef LI_CAN_SLV_BOOT
@@ -423,6 +429,17 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			err = can_sys_set_silent_awake(src, module_nr, LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE);
 			break;
 
+		case CAN_SYS_M2S_FACTORY_RESET:
+#ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+			if (NULL != li_can_slv_factory_reset_cbk)
+			{
+				li_can_slv_factory_reset_cbk(src[1]);
+			}
+#else
+			return LI_CAN_SLV_ERR_OK;
+#endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+			break;
+
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_SHOW_MODULE_IDENTIFICATION:
 			/**
@@ -489,16 +506,28 @@ li_can_slv_errorcode_t can_sys_send_error_full(li_can_slv_module_nr_t module_nr,
 }
 #endif //#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-/****************************************************************************/
 /*!
  * \brief can_sys_set_first_status_request_call_fnc
  * \return	#li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t can_sys_set_first_status_request_call_fnc(void (*pfnc)(void))
 {
-	can_sys_first_status_request_call = pfnc;
+	li_can_slv_sys_first_status_request_cbk = pfnc;
 	return (LI_CAN_SLV_ERR_OK);
 }
+
+#ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+/**
+ * @param cbk callback function for factory reset
+ */
+void li_can_slv_sys_set_factory_reset_cbk(li_can_slv_factory_reset_cbk_funcp_t cbk)
+{
+	if (NULL == li_can_slv_factory_reset_cbk)
+	{
+		li_can_slv_factory_reset_cbk = cbk;
+	}
+}
+#endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */

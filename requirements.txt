@@ -2,7 +2,7 @@ alabaster==0.7.10
 appdirs==1.4.3
 Babel==2.4.0
 blockdiag==1.5.3
-breathe==4.6.0
+breathe==4.8.0
 certifi==2017.4.17
 chardet==3.0.4
 click==6.7
@@ -11,9 +11,11 @@ colorclass==2.2.0
 docutils==0.13.1
 funcparserlib==0.3.6
 gcovr==3.4
+gitdb2==2.0.3
+GitPython==2.1.9
 idna==2.5
 imagesize==0.7.1
-invoke==0.19.0
+invoke==1.0.0
 Jinja2==2.9.6
 junit-xml==1.8
 MarkupSafe==1.0
@@ -26,11 +28,12 @@ pytz==2017.2
 requests==2.18.2
 seqdiag==0.9.5
 six==1.10.0
+smmap2==2.0.3
 snowballstemmer==1.2.1
-Sphinx==1.5.6
+Sphinx==1.7.4
 sphinx-rtd-theme==0.2.4
 sphinxcontrib-inlinesyntaxhighlight==0.2
-sphinxcontrib-plantuml==0.8.1
+sphinxcontrib-plantuml==0.11
 sphinxcontrib-seqdiag==0.8.5
 sphinxcontrib-versioning==2.2.1
 sphinxcontrib-websupport==1.0.1

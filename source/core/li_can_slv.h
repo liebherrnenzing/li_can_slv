@@ -230,6 +230,18 @@ extern "C" {
 #define LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 #endif
 #endif // #ifdef __DOXYGEN__
+
+#ifdef __DOXYGEN__
+/**
+ * Use the factory reset feature.
+ */
+#define LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
+#define LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+#endif
+#endif // #ifdef __DOXYGEN__
+
 /**
  * @}
  */

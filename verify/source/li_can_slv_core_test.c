@@ -76,11 +76,14 @@
 static uint16_t first_status_request_cnt = 0;
 static uint8_t reinit = FALSE;
 static lcsa_errorcode_t err = LCSA_ERROR_OK;
+static uint16_t reset_reason_actual = 0;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
 static void first_status_request_cbk(void);
+static void factory_reset_cbk(uint8_t reset_reason);
+
 static int doesFileExist(const char *filename);
 static void get_expected_file_path(const char *filename, char *filepath);
 
@@ -148,7 +151,7 @@ void test_sys_msg_first_status_req(void)
 	int ret;
 
 	/* set first status request callback */
-	err = lcsa_sync_set_first_status_request_cbk(&first_status_request_cbk);
+	err = lcsa_set_first_status_request_cbk(&first_status_request_cbk);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
 	first_status_request_cnt = 0;
@@ -597,12 +600,48 @@ void test_sys_msg_change_module_nr(void)
 	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);
 }
 
+/**
+ * @test test_sys_msg_factory_reset
+ * @brief test the factory reset callback
+ */
+void test_sys_msg_factory_reset(void)
+{
+	lcsa_errorcode_t err = LCSA_ERROR_OK;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	lcsa_module_number_t module_nr = 1;
+	uint16_t dlc = 8;
+
+	// full reset
+	uint8_t reset_reason_expected = 0x02;
+
+	/* set first status request callback */
+	lcsa_set_factory_reset_cbk(&factory_reset_cbk);
+
+	/* simulate a status request message */
+	rx_data[0] = CAN_SYS_M2S_FACTORY_RESET;
+
+	// set reset action to full reset
+	rx_data[1] = reset_reason_expected;
+
+	reset_reason_actual = 0x00;
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT_EQUAL_UINT(reset_reason_expected, reset_reason_actual);
+}
+
+
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
 static void first_status_request_cbk(void)
 {
 	first_status_request_cnt++;
+}
+
+static void factory_reset_cbk(uint8_t reset_reason)
+{
+	reset_reason_actual = reset_reason;
 }
 
 static int doesFileExist(const char *filename)

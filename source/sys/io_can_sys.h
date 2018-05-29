@@ -55,6 +55,7 @@
 #define	CAN_SYS_M2S_STAY_SILENT					0x21 /**< system message stay silent stop transmission */
 #define	CAN_SYS_M2S_AWAKE						0x22 /**< system message awake resume transmission */
 #define	CAN_SYS_M2S_SHOW_MODULE_IDENTIFICATION	0x23 /**< system message show module identification */
+#define	CAN_SYS_M2S_FACTORY_RESET				0x30 /**< system message factory reset */
 #define	CAN_SYS_M2S_CHANGE_MODULE_TYPE			0x31 /**< system message change module type */
 
 // system commands / system messages from module to master (S2M)
@@ -69,6 +70,9 @@
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */
 /*--------------------------------------------------------------------------*/
+#ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+typedef void (*li_can_slv_factory_reset_cbk_funcp_t)(byte_t reset_reason);
+#endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 
 /*--------------------------------------------------------------------------*/
 /* global variables                                                         */
@@ -80,6 +84,9 @@
 li_can_slv_errorcode_t can_sys_init(void);
 li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t dlc, byte_t const *src);
 li_can_slv_errorcode_t can_sys_set_first_status_request_call_fnc(void (*pfnc)(void));
+#ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+void li_can_slv_sys_set_factory_reset_cbk(li_can_slv_factory_reset_cbk_funcp_t cbk);
+#endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 li_can_slv_errorcode_t can_sys_send_error_full(li_can_slv_module_nr_t module_nr, msg_code_t errnum, byte_t add_info, err_prio_t priority, byte_t group_subgroup);

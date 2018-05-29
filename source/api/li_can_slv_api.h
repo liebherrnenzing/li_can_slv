@@ -113,59 +113,6 @@ extern "C" {
  */
 #define lcsa_set_baudrate(baudrate)	can_config_set_baudrate(baudrate)
 
-#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
-/**
- * @defgroup lcsa_api_change_module_nr Change Module Number System Command
- * @addtogroup lcsa_api_change_module_nr
- * @{
- */
-/**
- * @def lcsa_change_module_nr_and_identifiers(module_type, new_module_number, actual_module_number)
- * @param module_type CAN module type as char_t
- * @param new_module_number the new module number where the identifier is calculated from
- * @param actual_module_number the actual module number of the module to identify the exact module if two of the same modules are on the line
- * @return #LCSA_ERROR_OK or too many messages to specify
- */
-#define lcsa_change_module_nr_and_identifiers(module_type, new_module_number, actual_module_number)	li_can_slv_config_change_module_nr_and_identifiers(module_type, new_module_number, actual_module_number)
-
-/**
- * @def lsca_set_module_nr_change_cbk_voter(pfnc)
- * @param pfnc function pointer to the voter which has to return an state of type @ref lcsa_module_change_voter_state_t and will get the parameters of the module_type, the desired new number
- * and the actual module number
-\rst
-.. tip::
-	The callback as function pointer will be called on each change module number command and can be used to store the new module number information in an persistent storage for example.
-	::
-		lcsa_module_change_voter_state_t vote_module_change_valid(char_t *module_type, lcsa_module_number_t new_module_nr, lcsa_module_number_t act_module_nr)
-		{
-			if((new_module_nr < MODULE_NR_MAX) && (new_module_nr > MODULE_NR_MIN))
-			{
-				// ...store new module number in persistent storage for next start up
-				// ...or do any special handling
-				return(LI_CAN_SLV_MODULE_CHANGE_VALID);
-			}
-			else
-			{
-				return(LI_CAN_SLV_MODULE_CHANGE_FORBIDDEN);
-			}
-		}
-\endrst
- */
-#define lsca_set_module_nr_change_cbk_voter(pfnc) li_can_slv_config_set_module_nr_change_voter(pfnc)
-
-/**
- * @def lcsa_set_module_silent_awake_from_type_and_nr(module_type, module_number, state)
- * @param module_type CAN module type as char_t
- * @param module_number module number of the module to identify the exact module if two of the same modules are on the line
- * @param state in type of lcsa_module_response_sate_t
- * @return #LCSA_ERROR_OK or #ERR_MSG_CAN_CONFIG_MODULE_NOT_FOUND or #ERR_MSG_CAN_CONFIG_INVALID_SILENT_AWAKE_STATE
- */
-#define lcsa_set_module_silent_awake_from_type_and_nr(module_type, module_number, state) li_can_slv_config_set_module_silent_awake_from_type_and_nr(module_type, module_number, state)
-/**
- * @}
- */
-#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
-
 #ifdef LI_CAN_SLV_SYNC
 /**
  * @defgroup li_can_slv_api_sync Functions for synchronous protocol handling
@@ -205,7 +152,7 @@ extern "C" {
  * @param pfnc function pointer to the callback
  * @return #LCSA_ERROR_OK if successful
  */
-#define lcsa_sync_set_first_status_request_cbk(pfnc) can_sys_set_first_status_request_call_fnc(pfnc)
+#define lcsa_set_first_status_request_cbk(pfnc) can_sys_set_first_status_request_call_fnc(pfnc)
 
 
 /**
@@ -275,6 +222,67 @@ extern "C" {
  * @}
  */
 #endif // #ifdef LI_CAN_SLV_SYNC
+
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+/**
+ * @defgroup lcsa_api_change_module_nr Change Module Number System Command
+ * @addtogroup lcsa_api_change_module_nr
+ * @{
+ */
+/**
+ * @def lcsa_change_module_nr_and_identifiers(module_type, new_module_number, actual_module_number)
+ * @param module_type CAN module type as char_t
+ * @param new_module_number the new module number where the identifier is calculated from
+ * @param actual_module_number the actual module number of the module to identify the exact module if two of the same modules are on the line
+ * @return #LCSA_ERROR_OK or too many messages to specify
+ */
+#define lcsa_change_module_nr_and_identifiers(module_type, new_module_number, actual_module_number)	li_can_slv_config_change_module_nr_and_identifiers(module_type, new_module_number, actual_module_number)
+
+/**
+ * @def lsca_set_module_nr_change_cbk_voter(pfnc)
+ * @param pfnc function pointer to the voter which has to return an state of type @ref lcsa_module_change_voter_state_t and will get the parameters of the module_type, the desired new number
+ * and the actual module number
+\rst
+.. tip::
+	The callback as function pointer will be called on each change module number command and can be used to store the new module number information in an persistent storage for example.
+	::
+		lcsa_module_change_voter_state_t vote_module_change_valid(char_t *module_type, lcsa_module_number_t new_module_nr, lcsa_module_number_t act_module_nr)
+		{
+			if((new_module_nr < MODULE_NR_MAX) && (new_module_nr > MODULE_NR_MIN))
+			{
+				// ...store new module number in persistent storage for next start up
+				// ...or do any special handling
+				return(LI_CAN_SLV_MODULE_CHANGE_VALID);
+			}
+			else
+			{
+				return(LI_CAN_SLV_MODULE_CHANGE_FORBIDDEN);
+			}
+		}
+\endrst
+ */
+#define lsca_set_module_nr_change_cbk_voter(pfnc) li_can_slv_config_set_module_nr_change_voter(pfnc)
+
+/**
+ * @def lcsa_set_module_silent_awake_from_type_and_nr(module_type, module_number, state)
+ * @param module_type CAN module type as char_t
+ * @param module_number module number of the module to identify the exact module if two of the same modules are on the line
+ * @param state in type of lcsa_module_response_sate_t
+ * @return #LCSA_ERROR_OK or #ERR_MSG_CAN_CONFIG_MODULE_NOT_FOUND or #ERR_MSG_CAN_CONFIG_INVALID_SILENT_AWAKE_STATE
+ */
+#define lcsa_set_module_silent_awake_from_type_and_nr(module_type, module_number, state) li_can_slv_config_set_module_silent_awake_from_type_and_nr(module_type, module_number, state)
+/**
+ * @}
+ */
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+
+#ifdef LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
+/**
+ * Set the factory reset callback function pointer.
+ * @param pfnc function pointer to the callback
+ */
+#define lcsa_set_factory_reset_cbk(pfnc)	li_can_slv_sys_set_factory_reset_cbk(pfnc)
+#endif // #ifdef LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 /**
@@ -360,7 +368,6 @@ extern "C" {
  */
 #endif // #ifdef LI_CAN_SLV_DLOAD
 
-
 #ifdef LI_CAN_SLV_ULOAD
 /**
  * @defgroup li_can_slv_api_uload Upload Functions
@@ -390,7 +397,6 @@ extern "C" {
  * @}
  */
 #endif // #ifdef LI_CAN_SLV_ULOAD
-
 
 #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK
 /**
