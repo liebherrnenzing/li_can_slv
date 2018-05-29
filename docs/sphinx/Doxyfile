@@ -177,7 +177,7 @@ SHORT_NAMES = NO
 # description.)
 # The default value is: NO.
 
-JAVADOC_AUTOBRIEF = NO
+JAVADOC_AUTOBRIEF = YES
 
 # If the QT_AUTOBRIEF tag is set to YES then doxygen will interpret the first
 # line (until the first dot) of a Qt-style comment as the brief description. If
@@ -771,7 +771,7 @@ WARN_LOGFILE =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT = ./../../source ./../../source/api ./../../source/arch ./../../source/arch/canpie_adapter ./../../source/async ./../../source/config ./../../source/core ./../../source/error ./../../source/msg ./../../source/sync ./../../source/sys ./../../source/util ./../../source/xload ./_static/li_can_slv_config.txt ./_static/li_can_slv_port.txt ./_static/li_can_slv_port_types.txt 
+INPUT = ./../../source ./../../source/api ./../../source/arch ./../../source/arch/canpie_adapter ./../../source/async ./../../source/config ./../../source/core ./../../source/error ./../../source/msg ./../../source/sync ./../../source/sys ./../../source/util ./../../source/xload ./_static/li_can_slv_config.txt ./_static/li_can_slv_port.txt ./_static/li_can_slv_port_types.txt
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
