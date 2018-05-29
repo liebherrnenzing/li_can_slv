@@ -141,6 +141,7 @@ extern "C" {
 /**
  * @}
  */
+
 /**
  * @defgroup li_can_slv_api_sync_cbk Functions for synchronous protocol handling
  * @addtogroup li_can_slv_api_sync_cbk
@@ -217,7 +218,6 @@ extern "C" {
  * @return #LCSA_ERROR_OK if successful
  */
 #define lcsa_sync_set_whole_process_image_valid_cbk(pfnc)	can_sync_set_pr_call_fnc(pfnc)
-
 /**
  * @}
  */

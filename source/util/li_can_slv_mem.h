@@ -62,9 +62,9 @@ typedef union li_can_slv_pool_allocator_block_u
  */
 typedef struct
 {
-	uint16_t capacity_blocks;               ///< Pool capacity in number of blocks
-	uint16_t current_usage_blocks;          ///< Number of blocks that are currently allocated by the library
-	uint16_t peak_usage_blocks;             ///< Maximum number of blocks used since initialization
+	uint16_t capacity_blocks;               /**< Pool capacity in number of blocks */
+	uint16_t current_usage_blocks;          /**< Number of blocks that are currently allocated by the library */
+	uint16_t peak_usage_blocks;             /**< Maximum number of blocks used since initialization */
 } li_can_slv_pool_allocator_stat;
 
 /**
