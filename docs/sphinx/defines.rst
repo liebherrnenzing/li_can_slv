@@ -72,7 +72,7 @@ Example
 
 This example shows how a :literal:`li_can_slv_config.h` file could look like.
 
-.. literalinclude:: .\_static\li_can_slv_config.txt
+.. literalinclude:: ./_static/li_can_slv_config.txt
    :language: c
    :linenos:
    
