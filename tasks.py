@@ -58,8 +58,8 @@ def clean(ctx):
 @task
 def clean_all(ctx):
     shutil.rmtree(BUILD_PATH, ignore_errors=True)
-    shutil.rmtree('docs/sphinx/_doxyxml', ignore_errors=True)
-    shutil.rmtree('docs/sphinx/_doxyhtml', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/doxyxml', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/doxyhtml', ignore_errors=True)
 
 
 @task(env, aliases=['unittestWorkstationRunMinGWGcc'])
@@ -94,8 +94,8 @@ def diff(ctx):
 @task
 def doxy(ctx):
 
-    shutil.rmtree('docs\\sphinx\\_doxyxml', ignore_errors=True)
-    shutil.rmtree('docs\\sphinx\\_doxyhtml', ignore_errors=True)
+    shutil.rmtree('docs\\sphinx\\doxyxml', ignore_errors=True)
+    shutil.rmtree('docs\\sphinx\\doxyhtml', ignore_errors=True)
 
     with ctx.cd('docs\\sphinx'):
         if on_rtd:
@@ -117,7 +117,7 @@ def breathe(ctx):
     out_dir = os.path.join(os.getcwd(), 'build/docs/sphinx/html')
 
     #shutil.rmtree('docs/sphinx/_doxy/xml', ignore_errors=True)
-    shutil.rmtree('docs/sphinx/_doxyxml', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/doxyxml', ignore_errors=True)
 
     check_call(['sphinx-build',
                 '-Dversion=' + version, '-Drelease=' + version,
