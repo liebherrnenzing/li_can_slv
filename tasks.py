@@ -58,7 +58,8 @@ def clean(ctx):
 @task
 def clean_all(ctx):
     shutil.rmtree(BUILD_PATH, ignore_errors=True)
-    shutil.rmtree('docs/sphinx/_doxy', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/_doxyxml', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/_doxyhtml', ignore_errors=True)
 
 
 @task(env, aliases=['unittestWorkstationRunMinGWGcc'])
@@ -92,23 +93,15 @@ def diff(ctx):
 
 @task
 def doxy(ctx):
-    if on_rtd:
-        print("invoke RTD build...")
-        path_prefix = '.\\..\\..\\'
-    else:
-        print("invoke Normal build...")
-        path_prefix = '.\\'
 
-#    shutil.rmtree(path_prefix + 'build\\docs\\doxy', ignore_errors=True)
-#    os.makedirs(path_prefix + 'build\\docs\\doxy')
+    shutil.rmtree('docs\\sphinx\\_doxyxml', ignore_errors=True)
+    shutil.rmtree('docs\\sphinx\\_doxyhtml', ignore_errors=True)
 
-    shutil.rmtree(path_prefix + 'docs\\sphinx\\doxyxml', ignore_errors=True)
-
-    with ctx.cd(path_prefix + 'docs\\doxy'):
+    with ctx.cd('docs\\sphinx'):
         if on_rtd:
-            ctx.run('doxygen li_can_slv.doxyfile')
+            ctx.run('doxygen Doxyfile')
         else:
-            ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
+            ctx.run('"{}" Doxyfile'.format(ctx.tools.doxygen))
 
 #    shutil.copytree(path_prefix + 'build\\docs\\doxy\\xml', path_prefix + 'docs\\sphinx\\_doxy\\xml')
 

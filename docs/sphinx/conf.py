@@ -46,18 +46,9 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if on_rtd:
     print("RTD build...")
-    print(os.getcwd())
-
-    #doxy_path = str(Path('doxyxml'))
-    #shutil.rmtree(doxy_path, ignore_errors=True)
-    # os.makedirs(doxy_path)
-
-    shutil.rmtree(str(Path('doxyxml')), ignore_errors=True)
-    subprocess.call('doxygen li_can_slv.doxyfile', cwd=str(Path("./../doxy/")), shell=True)
-    #shutil.copytree(str(Path('./../../build/docs/doxy/xml')), str(Path('_doxy/xml')))
-    #print("print index.xml from _doxy/xml")
-    # with open(str(Path('_doxy/xml/index.xml'))) as fin:
-    #    print(fin.read())
+    shutil.rmtree(str(Path('_doxyxml')), ignore_errors=True)
+    shutil.rmtree(str(Path('_doxyhtml')), ignore_errors=True)
+    subprocess.call('doxygen Doxyfile', cwd=str(Path(".")), shell=True)
 else:
     print("Normal build...")
     print(os.getcwd())
@@ -66,7 +57,7 @@ else:
 templates_path = ['_templates']
 
 # will be set from the build script
-breathe_projects = {"li_can_slv": './doxyxml'}
+breathe_projects = {"li_can_slv": '_doxyxml/'}
 breathe_default_project = "li_can_slv"
 breathe_domain_by_extension = {"h": "c", }
 
@@ -348,7 +339,6 @@ def run_invoke():
 
 
 def generate_doxygen_xml(app):
-    print("B1")
     if on_rtd:
         pass
     else:
@@ -356,7 +346,5 @@ def generate_doxygen_xml(app):
 
 
 def setup(app):
-    # Add hook for building doxygen xml when needed
-    print("A1")
     app.connect("builder-inited", generate_doxygen_xml)
     app.add_stylesheet('custom.css')
