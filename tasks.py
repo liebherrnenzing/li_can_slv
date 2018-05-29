@@ -58,7 +58,7 @@ def clean(ctx):
 @task
 def clean_all(ctx):
     shutil.rmtree(BUILD_PATH, ignore_errors=True)
-    shutil.rmtree('docs/sphinx/_doxy', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/_doxyxml', ignore_errors=True)
 
 
 @task(env, aliases=['unittestWorkstationRunMinGWGcc'])
@@ -101,7 +101,7 @@ def doxy(ctx):
 
     shutil.rmtree(path_prefix + 'build\\docs\\doxy', ignore_errors=True)
     os.makedirs(path_prefix + 'build\\docs\\doxy')
-    shutil.rmtree(path_prefix + 'docs\\sphinx\\_doxy', ignore_errors=True)
+    shutil.rmtree(path_prefix + 'docs\\sphinx\\_doxyxml', ignore_errors=True)
 
     with ctx.cd(path_prefix + 'docs\\doxy'):
         if on_rtd:
@@ -109,7 +109,8 @@ def doxy(ctx):
         else:
             ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
 
-    shutil.copytree(path_prefix + 'build\\docs\\doxy\\xml', path_prefix + 'docs\\sphinx\\_doxy\\xml')
+    shutil.copytree(path_prefix + 'build\\docs\\doxy\\xml', path_prefix + 'docs\\sphinx\\_doxyxml')
+    shutil.rmtree(path_prefix + 'build\\docs\\doxy\\xml', ignore_errors=True)
 
 
 @task

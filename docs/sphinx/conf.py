@@ -52,11 +52,11 @@ if on_rtd:
     shutil.rmtree(doxy_path, ignore_errors=True)
     os.makedirs(doxy_path)
 
-    shutil.rmtree(str(Path('_doxy/xml')), ignore_errors=True)
+    shutil.rmtree(str(Path('_doxyxml')), ignore_errors=True)
     subprocess.call('doxygen li_can_slv.doxyfile', cwd=str(Path("./../doxy/")), shell=True)
-    shutil.copytree(str(Path('./../../build/docs/doxy/xml')), str(Path('_doxy/xml')))
-    print("print index.xml from _doxy/xml")
-    with open(str(Path('_doxy/xml/index.xml'))) as fin:
+    shutil.copytree(str(Path('./../../build/docs/doxy/xml')), str(Path('_doxyxml')))
+    print("print index.xml from _doxyxml")
+    with open(str(Path('_doxyxml/index.xml'))) as fin:
         print(fin.read())
 else:
     print("Normal build...")
@@ -66,7 +66,7 @@ else:
 templates_path = ['_templates']
 
 # will be set from the build script
-breathe_projects = {"li_can_slv": str(Path('_doxy/xml'))}
+breathe_projects = {"li_can_slv": str(Path('_doxyxml'))}
 breathe_default_project = "li_can_slv"
 breathe_domain_by_extension = {"h": "c", }
 
@@ -184,7 +184,7 @@ else:
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static', '_doxy']
+html_static_path = ['_static']
 
 # html_context = {
 #     'css_files': ['_static/custom.css'],
