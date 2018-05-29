@@ -101,7 +101,8 @@ def doxy(ctx):
 
 #    shutil.rmtree(path_prefix + 'build\\docs\\doxy', ignore_errors=True)
 #    os.makedirs(path_prefix + 'build\\docs\\doxy')
-#    shutil.rmtree(path_prefix + 'docs\\sphinx\\_doxy', ignore_errors=True)
+
+    shutil.rmtree(path_prefix + 'docs\\sphinx\\doxyxml', ignore_errors=True)
 
     with ctx.cd(path_prefix + 'docs\\doxy'):
         if on_rtd:
