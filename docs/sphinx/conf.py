@@ -52,7 +52,7 @@ if on_rtd:
     shutil.rmtree(doxy_path, ignore_errors=True)
     os.makedirs(doxy_path)
 
-    shutil.rmtree(str(Path('_doxyxml')), ignore_errors=True)
+    #shutil.rmtree(str(Path('_doxyxml')), ignore_errors=True)
     subprocess.call('doxygen li_can_slv.doxyfile', cwd=str(Path("./../doxy/")), shell=True)
     #shutil.copytree(str(Path('./../../build/docs/doxy/xml')), str(Path('_doxy/xml')))
     #print("print index.xml from _doxy/xml")
