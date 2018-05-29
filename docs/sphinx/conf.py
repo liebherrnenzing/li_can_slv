@@ -347,6 +347,11 @@ def generate_doxygen_xml(app):
         subprocess.call('doxygen -v', cwd=str(Path(doxdir)), shell=True)
         subprocess.call('doxygen Doxyfile', cwd=str(Path(doxdir)), shell=True)
         #call('cd %s; doxygen' % doxdir, shell=True)
+
+        print("dump file: group__lcs__config__types.xml")
+        with open('doxyxml/group__lcs__config__types.xml') as f:
+            print f.read()
+
     else:
         run_invoke()
 
