@@ -99,9 +99,9 @@ def doxy(ctx):
         print("invoke Normal build...")
         path_prefix = '.\\'
 
-    shutil.rmtree(path_prefix + 'build\\docs\\doxy', ignore_errors=True)
-    os.makedirs(path_prefix + 'build\\docs\\doxy')
-    shutil.rmtree(path_prefix + 'docs\\sphinx\\_doxy', ignore_errors=True)
+#    shutil.rmtree(path_prefix + 'build\\docs\\doxy', ignore_errors=True)
+#    os.makedirs(path_prefix + 'build\\docs\\doxy')
+#    shutil.rmtree(path_prefix + 'docs\\sphinx\\_doxy', ignore_errors=True)
 
     with ctx.cd(path_prefix + 'docs\\doxy'):
         if on_rtd:
@@ -109,7 +109,7 @@ def doxy(ctx):
         else:
             ctx.run('"{}" li_can_slv.doxyfile'.format(ctx.tools.doxygen))
 
-    shutil.copytree(path_prefix + 'build\\docs\\doxy\\xml', path_prefix + 'docs\\sphinx\\_doxy\\xml')
+#    shutil.copytree(path_prefix + 'build\\docs\\doxy\\xml', path_prefix + 'docs\\sphinx\\_doxy\\xml')
 
 
 @task
@@ -122,7 +122,8 @@ def breathe(ctx):
     source_dir = os.path.join(os.getcwd(), 'docs/sphinx')
     out_dir = os.path.join(os.getcwd(), 'build/docs/sphinx/html')
 
-    shutil.rmtree('docs/sphinx/_doxy/xml', ignore_errors=True)
+    #shutil.rmtree('docs/sphinx/_doxy/xml', ignore_errors=True)
+    shutil.rmtree('docs/sphinx/_doxyxml', ignore_errors=True)
 
     check_call(['sphinx-build',
                 '-Dversion=' + version, '-Drelease=' + version,
