@@ -1074,12 +1074,12 @@ li_can_slv_errorcode_t li_can_slv_uload_data_from_buffer(uint8_t *data, uint16_t
 					if (rc == ERR_MSG_CAN_ASYNC_CTRL_TX_QUEUE_OVERFLOW)
 					{
 						/* overflow detected -> clear error and try one more */
-						rc = ERR_OK;
+						rc = LI_CAN_SLV_ERR_OK;
 					}
 					else
 					{
 						/* in case of any error return */
-						if (rc != ERR_OK)
+						if (rc != LI_CAN_SLV_ERR_OK)
 						{
 							return (rc);
 						}
@@ -1213,7 +1213,7 @@ li_can_slv_errorcode_t li_can_slv_uload_end(li_can_slv_module_nr_t module_nr)
 #ifdef LI_CAN_SLV_ULOAD
 /**
  * @param module_nr
- * @return #errorcode_t or ERR_OK if successful
+ * @return #errorcode_t or LI_CAN_SLV_ERR_OK if successful
  */
 errorcode_t li_can_slv_uload_data_block_end(li_can_slv_module_nr_t module_nr)
 {
@@ -1232,7 +1232,7 @@ errorcode_t li_can_slv_uload_data_block_end(li_can_slv_module_nr_t module_nr)
 	{
 		rc = can_async_send_data_to_async_ctrl_tx_queue(module_nr, CAN_ASYNC_CTRL_TX_TYPE_SLAVE, buffer);
 	}
-	while (rc != ERR_OK);
+	while (rc != LI_CAN_SLV_ERR_OK);
 
 	return rc;
 }

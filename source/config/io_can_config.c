@@ -1702,7 +1702,7 @@ li_can_slv_errorcode_t can_config_set_module_silent_awake(uint16_t table_pos, ca
  */
 li_can_slv_errorcode_t li_can_slv_config_set_module_silent_awake_from_type_and_nr(char_t *module_type, li_can_slv_module_nr_t module_nr, can_config_module_silent_t desired_state)
 {
-	li_can_slv_errorcode_t err = ERR_OK;
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t table_pos = 0;
 
 	table_pos = get_table_pos_from_type_and_actual_module_number(module_type, module_nr);

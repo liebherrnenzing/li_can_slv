@@ -411,12 +411,12 @@ li_can_slv_errorcode_t can_async_rx(li_can_slv_module_nr_t module_nr, byte_t con
 
 	if (!module_found)
 	{
-		return ERR_OK;
+		return LI_CAN_SLV_ERR_OK;
 	}
 
 	if (module_silent == LI_CAN_SLV_CONFIG_MODULE_STATE_SILENT)
 	{
-		return ERR_OK;
+		return LI_CAN_SLV_ERR_OK;
 	}
 
 #ifdef LI_CAN_SLV_BOOT
@@ -526,7 +526,7 @@ li_can_slv_errorcode_t can_async_rx(li_can_slv_module_nr_t module_nr, byte_t con
 							if (NULL != can_async_tunnel_open_handle_funcp)
 							{
 								err = can_async_tunnel_open_handle_funcp(can_async_tunnel.connection_type);
-								if (err != ERR_OK)
+								if (err != LI_CAN_SLV_ERR_OK)
 								{
 									can_async_tnl_ctl_response(CAN_ASYNC_TNL_OPEN_DENY, module_nr_tunnel, module_nr, err);
 
