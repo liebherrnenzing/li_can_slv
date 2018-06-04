@@ -170,8 +170,8 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 	can_config_bdr_t baudrate;
 #ifndef LI_CAN_SLV_BOOT
 	uint16_t table_pos;
-	uint8_t message_is_broadcast = FALSE;
 #endif // #ifndef LI_CAN_SLV_BOOT
+	uint8_t message_is_broadcast = FALSE;
 	uint16_t module_found = 0;
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 	uint32_t serial_nr;
@@ -203,16 +203,21 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 #ifdef LI_CAN_SLV_BOOT
 	if (module_nr != CAN_CONFIG_MODULE_NR_BROADCAST)
 	{
+		message_is_broadcast = FALSE;
+
 		err = can_config_module_nr_valid(module_nr, &module_silent_awake, &module_found);
 		if (!module_found)
 		{
 			return LI_CAN_SLV_ERR_OK;
 		}
 	}
+	else
+	{
+		message_is_broadcast = TRUE;
+	}
 #else // #ifdef LI_CAN_SLV_BOOT
 	if (module_nr != CAN_CONFIG_MODULE_NR_BROADCAST)
 	{
-		/* message is broadcast */
 		message_is_broadcast = FALSE;
 
 		/* find module position in configuration table */
@@ -228,7 +233,6 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 	}
 	else
 	{
-		/* message is broadcast */
 		message_is_broadcast = TRUE;
 
 		can_config_get_nr_of_modules(&nr_of_modules);

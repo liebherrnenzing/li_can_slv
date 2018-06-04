@@ -70,8 +70,8 @@ extern "C"
 /*********************************************************/
 /* subgroups */
 /*********************************************************/
-/*!
- * \name message subgroups
+/**
+ * @name message subgroups
  */
 /*@{*/
 #define MSG_SUBGROUP_UNDEFINED						0x00000000L /*!< service code subgroup definition: undefined/unknown/unused */
@@ -97,45 +97,10 @@ extern "C"
 #define MSG_EXTRACT_SUBGROUP(x) ((byte_t)((((msg_code_t)(x)) & (MSG_SUBGROUP_MASK))>>24))
 #define MSG_EXTRACT_GROUP(x) ((byte_t)((((msg_code_t)(x)) & (MSG_GROUP_MASK))>>28))
 #define MSG_EXTRACT_GROUP_SUBGROUP(x) ((byte_t)((((msg_code_t)(x)) & (MSG_GROUP_MASK | MSG_SUBGROUP_MASK))>>24))
-
 /*@}*/
 
-//Error number ranges to use:
-/*!
- * \note CLIB error definitions: 0x0000 - 0x0FFF
- * */
-#define	ERR_OK				(0x0000u) /*!<no error occured */
-#define LI_CAN_SLV_ERR_OK	(ERR_OK)
+#define LI_CAN_SLV_ERR_OK	(0x0000u) /**<no error occured */
 #define LI_CAN_SLV_ERR_NOT_IMPLEMENTED (ERR_MSG_CAN_NOT_IMPLEMENTED)
-
-#define ERR_VAL_OUT_OF_RANGE	(MSG_SG_SHIFT(MSG_SUBGROUP_UNDEFINED) | ERANGE) /*!< CLIB: one or more parameter(s) is/are out of range */
-#define ERR_FPOINT_DOMAIN_ERR	(MSG_SG_SHIFT(MSG_SUBGROUP_UNDEFINED) | EDOM) /*!< CLIB: Floating point domain error */
-
-//following entries must have a number between 1 and 99 for the least significant 3 hexadecimal digits (FATAL errors to display with diagnostic LEDs)
-//signalisation that is only used on LEDs (not issued to outer world via error stack/CAN): MUST NOT BE CHANGED IN NUMBERS!
-#define ERR_LED_DOWNLOAD_ACTIVE				11 /*!<Indicates that a download is expected (11)*/
-#define ERR_LED_OC_NOT_VALID				21 /*!<Fatal error: the outer core component is not valid (21)*/
-#define ERR_LED_APP_FAILED					41 /*!<Error in starting the application component (41) */
-#define ERR_LED_APP_SET_CRITICAL_FAILED		42 /*!<Error in setting a logical application module to critical (42) */
-#define ERR_LED_ERRSYS_PRIORTIES_DIFFERENT	33 /*!<Fatal error in error handler: given redundant priorities are different (33)*/
-#define ERR_LED_ERRSYS_PRIORTY_UNKNOWN		34 /*!<Fatal error in error handler: given priority is unknown (34)*/
-#define ERR_LED_IRQ_UNHANDLED_HWTRAP		35 /*!<Fatal error in irq  handler: an unhandled hardware trap occurred (35)*/
-#define ERR_LED_TUPLESYS_INIT_FAILED		17 /*!<Fatal Error of Tuple System */
-#define ERR_LED_BOOT_INVALID_CRC			19 /*!<Fatal Error CRC Check failed */
-#define ERR_LED_APP_INVALID_CRC				20 /*!<Fatal Error CRC Check failed */
-//FATAL errors (that are also used for displaying error code on module LEDs): MUST NOT BE CHANGED IN NUMBERS!
-#define ERR_CHK_FAILED_FLASH_IC			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_SYSCHECK) | 0x00Cu) /*!<Fatal error: failed FLASH check (inner core) (12)*/
-#define ERR_CHK_FAILED_RAM_CPU			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_SYSCHECK) | 0x00Du) /*!<Fatal error: failed CPU RAM check (13)*/
-#define ERR_CHK_FAILED_RAM_EXT			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_SYSCHECK) | 0x00Eu) /*!<Fatal error: failed ext. RAM check (14)*/
-#define ERR_CHK_FAILED_CPU				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_SYSCHECK) | 0x00Fu) /*!<Fatal error: failed CPU check (15)*/
-#define ERR_COMPONENT_NOT_AVAILABLE		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x010u) /*!<Fatal error: the component is not available (16)*/
-#define ERR_SRAM_REV_NOT_SUPPORTED		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x024u) /*!<Fatal error on outer core boot up: the indicated SRAM configuration is not supported by this outer core version (36) */
-#define ERR_EEPROM_REV_NOT_SUPPORTED	(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x025u) /*!<Fatal error on eeprom init: the indicated EEPROM hardware configuration is not supported by software (37) */
-#define ERR_APP_NOT_VALID				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x01Fu) /*!<Fatal error: the application component is not valid (31)*/
-#define ERR_APP_INVALID_CRC				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x020u) /*!<Fatal error: application component CRC is not valid (32)*/
-#define ERR_TUPLESYS_INIT_FAILED		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_DRIVERS) | 0x017u) /*!<Fatal error while initializing tuple system (23)*/
-#define ERR_OS_INIT_FAILED				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_OS) | 0x018u) /*!<Fatal error while initializing operating system (24)*/
-//end of LED errors
 
 #define MSG_CAN_BOOT_BOOT_LOADER_VERSION_MAJOR			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x039u)
 #define MSG_CAN_BOOT_BOOT_LOADER_VERSION_MINOR			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_BOOT) | 0x03Au)
