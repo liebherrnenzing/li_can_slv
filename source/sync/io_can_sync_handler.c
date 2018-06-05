@@ -123,9 +123,9 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 	byte_t group_subgroup;
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 #endif // #if defined(OUTER) || defined(OUTER_APP)
-#ifdef LI_CAN_SLV_DEBUG
+#ifdef LI_CAN_SLV_DEBUG_SYNC_RX_DATA
 	uint16_t i;
-#endif // #ifdef LI_CAN_SLV_DEBUG
+#endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_DATA
 
 	rxi = msg_obj;
 #ifndef LI_CAN_SLV_BOOT

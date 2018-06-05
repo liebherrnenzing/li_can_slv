@@ -173,6 +173,7 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
  */
 uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 {
+#ifndef LI_CAN_SLV_BOOT
 	uint8_t data[8];
 	/** @todo add workaround for the aligned problem for tricore cpu */
 	/* uint8_t __attribute__ ((aligned(2))) data[8]; */
@@ -195,12 +196,11 @@ uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 	LI_CAN_SLV_DEBUG_PRINT("\n\ntx obj: %d id: 0x%x", ubBufferIdxV, canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
 
-#ifndef LI_CAN_SLV_BOOT
 #if defined (LI_CAN_SLV_SYNC)
 	(void) can_sync_handler_tx(ubBufferIdxV, dlc, canid);
 #endif // #if defined (LI_CAN_SLV_SYNC)
-#endif // #ifndef LI_CAN_SLV_BOOT
 
+#endif // #ifndef LI_CAN_SLV_BOOT
 	return 0;
 }
 

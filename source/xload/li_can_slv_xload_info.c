@@ -47,34 +47,7 @@
 /*--------------------------------------------------------------------------*/
 /* global variables (public/exported)                                       */
 /*--------------------------------------------------------------------------*/
-#ifdef _KEIL
-#pragma renameclass(xdata=xsysinfo)
-#pragma NOINIT
-li_can_slv_xload_info_t XHUGE xload_info;
-#pragma INIT
-#endif // #ifdef _KEIL
-
-#ifdef __TASKING__
-#pragma noclear
-static li_can_slv_xload_info_t xload_info;
-#pragma clear
-#endif // #ifdef __TASKING__
-
-#ifdef __DCC__
 extern li_can_slv_xload_info_t xload_info;
-#endif // #ifdef __DCC__
-
-#ifdef __GNUC__
-li_can_slv_xload_info_t xload_info __attribute__((section(".xload_info")));
-#endif // #ifdef __GNUC__
-
-/*
-#ifdef __GNUC__
-#pragma section ".nvram" aw 4
-li_can_slv_xload_info_t xload_info;
-#pragma section
-#endif // #ifdef __GNUC__
-*/
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
