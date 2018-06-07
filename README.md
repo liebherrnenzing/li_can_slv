@@ -1,6 +1,6 @@
 # li_can_slv
 
-The Liebherr CAN protocol describes the communication of a distributed control system via CAN bus. It is designed to allow synchronous, deterministic real-time networking based on a master-slave system, whereby all input and output modules are connected to a master via CAN bus. This repository includes a slave implementation of the Liebherr CAN protocol.
+The Liebherr CAN protocol describes the communication of a distributed control system via CAN bus. It is designed to allow synchronous, deterministic real-time networking based on a master-slave system, whereby all input and output modules are connected to a master via CAN bus. This repository includes a slave implementation written in C of the Liebherr CAN protocol.
 
 Some more information is coming soon...
 
