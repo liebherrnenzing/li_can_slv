@@ -315,9 +315,9 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			break;
 
 		case CAN_SYS_M2S_CHANGE_CAN_BAUDRATE:
-			if (message_is_broadcast)
+			if (message_is_broadcast == FALSE)
 			{
-				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_ON_BROADCAST;
+				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_DIRECT;
 			}
 			baudrate = (src[1] << 8) + src[2];
 #ifdef LI_CAN_SLV_DEBUG_SYS_CHANGE_CAN_BAUDRATE
@@ -410,7 +410,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 		case CAN_SYS_M2S_CHANGE_MODULE_NUMBER:
 			if (message_is_broadcast)
 			{
-				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_ON_BROADCAST;
+				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST;
 			}
 			serial_nr = can_port_get_serialnumber();
 
@@ -426,10 +426,18 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			break;
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 		case CAN_SYS_M2S_STAY_SILENT:
+			if (message_is_broadcast)
+			{
+				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST;
+			}
 			err = can_sys_set_silent_awake(src, module_nr, LI_CAN_SLV_CONFIG_MODULE_STATE_SILENT);
 			break;
 
 		case CAN_SYS_M2S_AWAKE:
+			if (message_is_broadcast)
+			{
+				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST;
+			}
 			err = can_sys_set_silent_awake(src, module_nr, LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE);
 			break;
 
@@ -456,6 +464,10 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE)
 		case CAN_SYS_M2S_CHANGE_MODULE_TYPE:
+			if (message_is_broadcast)
+			{
+				return ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST;
+			}
 			serial_nr = can_port_get_serialnumber();
 
 			if (check_if_serial_number_is_valid_from_can_data(serial_nr, &src[5], &src[6], &src[7]))

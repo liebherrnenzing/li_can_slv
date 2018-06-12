@@ -6,3 +6,4 @@
 /docs/sphinx/_build
 /docs/sphinx/doxyhtml
 /docs/sphinx/doxyxml
+/*.pydevproject

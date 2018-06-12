@@ -472,21 +472,65 @@ void test_sys_msg_invalid_module_number(void)
 void test_sys_msg_broadcast_not_allowed(void)
 {
 	lcsa_errorcode_t err = LCSA_ERROR_OK;
+	/* use a broadcast message */
 	byte_t rx_data[8] = { 0, 0, 114, 0, 0, 0x1e, 0x74, 0xde };
 	lcsa_module_number_t module_nr;
 	uint16_t dlc = 8;
 
 	module_nr = 1; /* broadcast */
 
-	/* simulate a change module number request via broadcast number */
+	/* the following messages are not allowed as broadcast */
 	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;
 	err = can_sys_msg_rx(module_nr, dlc, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_ON_BROADCAST, err);
+	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);
+
+	rx_data[0] = CAN_SYS_M2S_STAY_SILENT;
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);
+
+	rx_data[0] = CAN_SYS_M2S_AWAKE;
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);
+
+#if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE)
+	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_TYPE;
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);
+#endif // #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE)
+
+}
+
+/**
+ * @test test_sys_msg_broadcast_not_allowed
+ * @brief This test checks the handling of not allowed broadcast messages.
+ */
+void test_sys_msg_broadcast_allowed(void)
+{
+	lcsa_errorcode_t err = LCSA_ERROR_OK;
+	byte_t rx_data[8] = { 0x02, 0x03, 0xE8, 0, 0, 0, 0};
+	lcsa_module_number_t module_nr;
+	uint16_t dlc = 8;
+	lcsa_bdr_t bdr = 0;
+
+	module_nr = 1; /* broadcast */
+
+	/* read actual baud rate */
+	bdr = lcsa_get_baudrate();
+	XTFW_ASSERT_EQUAL_UINT(LCSA_BAUD_RATE_DEFAULT, bdr);
 
 	/* simulate a change baud rate via broadcast number */
 	rx_data[0] = CAN_SYS_M2S_CHANGE_CAN_BAUDRATE;
 	err = can_sys_msg_rx(module_nr, dlc, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_ON_BROADCAST, err);
+	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, err);
+
+	/* now we should have 1MBaud */
+	bdr = lcsa_get_baudrate();
+	XTFW_ASSERT_EQUAL_UINT(LCSA_BAUD_RATE_1M, bdr);
+
+	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, err);
+
 }
 
 /**

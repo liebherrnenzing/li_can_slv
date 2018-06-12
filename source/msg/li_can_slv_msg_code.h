@@ -150,7 +150,7 @@ extern "C"
 //#define ERR_MSG_CAN_IO_CONFIG_INVALID_CRC                                           (MSG_CODE_ADAPT(0x75000069)) /*!< \brief message 0x75000069*/
 //#define ERR_MSG_CAN_SYNC_PROCESS_IMAGE_NOT_VALID                                    (MSG_CODE_ADAPT(0x7500006A)) /*!< \brief message 0x7500006A*/
 //#define ERR_MSG_CAN_MODULE_NR_CONFIGURATION_FAILED                                  (MSG_CODE_ADAPT(0x7500006B)) /*!< \brief message 0x7500006B*/
-//#define ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_ON_BROADCAST                             (MSG_CODE_ADAPT(0x7500006C)) /*!< \brief message 0x7500006C*/
+//#define ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST                                (MSG_CODE_ADAPT(0x7500006C)) /*!< \brief message 0x7500006C*/
 //#define ERR_MSG_CAN_ASYNC_TUNNEL_HNDL_NOT_DEFINED                                   (MSG_CODE_ADAPT(0x7500006D)) /*!< \brief message 0x7500006D*/
 //#define ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED                                      (MSG_CODE_ADAPT(0x7500006E)) /*!< \brief message 0x7500006E*/
 //#define ERR_MSG_CAN_SYS_ERR_QUEUE_FULL                                              (MSG_CODE_ADAPT(0x7500006F)) /*!< \brief message 0x7500006F*/
