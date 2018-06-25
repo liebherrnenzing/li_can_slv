@@ -47,10 +47,6 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-#ifndef INLINE
-#define INLINE inline
-#endif // #ifndef INLINE
-
 #if CP_VERSION_MAJOR <= 2
 #define CAN_LEC_NO_ERROR						CP_ERR_TYPE_NONE /*!< */
 #define CAN_LEC_STUFF							CP_ERR_TYPE_STUFF /*!< */

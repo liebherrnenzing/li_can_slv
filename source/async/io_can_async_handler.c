@@ -38,10 +38,6 @@
 #include "io_can_error.h"
 #include "io_can_errno.h"
 
-#ifdef LI_CAN_SLV_ASYNC_TUNNEL
-#include "io_can_port.h"
-#endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
-
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG

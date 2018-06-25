@@ -32,8 +32,6 @@
 #include "io_can_error.h"
 #include "io_can_main.h"
 
-#include "io_can_port.h"
-
 #include "io_can.h"
 
 #ifdef LI_CAN_SLV_ASYNC

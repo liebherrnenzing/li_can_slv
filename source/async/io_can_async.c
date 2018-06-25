@@ -78,10 +78,6 @@
 
 #include "io_can_port.h"
 
-#ifdef LI_CAN_SLV_ASYNC_TUNNEL
-#include "io_can_port.h"
-#endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
-
 #ifdef LI_CAN_SLV_RECONNECT
 #include "io_can_reconnect.h"
 #endif // #ifdef LI_CAN_SLV_RECONNECT

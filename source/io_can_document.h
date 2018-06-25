@@ -30,9 +30,6 @@
 #define HUGE
 #define XHUGE
 #define INLINE
-#define COMPILER_VERSION (0)
-#define COMPILER_DATE	__DATE__
-#define COMPILER_TIME	__TIME__
 #define sbit
 #endif /* #if defined( __DOXYGEN__) */
 

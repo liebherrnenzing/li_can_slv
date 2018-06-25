@@ -36,17 +36,12 @@ extern "C" {
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
 #include "li_can_slv.h"
-
 #include "io_can_types.h"
 #include "li_can_slv_error_types.h"
-
 #include "li_can_slv_config_defines.h"
-#ifdef LI_CAN_SLV_MODULE_IO_CONFIG
+#if defined (LI_CAN_SLV_TUPLE) || defined (LI_CAN_SLV_MODULE_IO_CONFIG)
 #include "io_tuple.h"
-#endif // #ifdef LI_CAN_SLV_MODULE_IO_CONFIG
-#ifdef LI_CAN_SLV_TUPLE
-#include "io_can_port.h"
-#endif // #ifdef LI_CAN_SLV_TUPLE
+#endif // #if defined (LI_CAN_SLV_TUPLE) || defined (LI_CAN_SLV_MODULE_IO_CONFIG)
 
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */

@@ -77,6 +77,9 @@ extern "C" {
 #define LCSA_CONFIG_DLC_USED_6	LI_CAN_SLV_CONFIG_DLC_USED_6 /**< used data length 6 */
 #define LCSA_CONFIG_DLC_USED_7	LI_CAN_SLV_CONFIG_DLC_USED_7 /**< used data length 7 */
 #define LCSA_CONFIG_DLC_USED_8	LI_CAN_SLV_CONFIG_DLC_USED_8 /**< used data length 8 */
+
+#define LCSA_CONFIG_MODULE_TYPE_LENGTH	CAN_CONFIG_TYPE_STRING_LENGTH /**< max module type length */
+
 /**
  * @}
  */
