@@ -388,16 +388,16 @@ li_can_slv_errorcode_t li_can_slv_dload_version_request_short(li_can_slv_module_
 {
 	li_can_slv_errorcode_t rc = LI_CAN_SLV_ERR_OK;
 
-	xload_component.index_of_request = src[1];
-	xload_component.name[0] = (char_t)(0x20U + (src[2] >> 2U));
-	xload_component.name[1] = (char_t)(0x20U + ((src[2] & 0x03U) << 4U) + ((src[3] & 0xF0) >> 4U));
-	xload_component.name[2] = (char_t)(0x20U + ((src[3] & 0x0FU) << 2U) + ((src[4] & 0xC0) >> 6U));
-	xload_component.name[3] = (char_t)(0x20U + (src[4] & 0x3FU));
-	xload_component.name[4] = (char_t)(0x20U + ((src[5] & 0xFCU) >> 2U));
-	xload_component.name[5] = (char_t)(0x20U + ((src[5] & 0x03U) << 4U) + ((src[6] & 0xF0) >> 4U));
-	xload_component.name[6] = (char_t)(0x20U + ((src[6] & 0x0FU) << 2U) + ((src[7] & 0xC0) >> 6U));
-	xload_component.name[7] = (char_t)(0x20U + (src[7] & 0x3FU));
-	xload_component.name[8] = '\0';
+	xload_component_version_request.index_of_request = src[1];
+	xload_component_version_request.name[0] = (char_t)(0x20U + (src[2] >> 2U));
+	xload_component_version_request.name[1] = (char_t)(0x20U + ((src[2] & 0x03U) << 4U) + ((src[3] & 0xF0) >> 4U));
+	xload_component_version_request.name[2] = (char_t)(0x20U + ((src[3] & 0x0FU) << 2U) + ((src[4] & 0xC0) >> 6U));
+	xload_component_version_request.name[3] = (char_t)(0x20U + (src[4] & 0x3FU));
+	xload_component_version_request.name[4] = (char_t)(0x20U + ((src[5] & 0xFCU) >> 2U));
+	xload_component_version_request.name[5] = (char_t)(0x20U + ((src[5] & 0x03U) << 4U) + ((src[6] & 0xF0) >> 4U));
+	xload_component_version_request.name[6] = (char_t)(0x20U + ((src[6] & 0x0FU) << 2U) + ((src[7] & 0xC0) >> 6U));
+	xload_component_version_request.name[7] = (char_t)(0x20U + (src[7] & 0x3FU));
+	xload_component_version_request.name[8] = '\0';
 
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_VERSION
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_ver_req short");
@@ -420,10 +420,10 @@ li_can_slv_errorcode_t li_can_slv_dload_version_request_long1(li_can_slv_module_
 	uint16_t i;
 
 	module_nr = module_nr; //dummy assignment
-	xload_component.index_of_request = src[1];
+	xload_component_version_request.index_of_request = src[1];
 	for (i = 0; i < 6; i++)
 	{
-		xload_component.name[i] = src[i + 2];
+		xload_component_version_request.name[i] = src[i + 2];
 	}
 
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_VERSION
@@ -450,9 +450,9 @@ li_can_slv_errorcode_t li_can_slv_dload_version_request_long2(li_can_slv_module_
 	//  static li_can_slv_module_nr_t module_nr_bgnd; // needed for background task
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-	xload_component.name[6] = src[2];
-	xload_component.name[7] = src[3];
-	xload_component.name[8] = '\0';
+	xload_component_version_request.name[6] = src[2];
+	xload_component_version_request.name[7] = src[3];
+	xload_component_version_request.name[8] = '\0';
 
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_VERSION
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_ver_req long2");
@@ -1274,8 +1274,8 @@ static li_can_slv_errorcode_t dload_version_request_pre_handle(li_can_slv_module
 #ifdef DEBUG_DLOAD
 		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle:%s", dload_buffer.component.name);
 #endif // #ifdef DEBUG_DLOAD
-		xload_component.module_nr = module_nr;
-		rc = dload_version_request_handle_funcp(&xload_component, &end_handle_status);
+		xload_component_version_request.module_nr = module_nr;
+		rc = dload_version_request_handle_funcp(&xload_component_version_request, &end_handle_status);
 	}
 	else
 	{
@@ -1285,19 +1285,19 @@ static li_can_slv_errorcode_t dload_version_request_pre_handle(li_can_slv_module
 	/*----------------------------------------------------------------------*/
 	/* clear component name for next correct download                       */
 	/*----------------------------------------------------------------------*/
-	can_port_memory_set(&xload_component.name[0], 0x00U, 8U);
+	can_port_memory_set(&xload_component_version_request.name[0], 0x00U, 8U);
 
 	if (rc == LI_CAN_SLV_ERR_OK)
 	{
 		if (LI_CAN_SLV_XLOAD_STACK_END_HANDLING == end_handle_status)
 		{
-			rc = li_can_slv_dload_version_answer(module_nr, xload_component.index_of_request, xload_component.crc, xload_component.download_id);
+			rc = li_can_slv_dload_version_answer(module_nr, xload_component_version_request.index_of_request, xload_component_version_request.crc, xload_component_version_request.download_id);
 		}
 	}
 	else
 	{
 #ifdef DEBUG_DLOAD
-		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle, dload_termination for:%s", dload_buffer.component.name);
+		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle, dload_termination for:%s", xload_component_version_request.name);
 #endif // #ifdef DEBUG_DLOAD
 		li_can_slv_dload_termination(module_nr, rc);
 	}

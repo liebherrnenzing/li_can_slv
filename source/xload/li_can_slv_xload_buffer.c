@@ -55,6 +55,7 @@ uint16_t bytes_of_block_cnt; /**< bytes of block from CAN-bus */
 uint16_t dload_bytes_cnt;
 
 li_can_slv_xload_component_t xload_component; /**< details about the current component*/
+li_can_slv_xload_component_t xload_component_version_request; /**< details about the current component for version request only */
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
