@@ -259,6 +259,7 @@ li_can_slv_errorcode_t can_config_set_baudrate_listen_only(can_config_bdr_t baud
 li_can_slv_errorcode_t can_config_set_baudrate_table(void);
 li_can_slv_errorcode_t can_config_set_baudrate_default(void);
 li_can_slv_errorcode_t can_config_get_baudrate(can_config_bdr_t *baudrate);
+bool_t can_config_is_baudrate_valid(can_config_bdr_t baudrate);
 
 void can_config_set_baudrate_startup(li_can_slv_config_bdr_t baud_rate);
 li_can_slv_config_bdr_t can_config_get_baudrate_startup(void);

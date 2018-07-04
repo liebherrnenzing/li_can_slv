@@ -528,6 +528,12 @@ extern lcsa_errorcode_t lcsa_add_module(const lcsa_module_config_t *module, lcsa
  */
 extern lcsa_bdr_t lcsa_get_baudrate(void);
 
+/**
+ * @brief This function can be used to check if the baudrate is valid
+ * @param bdr baudrate to check
+ */
+#define lcsa_is_baudrate_valid(bdr)	can_config_is_baudrate_valid(bdr)
+
 #ifdef __cplusplus
 }// closing brace for extern "C"
 #endif // #ifdef __cplusplus

@@ -896,6 +896,23 @@ li_can_slv_errorcode_t can_config_get_baudrate(can_config_bdr_t *baudrate)
 /**
  *
  */
+bool_t can_config_is_baudrate_valid(can_config_bdr_t baudrate)
+{
+	uint16_t i;
+
+	for (i = 0; i < CAN_CONFIG_SIZE_OF_BDR_TAB; i++)
+	{
+		if (baudrate == can_config_bdr_tab[i].baudrate)
+		{
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+/**
+ *
+ */
 void can_config_set_baudrate_startup(li_can_slv_config_bdr_t baud_rate)
 {
 	can_config_bdr_startup = baud_rate;

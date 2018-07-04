@@ -52,18 +52,9 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* global variables                                                         */
 /*--------------------------------------------------------------------------*/
-/**
- * @todo remove global variables
- */
-extern uint16_t dload_bytes_cnt;
-
 #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
 extern li_can_slv_xload_buffer_t dload_buffer;
 #endif // #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
-
-extern uint16_t bytes_of_block_cnt; /**< bytes of block from CAN-bus */
-
-extern uint16_t nr_of_can_objs_counter; /**< number of CAN objects from CAN-bus */
 
 extern li_can_slv_xload_component_t xload_component; /**< details about the current component*/
 extern li_can_slv_xload_component_t xload_component_version_request; /**< details about the current component for version request only */

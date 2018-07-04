@@ -298,10 +298,10 @@ static void li_can_slv_xload_info_update_crc(void)
 	xload_info.crc = li_can_slv_xload_info_crc16_init();
 #ifdef LI_CAN_SLV_XLOAD_INFO_BACKWARD_COMPATIBILITY
 	xload_info.crc = li_can_slv_xload_info_crc16_update(xload_info.crc, (uint8_t *) &xload_info, sizeof(li_can_slv_xload_info_t) - sizeof(uint16_t) - 2 * sizeof(uint8_t));
-#else // #ifdef LI_CAN_SLV_XLOAD_INFO_USER
+#else // #ifdef LI_CAN_SLV_XLOAD_INFO_BACKWARD_COMPATIBILITY
 	// remove crc from crc calculation
 	xload_info.crc = li_can_slv_xload_info_crc16_update(xload_info.crc, (uint8_t *) &xload_info, sizeof(li_can_slv_xload_info_t) - sizeof(uint16_t));
-#endif // #ifdef LI_CAN_SLV_XLOAD_INFO_USER
+#endif // #ifdef LI_CAN_SLV_XLOAD_INFO_BACKWARD_COMPATIBILITY
 }
 /** @} */
 

@@ -44,19 +44,19 @@ extern "C" {
 #define DLOAD_DATE_DEFAULT				0xFFFFFFFF /**< download default date */
 #define DLOAD_COMPONENT_NAME_LENGTH		8 /**< length of component name to program in byte */
 
-#ifdef DEBUG_DLOAD
-#ifdef DEBUG_DLOAD_SLOW
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_SLOW
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_HEX		10 /*!< time delay in ms between can objects for hex-file-downloads */
-#else // #ifdef DEBUG_DLOAD_SLOW
+#else // #ifdef LI_CAN_SLV_DEBUG_DLOAD_SLOW
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_HEX		0 /*!< time delay in ms between can objects for hex-file-downloads */
-#endif // #ifdef DEBUG_DLOAD_SLOW
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_SLOW
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_CNFG		10 /*!< time delay in ms between can objects for configuration-file-downloads (application is running) */
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_TPL		10 /*!< time delay in ms between can objects for tuple-file-downloads (application is running) */
-#else // #ifdef DEBUG_DLOAD
+#else // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_HEX		0 /*!< time delay in ms between can objects for hex-file-downloads */
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_CNFG		5 /*!< time delay in ms between can objects for configuration-file-downloads (application is running) */
 #define IO_DLOAD_OBJ_TIME_DELAY_MS_TPL		5 /*!< time delay in ms between can objects for tuple-file-downloads (application is running) */
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 
 #define ULOAD_COMPONENT_NAME_LENGTH			DLOAD_COMPONENT_NAME_LENGTH /*!< length of component name to program in byte */
 #define ULOAD_BLOCK_BUFFER_SIZE				LI_CAN_SLV_XLOAD_BLOCK_BUFFER_SIZE_DLOAD /*!< block buffer size for download */

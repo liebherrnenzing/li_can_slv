@@ -135,7 +135,6 @@ static li_can_slv_uload_block_ack_handle_funcp_t uload_block_ack_handle_funcp = 
 #endif // #ifdef LI_CAN_SLV_ULOAD
 
 static li_can_slv_xload_progress_t xload_in_progress = LI_CAN_SLV_XLOAD_IDLE;
-static uint16_t dload_bytes_of_block;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -162,15 +161,14 @@ li_can_slv_errorcode_t li_can_slv_dload_start_ackn(li_can_slv_module_nr_t module
 	li_can_slv_errorcode_t rc;
 
 	/* initialization of download counters */
-	nr_of_can_objs_counter = 0;
-	bytes_of_block_cnt = 0;
+	dload_buffer.nr_of_can_objs = 0;
+	dload_buffer.bytes_cnt_of_block = 0;
 
 #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
 	/* initialization of circular buffer */
 	dload_buffer.read = 0;
 	dload_buffer.write = 0;
 	dload_buffer.nr_bytes = 0;
-	dload_bytes_cnt = 0;
 #endif // #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
 
 	acknowledge_buffer[0] = CAN_ASYNC_DL_START_ACKN;
@@ -473,6 +471,10 @@ li_can_slv_errorcode_t li_can_slv_dload_start_request1(li_can_slv_module_nr_t mo
 {
 	uint16_t i;
 
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_START
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_start_req 1");
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_START
+
 	module_nr = module_nr; //dummy assignment
 	if (xload_in_progress == LI_CAN_SLV_XLOAD_IDLE)
 	{
@@ -481,10 +483,6 @@ li_can_slv_errorcode_t li_can_slv_dload_start_request1(li_can_slv_module_nr_t mo
 			xload_component.name[i] = src[i + 1];
 		}
 	}
-
-#ifdef LI_CAN_SLV_DEBUG_DLOAD_START
-	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_start_req 1");
-#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_START
 
 	return LI_CAN_SLV_ERR_OK;
 }
@@ -507,6 +505,10 @@ li_can_slv_errorcode_t li_can_slv_dload_start_request2(li_can_slv_module_nr_t mo
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 	uint16_t module_found;
 	can_config_module_silent_t module_silent;
+
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_START
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_start_req 2");
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_START
 
 	if (xload_in_progress == LI_CAN_SLV_XLOAD_IDLE)
 	{
@@ -533,18 +535,18 @@ li_can_slv_errorcode_t li_can_slv_dload_start_request2(li_can_slv_module_nr_t mo
 		rc = can_config_module_nr_valid(module_nr, &table_pos, &module_silent, &module_found);
 #endif // #ifdef LI_CAN_SLV_BOOT
 
-#ifdef DEBUG_DLOAD_CHECK
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_START_EXTENDED
 		LI_CAN_SLV_DEBUG_PRINT("\ncan_config_module_nr_valid() err:%04x", rc);
-#endif // #ifdef // #ifdef DEBUG_DLOAD_CHECK
+#endif // #ifdef // #ifdef LI_CAN_SLV_DEBUG_DLOAD_START_EXTENDED
 		if (rc == LI_CAN_SLV_ERR_OK)
 		{
 #ifndef LI_CAN_SLV_BOOT
 			rc = can_config_get_module_type(table_pos, xload_component.module_type);
 #endif // #ifdef LI_CAN_SLV_BOOT
 		}
-#ifdef DEBUG_DLOAD_CHECK
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_START_EXTENDED
 		LI_CAN_SLV_DEBUG_PRINT("\ncan_config_get_module_type() err:%04x module_type:%04s", rc, dload_buffer.component.module_type);
-#endif // #ifdef DEBUG_DLOAD_CHECK
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_START_EXTENDED
 
 		if (rc != LI_CAN_SLV_ERR_OK)
 		{
@@ -554,9 +556,9 @@ li_can_slv_errorcode_t li_can_slv_dload_start_request2(li_can_slv_module_nr_t mo
 		// call handle
 		if (NULL != dload_start_request_handle_funcp)
 		{
-#ifdef DEBUG_DLOAD
-			LI_CAN_SLV_DEBUG_PRINT("\ndload_start_request_handle_funcp");
-#endif // #ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_START
+			LI_CAN_SLV_DEBUG_PRINT("\ndload_start_request_handle_funcp()");
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_START
 			rc = dload_start_request_handle_funcp(&xload_component);
 		}
 		else
@@ -590,9 +592,9 @@ li_can_slv_errorcode_t li_can_slv_dload_data(li_can_slv_module_nr_t module_nr, c
 	uint16_t i;
 	li_can_slv_errorcode_t rc = LI_CAN_SLV_ERR_OK;
 
-#ifdef DEBUG_DLOAD_DATA_EXTENDED
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data in o:%u b:%u", nr_of_can_objs_counter, dload_buffer.bytes_cnt_of_block);
-#endif // #ifdef DEBUG_DLOAD_DATA_EXTENDED
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 
 	for (i = 1; i < CAN_DLC_MAX; i++)
 	{
@@ -608,12 +610,12 @@ li_can_slv_errorcode_t li_can_slv_dload_data(li_can_slv_module_nr_t module_nr, c
 			return (rc);
 		}
 	}
-	nr_of_can_objs_counter++;
-	bytes_of_block_cnt += (CAN_DLC_MAX - 1);
+	dload_buffer.nr_of_can_objs++;
+	dload_buffer.bytes_cnt_of_block += (CAN_DLC_MAX - 1);
 
-#ifdef DEBUG_DLOAD_DATA_EXTENDED
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data out o:%u b:%u", nr_of_can_objs_counter, dload_buffer.bytes_cnt_of_block);
-#endif // #ifdef DEBUG_DLOAD_DATA_EXTENDED
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 	return rc;
 }
 
@@ -631,32 +633,31 @@ li_can_slv_errorcode_t li_can_slv_dload_data_block_end(li_can_slv_module_nr_t mo
 	li_can_slv_errorcode_t rc = LI_CAN_SLV_ERR_OK;
 	uint16_t nr_of_can_objs;
 	uint16_t nr_bytes_end;
+	uint16_t dload_bytes_of_block;
 
 	dload_bytes_of_block = ((uint16_t) src[1] << 8) + src[2];
 	nr_of_can_objs = ((uint16_t) src[3] << 8) + src[4];
-	dload_bytes_cnt += dload_bytes_of_block;
 
 	/*--------------------------------------------------------------------------*/
 	/* check received data block information									*/
 	/*--------------------------------------------------------------------------*/
-#ifdef DEBUG_DLOAD_DATA_EXTENDED
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data_block_end");
-#endif // #ifdef DEBUG_DLOAD_DATA_EXTENDED
-#ifdef DEBUG_DLOAD_DATA_EXTENDED
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data_block_end nr_of_can_objs:%u nr_of_obj_cnt:%u", nr_of_can_objs, nr_of_can_objs_counter);
-	LI_CAN_SLV_DEBUG_PRINT(" bytes of block:%u byte cnt:%u", dload_bytes_of_block, dload_bytes_cnt);
-#endif // #ifdef DEBUG_DLOAD_DATA_EXTENDED
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 
-	if (nr_of_can_objs == nr_of_can_objs_counter)
+	if (nr_of_can_objs == dload_buffer.nr_of_can_objs)
 	{
 		// it is possible that the master sends the whole block of data. As an example if
-		nr_bytes_end = (bytes_of_block_cnt - dload_bytes_of_block);
+		dload_buffer.nr_bytes_end = (dload_buffer.bytes_cnt_of_block - dload_bytes_of_block);
 
 		if (nr_bytes_end > 0)
 		{
-#ifdef DEBUG_DLOAD_EXTENDED
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_EXTENDED
 			LI_CAN_SLV_DEBUG_PRINT("\nnr_bytes: %u", dload_buffer.nr_bytes);
-#endif // #ifdef DEBUG_DLOAD_EXTENDED
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_EXTENDED
 
 #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
 			dload_remove_bytes(nr_bytes_end); //remove trailing dummy bytes
@@ -667,9 +668,9 @@ li_can_slv_errorcode_t li_can_slv_dload_data_block_end(li_can_slv_module_nr_t mo
 		// call handle
 		if (NULL != dload_data_block_end_handle_funcp)
 		{
-#ifdef DEBUG_DLOAD_EXTENDED
+#ifdef LI_CAN_SLV_DEBUG_DLOAD_EXTENDED
 			LI_CAN_SLV_DEBUG_PRINT("\ndload_data_block_end_handle_funcp");
-#endif // #ifdef DEBUG_DLOAD_EXTENDED
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_EXTENDED
 			rc = dload_data_block_end_handle_funcp(&xload_component);
 		}
 		else
@@ -680,8 +681,8 @@ li_can_slv_errorcode_t li_can_slv_dload_data_block_end(li_can_slv_module_nr_t mo
 		if (rc == LI_CAN_SLV_ERR_OK)
 		{
 			dload_block_ackn(module_nr);
-			bytes_of_block_cnt = 0;
-			nr_of_can_objs_counter = 0;
+			dload_buffer.bytes_cnt_of_block = 0;
+			dload_buffer.nr_of_can_objs = 0;
 		}
 		else
 		{
@@ -716,9 +717,9 @@ li_can_slv_errorcode_t li_can_slv_dload_end(li_can_slv_module_nr_t module_nr)
 	can_config_module_silent_t module_silent;
 	li_can_slv_xload_end_handle_status_t end_handle_status = LI_CAN_SLV_XLOAD_STACK_END_HANDLING;
 
-#ifdef DEBUG_DLOAD
-	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_end component name:%s", dload_buffer.component.name);
-#endif // #ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_end component name:%s", xload_component.name);
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 
 #ifdef LI_CAN_SLV_BOOT
 	rc = can_config_module_nr_valid(module_nr, &module_silent, &module_found);
@@ -734,9 +735,9 @@ li_can_slv_errorcode_t li_can_slv_dload_end(li_can_slv_module_nr_t module_nr)
 	// call handle
 	if (NULL != dload_end_handle_funcp)
 	{
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 		LI_CAN_SLV_DEBUG_PRINT("\ndload_end_handle_funcp");
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 		rc = dload_end_handle_funcp(&xload_component, &end_handle_status);
 	}
 	else
@@ -847,9 +848,9 @@ li_can_slv_errorcode_t li_can_slv_dload_termination(li_can_slv_module_nr_t modul
 {
 	byte_t acknowledge_buffer[8];
 	li_can_slv_errorcode_t rc;
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 	LI_CAN_SLV_DEBUG_PRINT("\ndload_termination() err:%08lx", error);
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 
 	/**
 	 * @todo fix that use send error from error
@@ -995,9 +996,9 @@ li_can_slv_errorcode_t li_can_slv_uload_start_request2(li_can_slv_module_nr_t mo
 		// call handle
 		if (NULL != uload_start_request_handle_funcp)
 		{
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 			LI_CAN_SLV_DEBUG_PRINT("\nuload_start_request_handle_funcp");
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 			rc = uload_start_request_handle_funcp(&xload_component);
 		}
 		else
@@ -1135,9 +1136,9 @@ li_can_slv_errorcode_t li_can_slv_uload_block_ackn(li_can_slv_module_nr_t module
 	// call handle
 	if (NULL != uload_block_ack_handle_funcp)
 	{
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 		LI_CAN_SLV_DEBUG_PRINT("\nuload_block_ack_handle_funcp");
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 		rc = uload_block_ack_handle_funcp(&xload_component);
 	}
 	else
@@ -1271,9 +1272,9 @@ static li_can_slv_errorcode_t dload_version_request_pre_handle(li_can_slv_module
 	// call download handle
 	if (NULL != dload_version_request_handle_funcp)
 	{
-#ifdef DEBUG_DLOAD
-		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle:%s", dload_buffer.component.name);
-#endif // #ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
+		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle:%s", xload_component.name);
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 		xload_component_version_request.module_nr = module_nr;
 		rc = dload_version_request_handle_funcp(&xload_component_version_request, &end_handle_status);
 	}
@@ -1296,9 +1297,9 @@ static li_can_slv_errorcode_t dload_version_request_pre_handle(li_can_slv_module
 	}
 	else
 	{
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle, dload_termination for:%s", xload_component_version_request.name);
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 		li_can_slv_dload_termination(module_nr, rc);
 	}
 	return (rc);
@@ -1354,9 +1355,9 @@ static li_can_slv_errorcode_t uload_info_request_pre_handle(li_can_slv_module_nr
 	// call uload handle
 	if (NULL != uload_info_request_handle_funcp)
 	{
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 		LI_CAN_SLV_DEBUG_PRINT("\nuload_info_request_handle:%s", dload_buffer.component.name);
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 		xload_component.module_nr = module_nr;
 		rc = uload_info_request_handle_funcp(&xload_component, &size_of_component, &end_handle_status);
 	}
@@ -1379,9 +1380,9 @@ static li_can_slv_errorcode_t uload_info_request_pre_handle(li_can_slv_module_nr
 	}
 	else
 	{
-#ifdef DEBUG_DLOAD
+#ifdef LI_CAN_SLV_DEBUG_DLOAD
 		LI_CAN_SLV_DEBUG_PRINT("\ndload_version_request_handle, dload_termination for:%s", dload_buffer.component.name);
-#endif // #ifdef DEBUG_DLOAD
+#endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 		li_can_slv_dload_termination(module_nr, rc);
 	}
 	return (rc);
