@@ -593,7 +593,7 @@ li_can_slv_errorcode_t li_can_slv_dload_data(li_can_slv_module_nr_t module_nr, c
 	li_can_slv_errorcode_t rc = LI_CAN_SLV_ERR_OK;
 
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
-	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data in o:%u b:%u", nr_of_can_objs_counter, dload_buffer.bytes_cnt_of_block);
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data in o:%u b:%u", dload_buffer.nr_of_can_objs, dload_buffer.bytes_cnt_of_block);
 #endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 
 	for (i = 1; i < CAN_DLC_MAX; i++)
@@ -614,7 +614,7 @@ li_can_slv_errorcode_t li_can_slv_dload_data(li_can_slv_module_nr_t module_nr, c
 	dload_buffer.bytes_cnt_of_block += (CAN_DLC_MAX - 1);
 
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
-	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data out o:%u b:%u", nr_of_can_objs_counter, dload_buffer.bytes_cnt_of_block);
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data out o:%u b:%u", dload_buffer.nr_of_can_objs, dload_buffer.bytes_cnt_of_block);
 #endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 	return rc;
 }
@@ -645,7 +645,7 @@ li_can_slv_errorcode_t li_can_slv_dload_data_block_end(li_can_slv_module_nr_t mo
 	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data_block_end");
 #endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
-	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data_block_end nr_of_can_objs:%u nr_of_obj_cnt:%u", nr_of_can_objs, nr_of_can_objs_counter);
+	LI_CAN_SLV_DEBUG_PRINT("\nlcsdl_data_block_end nr_of_can_objs:%u nr_of_obj_cnt:%u", dload_buffer.nr_of_can_objs, dload_buffer.nr_of_can_objs);
 #endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_DATA_EXTENDED
 
 	if (nr_of_can_objs == dload_buffer.nr_of_can_objs)
@@ -956,7 +956,7 @@ li_can_slv_errorcode_t li_can_slv_uload_start_request1(li_can_slv_module_nr_t mo
 {
 	uint16_t i;
 
-	nr_of_can_objs_counter = 0;
+	dload_buffer.nr_of_can_objs = 0;
 	dload_buffer.bytes_cnt_of_block = 0;
 	xload_component.module_nr = module_nr;
 	if (xload_in_progress == LI_CAN_SLV_XLOAD_IDLE)
