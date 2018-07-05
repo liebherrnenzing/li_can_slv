@@ -632,7 +632,6 @@ li_can_slv_errorcode_t li_can_slv_dload_data_block_end(li_can_slv_module_nr_t mo
 {
 	li_can_slv_errorcode_t rc = LI_CAN_SLV_ERR_OK;
 	uint16_t nr_of_can_objs;
-	uint16_t nr_bytes_end;
 	uint16_t dload_bytes_of_block;
 
 	dload_bytes_of_block = ((uint16_t) src[1] << 8) + src[2];
@@ -653,16 +652,16 @@ li_can_slv_errorcode_t li_can_slv_dload_data_block_end(li_can_slv_module_nr_t mo
 		// it is possible that the master sends the whole block of data. As an example if
 		dload_buffer.nr_bytes_end = (dload_buffer.bytes_cnt_of_block - dload_bytes_of_block);
 
-		if (nr_bytes_end > 0)
+		if (dload_buffer.nr_bytes_end > 0)
 		{
 #ifdef LI_CAN_SLV_DEBUG_DLOAD_EXTENDED
 			LI_CAN_SLV_DEBUG_PRINT("\nnr_bytes: %u", dload_buffer.nr_bytes);
 #endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD_EXTENDED
 
 #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
-			dload_remove_bytes(nr_bytes_end); //remove trailing dummy bytes
+			dload_remove_bytes(dload_buffer.nr_bytes_end); //remove trailing dummy bytes
 #endif // #ifdef LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
-			nr_bytes_end = 0;
+			dload_buffer.nr_bytes_end = 0;
 		}
 
 		// call handle
