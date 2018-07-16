@@ -561,7 +561,13 @@ static can_config_module_silent_t can_config_module_silent[LI_CAN_SLV_MAX_NR_OF_
 #endif // #ifdef LI_CAN_SLV_BOOT
 
 static can_config_bdr_tab_t can_config_bdr_current = {0, 0, 0, 0, 0, 0, 0}; /**< current baud rate table */
-static can_config_bdr_tab_t can_config_bdr_tab[CAN_CONFIG_SIZE_OF_BDR_TAB]; /**< baud rate table */
+static can_config_bdr_tab_t can_config_bdr_tab[CAN_CONFIG_SIZE_OF_BDR_TAB] = /**< baud rate table */
+{
+	{ CAN_CONFIG_DEF_BDR, 0, 0, 0, 0, 0, 0 },
+	{ 125, 0, 0, 0, 0, 0, 0 },
+	{ 500, 0, 0, 0, 0, 0, 0 },
+	{ 1000, 0, 0, 0, 0, 0, 0 }
+};
 
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)

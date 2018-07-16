@@ -89,12 +89,7 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 	}
 #endif // #ifdef LI_CAN_SLV_DLOAD
 
-#ifdef SHOW_STARTUP
-	OUT_PRINTF_FUNC("\ncan baud: %d", baudrate);
-#endif // #ifdef SHOW_STARTUP
-
 	li_can_slv_set_mode(LI_CAN_SLV_MODE_OPERATIONAL);
-
 	return li_can_slv_init(baudrate);
 }
 
