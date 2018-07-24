@@ -57,10 +57,18 @@ extern "C" {
  * @addtogroup li_can_slv_api_error_msg_subgroup
  * @{
  */
-#define LCSA_ERROR_SUBGROUP_CAN_APPLICATION	(0x2) /**< subgroup definition for group CAN bus: application layer */
-#define LCSA_ERROR_SUBGROUP_CAN_SENSOR		(0xA) /**< subgroup definition for group CAN bus: sensors on CAN bus */
-#define LCSA_ERROR_SUBGROUP_SMALLSYSTEM_FREQUENCYCONVERTER (0x0B) /**< subgroup definition for group smallsystem: freqeuncyconverter */
-
+//#define LCSA_ERROR_SUBGROUP_UNDEFINED		(0x0L) /**< undefined/unknown/unused */
+//#define LCSA_ERROR_SUBGROUP_CAN_SYSTEM		(0x1L) /**< system */
+#define LCSA_ERROR_SUBGROUP_CAN_APPLICATION	(0x2L) /**< application */
+//#define LCSA_ERROR_SUBGROUP_CAN_BOOT		(0x3L) /**< boot */
+//#define LCSA_ERROR_SUBGROUP_CAN_OS			(0x4L) /**< OS */
+//#define LCSA_ERROR_SUBGROUP_CAN_CAN			(0x5L) /**< CAN */
+//#define LCSA_ERROR_SUBGROUP_CAN_DRIVERS		(0x6L) /**< drivers */
+//#define LCSA_ERROR_SUBGROUP_CAN_SYSCHECK	(0x7L) /**< system checks */
+//#define LCSA_ERROR_SUBGROUP_CAN_UTILITIES	(0x8L) /**< utilities */
+//#define LCSA_ERROR_SUBGROUP_CAN_RECORDER	(0x9L) /**< recorder */
+#define LCSA_ERROR_SUBGROUP_CAN_SENSOR		(0xAL) /**< sensor */
+#define LCSA_ERROR_SUBGROUP_SMALLSYSTEM_FREQUENCYCONVERTER (0x0B) /**< freqeuncyconverter */
 /**
  * @}
  */

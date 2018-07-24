@@ -128,6 +128,7 @@
 #include "io_can.h"
 #include "io_can_hw.h"
 
+#include "io_can_error.h"
 #include "io_can_errno.h"
 
 #if defined(OUTER) || defined(OUTER_APP)

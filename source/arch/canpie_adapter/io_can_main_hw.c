@@ -136,12 +136,16 @@ li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)
 #if defined(OUTER) || defined(OUTER_APP)
 li_can_slv_errorcode_t can_main_hw_free_tx_objs(void)
 {
-	uint16_t i;
+	/**
+	 * @todo check usage for canpie
+	 */
 
-	for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++)
-	{
-		//	CpCoreBufferRelease(&can_port_main, li_can_slv_sync_main_tx_msg_obj[i].msg_obj);
-	}
+	//uint16_t i;
+	//
+	//for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++)
+	//{
+	//	//	CpCoreBufferRelease(&can_port_main, li_can_slv_sync_main_tx_msg_obj[i].msg_obj);
+	//}
 
 	return (LI_CAN_SLV_ERR_OK);
 }
@@ -184,7 +188,10 @@ li_can_slv_errorcode_t can_main_hw_enable(void)
 	}
 	else
 	{
-		CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
+		if (li_can_slv_get_mode() != LI_CAN_SLV_MODE_OPERATIONAL)
+		{
+			CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
+		}
 	}
 	return (LI_CAN_SLV_ERR_OK);
 }

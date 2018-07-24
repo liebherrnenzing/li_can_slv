@@ -18,50 +18,21 @@
 /* to obtain a copy.                                                        */
 /****************************************************************************/
 
-/**
- * @file canpie_adapter/io_can_mon_hw.h
- * @brief header to io_can_mon_hw.h module
- * @addtogroup lcs_arch_canpie_adapter
- * @{
- */
-
-#ifndef IO_CAN_MON_HW_H_
-#define IO_CAN_MON_HW_H_
+#ifndef LI_CAN_SLV_CONFIG_DEBUG_H_
+#define LI_CAN_SLV_CONFIG_DEBUG_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif // #ifdef __cplusplus
 
-/*--------------------------------------------------------------------------*/
-/* included files                                                           */
-/*--------------------------------------------------------------------------*/
-#include "io_can_mon_hw_interface.h"
-#include "io_can_port.h"
-#ifdef LI_CAN_SLV_MON
-#include "io_can_types.h"
+#define LI_CAN_SLV_DEBUG_CAN_INIT
+#define LI_CAN_SLV_DEBUG_CAN_INIT_MAIN
 
-/*--------------------------------------------------------------------------*/
-/* general definitions                                                      */
-/*--------------------------------------------------------------------------*/
-
-/*--------------------------------------------------------------------------*/
-/* structure/type definitions                                               */
-/*--------------------------------------------------------------------------*/
-
-/*--------------------------------------------------------------------------*/
-/* global variables                                                         */
-/*--------------------------------------------------------------------------*/
-extern CpPort_ts can_port_mon;
-
-/*--------------------------------------------------------------------------*/
-/* function prototypes                                                      */
-/*--------------------------------------------------------------------------*/
-#endif // #ifdef LI_CAN_SLV_MON
 
 #ifdef __cplusplus
 }// closing brace for extern "C"
 #endif // #ifdef __cplusplus
 
-#endif // #ifndef IO_CAN_MON_HW_H_
+#endif // #ifndef LI_CAN_SLV_CONFIG_DEBUG_H_
 
 /** @} */

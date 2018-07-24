@@ -17,76 +17,47 @@
 /* should be located in the the root of the Stack. If not, contact Liebherr */
 /* to obtain a copy.                                                        */
 /****************************************************************************/
+
 /**
- * @file li_can_slv_config.h
- * @addtogroup li_can_slv_config
+ * @file li_can_slv_debug.h
+ * @brief header to li_can_slv_debug.h module
+ * @addtogroup li_can_slv_debug
  * @{
  */
 
-#ifndef LI_CAN_SLV_CONFIG_H_
-#define LI_CAN_SLV_CONFIG_H_
+#ifndef LI_CAN_SLV_DEBUG_H_
+#define LI_CAN_SLV_DEBUG_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif // #ifdef __cplusplus
 
 /*--------------------------------------------------------------------------*/
+/* included files                                                           */
+/*--------------------------------------------------------------------------*/
+//#include "printf.h"
+
+/*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_DEBUG
-
-#define LI_CAN_SLV_BASIC
-#define LI_CAN_SLV_SET_MAX_NR_OF_LOGICAL_MODULES (8u)
+#define LI_CAN_SLV_DEBUG_PRINT printf
 
 /*--------------------------------------------------------------------------*/
-/* special definitions                                                      */
+/* structure/type definitions                                               */
 /*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_USE_MODULE_IO_CONFIG
-//#define LI_CAN_SLV_USE_TUPLE
-//#define LI_CAN_SLV_USE_UNKNOWN_MODULE
 
 /*--------------------------------------------------------------------------*/
-/* main/monitor definitions                                                 */
+/* global variables                                                         */
 /*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_USE_MAIN_MON
 
 /*--------------------------------------------------------------------------*/
-/* reconnect definitions                                                    */
+/* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE
-//#define LI_CAN_SLV_USE_RECONNECT_CHANGE_BAUDRATE_CALLBACK
-
-/*--------------------------------------------------------------------------*/
-/* LI_CAN_SLV System protocol definitions                                   */
-/*--------------------------------------------------------------------------*/
-#define LI_CAN_SLV_USE_SYS_ERROR_16_BIT
-#define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_NUMBER
-#define LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
-
-/*--------------------------------------------------------------------------*/
-/* LI_CAN_SLV Synchronous protocol definitions                              */
-/*--------------------------------------------------------------------------*/
-#define LI_CAN_SLV_SET_SYNC_PROCESS_PERIODE_MAX (50)
-
-/*--------------------------------------------------------------------------*/
-/* LI_CAN_SLV Asynchronous protocol definitions                             */
-/*--------------------------------------------------------------------------*/
-#define LI_CAN_SLV_USE_ASYNC
-//#define LI_CAN_SLV_USE_ASYNC_DOWNLOAD
-//#define LI_CAN_SLV_USE_ASYNC_TUNNEL
-
-/*--------------------------------------------------------------------------*/
-/* HW/architecture definitions                                              */
-/*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
-#define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
-#define LI_CAN_SLV_ARCH_MAIN_NODE_MAX_NOF_MSG_OBJ	(16)
-#define LI_CAN_SLV_ARCH_MON_NODE_MAX_NOF_MSG_OBJ	(16)
 
 #ifdef __cplusplus
 }// closing brace for extern "C"
 #endif // #ifdef __cplusplus
 
-#endif // #ifndef LI_CAN_SLV_CONFIG_H_
+#endif // #ifndef LI_CAN_SLV_DEBUG_H_
 
 /** @} */

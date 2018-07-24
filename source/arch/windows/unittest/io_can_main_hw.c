@@ -78,6 +78,7 @@ typedef struct
 /*--------------------------------------------------------------------------*/
 /* global variables (public/exported)                                       */
 /*--------------------------------------------------------------------------*/
+static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -127,6 +128,8 @@ li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)
 		fprintf(can_main_hw_log, "\ncan_main_hw_msg_obj_init: msg_obj = %d", msg_obj);
 	}
 
+	msg_obj_used[msg_obj] = FALSE;
+
 	return (LI_CAN_SLV_ERR_OK);
 }
 
@@ -137,6 +140,9 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 		fprintf(can_main_hw_log, "\ncan_main_hw_define_msg_obj: msg_obj = %d, can_id = %d, ", msg_obj, can_id);
 		fprintf(can_main_hw_log, "acceptance_mask = %d, dlc = %d, dir = %d, can_main_service_id = %d", acceptance_mask, dlc, dir, service_id);
 	}
+
+	// set message object to used state
+	msg_obj_used[msg_obj] = TRUE;
 
 	return (LI_CAN_SLV_ERR_OK);
 }
@@ -323,14 +329,23 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking_with_sync_tx_conv_
 
 li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 {
-	static uint16_t obj = 0;
+	uint16_t i;
 
 	if (can_main_hw_log != NULL)
 	{
 		fprintf(can_main_hw_log, "\ncan_main_hw_get_next_free_msg_obj");
 		fprintf(can_main_hw_log, "msg_obj = %d", *msg_obj);
 	}
-	*msg_obj = obj++;
+
+	for (i = 0; i < LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ; i++)
+	{
+		if (msg_obj_used[i] == FALSE)
+		{
+			// the object is free;
+			*msg_obj = i;
+			return (LI_CAN_SLV_ERR_OK);
+		}
+	}
 
 	return (LI_CAN_SLV_ERR_OK);
 }

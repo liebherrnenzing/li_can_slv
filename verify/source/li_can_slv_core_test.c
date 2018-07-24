@@ -128,6 +128,8 @@ void setUp(void)
 		module_nr = APP_MA_W_MODULE_NR_DEF;
 		err = app_ma_w_init(0,  module_nr);
 		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+
+		err = lcsa_start();
 	}
 }
 
