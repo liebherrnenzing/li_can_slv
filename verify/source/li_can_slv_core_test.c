@@ -19,8 +19,8 @@
 /****************************************************************************/
 
 /**
- * @file li_can_slv_selftest.c
- * @addtogroup uinttest
+ * @file li_can_slv_core_test.c
+ * @addtogroup unittest
  * @{
  */
 

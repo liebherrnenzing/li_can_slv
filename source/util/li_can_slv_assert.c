@@ -57,6 +57,7 @@
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
 /*--------------------------------------------------------------------------*/
+#ifdef LI_CAN_SLV_USE_ASSERT
 #ifndef NDEBUG
 /**
  * @brief Called when a runtime assertion failed.
@@ -73,6 +74,7 @@ void li_can_slv_assert_failure(const char_t *file, int32_t line)
 	}
 }
 #endif // #ifndef NDEBUG
+#endif // #ifdef LI_CAN_SLV_USE_ASSERT
 
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */

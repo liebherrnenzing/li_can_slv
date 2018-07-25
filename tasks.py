@@ -37,6 +37,9 @@ def cov(ctx):
     with ctx.cd(BUILD_PATH):
         ctx.run('gcovr -r . --html --html-details -o ./coverage/coverage-details.html')
 
+    shutil.rmtree('.//verify//artifacts', ignore_errors=True)
+    shutil.move(BUILD_PATH + '/coverage', './/verify//artifacts//coverage')
+
 
 @task(env)
 def all(ctx):
@@ -72,7 +75,7 @@ def test_run(ctx):
 def test_junit(ctx):
     ctx.run('python .\\verify\\unity\\auto\\unity_to_junit.py "{}"'.format('build//verify//source//'))
     filename = 'result.xml'
-    shutil.move(os.path.join('.', filename), os.path.join(BUILD_PATH, filename))
+    shutil.move(os.path.join('.', filename), os.path.join('verify//artifacts', filename))
 
 
 @task(env, aliases=['unittestGenerateTestRunner'])
