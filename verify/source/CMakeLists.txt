@@ -5,6 +5,7 @@ list (APPEND li_can_slv_SRCS
 
 ${CMAKE_SOURCE_DIR}/source/arch/windows/unittest/io_can_hw.c
 ${CMAKE_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw.c
+${CMAKE_SOURCE_DIR}/source/arch/windows/unittest/io_can_mon_hw.c
 ${CMAKE_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw_handler.c
 ${CMAKE_SOURCE_DIR}/source/arch/windows/unittest/io_can_async_hw.c
 
@@ -16,7 +17,7 @@ ${CMAKE_SOURCE_DIR}/source/config/io_can_config.c
 
 ${CMAKE_SOURCE_DIR}/source/core/io_can_main.c
 ${CMAKE_SOURCE_DIR}/source/core/io_can_main_handler.c
-#${CMAKE_SOURCE_DIR}/source/core/io_can_mon.c
+${CMAKE_SOURCE_DIR}/source/core/io_can_mon.c
 ${CMAKE_SOURCE_DIR}/source/core/io_can.c
 
 ${CMAKE_SOURCE_DIR}/source/error/io_can_error.c
@@ -28,6 +29,9 @@ ${CMAKE_SOURCE_DIR}/source/sync/io_can_sync_handler.c
 ${CMAKE_SOURCE_DIR}/source/sys/io_can_sys.c
 
 ${CMAKE_SOURCE_DIR}/source/util/li_can_slv_assert.c
+
+${CMAKE_SOURCE_DIR}/source/xload/li_can_slv_xload.c
+${CMAKE_SOURCE_DIR}/source/xload/li_can_slv_xload_buffer.c
 
 )
 add_library(li_can_slv ${li_can_slv_SRCS})

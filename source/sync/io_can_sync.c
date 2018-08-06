@@ -366,14 +366,38 @@ static const testsys_var_t can_sync_err_node_ab_testsys[] = /**< */
 /*--------------------------------------------------------------------------*/
 static void li_can_slv_sync_clear_process_image(void);
 static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_t table_pos);
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
 static uint32_t can_sync_get_pr_time_valid_module1(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
 static uint32_t can_sync_get_pr_time_valid_module2(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
 static uint32_t can_sync_get_pr_time_valid_module3(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
 static uint32_t can_sync_get_pr_time_valid_module4(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
 static uint32_t can_sync_get_pr_time_valid_module5(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
 static uint32_t can_sync_get_pr_time_valid_module6(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
 static uint32_t can_sync_get_pr_time_valid_module7(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 static uint32_t can_sync_get_pr_time_valid_module8(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
@@ -474,13 +498,13 @@ li_can_slv_errorcode_t can_sync_rx_data_main(uint16_t table_pos, uint16_t can_id
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MAIN
 
-#ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 	li_can_slv_module_nr_t module_nr;
-#endif // #ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 	obj = can_id & CAN_SYNC_OBJ_MASK;
 
-#ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
@@ -504,7 +528,7 @@ li_can_slv_errorcode_t can_sync_rx_data_main(uint16_t table_pos, uint16_t can_id
 	{
 		return (ERR_MSG_CAN_MAIN_RX_WRONG_DLC);
 	}
-#endif // #ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
@@ -678,6 +702,9 @@ li_can_slv_errorcode_t can_sync_rx_process_mon(uint16_t dlc, byte_t const *can)
 #ifdef CAN_MON_DIAGNOSE
 	can_mon_diagnose.pr++;
 #endif // #ifdef CAN_MON_DIAGNOSE
+
+	can = can; // suppress warning
+
 	can_sync.mon_pr_time = can_port_get_system_ticks();
 
 	can_sync.mon_pr_cnt++;
@@ -708,20 +735,20 @@ li_can_slv_errorcode_t can_sync_rx_data_mon(uint16_t table_pos, uint16_t can_id,
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MON
 
-#ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 	li_can_slv_module_nr_t module_nr;
-#endif // #ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
-#ifndef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 	can = can; // dummy assignment
-#endif // #ifndef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 #ifndef LI_CAN_SLV_MON
 	dlc = dlc; // dummy assignment
 #endif // #ifndef LI_CAN_SLV_MON
 
 	obj = can_id & CAN_SYNC_OBJ_MASK;
 
-#ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
@@ -743,7 +770,7 @@ li_can_slv_errorcode_t can_sync_rx_data_mon(uint16_t table_pos, uint16_t can_id,
 	{
 		return (ERR_MSG_CAN_MON_RX_WRONG_DLC);
 	}
-#endif	// #ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 	/* call monitor RX-conversion code */
 #ifdef LI_CAN_SLV_MON
@@ -795,22 +822,23 @@ li_can_slv_errorcode_t can_sync_tx_data_mon(uint16_t table_pos, uint16_t can_id,
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MON
 
-#ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 	li_can_slv_module_nr_t module_nr;
-	uint16_t obj;
-#endif // #ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
-#ifndef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+	uint16_t obj;
+
+#ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 	can_id = can_id; // dummy assignment
 	dlc = dlc; // dummy assignment
 	table_pos = table_pos; // dummy assignment
-#endif // #ifndef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 #ifdef LI_CAN_SLV_MON
 	obj = can_id & CAN_SYNC_OBJ_MASK;
 #endif // #ifdef LI_CAN_SLV_MON
 
-#ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
@@ -833,7 +861,7 @@ li_can_slv_errorcode_t can_sync_tx_data_mon(uint16_t table_pos, uint16_t can_id,
 	{
 		return (ERR_MSG_CAN_MON_TX_WRONG_DLC);
 	}
-#endif // #ifdef CAN_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 #ifdef LI_CAN_SLV_DEBUG_SYNC_MON
 	if (table_pos == 0)
@@ -1307,9 +1335,6 @@ static void li_can_slv_sync_clear_process_image(void)
 static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_t table_pos)
 {
 	uint16_t i;
-#ifdef LI_CAN_SLV_MON
-	uint8_t *p_data;
-#endif // #ifdef LI_CAN_SLV_MON
 
 	// check the transmit data objects
 	for (i = 0; i < can_config_module_tab[table_pos].tx_obj_sync; i++)
@@ -1355,7 +1380,6 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 		// check the receive data, compare received data of main and monitor CAN controller
 		if (can_port_memory_cmp(&can_sync_data_mon_rx[table_pos].data[i][0], (byte_t *)can_config_module_tab[table_pos].rx[i], can_config_module_tab[table_pos].rx_dlc_sync[i]) != 0)
 		{
-			p_data = (byte_t *) can_config_module_tab[table_pos].rx[i];
 			can_sync.err.data[table_pos]++;
 			return (ERR_MSG_CAN_MAIN_MON_DATA_RX);
 		}
@@ -1366,6 +1390,7 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 	return (LI_CAN_SLV_ERR_OK);
 }
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
 /**
  * @brief can_sync_get_pr_time_valid_module1
  * @return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1374,7 +1399,9 @@ static uint32_t can_sync_get_pr_time_valid_module1(void)
 {
 	return (can_sync.pr_time_valid_module[0]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
 /**
  * @brief can_sync_get_pr_time_valid_module2
  * @return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1383,7 +1410,9 @@ static uint32_t can_sync_get_pr_time_valid_module2(void)
 {
 	return (can_sync.pr_time_valid_module[1]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
 /**
  * @brief can_sync_get_pr_time_valid_module3
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1392,7 +1421,9 @@ static uint32_t can_sync_get_pr_time_valid_module3(void)
 {
 	return (can_sync.pr_time_valid_module[2]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
 /**
  * @brief can_sync_get_pr_time_valid_module4
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1401,7 +1432,9 @@ static uint32_t can_sync_get_pr_time_valid_module4(void)
 {
 	return (can_sync.pr_time_valid_module[3]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
 /**
  * @brief can_sync_get_pr_time_valid_module5
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1410,7 +1443,9 @@ static uint32_t can_sync_get_pr_time_valid_module5(void)
 {
 	return (can_sync.pr_time_valid_module[4]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
 /**
  * @brief can_sync_get_pr_time_valid_module6
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1419,7 +1454,9 @@ static uint32_t can_sync_get_pr_time_valid_module6(void)
 {
 	return (can_sync.pr_time_valid_module[5]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
 /**
  * @brief can_sync_get_pr_time_valid_module7
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1428,7 +1465,9 @@ static uint32_t can_sync_get_pr_time_valid_module7(void)
 {
 	return (can_sync.pr_time_valid_module[6]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 /**
  * @brief can_sync_get_pr_time_valid_module8
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
@@ -1437,4 +1476,6 @@ static uint32_t can_sync_get_pr_time_valid_module8(void)
 {
 	return (can_sync.pr_time_valid_module[7]);
 }
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
+
 /** @} */

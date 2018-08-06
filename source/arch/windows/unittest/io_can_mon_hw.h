@@ -36,9 +36,7 @@ extern "C" {
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
 #include "li_can_slv.h"
-
 #include "io_can_config_types.h"
-
 #include "io_can_mon_hw_interface.h"
 
 /*--------------------------------------------------------------------------*/
@@ -56,7 +54,9 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/
-li_can_slv_errorcode_t can_mon_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry);
+void can_mon_hw_set_log_file_name(char *file_name);
+int can_mon_hw_log_open(void);
+void can_mon_hw_log_close(void);
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

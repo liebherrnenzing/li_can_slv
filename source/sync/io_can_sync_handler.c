@@ -304,7 +304,7 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 #endif // #ifdef LI_CAN_SLV_BOOT
 
 	/**
-	 * @todo i think this is a bug so the define is correct i think
+	 * @todo i think this could be a bug so the define is correct i think
 	 * */
 #if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
 	// system message sent
@@ -417,32 +417,13 @@ uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, u
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint32_t rxi;
-#ifndef LI_CAN_SLV_BOOT
-	uint32_t txi;
-#endif // #ifndef LI_CAN_SLV_BOOT
-
-	li_can_slv_module_nr_t module_nr;
-
 #if defined(OUTER) || defined(OUTER_APP)
 	uint16_t table_pos;
-	uint16_t obj;
-#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-	msg_code_t errnum;
-	err_prio_t priority;
-	byte_t add_info;
-	byte_t group_subgroup;
-#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_DEBUG
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG
-
 	rxi = msg_obj;
-#ifndef LI_CAN_SLV_BOOT
-	txi = rxi;
-#endif // #ifndef LI_CAN_SLV_BOOT
-
-	module_nr = ((canid >> 2) & 0x007F) + 1;
 
 	//	if (((1L << rxi) & can_mon_objs_mask) != 0)
 	//	{

@@ -138,6 +138,32 @@ extern "C" {
  */
 
 /**
+ * @defgroup li_can_slv_defines_b General Defines
+ * @addtogroup li_can_slv_defines_b
+ * @{
+ */
+#ifdef __DOXYGEN__
+/**
+ \rst
+  .. attention::
+     Use this define to disable the xload_info shared memory but then so some of the
+     internal features like sending download end acknowledge or change baud rate and
+     others must be handled outside. Take a look at the lcsa_init() function for a
+     better understanding.
+ \endrst
+ */
+#define LI_CAN_SLV_DO_NOT_USE_XLOAD_INFO
+
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_DO_NOT_USE_XLOAD_INFO
+#define LI_CAN_SLV_NO_XLOAD_INFO
+#endif
+#endif // #ifdef __DOXYGEN__
+/**
+ * @}
+ */
+
+/**
  * @defgroup li_can_slv_defines_mainmon Defines for Main Monitor usage
  * @addtogroup li_can_slv_defines_mainmon
  * @{

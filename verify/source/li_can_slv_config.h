@@ -34,7 +34,6 @@ extern "C" {
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
 //#define LI_CAN_SLV_DEBUG
-
 #define LI_CAN_SLV_BASIC
 #define LI_CAN_SLV_SET_MAX_NR_OF_LOGICAL_MODULES (8u)
 
@@ -44,11 +43,17 @@ extern "C" {
 //#define LI_CAN_SLV_USE_MODULE_IO_CONFIG
 //#define LI_CAN_SLV_USE_TUPLE
 //#define LI_CAN_SLV_USE_UNKNOWN_MODULE
+#define LI_CAN_SLV_DO_NOT_USE_XLOAD_INFO
 
 /*--------------------------------------------------------------------------*/
 /* main/monitor definitions                                                 */
 /*--------------------------------------------------------------------------*/
 //#define LI_CAN_SLV_USE_MAIN_MON
+
+/*--------------------------------------------------------------------------*/
+/* monitor only definitions                                                 */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_MON
 
 /*--------------------------------------------------------------------------*/
 /* reconnect definitions                                                    */
@@ -67,12 +72,13 @@ extern "C" {
 /* LI_CAN_SLV Synchronous protocol definitions                              */
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_SET_SYNC_PROCESS_PERIODE_MAX (50)
+#define LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 /*--------------------------------------------------------------------------*/
 /* LI_CAN_SLV Asynchronous protocol definitions                             */
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_USE_ASYNC
-//#define LI_CAN_SLV_USE_ASYNC_DOWNLOAD
+#define LI_CAN_SLV_USE_ASYNC_DOWNLOAD
 //#define LI_CAN_SLV_USE_ASYNC_TUNNEL
 
 /*--------------------------------------------------------------------------*/
@@ -80,8 +86,8 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 //#define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
 #define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
-#define LI_CAN_SLV_ARCH_MAIN_NODE_MAX_NOF_MSG_OBJ	(16)
-#define LI_CAN_SLV_ARCH_MON_NODE_MAX_NOF_MSG_OBJ	(16)
+#define LI_CAN_SLV_ARCH_MAIN_NODE_MAX_NOF_MSG_OBJ	(32)
+#define LI_CAN_SLV_ARCH_MON_NODE_MAX_NOF_MSG_OBJ	(32)
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

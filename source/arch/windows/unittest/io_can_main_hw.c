@@ -78,7 +78,6 @@ typedef struct
 /*--------------------------------------------------------------------------*/
 /* global variables (public/exported)                                       */
 /*--------------------------------------------------------------------------*/
-static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -88,9 +87,9 @@ static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
 static FILE *can_main_hw_log;
-
 static char can_main_hw_log_file_path[FILENAME_MAX];
 static char default_name[] = "can_main_hw.log";
+static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -133,16 +132,36 @@ li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)
 	return (LI_CAN_SLV_ERR_OK);
 }
 
-li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id)
+#if defined(OUTER) || defined(OUTER_APP)
+li_can_slv_errorcode_t can_main_hw_free_tx_objs(void)
 {
 	if (can_main_hw_log != NULL)
 	{
-		fprintf(can_main_hw_log, "\ncan_main_hw_define_msg_obj: msg_obj = %d, can_id = %d, ", msg_obj, can_id);
-		fprintf(can_main_hw_log, "acceptance_mask = %d, dlc = %d, dir = %d, can_main_service_id = %d", acceptance_mask, dlc, dir, service_id);
+		fprintf(can_main_hw_log, "\ncan_main_hw_free_tx_objs");
+	}
+	return LI_CAN_SLV_ERR_OK;
+}
+#endif // #if defined(OUTER) || defined(OUTER_APP)
+
+li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
+{
+	uint16_t i;
+
+	if (can_main_hw_log != NULL)
+	{
+		fprintf(can_main_hw_log, "\ncan_main_hw_get_next_free_msg_obj");
+		fprintf(can_main_hw_log, "msg_obj = %d", *msg_obj);
 	}
 
-	// set message object to used state
-	msg_obj_used[msg_obj] = TRUE;
+	for (i = 0; i < LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ; i++)
+	{
+		if (msg_obj_used[i] == FALSE)
+		{
+			// the object is free;
+			*msg_obj = i;
+			return (LI_CAN_SLV_ERR_OK);
+		}
+	}
 
 	return (LI_CAN_SLV_ERR_OK);
 }
@@ -168,6 +187,20 @@ li_can_slv_errorcode_t can_main_hw_disable(void)
 	return (LI_CAN_SLV_ERR_OK);
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
+
+li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id)
+{
+	if (can_main_hw_log != NULL)
+	{
+		fprintf(can_main_hw_log, "\ncan_main_hw_define_msg_obj: msg_obj = %d, can_id = %d, ", msg_obj, can_id);
+		fprintf(can_main_hw_log, "acceptance_mask = %d, dlc = %d, dir = %d, can_main_service_id = %d", acceptance_mask, dlc, dir, service_id);
+	}
+
+	// set message object to used state
+	msg_obj_used[msg_obj] = TRUE;
+
+	return (LI_CAN_SLV_ERR_OK);
+}
 
 li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry)
 {
@@ -216,17 +249,6 @@ li_can_slv_errorcode_t can_main_hw_set_baudrate_listen_only(can_config_bdr_tab_t
 
 	return (LI_CAN_SLV_ERR_OK);
 }
-
-#if defined(OUTER) || defined(OUTER_APP)
-li_can_slv_errorcode_t can_main_hw_free_tx_objs(void)
-{
-	if (can_main_hw_log != NULL)
-	{
-		fprintf(can_main_hw_log, "\ncan_main_hw_free_tx_objs");
-	}
-	return LI_CAN_SLV_ERR_OK;
-}
-#endif // #if defined(OUTER) || defined(OUTER_APP)
 
 li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)
 {
@@ -284,67 +306,6 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, 
 			fprintf(can_main_hw_log, "%02X ", src[i]);
 		}
 		fprintf(can_main_hw_log, "\n");
-	}
-
-	return (LI_CAN_SLV_ERR_OK);
-}
-
-li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking_with_sync_tx_conv_code(uint16_t msg_obj, uint16_t table_pos, uint16_t obj)
-{
-	li_can_slv_errorcode_t err;
-	uint16_t i;
-	uint8_t dlc;
-	uint8_t data[8] =
-	{ 0, 0, 0, 0, 0, 0, 0, 0 };
-
-	if (can_main_hw_log != NULL)
-	{
-		fprintf(can_main_hw_log, "can_main_hw_send_msg_obj_none_blocking_with_sync_tx_conv_code: ");
-	}
-
-	dlc = can_config_module_tab[table_pos].tx_dlc[obj];
-	/* call synchrony transmit routine of main CAN controller to prepare data to send via can, also capture data for monitor controller */
-	err = can_sync_tx_data_main(table_pos, obj, (uint16_t) dlc, data);
-
-	if (can_main_hw_log != NULL)
-	{
-		fprintf(can_main_hw_log, "type = %s, ", can_config_module_tab[table_pos].type);
-		fprintf(can_main_hw_log, "modnr = %d, ", can_config_module_tab[table_pos].module_nr);
-		fprintf(can_main_hw_log, "msg_obj = %d, table_pos = %d, ", msg_obj, table_pos);
-		fprintf(can_main_hw_log, "obj = %d, ", obj);
-		fprintf(can_main_hw_log, "id = 0x%02X, ", can_main_sync_process_tx_data_ctrl.id[table_pos][obj]);
-		fprintf(can_main_hw_log, "dlc = %d, ", can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj]);
-
-		fprintf(can_main_hw_log, " ");
-
-		for (i = 0; i < 8; i++)
-		{
-			fprintf(can_main_hw_log, "%02X ", data[i]);
-		}
-		fprintf(can_main_hw_log, "\n");
-	}
-
-	return (err);
-}
-
-li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
-{
-	uint16_t i;
-
-	if (can_main_hw_log != NULL)
-	{
-		fprintf(can_main_hw_log, "\ncan_main_hw_get_next_free_msg_obj");
-		fprintf(can_main_hw_log, "msg_obj = %d", *msg_obj);
-	}
-
-	for (i = 0; i < LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ; i++)
-	{
-		if (msg_obj_used[i] == FALSE)
-		{
-			// the object is free;
-			*msg_obj = i;
-			return (LI_CAN_SLV_ERR_OK);
-		}
 	}
 
 	return (LI_CAN_SLV_ERR_OK);

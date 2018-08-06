@@ -3,7 +3,7 @@ import os
 from subprocess import check_call, call
 import contextlib
 import shutil
-
+import webbrowser
 
 BUILD_PATH = 'build'
 PROJECT_NAME = 'li_can_slv'
@@ -131,3 +131,9 @@ def breathe(ctx):
 @task(breathe)
 def doc(ctx):
     pass
+
+
+@task
+def show_doc(ctx):
+    out_dir = os.path.join(os.getcwd(), 'build/docs/sphinx/html')
+    webbrowser.open(out_dir + "\\index.html")

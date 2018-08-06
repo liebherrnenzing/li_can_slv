@@ -61,11 +61,14 @@
 lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 {
 #ifdef LI_CAN_SLV_DLOAD
-	li_can_slv_xload_info_mode_t mode;
+#ifndef LI_CAN_SLV_NO_XLOAD_INFO
 	lcsa_errorcode_t err;
-	lcsa_bdr_t xload_info_baudrate;
+	li_can_slv_xload_info_mode_t mode;
+	li_can_slv_config_bdr_t xload_info_baudrate;
+#endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 #endif // #ifdef LI_CAN_SLV_DLOAD
 
+#ifndef LI_CAN_SLV_NO_XLOAD_INFO
 #ifdef LI_CAN_SLV_DLOAD
 	err = li_can_slv_xload_info_init();
 	if (err != LCSA_ERROR_OK)
@@ -88,6 +91,7 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 		baudrate = xload_info_baudrate;
 	}
 #endif // #ifdef LI_CAN_SLV_DLOAD
+#endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 
 	li_can_slv_set_mode(LI_CAN_SLV_MODE_OPERATIONAL);
 	return li_can_slv_init(baudrate);
@@ -108,6 +112,7 @@ lcsa_errorcode_t lcsa_start(void)
 
 #ifdef LI_CAN_SLV_DLOAD
 	lcsa_errorcode_t err = LCSA_ERROR_OK;
+#ifndef LI_CAN_SLV_NO_XLOAD_INFO
 	li_can_slv_xload_component_t xload_component;
 	li_can_slv_xload_info_mode_t xload_info_mode;
 	li_can_slv_xload_info_get_mode(&xload_info_mode);
@@ -122,6 +127,7 @@ lcsa_errorcode_t lcsa_start(void)
 		// set new mode ignore err here
 		li_can_slv_xload_info_set_mode(LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_RUNNING);
 	}
+#endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 	lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 	return err;
 #endif // #ifdef LI_CAN_SLV_DLOAD

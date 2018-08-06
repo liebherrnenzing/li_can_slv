@@ -80,18 +80,18 @@ static const lcsa_module_config_t app_frc2_can_module =
 #ifdef APP_MAIN_MON
 	{&app_convc_mon_rx_uint16, NULL, NULL, NULL},
 #endif // #ifdef APP_MAIN_MON
-#ifdef CAN_MON
+#ifdef LI_CAN_SLV_MON
 	{NULL, NULL, NULL, NULL},
 	{&app_convc_mon_rx_uint16, NULL, NULL, NULL},
-#endif // #ifdef CAN_MON
+#endif // #ifdef LI_CAN_SLV_MON
 	{0, 0, 0, 0},
 #ifdef APP_MAIN_MON
 	{0, 0, 0, 0},
 #endif // #ifdef APP_MAIN_MON
-#ifdef CAN_MON
+#ifdef LI_CAN_SLV_MON
 	{0, 0, 0, 0},
 	{0, 0, 0, 0},
-#endif // #ifdef CAN_MON
+#endif // #ifdef LI_CAN_SLV_MON
 	LCSA_CONFIG_OBJ_USED_NOT,
 	LCSA_CONFIG_OBJ_USED_1,
 	{LCSA_CONFIG_DLC_USED_0, LCSA_CONFIG_DLC_USED_0, LCSA_CONFIG_DLC_USED_0, LCSA_CONFIG_DLC_USED_0},
@@ -101,10 +101,10 @@ static const lcsa_module_config_t app_frc2_can_module =
 #ifdef APP_MAIN_MON
 	{&app_convc_mon_rx_uint16, NULL, NULL, NULL},
 #endif // #ifdef APP_MAIN_MON
-#ifdef CAN_MON
+#ifdef LI_CAN_SLV_MON
 	{NULL, NULL, NULL, NULL},
 	{&app_convc_mon_rx_uint16, NULL, NULL, NULL},
-#endif // #ifdef CAN_MON
+#endif // #ifdef LI_CAN_SLV_MON
 };
 
 /*--------------------------------------------------------------------------*/
