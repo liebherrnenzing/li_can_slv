@@ -1122,30 +1122,53 @@ li_can_slv_errorcode_t li_can_slv_sync_set_process_time_valid_fnc(char_t *type, 
 
 	switch (table_pos)
 	{
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
 		case 0:
 			*pfnc = &can_sync_get_pr_time_valid_module1;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
 		case 1:
 			*pfnc = &can_sync_get_pr_time_valid_module2;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
 		case 2:
 			*pfnc = &can_sync_get_pr_time_valid_module3;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
 		case 3:
 			*pfnc = &can_sync_get_pr_time_valid_module4;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
 		case 4:
 			*pfnc = &can_sync_get_pr_time_valid_module5;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
 		case 5:
 			*pfnc = &can_sync_get_pr_time_valid_module6;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
 		case 6:
 			*pfnc = &can_sync_get_pr_time_valid_module7;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 		case 7:
 			*pfnc = &can_sync_get_pr_time_valid_module8;
 			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 		default:
 			break;
 
