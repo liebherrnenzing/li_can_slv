@@ -37,16 +37,16 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_sync.h"
-#include "io_can.h"
-#include "io_can_config.h"
+#include <li_can_slv/sync/io_can_sync.h>
+#include <li_can_slv/core/io_can.h>
+#include <li_can_slv/config/io_can_config.h>
 
 #include "io_can_port.h"
 
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_errno.h>
 
-#include "io_can_main.h"
-#include "io_can_mon.h"
+#include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/core/io_can_mon.h>
 
 #ifdef SHOW_CAN_SYNC
 #include "io_var.h"

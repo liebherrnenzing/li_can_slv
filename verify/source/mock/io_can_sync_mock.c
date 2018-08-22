@@ -27,9 +27,9 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_sync.h"
+#include <li_can_slv/sync/io_can_sync.h>
 #include <stdio.h>
-#include "io_can_config.h"
+#include <li_can_slv/config/io_can_config.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */

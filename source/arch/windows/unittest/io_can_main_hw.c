@@ -30,13 +30,13 @@
 #include "io_can_main_hw.h"
 #include "io_can_hw.h"
 
-#include "io_can_main.h"
-#include "io_can_sys.h"
-#include "io_can_sync.h"
-#include "io_can_async.h"
+#include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/sys/io_can_sys.h>
+#include <li_can_slv/sync/io_can_sync.h>
+#include <li_can_slv/async/io_can_async.h>
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #include <stdio.h>
 #include <stdlib.h>

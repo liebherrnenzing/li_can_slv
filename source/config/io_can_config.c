@@ -70,7 +70,7 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_config.h"
+#include <li_can_slv/config/io_can_config.h>
 #include "io_can_port.h"
 
 #ifdef LI_CAN_SLV_TUPLE
@@ -79,19 +79,19 @@
 #endif // #ifdef LI_CAN_SLV_TUPLE
 
 #ifdef LI_CAN_SLV_MODULE_IO_CONFIG
-#include "li_can_slv_xload_defines.h"
+#include <li_can_slv/xload/li_can_slv_xload_defines.h>
 #endif // #ifdef LI_CAN_SLV_MODULE_IO_CONFIG
 
 #include "io_can_hw.h"
-#include "io_can_main.h"
+#include <li_can_slv/core/io_can_main.h>
 #include "io_can_main_hw.h"
-#include "io_can.h"
+#include <li_can_slv/core/io_can.h>
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-#include "io_can_mon.h"
+#include <li_can_slv/core/io_can_mon.h>
 #include "io_can_mon_hw.h"
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 

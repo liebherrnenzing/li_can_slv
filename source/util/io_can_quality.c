@@ -65,7 +65,7 @@
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
 #include "io_can_quality.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_errno.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */

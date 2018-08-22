@@ -63,14 +63,14 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_sys.h"
-#include "io_can.h"
-#include "io_can_main.h"
+#include <li_can_slv/sys/io_can_sys.h>
+#include <li_can_slv/core/io_can.h>
+#include <li_can_slv/core/io_can_main.h>
 
 #include "io_can_port.h"
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"

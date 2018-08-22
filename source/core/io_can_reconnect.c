@@ -83,17 +83,17 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_reconnect.h"
+#include <li_can_slv/core/io_can_reconnect.h>
 
 #ifdef SMP
 #include "io_smp.h"
 #endif // #ifdef SMP
 
-#include "io_can_main.h"
-#include "io_can_mon.h"
+#include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/core/io_can_mon.h>
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #ifdef SHOW_CAN_RECONNECT
 #include "io_var.h"
@@ -107,10 +107,10 @@
 #include "io_can_main_hw.h"
 
 #include "io_can_port.h"
-#include "li_can_slv_core_defines.h"
-#include "li_can_slv_error_types.h"
+#include <li_can_slv/core/li_can_slv_core_defines.h>
+#include <li_can_slv/error/li_can_slv_error_types.h>
 
-#include "li_can_slv_core_api.h"
+#include <li_can_slv/core/li_can_slv_core_api.h>
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"

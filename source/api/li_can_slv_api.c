@@ -27,9 +27,9 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "li_can_slv_api.h"
-#include "io_can.h"
-#include "io_can_config.h"
+#include <li_can_slv/api/li_can_slv_api.h>
+#include <li_can_slv/core/io_can.h>
+#include <li_can_slv/config/io_can_config.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */

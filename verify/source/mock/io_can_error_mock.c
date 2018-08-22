@@ -26,9 +26,9 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_error.h"
-#include "io_can_errno.h"
-#include "io_can_config.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
+#include <li_can_slv/config/io_can_config.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */

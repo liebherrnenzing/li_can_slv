@@ -37,8 +37,8 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 #include <stdint.h>
 #include "io_app_config.h"
-#include "li_can_slv_api.h"
-#include "io_can_sync.h"
+#include <li_can_slv/api/li_can_slv_api.h>
+//#include <li_can_slv/sync/io_can_sync.h>
 #include "li_can_slv_port.h"
 
 /*--------------------------------------------------------------------------*/

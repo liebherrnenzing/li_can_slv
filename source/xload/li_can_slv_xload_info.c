@@ -28,8 +28,8 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "li_can_slv_xload_info.h"
-#include "io_can_errno.h"
+#include <li_can_slv/xload/li_can_slv_xload_info.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
