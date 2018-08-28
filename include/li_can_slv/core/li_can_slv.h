@@ -91,6 +91,11 @@ extern "C" {
 #define OUTER_APP
 #endif
 #endif // #ifdef __DOXYGEN__
+
+/**
+ * @todo add documentaion for LI_CAN_SLV_BOOT
+ */
+
 /**
  * @}
  */
