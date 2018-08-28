@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-option(LI_CAN_SLV_ARCH_CANPIE "activate canpie_adapter" OFF)
+option(LI_CAN_SLV_ARCH_CANPIE "activate canpie_adapter" ON)
 option(LI_CAN_SLV_ARCH_WINDOWS "activate unittest windows" OFF)
 option(LI_CAN_SLV_MON "activate LI_CAN_SLV_MON" OFF)
 
@@ -68,8 +68,6 @@ else()
 		$<TARGET_OBJECTS:li_can_slv_arch>
 		)  
 endif()
-
-
 
 target_include_directories(li_can_slv PUBLIC 
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>

@@ -12,26 +12,13 @@ cmake_minimum_required(VERSION 3.0)
 SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
 SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
 
-SET(LI_CAN_SLV_ARCH_WINDOWS ON)
+set(LI_CAN_SLV_ARCH_CANPIE OFF CACHE BOOL "activate canpie_adapter")
+set(LI_CAN_SLV_ARCH_WINDOWS ON CACHE BOOL "activate unittest windows")
 
-#set custom defines
-add_definitions(-DUNITY_INCLUDE_CONFIG_H)
-
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/source)
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/windows/unittest)
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/source)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/unity/src)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/xtfw)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/xtfw/framework/unity)
-
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app_conv)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app_hw)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app_frc2)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app_incx)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app_inxy)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/io_app_ma_w)
-
-add_subdirectory(verify/source)
+add_subdirectory(verify)
 add_subdirectory(source)
+

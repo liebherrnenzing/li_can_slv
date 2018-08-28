@@ -1,3 +1,3 @@
 rm -r ../build
 mkdir ../build
-cmake -B../build -H.. -G"MinGW Makefiles"
+cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -B../build -H.. -G"MinGW Makefiles"
