@@ -29,8 +29,7 @@
 #define IO_CAN_ERRNO_H_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif // #ifdef __cplusplus
 
 /*--------------------------------------------------------------------------*/
@@ -221,6 +220,8 @@ extern "C"
 #define ERR_MSG_CAN_XLOAD_INFO_BAD_CRC					(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x074u)
 
 #define ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_DIRECT		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x075u)
+
+#define ERR_MSG_CAN_ERR_NOT_DEFINED						(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x076u)
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */

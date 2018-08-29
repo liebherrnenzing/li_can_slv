@@ -29,8 +29,7 @@
 #define IO_CAN_ERROR_H_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif // #ifdef __cplusplus
 
 /*--------------------------------------------------------------------------*/

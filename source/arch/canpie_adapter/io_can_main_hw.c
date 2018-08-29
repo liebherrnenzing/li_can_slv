@@ -458,7 +458,6 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, 
 
 	ubBufferIdxV = (uint8_t)(msg_obj + 1);
 #else // #if CP_VERSION_MAJOR <= 2
-	CpStatus_tv ret = eCP_ERR_TRM_FULL;
 	ubBufferIdxV = (uint8_t) msg_obj;
 #endif // #if CP_VERSION_MAJOR <= 2
 
@@ -474,19 +473,7 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, 
 	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, 0, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
 	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
-
-#if 1
 	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-#else
-	// tx message and wait until timeout
-	ret = eCP_ERR_TRM_FULL;
-	while (ret != eCP_ERR_NONE)
-	{
-		ret = CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-		/** @todo implement any timeout handling here or search for a better solution */
-	}
-#endif
-
 #endif // #if CP_VERSION_MAJOR <= 2
 
 	return (LI_CAN_SLV_ERR_OK);

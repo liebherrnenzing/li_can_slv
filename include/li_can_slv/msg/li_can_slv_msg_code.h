@@ -29,8 +29,7 @@
 #define LI_CAN_SLV_MSG_CODE_H_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif // #ifdef __cplusplus
 
 /*--------------------------------------------------------------------------*/
