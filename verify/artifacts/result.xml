@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites disabled="0" errors="0" failures="0" tests="14" time="0.0">
+	<testsuite disabled="0" errors="0" failures="0" name="build//verify/result.testresult" skipped="0" tests="14" time="0">
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_first_status_req"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_status_req"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_status_req_broadcast"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_version_req"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_version_req_broadcast"/>
+		<testcase classname="li_can_slv_core_test" name="test_process_req"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_invalid_dlc"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_broadcast_no_module"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_invalid_module_number"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_broadcast_not_allowed"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_broadcast_allowed"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_change_module_nr"/>
+		<testcase classname="li_can_slv_core_test" name="test_sys_msg_factory_reset"/>
+		<testcase classname="li_can_slv_error_test" name="test_error_send"/>
+	</testsuite>
+</testsuites>
