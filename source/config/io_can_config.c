@@ -1743,7 +1743,7 @@ li_can_slv_errorcode_t li_can_slv_config_set_module_silent_awake_from_type_and_n
 }
 #endif // #ifndef LI_CAN_SLV_BOOT
 
-#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+#if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 /**
  * @brief returns the actual module number of the given logical module type
  * @param modnr module number of the given logical module type
@@ -1766,7 +1766,7 @@ li_can_slv_errorcode_t can_config_get_module_nr_by_type(li_can_slv_module_nr_t *
 
 	return (LI_CAN_SLV_ERR_OK);
 }
-#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+#endif // #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 
 #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR

@@ -27,7 +27,7 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_async_handler.h"
+#include <li_can_slv/async/io_can_async_handler.h>
 #include <li_can_slv/config/io_can_config.h>
 
 #include <li_can_slv/async/io_can_async.h>

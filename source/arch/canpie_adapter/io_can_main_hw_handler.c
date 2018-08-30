@@ -31,7 +31,7 @@
 #include <li_can_slv/sync/io_can_sync_handler.h>
 
 #ifdef LI_CAN_SLV_ASYNC
-#include "io_can_async_handler.h"
+#include <li_can_slv/async/io_can_async_handler.h>
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
 #include <li_can_slv/core/io_can.h>

@@ -216,9 +216,6 @@ li_can_slv_errorcode_t can_config_module_valid(char_t *type, li_can_slv_module_n
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 #if defined(OUTER) || defined(APP) || defined(OUTER_APP)
-li_can_slv_errorcode_t can_config_get_module_nr_min(uint16_t table_pos, li_can_slv_module_nr_t *module_nr_min);
-li_can_slv_errorcode_t can_config_get_module_nr_max(uint16_t table_pos, li_can_slv_module_nr_t *module_nr_max);
-
 li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *module, li_can_slv_module_nr_t module_nr, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3);
 
 #ifdef LI_CAN_SLV_UNKNOWN_MODULE
@@ -242,11 +239,9 @@ li_can_slv_errorcode_t can_config_set_ioconfig(char_t *type, crc16_t crc, uint32
 li_can_slv_errorcode_t can_config_call_ioconfig_set(char_t *type);
 #endif // #ifdef LI_CAN_SLV_MODULE_IO_CONFIG
 
+#if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 li_can_slv_errorcode_t can_config_get_module_nr_by_type(li_can_slv_module_nr_t *modnr, char_t *type);
-
-li_can_slv_errorcode_t can_config_change_module_nr_next(void);
-li_can_slv_errorcode_t can_config_change_module_nr_all(uint16_t table_pos, li_can_slv_module_nr_t module_nr);
-li_can_slv_errorcode_t can_config_change_module_nr_set(can_config_module_nr_set_t *module_nr_set, char_t *type);
+#endif // #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 
 li_can_slv_errorcode_t can_config_set_module_silent_awake_call_fnc(void (*pfnc)(uint16_t table_pos, char_t *type, li_can_slv_module_nr_t module_nr, can_config_module_silent_t module_silent_awake));
 #endif // #if defined(OUTER) || defined(APP) || defined(OUTER_APP)
