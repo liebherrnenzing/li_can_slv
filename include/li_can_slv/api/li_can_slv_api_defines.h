@@ -63,6 +63,7 @@ extern "C" {
  * @{
  */
 #define LCSA_CONFIG_OBJ_USED_NOT	LI_CAN_SLV_CONFIG_OBJ_USED_NOT /**< message objects not used  */
+#define LCSA_CONFIG_OBJ_USED_0		LI_CAN_SLV_CONFIG_OBJ_USED_NOT /**< number of message objects used 0 */
 #define LCSA_CONFIG_OBJ_USED_1		LI_CAN_SLV_CONFIG_OBJ_USED_1 /**< number of message objects used 1 */
 #define LCSA_CONFIG_OBJ_USED_2		LI_CAN_SLV_CONFIG_OBJ_USED_2 /**< number of message objects used 2 */
 #define LCSA_CONFIG_OBJ_USED_3		LI_CAN_SLV_CONFIG_OBJ_USED_3 /**< number of message objects used 3 */
