@@ -21,7 +21,6 @@
 /**
  * @file li_can_slv.h 
  * @brief header to li_can_slv.h module
- * @addtogroup 
  * @{
  */
 

@@ -796,7 +796,7 @@ li_can_slv_errorcode_t can_config_init(void)
 /**
  * @brief Set CAN baud rate table from the tuple system
  * @remarks If no baud rate table tuple is defined the default baud rate table is used.
- *	@return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
+ * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t can_config_set_baudrate_table(void)
 {
