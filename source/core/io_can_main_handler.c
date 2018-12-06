@@ -28,6 +28,7 @@
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
 #include <li_can_slv/core/io_can_main_handler.h>
+#include <li_can_slv/config/io_can_config.h>
 #include <li_can_slv/core/io_can_main.h>
 
 #include <li_can_slv/error/li_can_slv_error_types.h>

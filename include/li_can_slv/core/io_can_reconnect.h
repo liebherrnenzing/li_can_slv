@@ -30,11 +30,9 @@
 /*--------------------------------------------------------------------------*/
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
-#include <li_can_slv/core/li_can_slv.h>
-
+#include <li_can_slv/config/li_can_slv_config_internal.h>
 #include <li_can_slv/core/io_can_types.h>
 #include <li_can_slv/error/li_can_slv_error_types.h>
-
 #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK
 #include <li_can_slv/config/io_can_config_types.h>
 #endif // #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK

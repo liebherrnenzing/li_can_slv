@@ -35,6 +35,9 @@
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
 
+#include "io_can_port.h"
+#include <stddef.h>
+
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/

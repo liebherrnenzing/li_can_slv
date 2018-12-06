@@ -19,12 +19,12 @@
 /****************************************************************************/
 
 /**
- * @file li_can_slv.h
- * @brief header to li_can_slv.h module
+ * @file li_can_slv_config_internal.h
+ * @brief header to li_can_slv_config_internal.h module
  */
 
-#ifndef LI_CAN_SLV_H_
-#define LI_CAN_SLV_H_
+#ifndef LI_CAN_SLV_CONFIG_INTERNAL_H_
+#define LI_CAN_SLV_CONFIG_INTERNAL_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -547,4 +547,4 @@ extern "C" {
 }// closing brace for extern "C"
 #endif // #ifdef __cplusplus
 
-#endif // #ifndef LI_CAN_SLV_H_
+#endif // #ifndef LI_CAN_SLV_CONFIG_INTERNAL_H_

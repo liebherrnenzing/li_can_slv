@@ -50,6 +50,8 @@
 
 #include <string.h>
 
+#include <li_can_slv/core/io_can_main_handler.h>
+
 #include <li_can_slv/sync/io_can_sync_handler.h>
 
 #include "io_app_module_change.h"

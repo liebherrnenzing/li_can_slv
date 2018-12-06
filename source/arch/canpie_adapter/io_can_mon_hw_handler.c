@@ -28,18 +28,18 @@
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
 #include "io_can_mon_hw_handler.h"
+#include <li_can_slv/config/li_can_slv_config_internal.h>
 
 #ifdef LI_CAN_SLV_MON
 #include <li_can_slv/sync/io_can_sync_handler.h>
 
 #ifdef LI_CAN_SLV_ASYNC
-#include "io_can_async_handler.h"
+#include <li_can_slv/async/io_can_async_handler.h>
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
 #include <li_can_slv/core/io_can.h>
 #include <li_can_slv/error/io_can_error.h>
 #include <li_can_slv/core/io_can_mon.h>
-#include <li_can_slv/config/io_can_config.h>
 
 #ifdef LI_CAN_SLV_SYNC
 #include <li_can_slv/sync/io_can_sync.h>

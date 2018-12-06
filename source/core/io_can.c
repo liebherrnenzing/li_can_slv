@@ -29,8 +29,10 @@
 /*--------------------------------------------------------------------------*/
 #include <li_can_slv/core/io_can.h>
 #include "io_can_hw.h"
+#include <li_can_slv/api/li_can_slv_api_types.h>
+#include <li_can_slv/config/io_can_config.h>
+#include <li_can_slv/core/li_can_slv_core_api.h>
 #include <li_can_slv/core/io_can_types.h>
-
 #include <li_can_slv/error/io_can_errno.h>
 
 #ifdef CAN_SMP

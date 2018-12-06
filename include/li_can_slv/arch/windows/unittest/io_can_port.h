@@ -35,7 +35,7 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
-#include <li_can_slv/core/li_can_slv.h>
+#include <li_can_slv/config/li_can_slv_config_internal.h>
 #include "li_can_slv_port.h"
 #include <li_can_slv/core/io_can_main_handler.h>
 #include <li_can_slv/error/io_can_error.h>

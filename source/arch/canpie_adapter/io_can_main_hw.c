@@ -28,7 +28,8 @@
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
 #include "io_can_main_hw.h"
-
+#include <li_can_slv/config/li_can_slv_config_internal.h>
+ 
 #ifdef LI_CAN_SLV_SYNC
 #include <li_can_slv/sync/io_can_sync.h>
 #endif // #ifdef LI_CAN_SLV_SYNC
@@ -39,13 +40,12 @@
 #include <li_can_slv/error/io_can_error.h>
 #include <li_can_slv/error/io_can_errno.h>
 
-#include <li_can_slv/config/io_can_config.h>
+#include <li_can_slv/config/io_can_config_types.h>
 #include "io_can_main_hw_handler.h"
 
 #include "canpie.h"
 #include "cp_core.h"
 #include "cp_msg.h"
-#include <li_can_slv/core/li_can_slv.h>
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"

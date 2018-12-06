@@ -73,6 +73,8 @@
 #include <li_can_slv/config/io_can_config.h>
 #include "io_can_port.h"
 
+#include <li_can_slv/config/li_can_slv_config_defines.h>
+
 #ifdef LI_CAN_SLV_TUPLE
 #include "io_tuple.h"
 #include "io_tuple_id.h"
@@ -94,6 +96,10 @@
 #include <li_can_slv/core/io_can_mon.h>
 #include "io_can_mon_hw.h"
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+#include <li_can_slv/config/io_can_config_types.h>
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 
 #if (defined(OUTER) || defined(OUTER_APP))
 #ifdef SHOW_CAN_CONFIG
@@ -118,7 +124,7 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-static lcsa_bdr_t can_config_bdr_startup;
+static li_can_slv_config_bdr_t can_config_bdr_startup;
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -667,7 +673,7 @@ static const testsys_var_t can_config_testsys[] = /**< */
 #endif // #ifdef TESTSYS_SYSTEM
 
 #ifdef LI_CAN_SLV_UNKNOWN_MODULE
-static lcsa_module_config_t can_config_ukwn_module =
+static li_can_slv_config_module_t can_config_ukwn_module =
 {
 	CAN_CONFIG_MODULE_TYPE_UNKNOWN,
 #ifdef LI_CAN_SLV

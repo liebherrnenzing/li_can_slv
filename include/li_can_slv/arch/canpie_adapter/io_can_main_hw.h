@@ -36,12 +36,9 @@ extern "C" {
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
 #include <li_can_slv/arch/io_can_main_hw_interface.h>
-#include "io_can_port.h"
-#include <li_can_slv/config/io_can_config.h>
 #include <li_can_slv/config/io_can_config_types.h>
-
+#include <li_can_slv/config/li_can_slv_config_defines.h>
 #include "canpie.h"
-
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/

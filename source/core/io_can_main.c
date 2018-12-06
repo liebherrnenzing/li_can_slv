@@ -125,6 +125,8 @@
 
 #include "io_can_port.h"
 
+#include <li_can_slv/config/io_can_config.h>
+
 #include <li_can_slv/core/io_can.h>
 #include "io_can_hw.h"
 

@@ -67,6 +67,9 @@
 #include <li_can_slv/xload/li_can_slv_xload.h>
 #endif // #ifdef LI_CAN_SLV_DLOAD
 
+#include <li_can_slv/config/io_can_config.h>
+#include <li_can_slv/config/li_can_slv_config_defines.h>
+
 #include <li_can_slv/error/io_can_errno.h>
 
 #include <li_can_slv/core/io_can_main.h>
