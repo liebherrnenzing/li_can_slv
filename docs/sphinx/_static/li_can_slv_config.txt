@@ -1,9 +1,28 @@
+/****************************************************************************/
+/*                                                                          */
+/*                     Copyright (c) 2018, Liebherr PME1                    */
+/*                         ALL RIGHTS RESERVED                              */
+/*                                                                          */
+/* This file is part of li_can_slv stack which is free software: you can    */
+/* redistribute it and/or modify it under the terms of the GNU General      */
+/* Public License as published by the Free Software Foundation, either      */
+/* version 3 of the License, or (at your option) any later version.         */
+/*                                                                          */
+/* The li_can_slv stack is distributed in the hope that it will be useful,  */
+/* but WITHOUT ANY WARRANTY; without even the implied warranty of           */
+/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General */
+/* Public License for more details.                                         */
+/*                                                                          */
+/* You should have received a copy of the GNU General Public License which  */
+/* should be located in the the root of the Stack. If not, contact Liebherr */
+/* to obtain a copy.                                                        */
+/****************************************************************************/
 /**
  * @brief Liebherr CAN Slave Stack configuration
  * @copyright Liebherr PME1 ALL RIGHTS RESERVED
  * @date 2016
  * @file li_can_slv_config.txt
- * @addtogroup li_can_slv_config
+ * @addtogroup can_config
  * @{
  */
 
@@ -18,7 +37,7 @@ extern "C" {
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_BASIC
-#define LI_CAN_SLV_SET_MAX_NR_OF_LOGICAL_MODULES (1)
+#define LI_CAN_SLV_SET_MAX_NR_OF_LOGICAL_MODULES (1u)
 
 /*--------------------------------------------------------------------------*/
 /* special definitions                                                      */
@@ -28,6 +47,11 @@ extern "C" {
 /* main/monitor definitions                                                 */
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_USE_MAIN_MON
+
+/*--------------------------------------------------------------------------*/
+/* monitor only definitions                                                 */
+/*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_MON
 
 /*--------------------------------------------------------------------------*/
 /* reconnect definitions                                                    */
@@ -40,11 +64,13 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_USE_SYS_ERROR_16_BIT
 #define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_NUMBER
+#define LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
 
 /*--------------------------------------------------------------------------*/
 /* LI_CAN_SLV Synchronous protocol definitions                              */
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_SET_SYNC_PROCESS_PERIODE_MAX (50)
+#define LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 /*--------------------------------------------------------------------------*/
 /* LI_CAN_SLV Asynchronous protocol definitions                             */
@@ -52,15 +78,15 @@ extern "C" {
 #define LI_CAN_SLV_USE_ASYNC
 #define LI_CAN_SLV_USE_ASYNC_DOWNLOAD
 #define LI_CAN_SLV_USE_ASYNC_TUNNEL
-
 #define LI_CAN_SLV_USE_ASYNC_UPLOAD
 
 /*--------------------------------------------------------------------------*/
 /* HW/architecture definitions                                              */
 /*--------------------------------------------------------------------------*/
-#define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
 #define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
-
+#define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
+#define LI_CAN_SLV_ARCH_MAIN_NODE_MAX_NOF_MSG_OBJ	(32)
+#define LI_CAN_SLV_ARCH_MON_NODE_MAX_NOF_MSG_OBJ	(32)
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

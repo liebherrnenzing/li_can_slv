@@ -100,7 +100,7 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 #ifndef LI_CAN_SLV_BOOT
 lcsa_errorcode_t lcsa_start(void)
 {
-#ifdef LI_CAN_SLV_USE_UNKNOWN_MODULE
+#ifdef LI_CAN_SLV_UNKNOWN_MODULE
 	uint16_t module_nr;
 
 	can_config_get_nr_of_modules(&module_nr);
@@ -108,7 +108,7 @@ lcsa_errorcode_t lcsa_start(void)
 	{
 		can_config_add_ukwn_module(CAN_CONFIG_MODULE_TYPE_UNKNOWN, can_config_get_module_nr_main());
 	}
-#endif // #ifdef LI_CAN_SLV_USE_UNKNOWN_MODULE
+#endif // #ifdef LI_CAN_SLV_UNKNOWN_MODULE
 
 #ifdef LI_CAN_SLV_DLOAD
 	lcsa_errorcode_t err = LCSA_ERROR_OK;

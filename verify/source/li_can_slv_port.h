@@ -72,9 +72,9 @@ extern "C" {
 #define li_can_slv_port_get_changeindex()	(9)
 #define li_can_slv_port_get_serialnumber()	(1995998)
 
-#if defined (LI_CAN_SLV_USE_RECONNECT) && defined (LI_CAN_SLV_USE_MAIN_MON)
+#if defined (LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE) && defined (LI_CAN_SLV_USE_MAIN_MON)
 #define li_can_slv_port_sync_baudrate(baudrate) main_mon_sync_baudrate(baudrate)
-#endif // #if defined (LI_CAN_SLV_USE_RECONNECT) && defined (LI_CAN_SLV_USE_MAIN_MON)
+#endif // #if defined (LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE) && defined (LI_CAN_SLV_USE_MAIN_MON)
 
 #ifdef LI_CAN_SLV_USE_MAIN_MON
 #define li_can_slv_port_get_mainmon_type() app_get_mainmon_type()

@@ -56,12 +56,12 @@ extern "C" {
 #include <li_can_slv/async/io_can_async.h>
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
-#if defined (LI_CAN_SLV_DLOAD) || defined(LI_CAN_SLV_ULOAD) || defined(LI_CAN_SLV_XLOAD)
+#if defined (LI_CAN_SLV_DLOAD) || defined(LI_CAN_SLV_ULOAD)
 #include <li_can_slv/xload/li_can_slv_xload.h>
 #include <li_can_slv/xload/li_can_slv_xload_info.h>
 #include <li_can_slv/xload/li_can_slv_xload_types.h>
 #include <li_can_slv/xload/li_can_slv_xload_buffer_types.h>
-#endif // #if defined (LI_CAN_SLV_DLOAD) || defined(LI_CAN_SLV_ULOAD) || defined(LI_CAN_SLV_XLOAD)
+#endif // #if defined (LI_CAN_SLV_DLOAD) || defined(LI_CAN_SLV_ULOAD)
 
 #ifdef LI_CAN_SLV_RECONNECT
 #include <li_can_slv/core/io_can_reconnect.h>
@@ -276,13 +276,13 @@ extern "C" {
  */
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 
-#ifdef LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
+#ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 /**
  * Set the factory reset callback function pointer.
  * @param pfnc function pointer to the callback
  */
 #define lcsa_set_factory_reset_cbk(pfnc)	li_can_slv_sys_set_factory_reset_cbk(pfnc)
-#endif // #ifdef LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
+#endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 /**
@@ -377,19 +377,19 @@ extern "C" {
 
 /**
  * @param hdl handle function for upload info request
- * @return #LCSA_ERROR_XLOAD_ADD_HANDLE or #LCSA_ERROR_OK
+ * @return #LCSA_ERROR_ULOAD_ADD_HANDLE or #LCSA_ERROR_OK
  */
 #define lcsa_uload_set_info_request_handle(hdl)	li_can_slv_uload_set_info_request_handle(hdl);
 
 /**
  * @param hdl handle function for upload start request
- * @return #LCSA_ERROR_XLOAD_ADD_HANDLE or #LCSA_ERROR_OK
+ * @return #LCSA_ERROR_ULOAD_ADD_HANDLE or #LCSA_ERROR_OK
  */
 #define lcsa_uload_set_start_request_handle(hdl)	li_can_slv_uload_set_start_request_handle(hdl);
 
 /**
  * @param hdl handle function for upload block acknowledge
- * @return #LCSA_ERROR_XLOAD_ADD_HANDLE or #LCSA_ERROR_OK
+ * @return #LCSA_ERROR_ULOAD_ADD_HANDLE or #LCSA_ERROR_OK
  */
 #define lcsa_uload_set_uload_block_ack_handle(hdl)	li_can_slv_uload_set_uload_block_ack_handle(hdl);
 

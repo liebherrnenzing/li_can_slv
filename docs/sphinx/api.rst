@@ -99,8 +99,8 @@ Set Callback Functions
    :content-only:
 
 
-Download
-========
+Download / Upload
+=================
 
 Set Handle Functions
 --------------------
@@ -109,6 +109,9 @@ Set Handle Functions
    :project: li_can_slv
    :content-only:
 
+.. doxygengroup:: li_can_slv_api_uload
+   :project: li_can_slv
+   :content-only:
 
 Error and Message
 =================

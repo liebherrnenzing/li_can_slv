@@ -21,6 +21,7 @@
 /**
  * @file li_can_slv_config_internal.h
  * @brief header to li_can_slv_config_internal.h module
+ * @addtogroup can_config
  */
 
 #ifndef LI_CAN_SLV_CONFIG_INTERNAL_H_
@@ -34,6 +35,7 @@ extern "C" {
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
 #include "li_can_slv_config.h"
+
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_config_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
@@ -54,6 +56,7 @@ extern "C" {
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_GENERIC
 #define LI_CAN_SLV
+#define OUTER_APP
 #endif
 #endif // #ifdef __DOXYGEN__
 
@@ -132,7 +135,6 @@ extern "C" {
  * Use this define to add a UKWN Module if no other module was added.
  */
 #define LI_CAN_SLV_USE_UNKNOWN_MODULE
-#define LI_CAN_SLV_UNKNOWN_MODULE
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_USE_UNKNOWN_MODULE
 #define LI_CAN_SLV_UNKNOWN_MODULE
@@ -158,7 +160,6 @@ extern "C" {
  \endrst
  */
 #define LI_CAN_SLV_DO_NOT_USE_XLOAD_INFO
-
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_DO_NOT_USE_XLOAD_INFO
 #define LI_CAN_SLV_NO_XLOAD_INFO
@@ -196,11 +197,9 @@ extern "C" {
 /**
  * Use the reconnect utility on the CAN Main Node.
  */
-#define LI_CAN_SLV_USE_RECONNECT
 #define LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE
-#define LI_CAN_SLV_USE_RECONNECT
 #define LI_CAN_SLV_RECONNECT
 #define LI_CAN_SLV_RECONNECT_MAIN_NODE
 #endif
@@ -332,9 +331,12 @@ extern "C" {
 
 #ifdef __DOXYGEN__
 /**
- * Use the asynchrony protocol download handling.
+ * Use this define to enable the asynchrony download protocol handling.
  */
 #define LI_CAN_SLV_USE_ASYNC_DOWNLOAD
+/**
+* Use this define to enable the asynchrony download protocol handling with external buffer handling.
+ */
 #define LI_CAN_SLV_USE_ASYNC_DOWNLOAD_BUFFER_EXTERNAL
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_USE_ASYNC_DOWNLOAD
@@ -504,14 +506,12 @@ extern "C" {
 #endif
 #endif // #ifdef __DOXYGEN__
 
-/**
- * @todo Is there a better way to document the defines if doxygen is running.
- */
 #ifdef __DOXYGEN__
-#define OUTER_APP
 #define LI_CAN_SLV
+#define OUTER_APP
+#define LI_CAN_SLV_UNKNOWN_MODULE
+#define LI_CAN_SLV_NO_XLOAD_INFO
 #define LI_CAN_SLV_MAIN_MON
-
 #define LI_CAN_SLV_RECONNECT
 #define LI_CAN_SLV_RECONNECT_MAIN_NODE
 #define LI_CAN_SLV_RECONNECT_STARTUP_CHANGE_BAUDRATE_CBK
@@ -520,15 +520,15 @@ extern "C" {
 #define LI_CAN_SLV_SYS_MODULE_ERROR
 #define LI_CAN_SLV_SYS_MODULE_ERROR_16_BIT
 #define LI_CAN_SLV_SYS_CHANGE_MODULE_NR
-
+#define LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 #define LI_CAN_SLV_SYNC
 #define LI_CAN_SLV_ASYNC
 #define LI_CAN_SLV_DLOAD
+#define LI_CAN_SLV_DLOAD_BUFFER_INTERNAL
+#define LI_CAN_SLV_ULOAD
 #define LI_CAN_SLV_ASYNC_TUNNEL
-
 #define LI_CAN_SLV_BYTE_ORDER_LITTLE_ENDIAN
 #define LI_CAN_SLV_BYTE_ORDER_BIG_ENDIAN
-#define LI_CAN_SLV_MAIN_ARCH	CP_CHANNEL_1
 #endif // #ifdef __DOXYGEN__
 
 /*--------------------------------------------------------------------------*/

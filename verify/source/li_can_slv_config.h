@@ -19,7 +19,7 @@
 /****************************************************************************/
 /**
  * @file li_can_slv_config.h
- * @addtogroup li_can_slv_config
+ * @addtogroup can_config
  * @{
  */
 
