@@ -1,3 +1,3 @@
 @echo off
-call env_tdmgcc32.bat
-mingw32-make --directory=../build clean
+call env_mingw32.bat
+mingw32-make --directory=../build_mingw clean
