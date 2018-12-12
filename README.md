@@ -1,3 +1,8 @@
+<a href="https://scan.coverity.com/projects/liebherr-can-slave-stack">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/17428/badge.svg"/>
+</a>
+
 # li_can_slv
 
 The Liebherr CAN protocol describes the communication of a distributed control system via CAN bus. It is designed to allow synchronous, deterministic real-time networking based on a master-slave system, whereby all input and output modules are connected to a master via CAN bus. This repository includes a slave implementation of the Liebherr CAN protocol.
