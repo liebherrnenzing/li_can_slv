@@ -14,7 +14,7 @@ script:
   - mkdir build_mingw && cd build_mingw && cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -G"MinGW Makefiles" .. && cmake --build . && mingw32-make unittest_run
 
 after_success:
-  - pip install --user cpp-coveralls
+  - pip install cpp-coveralls
   - coveralls --gcov-options '\-lp'
 
 notifications:
