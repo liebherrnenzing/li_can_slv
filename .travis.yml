@@ -7,5 +7,8 @@ matrix:
 install: true
 
 script:
-  - mkdir build_mingw && cd build_mingw && cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -G"MinGW Makefiles" .. && cmake --build . && make test
- 
+  - mkdir build_mingw && 
+    cd build_mingw && cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -G"MinGW Makefiles" .. && 
+    cmake --build . && 
+    mingw32-make unittest_run
+    
