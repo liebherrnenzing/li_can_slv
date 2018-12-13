@@ -1,7 +1,7 @@
 language: c
 
-before_install:
-  - pip install --user cpp-coveralls
+#before_install:
+#  - pip install --user cpp-coveralls
   
 matrix:
   include:
