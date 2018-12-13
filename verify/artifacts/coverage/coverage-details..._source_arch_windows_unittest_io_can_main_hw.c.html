@@ -11,7 +11,7 @@
       color: #000000;
       background-color: #FFFFFF;
     }
-    
+
     /* Link formats: use maroon w/underlines */
     a:link
     {
@@ -28,7 +28,7 @@
       color: navy;
       text-decoration: underline;
     }
-    
+
     /*** TD formats ***/
     td
     {
@@ -41,7 +41,7 @@
       font-size: 20pt;
       font-weight: bold;
     }
-    
+
     /* TD Header Information */
     td.headerName
     {
@@ -79,7 +79,7 @@
       padding-right: 10px;
       padding-top: 2px;
     }
-    
+
     /* Color of horizontal ruler */
     td.hr
     {
@@ -93,9 +93,9 @@
       padding-top: 3px;
       font-family: sans-serif;
     }
-    
+
     /* Coverage Table */
-    
+
     td.coverTableHead
     {
       text-align: center;
@@ -138,7 +138,7 @@
       white-space: nowrap;
       font-weight: bold;
     }
-    
+
     /* Link Details */
     a.detail:link
     {
@@ -155,13 +155,13 @@
       color: #FFFFFF;
       font-size:80%;
     }
-    
+
     .graphcont{
         color:#000;
         font-weight:700;
         float:left
     }
-    
+
     .graph{
         float:left;
         background-color: white;
@@ -169,7 +169,7 @@
         width:280px;
         padding:0
     }
-    
+
     .graph .bar{
         display:block;
         position:relative;
@@ -181,47 +181,47 @@
         font-size:12px;
         line-height:1.9em
     }
-    
+
     .graph .bar span{
         position:absolute;
         left:1em
     }
-    
+
     td.coveredLine,
     span.coveredLine
     {
         background-color: LightGreen!important;
     }
-    
+
     td.uncoveredLine,
     span.uncoveredLine
     {
         background-color: LightPink!important;
     }
-    
+
     .linebranch, .linecount
     {
         border-right: 1px gray solid;
         background-color: lightgray;
     }
-    
+
     span.takenBranch
     {
         color: Green!important;
         cursor: help;
     }
-    
+
     span.notTakenBranch
     {
         color: Red!important;
         cursor: help;
     }
-    
+
     .src
     {
         padding-left: 12px;
     }
-    
+
     .srcHeader,
     span.takenBranch,
     span.notTakenBranch
@@ -229,14 +229,14 @@
         font-family: monospace;
         font-weight: bold;
     }
-    
+
     pre
     {
         height : 15px;
         margin-top: 0;
         margin-bottom: 0;
     }
-    
+
     .lineno
     {
         background-color: #EFE383;
@@ -275,7 +275,7 @@
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2018-08-29 10:51:42</td>
+            <td class="headerValue">2018-12-13 10:02:21</td>
             <td></td>
             <td class="headerName">Branches:</td>
             <td class="headerTableEntry">21</td>
@@ -1002,7 +1002,7 @@
     <tr>
     <td align="right" class="lineno"><pre>101</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_init(void)</pre></td>
     </tr>
 
@@ -1016,7 +1016,7 @@
     <tr>
     <td align="right" class="lineno"><pre>103</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	(void) strncpy(can_main_hw_log_file_path, default_name, sizeof(default_name));</pre></td>
     </tr>
 
@@ -1030,7 +1030,7 @@
     <tr>
     <td align="right" class="lineno"><pre>105</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	int ret = can_main_hw_log_open();</pre></td>
     </tr>
 
@@ -1043,8 +1043,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>107</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 8 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 4 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -1079,7 +1079,7 @@
     <tr>
     <td align="right" class="lineno"><pre>112</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	fprintf(can_main_hw_log, "\ncan_main_hw_init");</pre></td>
     </tr>
 
@@ -1093,7 +1093,7 @@
     <tr>
     <td align="right" class="lineno"><pre>114</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -1156,7 +1156,7 @@
     <tr>
     <td align="right" class="lineno"><pre>123</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>256</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>128</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)</pre></td>
     </tr>
 
@@ -1169,8 +1169,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>125</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 256 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>256</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 128 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>128</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -1184,7 +1184,7 @@
     <tr>
     <td align="right" class="lineno"><pre>127</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>256</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>128</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\ncan_main_hw_msg_obj_init: msg_obj = %d", msg_obj);</pre></td>
     </tr>
 
@@ -1205,7 +1205,7 @@
     <tr>
     <td align="right" class="lineno"><pre>130</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>256</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>128</pre></td>
     <td align="left" class="src coveredLine"><pre>	msg_obj_used[msg_obj] = FALSE;</pre></td>
     </tr>
 
@@ -1219,7 +1219,7 @@
     <tr>
     <td align="right" class="lineno"><pre>132</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>256</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>128</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -1317,7 +1317,7 @@
     <tr>
     <td align="right" class="lineno"><pre>146</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)</pre></td>
     </tr>
 
@@ -1344,8 +1344,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>150</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 48 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 24 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -1359,14 +1359,14 @@
     <tr>
     <td align="right" class="lineno"><pre>152</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\ncan_main_hw_get_next_free_msg_obj");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>153</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "msg_obj = %d", *msg_obj);</pre></td>
     </tr>
 
@@ -1386,8 +1386,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>156</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 360 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>360</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 180 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>180</pre></td>
     <td align="left" class="src coveredLine"><pre>	for (i = 0; i &lt; LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ; i++)</pre></td>
     </tr>
 
@@ -1400,8 +1400,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>158</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 48 times">&check;</span><span class="takenBranch" title="Branch 1 taken 312 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>360</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 24 times">&check;</span><span class="takenBranch" title="Branch 1 taken 156 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>180</pre></td>
     <td align="left" class="src coveredLine"><pre>		if (msg_obj_used[i] == FALSE)</pre></td>
     </tr>
 
@@ -1422,14 +1422,14 @@
     <tr>
     <td align="right" class="lineno"><pre>161</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>			*msg_obj = i;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>162</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>			return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -1478,7 +1478,7 @@
     <tr>
     <td align="right" class="lineno"><pre>169</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_enable(void)</pre></td>
     </tr>
 
@@ -1491,8 +1491,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>171</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -1506,7 +1506,7 @@
     <tr>
     <td align="right" class="lineno"><pre>173</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\ncan_main_hw_enable");</pre></td>
     </tr>
 
@@ -1527,7 +1527,7 @@
     <tr>
     <td align="right" class="lineno"><pre>176</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -1632,7 +1632,7 @@
     <tr>
     <td align="right" class="lineno"><pre>191</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>352</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id)</pre></td>
     </tr>
 
@@ -1645,8 +1645,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>193</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 352 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>352</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 176 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -1660,14 +1660,14 @@
     <tr>
     <td align="right" class="lineno"><pre>195</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>352</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\ncan_main_hw_define_msg_obj: msg_obj = %d, can_id = %d, ", msg_obj, can_id);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>196</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>352</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "acceptance_mask = %d, dlc = %d, dir = %d, can_main_service_id = %d", acceptance_mask, dlc, dir, service_id);</pre></td>
     </tr>
 
@@ -1695,7 +1695,7 @@
     <tr>
     <td align="right" class="lineno"><pre>200</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>352</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
     <td align="left" class="src coveredLine"><pre>	msg_obj_used[msg_obj] = TRUE;</pre></td>
     </tr>
 
@@ -1709,7 +1709,7 @@
     <tr>
     <td align="right" class="lineno"><pre>202</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>352</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -1730,7 +1730,7 @@
     <tr>
     <td align="right" class="lineno"><pre>205</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry)</pre></td>
     </tr>
 
@@ -1757,8 +1757,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>209</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 12 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 6 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -1772,28 +1772,28 @@
     <tr>
     <td align="right" class="lineno"><pre>211</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\ncan_main_hw_set_baudrate");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>212</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\nbdr:%d, prescaler:%d", bdr_tab_entry->baudrate, bdr_tab_entry->baudrate_prescaler);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>213</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\ntime1:%d, time2:%d", bdr_tab_entry->phase_time_segment_one, bdr_tab_entry->phase_time_segment_two);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>214</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\nprop:%d, rjw:%d, specific:%d", bdr_tab_entry->propagation_segment, bdr_tab_entry->resync_jump_width, bdr_tab_entry->plattform_specific);</pre></td>
     </tr>
 
@@ -1821,14 +1821,14 @@
     <tr>
     <td align="right" class="lineno"><pre>218</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>36</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
     <td align="left" class="src coveredLine"><pre>	baudrate_register = (((uint16_t) bdr_tab_entry->plattform_specific) &lt;&lt; 15) | (((uint16_t) bdr_tab_entry->phase_time_segment_two) &lt;&lt; 12) | (((uint16_t) bdr_tab_entry->phase_time_segment_one) &lt;&lt; 8)</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>219</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>	                    | (((uint16_t) bdr_tab_entry->resync_jump_width) &lt;&lt; 6) | (((uint16_t) bdr_tab_entry->baudrate_prescaler) &lt;&lt; 0);</pre></td>
     </tr>
 
@@ -1841,8 +1841,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>221</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 12 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 6 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -1856,7 +1856,7 @@
     <tr>
     <td align="right" class="lineno"><pre>223</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\nbaudraet_regiser:%04x", baudrate_register);</pre></td>
     </tr>
 
@@ -1877,7 +1877,7 @@
     <tr>
     <td align="right" class="lineno"><pre>226</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>6</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -2066,7 +2066,7 @@
     <tr>
     <td align="right" class="lineno"><pre>253</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)</pre></td>
     </tr>
 
@@ -2107,8 +2107,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>259</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 96 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 48 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -2122,7 +2122,7 @@
     <tr>
     <td align="right" class="lineno"><pre>261</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "blocking: msg_obj = %d, can_id = 0x%X, dlc = %d, ", msg_obj, can_id, dlc);</pre></td>
     </tr>
 
@@ -2142,8 +2142,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>264</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 96 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 48 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -2157,7 +2157,7 @@
     <tr>
     <td align="right" class="lineno"><pre>266</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, " ");</pre></td>
     </tr>
 
@@ -2170,8 +2170,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>268</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 768 times">&check;</span><span class="takenBranch" title="Branch 1 taken 96 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>864</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 384 times">&check;</span><span class="takenBranch" title="Branch 1 taken 48 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>432</pre></td>
     <td align="left" class="src coveredLine"><pre>		for (i = 0; i &lt; dlc; i++)</pre></td>
     </tr>
 
@@ -2185,7 +2185,7 @@
     <tr>
     <td align="right" class="lineno"><pre>270</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>768</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>384</pre></td>
     <td align="left" class="src coveredLine"><pre>			fprintf(can_main_hw_log, "%02X ", src[i]);</pre></td>
     </tr>
 
@@ -2206,7 +2206,7 @@
     <tr>
     <td align="right" class="lineno"><pre>273</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>		p_status_ack = (status_ack_t *) src;</pre></td>
     </tr>
 
@@ -2219,8 +2219,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>275</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 52 times">&check;</span><span class="takenBranch" title="Branch 1 taken 44 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 26 times">&check;</span><span class="takenBranch" title="Branch 1 taken 22 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>		if (p_status_ack->msg_type == CAN_SYS_S2M_STATUS_AKNOWLEDGE)</pre></td>
     </tr>
 
@@ -2234,21 +2234,21 @@
     <tr>
     <td align="right" class="lineno"><pre>277</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>52</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
     <td align="left" class="src coveredLine"><pre>			strncpy(module_type, (char *)(p_status_ack->module_type), 4);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>278</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>52</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
     <td align="left" class="src coveredLine"><pre>			module_type[4] = '\0';</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>279</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>52</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
     <td align="left" class="src coveredLine"><pre>			int serial_number = (p_status_ack->serial.serial_byte_0 &lt;&lt; 16) + (p_status_ack->serial.serial_byte_1 &lt;&lt; 8) + (p_status_ack->serial.serial_byte_2);</pre></td>
     </tr>
 
@@ -2262,14 +2262,14 @@
     <tr>
     <td align="right" class="lineno"><pre>281</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>52</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
     <td align="left" class="src coveredLine"><pre>			fprintf(can_main_hw_log, "\nblocking: ");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>282</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>52</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
     <td align="left" class="src coveredLine"><pre>			fprintf(can_main_hw_log, "module_type: %s, serial_number: %d", module_type, serial_number);</pre></td>
     </tr>
 
@@ -2290,7 +2290,7 @@
     <tr>
     <td align="right" class="lineno"><pre>285</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\n");</pre></td>
     </tr>
 
@@ -2311,7 +2311,7 @@
     <tr>
     <td align="right" class="lineno"><pre>288</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>96</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -2332,7 +2332,7 @@
     <tr>
     <td align="right" class="lineno"><pre>291</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)</pre></td>
     </tr>
 
@@ -2359,8 +2359,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>295</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 28 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 14 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -2374,7 +2374,7 @@
     <tr>
     <td align="right" class="lineno"><pre>297</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "none_blocking: msg_obj = %d, can_id = 0x%X, dlc = %d, ", msg_obj, can_id, dlc);</pre></td>
     </tr>
 
@@ -2394,8 +2394,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>300</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 28 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 14 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_hw_log != NULL)</pre></td>
     </tr>
 
@@ -2409,7 +2409,7 @@
     <tr>
     <td align="right" class="lineno"><pre>302</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, " ");</pre></td>
     </tr>
 
@@ -2422,8 +2422,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>304</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 160 times">&check;</span><span class="takenBranch" title="Branch 1 taken 28 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>188</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 80 times">&check;</span><span class="takenBranch" title="Branch 1 taken 14 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>94</pre></td>
     <td align="left" class="src coveredLine"><pre>		for (i = 0; i &lt; dlc; i++)</pre></td>
     </tr>
 
@@ -2437,7 +2437,7 @@
     <tr>
     <td align="right" class="lineno"><pre>306</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>160</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>80</pre></td>
     <td align="left" class="src coveredLine"><pre>			fprintf(can_main_hw_log, "%02X ", src[i]);</pre></td>
     </tr>
 
@@ -2451,7 +2451,7 @@
     <tr>
     <td align="right" class="lineno"><pre>308</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>		fprintf(can_main_hw_log, "\n");</pre></td>
     </tr>
 
@@ -2472,7 +2472,7 @@
     <tr>
     <td align="right" class="lineno"><pre>311</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -2493,7 +2493,7 @@
     <tr>
     <td align="right" class="lineno"><pre>314</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>void can_main_hw_set_log_file_name(char *file_name)</pre></td>
     </tr>
 
@@ -2507,14 +2507,14 @@
     <tr>
     <td align="right" class="lineno"><pre>316</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>	(void) strcpy(can_main_hw_log_file_path, file_name);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>317</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -2528,7 +2528,7 @@
     <tr>
     <td align="right" class="lineno"><pre>319</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>36</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
     <td align="left" class="src coveredLine"><pre>int can_main_hw_log_open(void)</pre></td>
     </tr>
 
@@ -2542,7 +2542,7 @@
     <tr>
     <td align="right" class="lineno"><pre>321</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>36</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log = fopen(can_main_hw_log_file_path, "w+");</pre></td>
     </tr>
 
@@ -2555,8 +2555,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>323</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 36 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>36</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 18 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (NULL == can_main_hw_log)</pre></td>
     </tr>
 
@@ -2591,7 +2591,7 @@
     <tr>
     <td align="right" class="lineno"><pre>328</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>36</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
     <td align="left" class="src coveredLine"><pre>	return EXIT_SUCCESS;</pre></td>
     </tr>
 
@@ -2612,7 +2612,7 @@
     <tr>
     <td align="right" class="lineno"><pre>331</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>void can_main_hw_log_close(void)</pre></td>
     </tr>
 
@@ -2626,14 +2626,14 @@
     <tr>
     <td align="right" class="lineno"><pre>333</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>	(void) fclose(can_main_hw_log);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>334</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -2684,7 +2684,7 @@
 
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr><td class="hr"><td></tr>
-    <tr><td class="footer">Generated by: <a href="http://gcovr.com">GCOVR (Version 3.4)</a></td></tr>
+    <tr><td class="footer">Generated by: <a href="http://gcovr.com">GCOVR (Version 4.1)</a></td></tr>
   </table>
   <br>
 
