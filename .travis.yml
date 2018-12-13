@@ -3,9 +3,8 @@ language: c
 matrix:
   include:
   - os: windows
-    compiler: gcc
-    env:
-    - OPTIONS="-DCMAKE_SH="CMAKE_SH-NOTFOUND"
+  env:
+    - OPTIONS="-DCMAKE_SH=CMAKE_SH-NOTFOUND"
 
 install: true
 
