@@ -1,7 +1,6 @@
 [![Documentation Status](https://readthedocs.org/projects/li-can-slv/badge/?version=latest)](https://li-can-slv.readthedocs.io/en/latest/?badge=latest)
 [![Build Status](https://travis-ci.com/liebherrnenzing/li_can_slv.svg?branch=master)](https://travis-ci.com/liebherrnenzing/li_can_slv)
-
-https://travis-ci.com/liebherrnenzing/li_can_slv
+[![Coverage Status](https://coveralls.io/repos/github/liebherrnenzing/li_can_slv/badge.svg?branch=master)](https://coveralls.io/github/liebherrnenzing/li_can_slv?branch=master)
 
 # li_can_slv
 
