@@ -29,7 +29,7 @@
 /*--------------------------------------------------------------------------*/
 #include "io_can_main_hw.h"
 #include <li_can_slv/config/li_can_slv_config_internal.h>
- 
+
 #ifdef LI_CAN_SLV_SYNC
 #include <li_can_slv/sync/io_can_sync.h>
 #endif // #ifdef LI_CAN_SLV_SYNC

@@ -19,7 +19,7 @@
 /****************************************************************************/
 
 /**
- * @file li_can_slv.h 
+ * @file li_can_slv.h
  * @brief header to li_can_slv.h module
  * @addtogroup lcs_core
  * @{
@@ -29,8 +29,7 @@
 #define LI_CAN_SLV_H_
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif // #ifdef __cplusplus
 
 /*--------------------------------------------------------------------------*/
