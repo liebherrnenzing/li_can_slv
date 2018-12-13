@@ -3,10 +3,8 @@ language: c
 matrix:
   include:
   - os: windows
-  env:
-    - OPTIONS="-DCMAKE_SH="CMAKE_SH-NOTFOUND""
 
 install: true
 
 script:
-  - mkdir build_mingw && cd build_mingw && cmake ${OPTIONS} -G"MinGW Makefiles" .. && cmake --build .
+  - mkdir build_mingw && cd build_mingw && cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -G"MinGW Makefiles" .. && cmake --build .
