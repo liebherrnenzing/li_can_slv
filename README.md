@@ -1,4 +1,7 @@
 [![Documentation Status](https://readthedocs.org/projects/li-can-slv/badge/?version=latest)](https://li-can-slv.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.com/liebherrnenzing/li_can_slv.svg?branch=master)](https://travis-ci.com/liebherrnenzing/li_can_slv)
+
+https://travis-ci.com/liebherrnenzing/li_can_slv
 
 # li_can_slv
 
