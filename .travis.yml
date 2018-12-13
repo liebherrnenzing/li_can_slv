@@ -4,7 +4,7 @@ matrix:
   include:
   - os: windows
   env:
-    - OPTIONS="-DCMAKE_SH=CMAKE_SH-NOTFOUND"
+    - OPTIONS="-DCMAKE_SH="CMAKE_SH-NOTFOUND""
 
 install: true
 
