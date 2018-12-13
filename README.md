@@ -1,7 +1,4 @@
-<a href="https://scan.coverity.com/projects/liebherr-can-slave-stack">
-  <img alt="Coverity Scan Build Status"
-       src="https://scan.coverity.com/projects/17428/badge.svg"/>
-</a>
+[![Documentation Status](https://readthedocs.org/projects/li-can-slv/badge/?version=latest)](https://li-can-slv.readthedocs.io/en/latest/?badge=latest)
 
 # li_can_slv
 
