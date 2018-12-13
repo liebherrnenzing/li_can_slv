@@ -10,11 +10,15 @@ matrix:
     - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
     - python -m pip install --upgrade pip wheel
 
+install: 
+  # Get newer pip and whell for binary caching support
+  - pip install --upgrade pip wheel
+  - pip install cpp-coveralls
+  
 script:
   - mkdir build_mingw && cd build_mingw && cmake -DCMAKE_SH="CMAKE_SH-NOTFOUND" -G"MinGW Makefiles" .. && cmake --build . && mingw32-make unittest_run
-
+  
 after_success:
-  - pip install cpp-coveralls
   - coveralls --gcov-options '\-lp'
 
 notifications:
