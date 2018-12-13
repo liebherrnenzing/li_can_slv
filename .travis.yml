@@ -1,0 +1,13 @@
+language: c
+
+matrix:
+  include:
+  - os: windows
+    compiler: gcc
+    env:
+    - OPTIONS="-DCMAKE_SH="CMAKE_SH-NOTFOUND"
+
+install: true
+
+script:
+  - mkdir build_mingw && cd build_mingw && cmake ${OPTIONS} .. && cmake --build .
