@@ -62,16 +62,18 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_async.h"
-
+#include <li_can_slv/async/io_can_async.h>
 #ifdef LI_CAN_SLV_DLOAD
-#include "li_can_slv_xload.h"
+#include <li_can_slv/xload/li_can_slv_xload.h>
 #endif // #ifdef LI_CAN_SLV_DLOAD
 
-#include "io_can_errno.h"
+#include <li_can_slv/config/io_can_config.h>
+#include <li_can_slv/config/li_can_slv_config_defines.h>
 
-#include "io_can_main.h"
-#include "io_can.h"
+#include <li_can_slv/error/io_can_errno.h>
+
+#include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/core/io_can.h>
 
 #include "io_can_async_hw.h"
 #include "io_can_main_hw.h"
@@ -79,7 +81,7 @@
 #include "io_can_port.h"
 
 #ifdef LI_CAN_SLV_RECONNECT
-#include "io_can_reconnect.h"
+#include <li_can_slv/core/io_can_reconnect.h>
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG

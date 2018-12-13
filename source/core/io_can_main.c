@@ -120,23 +120,25 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_main.h"
+#include <li_can_slv/core/io_can_main.h>
 #include "io_can_main_hw.h"
 
 #include "io_can_port.h"
 
-#include "io_can.h"
+#include <li_can_slv/config/io_can_config.h>
+
+#include <li_can_slv/core/io_can.h>
 #include "io_can_hw.h"
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #if defined(OUTER) || defined(OUTER_APP)
-#include "io_can_sync.h"
+#include <li_can_slv/sync/io_can_sync.h>
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
 
 #ifdef LI_CAN_SLV_RECONNECT
-#include "io_can_reconnect.h"
+#include <li_can_slv/core/io_can_reconnect.h>
 #endif /* #ifdef LI_CAN_SLV_RECONNECT */
 
 #ifdef SMP

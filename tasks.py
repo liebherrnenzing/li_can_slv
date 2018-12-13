@@ -73,7 +73,7 @@ def test_run(ctx):
 
 @task(env)
 def test_junit(ctx):
-    ctx.run('python .\\verify\\unity\\auto\\unity_to_junit.py "{}"'.format('build//verify//source//'))
+    ctx.run('python .\\verify\\unity\\auto\\unity_to_junit.py "{}"'.format('build//verify//'))
     filename = 'result.xml'
     shutil.move(os.path.join('.', filename), os.path.join('verify//artifacts', filename))
 

@@ -27,21 +27,22 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_main_handler.h"
-#include "io_can_main.h"
+#include <li_can_slv/core/io_can_main_handler.h>
+#include <li_can_slv/config/io_can_config.h>
+#include <li_can_slv/core/io_can_main.h>
 
-#include "li_can_slv_error_types.h"
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/li_can_slv_error_types.h>
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)
-#include "io_can_async.h"
+#include <li_can_slv/async/io_can_async.h>
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
 #ifdef LI_CAN_SLV_RECONNECT
-#include "io_can_reconnect.h"
+#include <li_can_slv/core/io_can_reconnect.h>
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG

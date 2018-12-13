@@ -1,2 +1,2 @@
 @echo off
-rm -r ../build
+rm -r ../build_mingw

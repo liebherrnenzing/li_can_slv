@@ -28,24 +28,24 @@
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
 #include "io_can_main_hw.h"
-
+#include <li_can_slv/config/li_can_slv_config_internal.h>
+ 
 #ifdef LI_CAN_SLV_SYNC
-#include "io_can_sync.h"
+#include <li_can_slv/sync/io_can_sync.h>
 #endif // #ifdef LI_CAN_SLV_SYNC
 
-#include "io_can_main.h"
-#include "io_can.h"
+#include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/core/io_can.h>
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
-#include "io_can_config.h"
+#include <li_can_slv/config/io_can_config_types.h>
 #include "io_can_main_hw_handler.h"
 
 #include "canpie.h"
 #include "cp_core.h"
 #include "cp_msg.h"
-#include "li_can_slv.h"
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
@@ -458,7 +458,6 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, 
 
 	ubBufferIdxV = (uint8_t)(msg_obj + 1);
 #else // #if CP_VERSION_MAJOR <= 2
-	CpStatus_tv ret = eCP_ERR_TRM_FULL;
 	ubBufferIdxV = (uint8_t) msg_obj;
 #endif // #if CP_VERSION_MAJOR <= 2
 
@@ -474,19 +473,7 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, 
 	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, 0, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
 	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
-
-#if 1
 	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-#else
-	// tx message and wait until timeout
-	ret = eCP_ERR_TRM_FULL;
-	while (ret != eCP_ERR_NONE)
-	{
-		ret = CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-		/** @todo implement any timeout handling here or search for a better solution */
-	}
-#endif
-
 #endif // #if CP_VERSION_MAJOR <= 2
 
 	return (LI_CAN_SLV_ERR_OK);

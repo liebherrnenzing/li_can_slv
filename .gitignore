@@ -1,5 +1,6 @@
 /.settings/
 /build/
+/build_mingw/
 *.out
 /docs/sphinx/_doxy/xml
 *_Runner.c

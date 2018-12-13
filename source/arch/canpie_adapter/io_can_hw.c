@@ -28,8 +28,8 @@
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
 #include "io_can_hw.h"
-#include "io_can_main_types.h"
-#include "io_can_errno.h"
+#include <li_can_slv/core/io_can_main_types.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */

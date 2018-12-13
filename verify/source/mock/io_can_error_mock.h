@@ -35,10 +35,10 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* included files                                                           */
 /*--------------------------------------------------------------------------*/
-#include "li_can_slv.h"
+#include <li_can_slv/core/li_can_slv.h>
 
-#include "io_can_types.h"
-#include "li_can_slv_error_types.h"
+#include <li_can_slv/core/io_can_types.h>
+#include <li_can_slv/error/li_can_slv_error_types.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */

@@ -31,7 +31,7 @@
 #include "unity.h"
 #include "xtfw.h"
 
-#include "li_can_slv_api.h"
+#include <li_can_slv/api/li_can_slv_api.h>
 
 // add some logical modules here as c include for test only
 #include "io_app_frc2.c"
@@ -50,7 +50,9 @@
 
 #include <string.h>
 
-#include "io_can_sync_handler.h"
+#include <li_can_slv/core/io_can_main_handler.h>
+
+#include <li_can_slv/sync/io_can_sync_handler.h>
 
 #include "io_app_module_change.h"
 

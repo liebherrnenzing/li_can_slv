@@ -30,7 +30,7 @@
 #include "io_can_hw.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_errno.h>
 
 #include "io_can_main_hw.h"
 #include "io_can_mon_hw.h"

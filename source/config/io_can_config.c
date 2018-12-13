@@ -70,8 +70,10 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "io_can_config.h"
+#include <li_can_slv/config/io_can_config.h>
 #include "io_can_port.h"
+
+#include <li_can_slv/config/li_can_slv_config_defines.h>
 
 #ifdef LI_CAN_SLV_TUPLE
 #include "io_tuple.h"
@@ -79,21 +81,25 @@
 #endif // #ifdef LI_CAN_SLV_TUPLE
 
 #ifdef LI_CAN_SLV_MODULE_IO_CONFIG
-#include "li_can_slv_xload_defines.h"
+#include <li_can_slv/xload/li_can_slv_xload_defines.h>
 #endif // #ifdef LI_CAN_SLV_MODULE_IO_CONFIG
 
 #include "io_can_hw.h"
-#include "io_can_main.h"
+#include <li_can_slv/core/io_can_main.h>
 #include "io_can_main_hw.h"
-#include "io_can.h"
+#include <li_can_slv/core/io_can.h>
 
-#include "io_can_error.h"
-#include "io_can_errno.h"
+#include <li_can_slv/error/io_can_error.h>
+#include <li_can_slv/error/io_can_errno.h>
 
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-#include "io_can_mon.h"
+#include <li_can_slv/core/io_can_mon.h>
 #include "io_can_mon_hw.h"
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+#include <li_can_slv/config/io_can_config_types.h>
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 
 #if (defined(OUTER) || defined(OUTER_APP))
 #ifdef SHOW_CAN_CONFIG
@@ -118,7 +124,7 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-static lcsa_bdr_t can_config_bdr_startup;
+static li_can_slv_config_bdr_t can_config_bdr_startup;
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -667,7 +673,7 @@ static const testsys_var_t can_config_testsys[] = /**< */
 #endif // #ifdef TESTSYS_SYSTEM
 
 #ifdef LI_CAN_SLV_UNKNOWN_MODULE
-static lcsa_module_config_t can_config_ukwn_module =
+static li_can_slv_config_module_t can_config_ukwn_module =
 {
 	CAN_CONFIG_MODULE_TYPE_UNKNOWN,
 #ifdef LI_CAN_SLV
@@ -790,7 +796,7 @@ li_can_slv_errorcode_t can_config_init(void)
 /**
  * @brief Set CAN baud rate table from the tuple system
  * @remarks If no baud rate table tuple is defined the default baud rate table is used.
- *	@return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
+ * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t can_config_set_baudrate_table(void)
 {
@@ -1743,7 +1749,7 @@ li_can_slv_errorcode_t li_can_slv_config_set_module_silent_awake_from_type_and_n
 }
 #endif // #ifndef LI_CAN_SLV_BOOT
 
-#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+#if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 /**
  * @brief returns the actual module number of the given logical module type
  * @param modnr module number of the given logical module type
@@ -1766,7 +1772,7 @@ li_can_slv_errorcode_t can_config_get_module_nr_by_type(li_can_slv_module_nr_t *
 
 	return (LI_CAN_SLV_ERR_OK);
 }
-#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+#endif // #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 
 #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR

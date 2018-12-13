@@ -83,18 +83,18 @@
 /*--------------------------------------------------------------------------*/
 /* include files                                                            */
 /*--------------------------------------------------------------------------*/
-#include "li_can_slv_xload.h"
-#include "li_can_slv_xload_api.h"
-#include "io_can_errno.h"
-#include "io_can_async.h"
-#include "io_can_main.h"
-#include "io_can.h"
-#include "io_can_types.h"
+#include <li_can_slv/xload/li_can_slv_xload.h>
+#include <li_can_slv/xload/li_can_slv_xload_api.h>
+#include <li_can_slv/error/io_can_errno.h>
+#include <li_can_slv/async/io_can_async.h>
+#include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/core/io_can.h>
+#include <li_can_slv/core/io_can_types.h>
 #include "io_can_port.h"
-#include "io_can_config.h"
+#include <li_can_slv/config/io_can_config.h>
 
-#include "li_can_slv_xload_buffer.h"
-#include "li_can_slv_core_defines.h"
+#include <li_can_slv/xload/li_can_slv_xload_buffer.h>
+#include <li_can_slv/core/li_can_slv_core_defines.h>
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
