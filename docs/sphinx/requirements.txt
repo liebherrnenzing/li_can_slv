@@ -1,6 +1,7 @@
-breathe==4.11.1
+breathe==4.9.1
 invoke==1.2.0
 sphinx-rtd-theme==0.4.2
+sphinxcontrib-inlinesyntaxhighlight==0.2
 sphinxcontrib-plantuml==0.13
 sphinxcontrib-seqdiag==0.8.5
-sphinxcontrib-inlinesyntaxhighlight==0.2
+
