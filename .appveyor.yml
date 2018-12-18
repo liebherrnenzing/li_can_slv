@@ -22,7 +22,7 @@ test_script:
 after_test:
 - inv cov_xml
 - cd build
-- codecov -X gcov
+#- codecov -X gcov
 on_finish: 
 - cd ..
 - ps: |
