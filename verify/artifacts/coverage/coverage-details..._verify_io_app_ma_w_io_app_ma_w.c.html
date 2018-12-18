@@ -275,7 +275,7 @@
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2018-12-13 10:02:21</td>
+            <td class="headerValue">2018-12-18 11:11:21</td>
             <td></td>
             <td class="headerName">Branches:</td>
             <td class="headerTableEntry">6</td>
@@ -1079,7 +1079,7 @@
     <tr>
     <td align="right" class="lineno"><pre>112</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>lcsa_errorcode_t app_ma_w_init(uint16_t module_idx, li_can_slv_module_nr_t modnr)</pre></td>
     </tr>
 
@@ -1093,7 +1093,7 @@
     <tr>
     <td align="right" class="lineno"><pre>114</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
@@ -1275,14 +1275,14 @@
     <tr>
     <td align="right" class="lineno"><pre>140</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_port_memory_set(&amp;app_ma_w_can_rx_data, 0, sizeof(app_ma_w_can_rx_data_t) * APP_MA_W_NUM_OF_MODULES);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>141</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_port_memory_set(&amp;app_ma_w_can_tx_data, 0, sizeof(app_ma_w_can_tx_data_t) * APP_MA_W_NUM_OF_MODULES);</pre></td>
     </tr>
 
@@ -1323,8 +1323,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>147</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 2 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (module_idx &lt; APP_MA_W_NUM_OF_MODULES)</pre></td>
     </tr>
 
@@ -1337,8 +1337,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>149</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 2 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		if (err == LCSA_ERROR_OK)</pre></td>
     </tr>
 
@@ -1352,14 +1352,14 @@
     <tr>
     <td align="right" class="lineno"><pre>151</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>			err = lcsa_add_module(&amp;app_ma_w_config, modnr, &amp;app_ma_w_can_rx_data[module_idx].rx_obj1, &amp;app_ma_w_can_rx_data[module_idx].rx_obj2, &amp;app_ma_w_can_rx_data[module_idx].rx_obj3, &amp;app_ma_w_can_rx_data[module_idx].rx_obj4,</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>152</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>			                      &amp;app_ma_w_can_tx_data[module_idx].tx_obj1, &amp;app_ma_w_can_tx_data[module_idx].tx_obj2, &amp;app_ma_w_can_tx_data[module_idx].tx_obj3, &amp;app_ma_w_can_tx_data[module_idx].tx_obj4);</pre></td>
     </tr>
 
@@ -1393,8 +1393,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>157</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 2 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (err == LCSA_ERROR_OK)</pre></td>
     </tr>
 
@@ -1408,7 +1408,7 @@
     <tr>
     <td align="right" class="lineno"><pre>159</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = lcsa_sync_set_process_time_valid_fnc(APP_MA_W_MODULE_TYPE, &amp;app_ma_w_can_sync_get_process_time_valid);</pre></td>
     </tr>
 
@@ -1428,8 +1428,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>162</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 2 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (err == LCSA_ERROR_OK)</pre></td>
     </tr>
 
@@ -1443,7 +1443,7 @@
     <tr>
     <td align="right" class="lineno"><pre>164</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = lcsa_sync_set_process_image_valid_cbk(APP_MA_W_MODULE_TYPE, modnr, &amp;app_ma_w_image_ok_callback);</pre></td>
     </tr>
 
@@ -1463,8 +1463,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>167</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 2 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (err == LCSA_ERROR_OK)</pre></td>
     </tr>
 
@@ -1478,7 +1478,7 @@
     <tr>
     <td align="right" class="lineno"><pre>169</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = lcsa_sync_set_process_image_not_valid_cbk(APP_MA_W_MODULE_TYPE, modnr, &amp;app_ma_w_image_not_ok_callback);</pre></td>
     </tr>
 
@@ -1498,8 +1498,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>172</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 2 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (err == LCSA_ERROR_OK)</pre></td>
     </tr>
 
@@ -1513,7 +1513,7 @@
     <tr>
     <td align="right" class="lineno"><pre>174</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = lcsa_is_module_valid(APP_MA_W_MODULE_TYPE, modnr, &amp;app_ma_w_can_config_table_pos);</pre></td>
     </tr>
 
@@ -1534,7 +1534,7 @@
     <tr>
     <td align="right" class="lineno"><pre>177</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (err);</pre></td>
     </tr>
 
@@ -1555,7 +1555,7 @@
     <tr>
     <td align="right" class="lineno"><pre>180</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void app_ma_w_tx1_set_word0(uint16_t module_idx, uint16_t value)</pre></td>
     </tr>
 
@@ -1569,14 +1569,14 @@
     <tr>
     <td align="right" class="lineno"><pre>182</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_ma_w_can_tx_data[module_idx].tx_obj1.word0 = value;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>183</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -1835,7 +1835,7 @@
     <tr>
     <td align="right" class="lineno"><pre>220</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void app_ma_w_tx3_set_word0(uint16_t module_idx, uint16_t value)</pre></td>
     </tr>
 
@@ -1849,14 +1849,14 @@
     <tr>
     <td align="right" class="lineno"><pre>222</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_ma_w_can_tx_data[module_idx].tx_obj3.word0 = value;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>223</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 

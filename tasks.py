@@ -18,8 +18,7 @@ def env(ctx):
 
 @task
 def env_gcc(ctx):
-    os.environ["PATH"] = os.pathsep.join([ctx.path['mingw32'], ctx.path['cmake'],
-                                          ctx.path['ninja']]) + os.pathsep + os.environ["PATH"]
+    os.environ["PATH"] = os.pathsep.join([ctx.path['mingw32']]) + os.pathsep + os.environ["PATH"]
 
 
 @task(env_gcc, aliases=['cmakeGenerateMakeFileMINGW'])
@@ -35,7 +34,7 @@ def cov(ctx):
     shutil.rmtree(BUILD_PATH + '/coverage', ignore_errors=True)
     os.mkdir(BUILD_PATH + '/coverage')
     with ctx.cd(BUILD_PATH):
-        ctx.run('gcovr -r . --html --html-details -o ./coverage/coverage-details.html')
+        ctx.run('gcovr -r . --html --html-details -k -o ./coverage/coverage-details.html')
 
     shutil.rmtree('.//verify//artifacts', ignore_errors=True)
     shutil.move(BUILD_PATH + '/coverage', './/verify//artifacts//coverage')
@@ -101,11 +100,8 @@ def doxy(ctx):
     shutil.rmtree('docs\\sphinx\\doxyhtml', ignore_errors=True)
 
     with ctx.cd('docs\\sphinx'):
-        if on_rtd:
-            ctx.run('doxygen Doxyfile')
-        else:
-            ctx.run('"{}" Doxyfile'.format(ctx.tools.doxygen))
-
+        ctx.run('doxygen.exe Doxyfile')
+        
 #    shutil.copytree(path_prefix + 'build\\docs\\doxy\\xml', path_prefix + 'docs\\sphinx\\_doxy\\xml')
 
 
@@ -119,7 +115,7 @@ def breathe(ctx):
     source_dir = os.path.join(os.getcwd(), 'docs/sphinx')
     out_dir = os.path.join(os.getcwd(), 'build/docs/sphinx/html')
 
-    #shutil.rmtree('docs/sphinx/_doxy/xml', ignore_errors=True)
+    # shutil.rmtree('docs/sphinx/_doxy/xml', ignore_errors=True)
     shutil.rmtree('docs/sphinx/doxyxml', ignore_errors=True)
 
     check_call(['sphinx-build',

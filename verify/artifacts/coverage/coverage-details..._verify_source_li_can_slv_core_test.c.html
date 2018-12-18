@@ -275,7 +275,7 @@
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2018-12-13 10:02:21</td>
+            <td class="headerValue">2018-12-18 11:11:21</td>
             <td></td>
             <td class="headerName">Branches:</td>
             <td class="headerTableEntry">11</td>
@@ -967,7 +967,7 @@
     <tr>
     <td align="right" class="lineno"><pre>96</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>13</pre></td>
     <td align="left" class="src coveredLine"><pre>void setUp(void)</pre></td>
     </tr>
 
@@ -1008,8 +1008,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>102</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 24 times">&check;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span><span class="takenBranch" title="Branch 2 taken 2 times">&check;</span><span class="takenBranch" title="Branch 3 taken 22 times">&check;</span><br/></td>
-    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 12 times">&check;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span><span class="takenBranch" title="Branch 2 taken 1 times">&check;</span><span class="takenBranch" title="Branch 3 taken 11 times">&check;</span><br/></td>
+    <td align="right" class="linecount coveredLine"><pre>13</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (init_once != 1 || reinit == TRUE)</pre></td>
     </tr>
 
@@ -1023,14 +1023,14 @@
     <tr>
     <td align="right" class="lineno"><pre>104</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		init_once = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>105</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		reinit = FALSE;</pre></td>
     </tr>
 
@@ -1051,7 +1051,7 @@
     <tr>
     <td align="right" class="lineno"><pre>108</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));</pre></td>
     </tr>
 
@@ -1072,14 +1072,14 @@
     <tr>
     <td align="right" class="lineno"><pre>111</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>112</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -1100,21 +1100,21 @@
     <tr>
     <td align="right" class="lineno"><pre>115</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		module_nr = APP_FRC2_MODULE_NR_DEF;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>116</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = app_frc2_init(module_nr);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>117</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -1135,21 +1135,21 @@
     <tr>
     <td align="right" class="lineno"><pre>120</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		module_nr = APP_INCX_MODULE_NR_DEF;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>121</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = app_incx_init(module_nr);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>122</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -1170,21 +1170,21 @@
     <tr>
     <td align="right" class="lineno"><pre>125</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		module_nr = APP_INXY_MODULE_NR_DEF;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>126</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = app_inxy_init(module_nr);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>127</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -1205,21 +1205,21 @@
     <tr>
     <td align="right" class="lineno"><pre>130</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		module_nr = APP_MA_W_MODULE_NR_DEF;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>131</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = app_ma_w_init(0,  module_nr);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>132</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -1233,7 +1233,7 @@
     <tr>
     <td align="right" class="lineno"><pre>134</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>		err = lcsa_start();</pre></td>
     </tr>
 
@@ -1247,7 +1247,7 @@
     <tr>
     <td align="right" class="lineno"><pre>136</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>13</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -1268,7 +1268,7 @@
     <tr>
     <td align="right" class="lineno"><pre>139</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>13</pre></td>
     <td align="left" class="src coveredLine"><pre>void tearDown(void)</pre></td>
     </tr>
 
@@ -1289,7 +1289,7 @@
     <tr>
     <td align="right" class="lineno"><pre>142</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>26</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>13</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -1331,7 +1331,7 @@
     <tr>
     <td align="right" class="lineno"><pre>148</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_first_status_req(void)</pre></td>
     </tr>
 
@@ -1352,28 +1352,28 @@
     <tr>
     <td align="right" class="lineno"><pre>151</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>152</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>153</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>154</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -1401,14 +1401,14 @@
     <tr>
     <td align="right" class="lineno"><pre>158</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = lcsa_set_first_status_request_cbk(&amp;first_status_request_cbk);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>159</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -1422,14 +1422,14 @@
     <tr>
     <td align="right" class="lineno"><pre>161</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	first_status_request_cnt = 0;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>162</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(0, first_status_request_cnt);</pre></td>
     </tr>
 
@@ -1443,21 +1443,21 @@
     <tr>
     <td align="right" class="lineno"><pre>164</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_first_status_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>165</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>166</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -1499,7 +1499,7 @@
     <tr>
     <td align="right" class="lineno"><pre>172</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
@@ -1513,21 +1513,21 @@
     <tr>
     <td align="right" class="lineno"><pre>174</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>175</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>176</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -1541,14 +1541,14 @@
     <tr>
     <td align="right" class="lineno"><pre>178</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_first_status_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>179</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -1569,7 +1569,7 @@
     <tr>
     <td align="right" class="lineno"><pre>182</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT16(1, first_status_request_cnt);</pre></td>
     </tr>
 
@@ -1590,21 +1590,21 @@
     <tr>
     <td align="right" class="lineno"><pre>185</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_first_status_req_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>186</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_first_status_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>187</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -1646,7 +1646,7 @@
     <tr>
     <td align="right" class="lineno"><pre>193</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_status_req(void)</pre></td>
     </tr>
 
@@ -1667,21 +1667,21 @@
     <tr>
     <td align="right" class="lineno"><pre>196</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>197</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>198</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -1695,21 +1695,21 @@
     <tr>
     <td align="right" class="lineno"><pre>200</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_status_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>201</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	int ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>202</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -1751,7 +1751,7 @@
     <tr>
     <td align="right" class="lineno"><pre>208</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
@@ -1765,21 +1765,21 @@
     <tr>
     <td align="right" class="lineno"><pre>210</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>211</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>212</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -1793,14 +1793,14 @@
     <tr>
     <td align="right" class="lineno"><pre>214</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_status_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>215</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -1821,21 +1821,21 @@
     <tr>
     <td align="right" class="lineno"><pre>218</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_status_req_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>219</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_status_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>220</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -1877,7 +1877,7 @@
     <tr>
     <td align="right" class="lineno"><pre>226</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_status_req_broadcast(void)</pre></td>
     </tr>
 
@@ -1898,7 +1898,7 @@
     <tr>
     <td align="right" class="lineno"><pre>229</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
@@ -1912,7 +1912,7 @@
     <tr>
     <td align="right" class="lineno"><pre>231</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -1926,21 +1926,21 @@
     <tr>
     <td align="right" class="lineno"><pre>233</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_status_req_broadcast_ma_w.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>234</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	int ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>235</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -1982,7 +1982,7 @@
     <tr>
     <td align="right" class="lineno"><pre>241</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_config_get_module_nr_by_type(&amp;module_nr, APP_MA_W_MODULE_TYPE);</pre></td>
     </tr>
 
@@ -2003,7 +2003,7 @@
     <tr>
     <td align="right" class="lineno"><pre>244</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
@@ -2017,21 +2017,21 @@
     <tr>
     <td align="right" class="lineno"><pre>246</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>247</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>248</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -2045,14 +2045,14 @@
     <tr>
     <td align="right" class="lineno"><pre>250</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_status_req_broadcast_ma_w.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>251</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -2073,21 +2073,21 @@
     <tr>
     <td align="right" class="lineno"><pre>254</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_status_req_broadcast_ma_w_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>255</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_status_req_broadcast_ma_w.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>256</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -2129,7 +2129,7 @@
     <tr>
     <td align="right" class="lineno"><pre>262</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_version_req(void)</pre></td>
     </tr>
 
@@ -2150,28 +2150,28 @@
     <tr>
     <td align="right" class="lineno"><pre>265</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>266</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>267</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>268</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -2192,21 +2192,21 @@
     <tr>
     <td align="right" class="lineno"><pre>271</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_version_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>272</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>273</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -2248,7 +2248,7 @@
     <tr>
     <td align="right" class="lineno"><pre>279</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_VERSION_REQUEST;</pre></td>
     </tr>
 
@@ -2262,21 +2262,21 @@
     <tr>
     <td align="right" class="lineno"><pre>281</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>282</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>283</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -2290,14 +2290,14 @@
     <tr>
     <td align="right" class="lineno"><pre>285</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_version_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>286</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -2318,21 +2318,21 @@
     <tr>
     <td align="right" class="lineno"><pre>289</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_version_req_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>290</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_version_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>291</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -2374,7 +2374,7 @@
     <tr>
     <td align="right" class="lineno"><pre>297</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_version_req_broadcast(void)</pre></td>
     </tr>
 
@@ -2395,14 +2395,14 @@
     <tr>
     <td align="right" class="lineno"><pre>300</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>301</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
@@ -2416,7 +2416,7 @@
     <tr>
     <td align="right" class="lineno"><pre>303</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -2437,21 +2437,21 @@
     <tr>
     <td align="right" class="lineno"><pre>306</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_version_req_broadcast_frc2.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>307</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>308</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -2493,7 +2493,7 @@
     <tr>
     <td align="right" class="lineno"><pre>314</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_config_get_module_nr_by_type(&amp;module_nr, APP_FRC2_MODULE_TYPE);</pre></td>
     </tr>
 
@@ -2514,7 +2514,7 @@
     <tr>
     <td align="right" class="lineno"><pre>317</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_VERSION_REQUEST;</pre></td>
     </tr>
 
@@ -2528,21 +2528,21 @@
     <tr>
     <td align="right" class="lineno"><pre>319</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>320</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>321</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -2556,14 +2556,14 @@
     <tr>
     <td align="right" class="lineno"><pre>323</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_version_req_broadcast_frc2.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>324</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -2584,21 +2584,21 @@
     <tr>
     <td align="right" class="lineno"><pre>327</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_version_req_broadcast_frc2_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>328</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_version_req_broadcast_frc2.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>329</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -2640,7 +2640,7 @@
     <tr>
     <td align="right" class="lineno"><pre>335</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_process_req(void)</pre></td>
     </tr>
 
@@ -2661,7 +2661,7 @@
     <tr>
     <td align="right" class="lineno"><pre>338</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
@@ -2682,21 +2682,21 @@
     <tr>
     <td align="right" class="lineno"><pre>341</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_process_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>342</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>343</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -2731,28 +2731,28 @@
     <tr>
     <td align="right" class="lineno"><pre>348</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_incx_set_incx(500);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>349</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_inxy_set_incx(50);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>350</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_inxy_set_incy(44);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>351</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_frc2_set_force(102);</pre></td>
     </tr>
 
@@ -2766,14 +2766,14 @@
     <tr>
     <td align="right" class="lineno"><pre>353</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_ma_w_tx1_set_word0(0, 283);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>354</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	app_ma_w_tx3_set_word0(0, 283);</pre></td>
     </tr>
 
@@ -2787,21 +2787,21 @@
     <tr>
     <td align="right" class="lineno"><pre>356</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>357</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint8_t dlc = 0;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>358</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t canid = 0x001;</pre></td>
     </tr>
 
@@ -2815,14 +2815,14 @@
     <tr>
     <td align="right" class="lineno"><pre>360</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>361</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -2843,140 +2843,140 @@
     <tr>
     <td align="right" class="lineno"><pre>364</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>365</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>366</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>367</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>368</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>369</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>370</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>371</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>372</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>373</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>374</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>375</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>376</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>377</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>378</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>379</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>380</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>381</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>382</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>383</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_handler_tx(1);</pre></td>
     </tr>
 
@@ -2990,7 +2990,7 @@
     <tr>
     <td align="right" class="lineno"><pre>385</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -3004,14 +3004,14 @@
     <tr>
     <td align="right" class="lineno"><pre>387</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_process_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>388</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -3032,21 +3032,21 @@
     <tr>
     <td align="right" class="lineno"><pre>391</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_process_req_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>392</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_process_req.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>393</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -3088,7 +3088,7 @@
     <tr>
     <td align="right" class="lineno"><pre>399</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_invalid_dlc(void)</pre></td>
     </tr>
 
@@ -3102,21 +3102,21 @@
     <tr>
     <td align="right" class="lineno"><pre>401</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>402</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>403</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 9;</pre></td>
     </tr>
 
@@ -3137,7 +3137,7 @@
     <tr>
     <td align="right" class="lineno"><pre>406</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
@@ -3151,21 +3151,21 @@
     <tr>
     <td align="right" class="lineno"><pre>408</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>409</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_INVALID_SYS_MSG_DLC, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>410</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -3207,7 +3207,7 @@
     <tr>
     <td align="right" class="lineno"><pre>416</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_broadcast_no_module(void)</pre></td>
     </tr>
 
@@ -3221,21 +3221,21 @@
     <tr>
     <td align="right" class="lineno"><pre>418</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>419</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>420</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -3256,21 +3256,21 @@
     <tr>
     <td align="right" class="lineno"><pre>423</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_config_nr_of_modules = 0;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>424</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>425</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	reinit = TRUE;</pre></td>
     </tr>
 
@@ -3291,7 +3291,7 @@
     <tr>
     <td align="right" class="lineno"><pre>428</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
@@ -3305,21 +3305,21 @@
     <tr>
     <td align="right" class="lineno"><pre>430</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>431</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_CONFIG_MODULE_NOT_FOUND, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>432</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -3361,7 +3361,7 @@
     <tr>
     <td align="right" class="lineno"><pre>438</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_invalid_module_number(void)</pre></td>
     </tr>
 
@@ -3382,14 +3382,14 @@
     <tr>
     <td align="right" class="lineno"><pre>441</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 200;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>442</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -3403,21 +3403,21 @@
     <tr>
     <td align="right" class="lineno"><pre>444</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_set_log_file_name("tc_status_req_invalid_module_number.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>445</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	int ret = can_main_hw_log_open();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>446</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (ret == EXIT_FAILURE)</pre></td>
     </tr>
 
@@ -3452,7 +3452,7 @@
     <tr>
     <td align="right" class="lineno"><pre>451</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 1, 2, 3, 4, 5, 255, 254 };</pre></td>
     </tr>
 
@@ -3473,7 +3473,7 @@
     <tr>
     <td align="right" class="lineno"><pre>454</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
@@ -3487,14 +3487,14 @@
     <tr>
     <td align="right" class="lineno"><pre>456</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>457</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -3515,7 +3515,7 @@
     <tr>
     <td align="right" class="lineno"><pre>460</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_send_msg_obj_blocking(0,  0x002,  8, &amp;rx_data[0]);</pre></td>
     </tr>
 
@@ -3529,7 +3529,7 @@
     <tr>
     <td align="right" class="lineno"><pre>462</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_log_close();</pre></td>
     </tr>
 
@@ -3543,14 +3543,14 @@
     <tr>
     <td align="right" class="lineno"><pre>464</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	ret = doesFileExist("tc_status_req_invalid_module_number.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>465</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT(1, ret);</pre></td>
     </tr>
 
@@ -3571,21 +3571,21 @@
     <tr>
     <td align="right" class="lineno"><pre>468</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	get_expected_file_path("tc_status_req_invalid_module_number_expected.log", file_path);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>469</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	TEST_ASSERT_BINARY_FILE(file_path, "tc_status_req_invalid_module_number.log");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>470</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -3627,7 +3627,7 @@
     <tr>
     <td align="right" class="lineno"><pre>476</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_broadcast_not_allowed(void)</pre></td>
     </tr>
 
@@ -3641,7 +3641,7 @@
     <tr>
     <td align="right" class="lineno"><pre>478</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
@@ -3655,7 +3655,7 @@
     <tr>
     <td align="right" class="lineno"><pre>480</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 114, 0, 0, 0x1e, 0x74, 0xde };</pre></td>
     </tr>
 
@@ -3669,7 +3669,7 @@
     <tr>
     <td align="right" class="lineno"><pre>482</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -3683,7 +3683,7 @@
     <tr>
     <td align="right" class="lineno"><pre>484</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 1; /* broadcast */</pre></td>
     </tr>
 
@@ -3704,21 +3704,21 @@
     <tr>
     <td align="right" class="lineno"><pre>487</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>488</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>489</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);</pre></td>
     </tr>
 
@@ -3732,21 +3732,21 @@
     <tr>
     <td align="right" class="lineno"><pre>491</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STAY_SILENT;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>492</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>493</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);</pre></td>
     </tr>
 
@@ -3760,21 +3760,21 @@
     <tr>
     <td align="right" class="lineno"><pre>495</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_AWAKE;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>496</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>497</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST, err);</pre></td>
     </tr>
 
@@ -3830,7 +3830,7 @@
     <tr>
     <td align="right" class="lineno"><pre>505</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -3872,7 +3872,7 @@
     <tr>
     <td align="right" class="lineno"><pre>511</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_broadcast_allowed(void)</pre></td>
     </tr>
 
@@ -3886,14 +3886,14 @@
     <tr>
     <td align="right" class="lineno"><pre>513</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>514</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0x02, 0x03, 0xE8, 0, 0, 0, 0};</pre></td>
     </tr>
 
@@ -3907,14 +3907,14 @@
     <tr>
     <td align="right" class="lineno"><pre>516</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>517</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_bdr_t bdr = 0;</pre></td>
     </tr>
 
@@ -3928,7 +3928,7 @@
     <tr>
     <td align="right" class="lineno"><pre>519</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 1; /* broadcast */</pre></td>
     </tr>
 
@@ -3949,14 +3949,14 @@
     <tr>
     <td align="right" class="lineno"><pre>522</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	bdr = lcsa_get_baudrate();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>523</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_BAUD_RATE_DEFAULT, bdr);</pre></td>
     </tr>
 
@@ -3977,21 +3977,21 @@
     <tr>
     <td align="right" class="lineno"><pre>526</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_CAN_BAUDRATE;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>527</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>528</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, err);</pre></td>
     </tr>
 
@@ -4012,14 +4012,14 @@
     <tr>
     <td align="right" class="lineno"><pre>531</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	bdr = lcsa_get_baudrate();</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>532</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_BAUD_RATE_1M, bdr);</pre></td>
     </tr>
 
@@ -4033,21 +4033,21 @@
     <tr>
     <td align="right" class="lineno"><pre>534</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>535</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>536</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, err);</pre></td>
     </tr>
 
@@ -4061,7 +4061,7 @@
     <tr>
     <td align="right" class="lineno"><pre>538</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -4110,7 +4110,7 @@
     <tr>
     <td align="right" class="lineno"><pre>545</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_change_module_nr(void)</pre></td>
     </tr>
 
@@ -4124,42 +4124,42 @@
     <tr>
     <td align="right" class="lineno"><pre>547</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>548</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 114, 0, 0, 0x1e, 0x74, 0xde };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>549</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 113;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>550</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>551</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t module_found = 0;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>552</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t table_pos = UINT16_MAX;</pre></td>
     </tr>
 
@@ -4187,49 +4187,49 @@
     <tr>
     <td align="right" class="lineno"><pre>556</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 113;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>557</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[2] = 114;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>558</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>559</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>560</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>561</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>562</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);</pre></td>
     </tr>
 
@@ -4250,21 +4250,21 @@
     <tr>
     <td align="right" class="lineno"><pre>565</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>566</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>567</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -4285,42 +4285,42 @@
     <tr>
     <td align="right" class="lineno"><pre>570</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 114;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>571</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>572</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>573</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>574</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>575</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);</pre></td>
     </tr>
 
@@ -4355,21 +4355,21 @@
     <tr>
     <td align="right" class="lineno"><pre>580</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>581</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>582</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -4383,35 +4383,35 @@
     <tr>
     <td align="right" class="lineno"><pre>584</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>585</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>586</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>587</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>588</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);</pre></td>
     </tr>
 
@@ -4432,7 +4432,7 @@
     <tr>
     <td align="right" class="lineno"><pre>591</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lsca_set_module_nr_change_cbk_voter(&amp;app_module_change_vote_module_nr_change_valid);</pre></td>
     </tr>
 
@@ -4453,14 +4453,14 @@
     <tr>
     <td align="right" class="lineno"><pre>594</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 114;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>595</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[2] = 113;</pre></td>
     </tr>
 
@@ -4474,21 +4474,21 @@
     <tr>
     <td align="right" class="lineno"><pre>597</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>598</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>599</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -4502,21 +4502,21 @@
     <tr>
     <td align="right" class="lineno"><pre>601</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>602</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>603</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(0, module_found);</pre></td>
     </tr>
 
@@ -4537,42 +4537,42 @@
     <tr>
     <td align="right" class="lineno"><pre>606</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 113;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>607</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>608</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>609</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>610</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>611</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);</pre></td>
     </tr>
 
@@ -4593,14 +4593,14 @@
     <tr>
     <td align="right" class="lineno"><pre>614</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 113;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>615</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[2] = 113;</pre></td>
     </tr>
 
@@ -4614,21 +4614,21 @@
     <tr>
     <td align="right" class="lineno"><pre>617</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>618</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>619</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
@@ -4642,35 +4642,35 @@
     <tr>
     <td align="right" class="lineno"><pre>621</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>622</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>623</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>624</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>625</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_SILENT, module_silent);</pre></td>
     </tr>
 
@@ -4691,7 +4691,7 @@
     <tr>
     <td align="right" class="lineno"><pre>628</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_set_module_silent_awake_from_type_and_nr(APP_MA_W_MODULE_TYPE, module_nr, LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE);</pre></td>
     </tr>
 
@@ -4705,35 +4705,35 @@
     <tr>
     <td align="right" class="lineno"><pre>630</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>631</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>632</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>633</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>634</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);</pre></td>
     </tr>
 
@@ -4754,14 +4754,14 @@
     <tr>
     <td align="right" class="lineno"><pre>637</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	module_nr = 113;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>638</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[2] = APP_MA_W_MODULE_NR_MAX + 1;</pre></td>
     </tr>
 
@@ -4775,21 +4775,21 @@
     <tr>
     <td align="right" class="lineno"><pre>640</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_CHANGE_MODULE_NUMBER;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>641</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>642</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(ERR_MSG_CAN_CHANGING_TO_INVALID_MODULE_NR, err);</pre></td>
     </tr>
 
@@ -4803,42 +4803,42 @@
     <tr>
     <td align="right" class="lineno"><pre>644</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_config_module_nr_valid(module_nr, &amp;table_pos, &amp;module_silent, &amp;module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>645</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>646</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(1, module_found);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>647</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_INT16(3, table_pos); // should be on table position 3</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>648</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE, module_silent);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>649</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -4880,7 +4880,7 @@
     <tr>
     <td align="right" class="lineno"><pre>655</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>void test_sys_msg_factory_reset(void)</pre></td>
     </tr>
 
@@ -4894,28 +4894,28 @@
     <tr>
     <td align="right" class="lineno"><pre>657</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_errorcode_t err = LCSA_ERROR_OK;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>658</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>659</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_module_number_t module_nr = 1;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>660</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint16_t dlc = 8;</pre></td>
     </tr>
 
@@ -4936,7 +4936,7 @@
     <tr>
     <td align="right" class="lineno"><pre>663</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	uint8_t reset_reason_expected = 0x02;</pre></td>
     </tr>
 
@@ -4957,7 +4957,7 @@
     <tr>
     <td align="right" class="lineno"><pre>666</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	lcsa_set_factory_reset_cbk(&amp;factory_reset_cbk);</pre></td>
     </tr>
 
@@ -4978,7 +4978,7 @@
     <tr>
     <td align="right" class="lineno"><pre>669</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[0] = CAN_SYS_M2S_FACTORY_RESET;</pre></td>
     </tr>
 
@@ -4999,7 +4999,7 @@
     <tr>
     <td align="right" class="lineno"><pre>672</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	rx_data[1] = reset_reason_expected;</pre></td>
     </tr>
 
@@ -5013,7 +5013,7 @@
     <tr>
     <td align="right" class="lineno"><pre>674</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	reset_reason_actual = 0x00;</pre></td>
     </tr>
 
@@ -5027,28 +5027,28 @@
     <tr>
     <td align="right" class="lineno"><pre>676</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_sys_msg_rx(module_nr, dlc, rx_data);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>677</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>678</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	XTFW_ASSERT_EQUAL_UINT(reset_reason_expected, reset_reason_actual);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>679</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -5090,7 +5090,7 @@
     <tr>
     <td align="right" class="lineno"><pre>685</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>static void first_status_request_cbk(void)</pre></td>
     </tr>
 
@@ -5104,14 +5104,14 @@
     <tr>
     <td align="right" class="lineno"><pre>687</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	first_status_request_cnt++;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>688</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -5125,7 +5125,7 @@
     <tr>
     <td align="right" class="lineno"><pre>690</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>static void factory_reset_cbk(uint8_t reset_reason)</pre></td>
     </tr>
 
@@ -5139,14 +5139,14 @@
     <tr>
     <td align="right" class="lineno"><pre>692</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	reset_reason_actual = reset_reason;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>693</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -5160,7 +5160,7 @@
     <tr>
     <td align="right" class="lineno"><pre>695</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>static int doesFileExist(const char *filename)</pre></td>
     </tr>
 
@@ -5181,14 +5181,14 @@
     <tr>
     <td align="right" class="lineno"><pre>698</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	int result = stat(filename, &amp;st);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>699</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	return result == 0;</pre></td>
     </tr>
 
@@ -5209,7 +5209,7 @@
     <tr>
     <td align="right" class="lineno"><pre>702</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>static void get_expected_file_path(const char *filename, char *filepath)</pre></td>
     </tr>
 
@@ -5251,49 +5251,49 @@
     <tr>
     <td align="right" class="lineno"><pre>708</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	_splitpath(Unity.TestFile, drive, dir, NULL, NULL);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>709</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	strcpy(fname, drive);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>710</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	strcat(fname, dir);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>711</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	strcat(fname, "..\\expected\\file\\");</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>712</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	strcat(fname, filename);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>713</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>	strcpy(filepath, fname);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>714</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 

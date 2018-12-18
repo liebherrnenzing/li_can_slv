@@ -1,0 +1,22 @@
+version: 1.0.0-{build}
+os:
+- Visual Studio 2017
+
+cache:
+- '%LOCALAPPDATA%\pip\Cache'
+
+environment:
+  matrix:
+  - PYTHON_DIR: C:\Python37-x64
+  
+install:
+  - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
+  - "python -m pip install --upgrade pip"
+  - "pip install -r requirements.txt"
+  
+build_script:
+- "inv configure"
+- "inv all"
+
+test_script:
+- "inv test"

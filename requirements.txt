@@ -1,8 +1,10 @@
 breathe==4.11.1
+doxygen-interface==0.0.0
 gcovr==4.1
 GitPython==2.1.11
 invoke==1.2.0
 junit-xml==1.8
+ninja==1.8.2.post2
 sphinx-rtd-theme==0.4.2
 sphinxcontrib-inlinesyntaxhighlight==0.2
 sphinxcontrib-plantuml==0.13

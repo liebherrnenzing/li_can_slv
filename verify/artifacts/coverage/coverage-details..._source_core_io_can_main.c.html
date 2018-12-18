@@ -275,7 +275,7 @@
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2018-12-13 10:02:21</td>
+            <td class="headerValue">2018-12-18 11:11:21</td>
             <td></td>
             <td class="headerName">Branches:</td>
             <td class="headerTableEntry">24</td>
@@ -3270,7 +3270,7 @@
     <tr>
     <td align="right" class="lineno"><pre>425</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_init(void)</pre></td>
     </tr>
 
@@ -3298,7 +3298,7 @@
     <tr>
     <td align="right" class="lineno"><pre>429</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_main_hw_init();</pre></td>
     </tr>
 
@@ -3452,7 +3452,7 @@
     <tr>
     <td align="right" class="lineno"><pre>451</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	return err;</pre></td>
     </tr>
 
@@ -3676,7 +3676,7 @@
     <tr>
     <td align="right" class="lineno"><pre>483</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_sync_process_tx_data_cnfg(uint16_t table_pos, uint16_t obj, li_can_slv_module_nr_t module_nr)</pre></td>
     </tr>
 
@@ -3710,8 +3710,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>488</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 60 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 30 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (table_pos > (LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES - 1u))</pre></td>
     </tr>
 
@@ -3745,8 +3745,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>493</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 60 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 30 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (obj > CAN_CONFIG_NR_OF_MODULE_OBJS - 1)</pre></td>
     </tr>
 
@@ -3788,7 +3788,7 @@
     <tr>
     <td align="right" class="lineno"><pre>499</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_id = CAN_CONFIG_DATA_TX_MASK + ((module_nr - 1) &lt;&lt; 2) + obj;</pre></td>
     </tr>
 
@@ -3802,14 +3802,14 @@
     <tr>
     <td align="right" class="lineno"><pre>501</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.id[table_pos][obj] = can_id;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>502</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj] = can_config_module_tab[table_pos].tx_dlc[obj];</pre></td>
     </tr>
 
@@ -3830,21 +3830,21 @@
     <tr>
     <td align="right" class="lineno"><pre>505</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	send = 0x00000001L &lt;&lt; obj;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>506</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.send_reg |= (send &lt;&lt; (CAN_CONFIG_NR_OF_MODULE_OBJS * table_pos));</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>507</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.send_end = table_pos * CAN_CONFIG_NR_OF_MODULE_OBJS + obj;</pre></td>
     </tr>
 
@@ -3858,7 +3858,7 @@
     <tr>
     <td align="right" class="lineno"><pre>509</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>60</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>30</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -3921,7 +3921,7 @@
     <tr>
     <td align="right" class="lineno"><pre>518</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>void can_main_synchron_tx_data_off(uint16_t table_pos, uint16_t obj)</pre></td>
     </tr>
 
@@ -3956,21 +3956,21 @@
     <tr>
     <td align="right" class="lineno"><pre>523</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	send = 0x00000001L &lt;&lt; obj;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>524</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.send_reg &amp;= ~(send &lt;&lt; (CAN_CONFIG_NR_OF_MODULE_OBJS * table_pos));</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>525</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -4026,7 +4026,7 @@
     <tr>
     <td align="right" class="lineno"><pre>533</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>76</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>38</pre></td>
     <td align="left" class="src coveredLine"><pre>void can_main_synchron_tx_data_on(uint16_t table_pos, uint16_t obj)</pre></td>
     </tr>
 
@@ -4061,21 +4061,21 @@
     <tr>
     <td align="right" class="lineno"><pre>538</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>76</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>38</pre></td>
     <td align="left" class="src coveredLine"><pre>	send = 0x00000001L &lt;&lt; obj;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>539</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>76</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>38</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.send_reg |= (send &lt;&lt; (CAN_CONFIG_NR_OF_MODULE_OBJS * table_pos));</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>540</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>76</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>38</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -4138,7 +4138,7 @@
     <tr>
     <td align="right" class="lineno"><pre>549</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_msg_obj_rx_data_cnfg(uint16_t msg_obj, uint16_t table_pos)</pre></td>
     </tr>
 
@@ -4158,8 +4158,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>552</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 16 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (li_can_slv_sync_main_rx_msg_obj_used &lt; CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ)</pre></td>
     </tr>
 
@@ -4173,21 +4173,21 @@
     <tr>
     <td align="right" class="lineno"><pre>554</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_rx_msg_obj[li_can_slv_sync_main_rx_msg_obj_used].msg_obj = msg_obj;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>555</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_rx_msg_obj[li_can_slv_sync_main_rx_msg_obj_used].msg_obj_mask = (1L &lt;&lt; msg_obj);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>556</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_rx_msg_obj[li_can_slv_sync_main_rx_msg_obj_used].table_pos = table_pos;</pre></td>
     </tr>
 
@@ -4201,14 +4201,14 @@
     <tr>
     <td align="right" class="lineno"><pre>558</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_rx_msg_obj_used++;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>559</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>		return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -4285,7 +4285,7 @@
     <tr>
     <td align="right" class="lineno"><pre>570</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj)</pre></td>
     </tr>
 
@@ -4298,8 +4298,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>572</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (li_can_slv_sync_main_tx_msg_obj_used &lt; CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_TX_OBJ)</pre></td>
     </tr>
 
@@ -4313,14 +4313,14 @@
     <tr>
     <td align="right" class="lineno"><pre>574</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_tx_msg_obj[li_can_slv_sync_main_tx_msg_obj_used].msg_obj = msg_obj;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>575</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_tx_msg_obj[li_can_slv_sync_main_tx_msg_obj_used].msg_obj_mask = (1L &lt;&lt; msg_obj);</pre></td>
     </tr>
 
@@ -4334,7 +4334,7 @@
     <tr>
     <td align="right" class="lineno"><pre>577</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_tx_msg_obj[li_can_slv_sync_main_tx_msg_obj_used].table_pos = 0;</pre></td>
     </tr>
 
@@ -4348,14 +4348,14 @@
     <tr>
     <td align="right" class="lineno"><pre>579</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>		li_can_slv_sync_main_tx_msg_obj_used++;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>580</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>		return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -4740,7 +4740,7 @@
     <tr>
     <td align="right" class="lineno"><pre>635</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>46</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>23</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_send_queue_system_tx(li_can_slv_module_nr_t module_nr, byte_t const *src)</pre></td>
     </tr>
 
@@ -4775,21 +4775,21 @@
     <tr>
     <td align="right" class="lineno"><pre>640</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>46</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>23</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_id = CAN_CONFIG_SYS_TX_MASK + ((module_nr - 1) &lt;&lt; 2);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>641</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>46</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>23</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_hw_send_msg_obj_blocking(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS, can_id, CAN_CONFIG_SYS_MSG_DLC, src);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>642</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>46</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>23</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -4852,7 +4852,7 @@
     <tr>
     <td align="right" class="lineno"><pre>651</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_process_data_tx_set(void)</pre></td>
     </tr>
 
@@ -5020,7 +5020,7 @@
     <tr>
     <td align="right" class="lineno"><pre>675</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_main_sync_process_tx_data_ctrl.send_cmd = CAN_MAIN_PROCESS_SYNC_SEND_DATA;</pre></td>
     </tr>
 
@@ -5041,7 +5041,7 @@
     <tr>
     <td align="right" class="lineno"><pre>678</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	can_port_trigger_can_main_sync_process_data_tx_queue();</pre></td>
     </tr>
 
@@ -5055,7 +5055,7 @@
     <tr>
     <td align="right" class="lineno"><pre>680</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>1</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
@@ -5104,7 +5104,7 @@
     <tr>
     <td align="right" class="lineno"><pre>687</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_enable(void)</pre></td>
     </tr>
 
@@ -5118,7 +5118,7 @@
     <tr>
     <td align="right" class="lineno"><pre>689</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>2</pre></td>
     <td align="left" class="src coveredLine"><pre>	return can_main_hw_enable();</pre></td>
     </tr>
 
@@ -5202,7 +5202,7 @@
     <tr>
     <td align="right" class="lineno"><pre>701</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>42</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>21</pre></td>
     <td align="left" class="src coveredLine"><pre>void can_main_sync_process_tx_data(void)</pre></td>
     </tr>
 
@@ -5327,8 +5327,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>719</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="takenBranch" title="Branch 1 taken 34 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>42</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="takenBranch" title="Branch 1 taken 17 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>21</pre></td>
     <td align="left" class="src coveredLine"><pre>	if (can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR) /* is there still something to send out? */</pre></td>
     </tr>
 
@@ -5341,8 +5341,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>721</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 16 times">&check;</span><span class="takenBranch" title="Branch 1 taken 8 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="takenBranch" title="Branch 1 taken 4 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>		for (i = 0; i &lt; li_can_slv_sync_main_tx_msg_obj_used; i++) /* search all usable sync-TX-slots */</pre></td>
     </tr>
 
@@ -5356,7 +5356,7 @@
     <tr>
     <td align="right" class="lineno"><pre>723</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>			msg_obj = li_can_slv_sync_main_tx_msg_obj[i].msg_obj; /* get the number of next usable TX slot for checking if it is free */</pre></td>
     </tr>
 
@@ -5467,8 +5467,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>739</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 32 times">&check;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span><span class="takenBranch" title="Branch 2 taken 18 times">&check;</span><span class="takenBranch" title="Branch 3 taken 14 times">&check;</span><br/></td>
-    <td align="right" class="linecount coveredLine"><pre>50</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 16 times">&check;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span><span class="takenBranch" title="Branch 2 taken 9 times">&check;</span><span class="takenBranch" title="Branch 3 taken 7 times">&check;</span><br/></td>
+    <td align="right" class="linecount coveredLine"><pre>25</pre></td>
     <td align="left" class="src coveredLine"><pre>				while ((can_main_sync_process_tx_data_ctrl.send_current &lt;= can_main_sync_process_tx_data_ctrl.send_end) &amp;&amp; ((can_main_sync_process_tx_data_ctrl.send &amp; 0x00000001L) == 0x00000000L))</pre></td>
     </tr>
 
@@ -5482,14 +5482,14 @@
     <tr>
     <td align="right" class="lineno"><pre>741</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>9</pre></td>
     <td align="left" class="src coveredLine"><pre>					can_main_sync_process_tx_data_ctrl.send_current++;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>742</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>18</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>9</pre></td>
     <td align="left" class="src coveredLine"><pre>					can_main_sync_process_tx_data_ctrl.send >>= 1;</pre></td>
     </tr>
 
@@ -5516,8 +5516,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>746</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 14 times">&check;</span><span class="takenBranch" title="Branch 1 taken 2 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 7 times">&check;</span><span class="takenBranch" title="Branch 1 taken 1 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>				if ((can_main_sync_process_tx_data_ctrl.send &amp; 0x00000001L) == 0x00000001L)</pre></td>
     </tr>
 
@@ -5531,14 +5531,14 @@
     <tr>
     <td align="right" class="lineno"><pre>748</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					table_pos = can_main_sync_process_tx_data_ctrl.send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>749</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					obj = can_main_sync_process_tx_data_ctrl.send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;</pre></td>
     </tr>
 
@@ -5566,7 +5566,7 @@
     <tr>
     <td align="right" class="lineno"><pre>753</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					li_can_slv_sync_main_tx_msg_obj[i].table_pos = table_pos;</pre></td>
     </tr>
 
@@ -5622,14 +5622,14 @@
     <tr>
     <td align="right" class="lineno"><pre>761</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					dlc = (uint16_t) can_config_module_tab[table_pos].tx_dlc[obj];</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>762</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					err = can_sync_tx_data_main(table_pos, obj, dlc, data);</pre></td>
     </tr>
 
@@ -5642,8 +5642,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>764</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 14 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 7 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					if (err == LI_CAN_SLV_ERR_OK)</pre></td>
     </tr>
 
@@ -5657,7 +5657,7 @@
     <tr>
     <td align="right" class="lineno"><pre>766</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>						err = can_main_hw_send_msg_obj_none_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);</pre></td>
     </tr>
 
@@ -5684,8 +5684,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>770</pre></td>
-    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 14 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linebranch"><span class="notTakenBranch" title="Branch 0 not taken">&cross;</span><span class="takenBranch" title="Branch 1 taken 7 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					if (err != LI_CAN_SLV_ERR_OK)</pre></td>
     </tr>
 
@@ -5727,14 +5727,14 @@
     <tr>
     <td align="right" class="lineno"><pre>776</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					can_main_sync_process_tx_data_ctrl.send_current++;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>777</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>7</pre></td>
     <td align="left" class="src coveredLine"><pre>					can_main_sync_process_tx_data_ctrl.send >>= 1;</pre></td>
     </tr>
 
@@ -5839,7 +5839,7 @@
     <tr>
     <td align="right" class="lineno"><pre>792</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>42</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>21</pre></td>
     <td align="left" class="src coveredLine"><pre>}</pre></td>
     </tr>
 
@@ -6168,7 +6168,7 @@
     <tr>
     <td align="right" class="lineno"><pre>839</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>88</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id, bit_t is_sync_obj)</pre></td>
     </tr>
 
@@ -6399,7 +6399,7 @@
     <tr>
     <td align="right" class="lineno"><pre>872</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>88</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_main_hw_define_msg_obj(msg_obj, can_id, acceptance_mask, dlc, dir, service_id);</pre></td>
     </tr>
 
@@ -6412,8 +6412,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>874</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 16 times">&check;</span><span class="takenBranch" title="Branch 1 taken 108 times">&check;</span><span class="takenBranch" title="Branch 2 taken 28 times">&check;</span><span class="takenBranch" title="Branch 3 taken 24 times">&check;</span><br/><span class="notTakenBranch" title="Branch 4 not taken">&cross;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="takenBranch" title="Branch 1 taken 54 times">&check;</span><span class="takenBranch" title="Branch 2 taken 14 times">&check;</span><span class="takenBranch" title="Branch 3 taken 12 times">&check;</span><br/><span class="notTakenBranch" title="Branch 4 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>88</pre></td>
     <td align="left" class="src coveredLine"><pre>	switch (service_id)</pre></td>
     </tr>
 
@@ -6433,8 +6433,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>877</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 8 times">&check;</span><span class="takenBranch" title="Branch 1 taken 8 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="takenBranch" title="Branch 1 taken 4 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>			if (is_sync_obj != 0u)</pre></td>
     </tr>
 
@@ -6448,7 +6448,7 @@
     <tr>
     <td align="right" class="lineno"><pre>879</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
     <td align="left" class="src coveredLine"><pre>				can_main_isr_inp_mask_tx |= (1UL &lt;&lt; msg_obj);</pre></td>
     </tr>
 
@@ -6462,14 +6462,14 @@
     <tr>
     <td align="right" class="lineno"><pre>881</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>			can_main_objs_mask |= (1L &lt;&lt; msg_obj);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>882</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>16</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>8</pre></td>
     <td align="left" class="src coveredLine"><pre>			break;</pre></td>
     </tr>
 
@@ -6489,8 +6489,8 @@
 
     <tr>
     <td align="right" class="lineno"><pre>885</pre></td>
-    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 48 times">&check;</span><span class="takenBranch" title="Branch 1 taken 60 times">&check;</span></td>
-    <td align="right" class="linecount coveredLine"><pre>108</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 24 times">&check;</span><span class="takenBranch" title="Branch 1 taken 30 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>54</pre></td>
     <td align="left" class="src coveredLine"><pre>			if (is_sync_obj != 0u)</pre></td>
     </tr>
 
@@ -6504,7 +6504,7 @@
     <tr>
     <td align="right" class="lineno"><pre>887</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>48</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
     <td align="left" class="src coveredLine"><pre>				can_main_isr_inp_mask_rx |= (1UL &lt;&lt; msg_obj);</pre></td>
     </tr>
 
@@ -6518,14 +6518,14 @@
     <tr>
     <td align="right" class="lineno"><pre>889</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>108</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>54</pre></td>
     <td align="left" class="src coveredLine"><pre>			can_main_objs_mask |= (1L &lt;&lt; msg_obj);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>890</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>108</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>54</pre></td>
     <td align="left" class="src coveredLine"><pre>			break;</pre></td>
     </tr>
 
@@ -6574,14 +6574,14 @@
     <tr>
     <td align="right" class="lineno"><pre>897</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>			can_main_async_objs_mask |= (1L &lt;&lt; msg_obj);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>898</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>28</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>14</pre></td>
     <td align="left" class="src coveredLine"><pre>			break;</pre></td>
     </tr>
 
@@ -6602,14 +6602,14 @@
     <tr>
     <td align="right" class="lineno"><pre>901</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>			can_main_async_ctrl_objs_mask |= (1L &lt;&lt; msg_obj);</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>902</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>			break;</pre></td>
     </tr>
 
@@ -6658,7 +6658,7 @@
     <tr>
     <td align="right" class="lineno"><pre>909</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>176</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>88</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (err);</pre></td>
     </tr>
 
@@ -6679,7 +6679,7 @@
     <tr>
     <td align="right" class="lineno"><pre>912</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>li_can_slv_errorcode_t can_main_get_next_free_msg_obj(uint16_t *msg_obj)</pre></td>
     </tr>
 
@@ -6707,7 +6707,7 @@
     <tr>
     <td align="right" class="lineno"><pre>916</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>	err = can_main_hw_get_next_free_msg_obj(msg_obj);</pre></td>
     </tr>
 
@@ -6721,7 +6721,7 @@
     <tr>
     <td align="right" class="lineno"><pre>918</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount coveredLine"><pre>24</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>12</pre></td>
     <td align="left" class="src coveredLine"><pre>	return (err);</pre></td>
     </tr>
 
