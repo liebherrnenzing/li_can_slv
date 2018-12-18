@@ -1,5 +1,5 @@
 breathe==4.11.1
-doxygen-interface==0.0.0
+doxygen-interface==0.0.1
 gcovr==4.1
 GitPython==2.1.11
 invoke==1.2.0
