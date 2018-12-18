@@ -26,7 +26,6 @@ test_script:
 - "inv cov"
 
 after_test:
-- cd build
-- codecov
-
+  - bash <(curl -s https://codecov.io/bash)
+  
     
