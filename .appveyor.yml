@@ -28,6 +28,6 @@ test_script:
 after_test:
 - cd build
 - coveralls --help
-- coveralls --root .. -e ".*CMakeFiles.*" -e ".*/verify/.*" 
+- coveralls --root .. -E ".*CMakeFiles.*" -E ".*/verify/.*" 
 
     
