@@ -26,6 +26,7 @@ test_script:
 - "inv cov"
 
 after_test:
-- coveralls --build-root build --exclude verify --gcov-options '\-lp'
+- cd build
+- coveralls --root .. -e ".*verify.*" -e ".*CMakeFiles.*"
 
     
