@@ -26,6 +26,6 @@ test_script:
 - "inv cov"
 
 after_test:
-- coveralls --exclude verify --gcov-options '\-lp'
+- coveralls --build-root build --exclude verify --gcov-options '\-lp'
 
     
