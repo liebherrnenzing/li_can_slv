@@ -18,8 +18,15 @@ build_script:
 - inv all
 test_script:
 - inv test
-
+- inv test_junit
 after_test:
 - inv cov_xml
 - cd build
 - codecov -X gcov
+on_finish: 
+  - ps: |
+      $wc = New-Object 'System.Net.WebClient'
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\verify\result.xml))
+     
+        
+        
