@@ -27,6 +27,7 @@ test_script:
 
 after_test:
 - cd build
-- coveralls --root .. -e ".*verify.*" -e ".*CMakeFiles.*"
+- coveralls --help
+- coveralls --root .. -e ".*CMakeFiles.*" -e ".*/verify/.*" 
 
     
