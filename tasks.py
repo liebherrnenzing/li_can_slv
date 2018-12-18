@@ -41,6 +41,12 @@ def cov(ctx):
 
 
 @task(env)
+def cov_xml(ctx):
+    with ctx.cd(BUILD_PATH):
+        ctx.run('gcovr -r . --xml -k -o coverage.xml')
+
+
+@task(env)
 def all(ctx):
     with ctx.cd(BUILD_PATH):
         ctx.run('"{}" -j8 all'.format(ctx.make.ninja_make))

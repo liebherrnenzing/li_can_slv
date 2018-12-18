@@ -18,7 +18,8 @@ build_script:
 - inv all
 test_script:
 - inv test
-- inv cov
+
 after_test:
+- inv cov_xml
 - cd build
 - codecov -X gcov
