@@ -1,31 +1,24 @@
 version: 1.0.0-{build}
 os:
 - Visual Studio 2015
-
 cache:
 - '%LOCALAPPDATA%\pip\Cache'
-
 environment:
   COVERALLS_REPO_TOKEN:
     secure: A/MsOTDW2blXDWx++futJDqFaRfH8a6JJpD0eKwBHNzDChCM7M+TgZl9dAH3vG7f
   matrix:
   - PYTHON_DIR: C:\Python37-x64
-  
 install:
-  - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
-  - "python -m pip install --upgrade pip"
-  - "pip install -r requirements.txt"
-  - "pip install codecov"
-
+- SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
+- python -m pip install --upgrade pip
+- pip install -r requirements.txt
+- pip install codecov
 build_script:
-- "inv configure"
-- "inv all"
-
+- inv configure
+- inv all
 test_script:
-- "inv test"
-- "inv cov"
-
+- inv test
+- inv cov
 after_test:
-  - codecov
-  
-    
+- cd build
+- codecov
