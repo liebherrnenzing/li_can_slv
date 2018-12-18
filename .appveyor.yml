@@ -21,4 +21,4 @@ test_script:
 - inv cov
 after_test:
 - cd build
-- codecov
+- codecov -X gcov
