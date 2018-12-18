@@ -1,6 +1,6 @@
 version: 1.0.0-{build}
 os:
-- Visual Studio 2017
+- Visual Studio 2015
 
 cache:
 - '%LOCALAPPDATA%\pip\Cache'
@@ -15,4 +15,8 @@ install:
   - "pip install -r requirements.txt"
   
 build_script:
-- gcc --version
+- "inv configure"
+- "inv all"
+
+test_script:
+- "inv test"
