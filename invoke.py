@@ -3,7 +3,7 @@ tasks = {
 }
 
 path = {
-    "mingw32": "c:\\MinGW\bin",
+    "mingw32": "c:\\MinGW\\bin",
 }
 
 make = {
