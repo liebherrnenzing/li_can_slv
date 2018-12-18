@@ -7,7 +7,7 @@ cache:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: FS/GYcjP49aCRYe8LHIw0oQsFI+PPc+CADIDid2C056z4BmkdPZaPL6PON3dAbIh
+    secure: A/MsOTDW2blXDWx++futJDqFaRfH8a6JJpD0eKwBHNzDChCM7M+TgZl9dAH3vG7f
   matrix:
   - PYTHON_DIR: C:\Python37-x64
   
