@@ -43,7 +43,7 @@ def cov(ctx):
 @task(env)
 def cov_xml(ctx):
     with ctx.cd(BUILD_PATH):
-        ctx.run('gcovr -r . --xml -k -o coverage.xml')
+        ctx.run('gcovr -r . --xml -k -o cobertura.xml')
 
 
 @task(env)

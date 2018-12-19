@@ -4,8 +4,6 @@ os:
 cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
-  COVERALLS_REPO_TOKEN:
-    secure: A/MsOTDW2blXDWx++futJDqFaRfH8a6JJpD0eKwBHNzDChCM7M+TgZl9dAH3vG7f
   matrix:
   - PYTHON_DIR: C:\Python37-x64
 install:
@@ -22,12 +20,4 @@ test_script:
 after_test:
 - inv cov_xml
 - cd build
-#- codecov -X gcov
-on_finish: 
-- cd ..
-- ps: |
-      $wc = New-Object 'System.Net.WebClient'
-      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\verify\artifacts\result.xml))
-     
-        
-        
+- codecov -X gcov search
