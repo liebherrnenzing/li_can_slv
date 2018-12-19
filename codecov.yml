@@ -1,0 +1,3 @@
+ignore:
+  - "verify"  # ignore the verify folder
+  
