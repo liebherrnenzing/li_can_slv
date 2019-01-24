@@ -1377,7 +1377,7 @@ li_can_slv_errorcode_t can_config_change_module_nr(li_can_slv_module_nr_t module
 li_can_slv_errorcode_t can_config_change_module_nr(uint16_t table_pos, li_can_slv_module_nr_t new_module_nr)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-	lcsa_module_change_voter_state_t state = LCSA_MODULE_CHANGE_ERORR;
+	lcsa_module_change_voter_state_t state = LCSA_MODULE_CHANGE_ERROR;
 
 	if (NULL != module_nr_change_validator)
 	{
@@ -1406,7 +1406,7 @@ li_can_slv_errorcode_t can_config_change_module_nr(uint16_t table_pos, li_can_sl
 				break;
 			}
 			case LCSA_MODULE_CHANGE_FORBIDDEN:
-			case LCSA_MODULE_CHANGE_ERORR:
+			case LCSA_MODULE_CHANGE_ERROR:
 				err = ERR_MSG_CAN_CHANGING_TO_INVALID_MODULE_NR;
 				break;
 

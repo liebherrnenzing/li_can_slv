@@ -181,7 +181,7 @@ typedef enum can_config_module_silent_tag
 typedef enum
 {
 	LCSA_MODULE_CHANGE_VALID = 0, /**< change will proceed and change the identifiers for rx and tx messages accordingly */
-	LCSA_MODULE_CHANGE_ERORR, /**< change will be skipped and an error send */
+	LCSA_MODULE_CHANGE_ERROR, /**< change will be skipped and an error send */
 	LCSA_MODULE_CHANGE_FORBIDDEN,  /**< change will be skipped and an error send */
 	LCSA_MODULE_CHANGE_VALID_BUT_SET_SILENT /**< change will be proceeded the identifiers changed but the module will not respond to any message until an reboot or an AWAKE command */
 } lcsa_module_change_voter_state_t;
