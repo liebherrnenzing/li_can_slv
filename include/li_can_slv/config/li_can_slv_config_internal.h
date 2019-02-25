@@ -50,6 +50,17 @@ extern "C" {
  */
 #ifdef __DOXYGEN__
 /**
+ * This define should be used if you want to use the stack for a bootloader like openblt.
+ */
+#define LI_CAN_SLV_BOOT
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_BOOT
+#define LI_CAN_SLV
+#endif
+#endif // #ifdef __DOXYGEN__
+
+#ifdef __DOXYGEN__
+/**
  * This define should be used if you want to configure everything by yourself.
  */
 #define LI_CAN_SLV_GENERIC

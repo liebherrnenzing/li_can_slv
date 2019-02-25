@@ -9,3 +9,4 @@
 /docs/sphinx/doxyxml
 /*.pydevproject
 result.xml
+/*.cppcheck
