@@ -440,9 +440,9 @@ extern "C" {
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MAIN_NODE
 #include "canpie.h"
 #if CP_VERSION_MAJOR <= 2
-#define LI_CAN_SLV_MON_ARCH	CP_CHANNEL_2
+#define LI_CAN_SLV_MAIN_ARCH	CP_CHANNEL_2
 #else
-#define LI_CAN_SLV_MON_ARCH	eCP_CHANNEL_2
+#define LI_CAN_SLV_MAIN_ARCH	eCP_CHANNEL_2
 #endif
 #endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MAIN_NODE
 #endif // #ifdef __DOXYGEN__
