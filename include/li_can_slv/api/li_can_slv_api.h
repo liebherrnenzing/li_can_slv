@@ -486,6 +486,7 @@ extern "C" {
 #endif // #ifdef LI_CAN_SLV_DLOAD
 extern lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate);
 
+#ifndef LI_CAN_SLV_BOOT
 /**
  *
  \rst
@@ -498,7 +499,6 @@ extern lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate);
  */
 extern lcsa_errorcode_t lcsa_start(void);
 
-#ifndef LI_CAN_SLV_BOOT
 /**
  * @brief add module to can configuration
  * @remark In case of multiple usage of the module number the default

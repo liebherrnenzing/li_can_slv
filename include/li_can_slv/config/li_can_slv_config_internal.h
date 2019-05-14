@@ -52,7 +52,11 @@ extern "C" {
 /**
  * This define should be used if you want to use the stack for a bootloader like openblt.
  */
-#define LI_CAN_SLV_BOOT
+
+/**
+ * @todo fix documentation for Boot
+ */
+//#define LI_CAN_SLV_BOOT
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_BOOT
 #define LI_CAN_SLV
