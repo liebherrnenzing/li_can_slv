@@ -179,6 +179,11 @@ typedef struct
 extern app_ma_w_can_rx_data_t app_ma_w_can_rx_data[APP_MA_W_NUM_OF_MODULES];
 extern app_ma_w_can_tx_data_t app_ma_w_can_tx_data[APP_MA_W_NUM_OF_MODULES];
 
+extern volatile uint32_t app_ma_w_image_valid_cnt;
+extern volatile uint32_t app_ma_w_process_req_cnt;
+extern volatile uint32_t app_ma_w_process_time_valid;
+extern volatile uint32_t app_ma_w_image_not_valid_cnt;
+
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/

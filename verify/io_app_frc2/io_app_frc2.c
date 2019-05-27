@@ -47,20 +47,20 @@ app_frc2_can_tx_data_t app_frc2_can_tx_data;
 volatile uint32_t app_frc2_image_valid_cnt = 0;
 volatile uint32_t app_frc2_process_req_cnt = 0;
 volatile uint32_t app_frc2_process_time_valid = 0;
+volatile uint32_t app_frc2_image_not_valid_cnt = 0;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-static void app_frc2_lcsa_sync_set_process_request_cbk(void);
-static void app_frc2_lcsa_sync_set_process_image_valid_cbk(void);
+static void app_frc2_process_request_cbk(void);
+static void app_frc2_process_image_valid_cbk(void);
+static void app_frc2_process_image_not_valid_cbk(void);
 
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
-
 static uint16_t app_frc2_can_config_table_pos;
-
-static uint32_t (*app_frc2_lcsa_sync_set_process_time_valid_fnc)(void);
+static uint32_t (*app_frc2_process_time_valid_fnc)(void);
 
 static const lcsa_module_config_t app_frc2_can_module =
 {
@@ -143,25 +143,24 @@ lcsa_errorcode_t app_frc2_init(li_can_slv_module_nr_t modnr)
 
 	if (err == LCSA_ERROR_OK)
 	{
-		err = lcsa_sync_set_process_time_valid_fnc(APP_FRC2_MODULE_TYPE, &app_frc2_lcsa_sync_set_process_time_valid_fnc);
+		err = lcsa_sync_set_process_time_valid_fnc(APP_FRC2_MODULE_TYPE, &app_frc2_process_time_valid_fnc);
 	}
 
 	if (err == LCSA_ERROR_OK)
 	{
-		err = lcsa_sync_set_process_request_cbk(APP_FRC2_MODULE_TYPE, modnr, &app_frc2_lcsa_sync_set_process_request_cbk);
+		err = lcsa_sync_set_process_request_cbk(APP_FRC2_MODULE_TYPE, modnr, &app_frc2_process_request_cbk);
 	}
 
-#if 0
-	if (APP_MAINMON_MON == app_get_mainmon_type())
+	if (err == LCSA_ERROR_OK)
 	{
-#endif
-		if (err == LCSA_ERROR_OK)
-		{
-			err = lcsa_sync_set_process_image_valid_cbk(APP_FRC2_MODULE_TYPE, modnr, &app_frc2_lcsa_sync_set_process_image_valid_cbk);
-		}
-#if 0
+		err = lcsa_sync_set_process_image_valid_cbk(APP_FRC2_MODULE_TYPE, modnr, &app_frc2_process_image_valid_cbk);
 	}
-#endif
+
+	if (err == LCSA_ERROR_OK)
+	{
+		err = lcsa_sync_set_process_image_not_valid_cbk(APP_FRC2_MODULE_TYPE, modnr, &app_frc2_process_image_not_valid_cbk);
+	}
+
 	if (err == LCSA_ERROR_OK)
 	{
 		err = lcsa_is_module_valid(APP_FRC2_MODULE_TYPE, modnr, &app_frc2_can_config_table_pos);
@@ -186,16 +185,22 @@ lcsa_errorcode_t app_frc2_process_output(void)
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-static void app_frc2_lcsa_sync_set_process_request_cbk(void)
+static void app_frc2_process_request_cbk(void)
 {
 	app_frc2_process_req_cnt++;
-	app_frc2_process_time_valid = app_port_get_system_tick() - app_frc2_lcsa_sync_set_process_time_valid_fnc();
+	app_frc2_process_time_valid = app_port_get_system_tick() - app_frc2_process_time_valid_fnc();
 }
 
-static void app_frc2_lcsa_sync_set_process_image_valid_cbk(void)
+static void app_frc2_process_image_valid_cbk(void)
 {
 	app_frc2_image_valid_cnt++;
 }
+
+static void app_frc2_process_image_not_valid_cbk(void)
+{
+	app_frc2_image_not_valid_cnt++;
+}
+
 
 /** @} */
 

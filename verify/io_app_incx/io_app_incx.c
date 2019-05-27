@@ -44,15 +44,23 @@
 /*--------------------------------------------------------------------------*/
 app_incx_can_tx_data_t app_incx_can_tx_data;
 
+volatile uint32_t app_incx_image_valid_cnt = 0;
+volatile uint32_t app_incx_process_req_cnt = 0;
+volatile uint32_t app_incx_process_time_valid = 0;
+volatile uint32_t app_incx_image_not_valid_cnt = 0;
+
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
+static void app_incx_process_request_cbk(void);
+static void app_incx_process_image_valid_cbk(void);
+static void app_incx_process_image_not_valid_cbk(void);
 
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
 static uint16_t app_incx_can_config_table_pos;
-static uint32_t (*app_incx_can_sync_get_pr_time_valid_module)(void);
+static uint32_t (*app_incx_process_time_valid_fnc)(void);
 
 static const lcsa_module_config_t app_incx_can_module =
 {
@@ -130,7 +138,22 @@ lcsa_errorcode_t app_incx_init(li_can_slv_module_nr_t modnr)
 
 	if (err == LCSA_ERROR_OK)
 	{
-		err = lcsa_sync_set_process_time_valid_fnc(APP_INCX_MODULE_TYPE, &app_incx_can_sync_get_pr_time_valid_module);
+		err = lcsa_sync_set_process_time_valid_fnc(APP_INCX_MODULE_TYPE, &app_incx_process_time_valid_fnc);
+	}
+
+	if (err == LCSA_ERROR_OK)
+	{
+		err = lcsa_sync_set_process_request_cbk(APP_INCX_MODULE_TYPE, modnr, &app_incx_process_request_cbk);
+	}
+
+	if (err == LCSA_ERROR_OK)
+	{
+		err = lcsa_sync_set_process_image_valid_cbk(APP_INCX_MODULE_TYPE, modnr, &app_incx_process_image_valid_cbk);
+	}
+
+	if (err == LCSA_ERROR_OK)
+	{
+		err = lcsa_sync_set_process_image_not_valid_cbk(APP_INCX_MODULE_TYPE, modnr, &app_incx_process_image_not_valid_cbk);
 	}
 
 	if (err == LCSA_ERROR_OK)
@@ -161,6 +184,20 @@ lcsa_errorcode_t app_incx_process_output(void)
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
+static void app_incx_process_request_cbk(void)
+{
+	app_incx_process_req_cnt++;
+	app_incx_process_time_valid = app_port_get_system_tick() - app_incx_process_time_valid_fnc();
+}
+
+static void app_incx_process_image_valid_cbk(void)
+{
+	app_incx_image_valid_cnt++;
+}
+static void app_incx_process_image_not_valid_cbk(void)
+{
+	app_incx_image_not_valid_cnt++;
+}
 
 /** @} */
 

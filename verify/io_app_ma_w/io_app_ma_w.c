@@ -45,17 +45,23 @@
 app_ma_w_can_rx_data_t app_ma_w_can_rx_data[APP_MA_W_NUM_OF_MODULES];
 app_ma_w_can_tx_data_t app_ma_w_can_tx_data[APP_MA_W_NUM_OF_MODULES];
 
+volatile uint32_t app_ma_w_image_valid_cnt = 0;
+volatile uint32_t app_ma_w_process_req_cnt = 0;
+volatile uint32_t app_ma_w_process_time_valid = 0;
+volatile uint32_t app_ma_w_image_not_valid_cnt = 0;
+
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-static void app_ma_w_image_ok_callback(void);
-static void app_ma_w_image_not_ok_callback(void);
+static void app_ma_w_process_request_cbk(void);
+static void app_ma_w_process_image_valid_cbk(void);
+static void app_ma_w_process_image_not_valid_cbk(void);
 
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
 static uint16_t app_ma_w_can_config_table_pos;
-static uint32_t (*app_ma_w_can_sync_get_process_time_valid)(void);
+static uint32_t (*app_ma_w_process_time_valid_fnc)(void);
 
 static const lcsa_module_config_t app_ma_w_config =
 {
@@ -156,17 +162,22 @@ lcsa_errorcode_t app_ma_w_init(uint16_t module_idx, li_can_slv_module_nr_t modnr
 
 	if (err == LCSA_ERROR_OK)
 	{
-		err = lcsa_sync_set_process_time_valid_fnc(APP_MA_W_MODULE_TYPE, &app_ma_w_can_sync_get_process_time_valid);
+		err = lcsa_sync_set_process_time_valid_fnc(APP_MA_W_MODULE_TYPE, &app_ma_w_process_time_valid_fnc);
 	}
 
 	if (err == LCSA_ERROR_OK)
 	{
-		err = lcsa_sync_set_process_image_valid_cbk(APP_MA_W_MODULE_TYPE, modnr, &app_ma_w_image_ok_callback);
+		err = lcsa_sync_set_process_request_cbk(APP_MA_W_MODULE_TYPE, modnr, &app_ma_w_process_request_cbk);
 	}
 
 	if (err == LCSA_ERROR_OK)
 	{
-		err = lcsa_sync_set_process_image_not_valid_cbk(APP_MA_W_MODULE_TYPE, modnr, &app_ma_w_image_not_ok_callback);
+		err = lcsa_sync_set_process_image_valid_cbk(APP_MA_W_MODULE_TYPE, modnr, &app_ma_w_process_image_valid_cbk);
+	}
+
+	if (err == LCSA_ERROR_OK)
+	{
+		err = lcsa_sync_set_process_image_not_valid_cbk(APP_MA_W_MODULE_TYPE, modnr, &app_ma_w_process_image_not_valid_cbk);
 	}
 
 	if (err == LCSA_ERROR_OK)
@@ -256,7 +267,6 @@ void app_ma_w_tx4_set_word3(uint16_t module_idx, uint16_t value)
 {
 	app_ma_w_can_tx_data[module_idx].tx_obj4.word3 = value;
 }
-
 
 uint16_t app_ma_w_rx1_get_word0(uint16_t module_idx)
 {
@@ -351,27 +361,20 @@ lcsa_errorcode_t app_ma_w_process_output(void)
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-static void app_ma_w_image_not_ok_callback(void)
+static void app_ma_w_process_request_cbk(void)
 {
-
+	app_ma_w_process_req_cnt++;
+	app_ma_w_process_time_valid = app_port_get_system_tick() - app_ma_w_process_time_valid_fnc();
 }
 
-static void app_ma_w_image_ok_callback(void)
+static void app_ma_w_process_image_valid_cbk(void)
 {
-	static uint8_t cnt = 0;
-	static uint32_t cnt2 = 0;
-
-	cnt++;
-
-	if (cnt >= 100)
-	{
-		cnt = 0;
-		app_ma_w_tx1_set_word1(0, cnt2++);
-	}
-	else
-	{
-		app_ma_w_tx1_set_word0(0, cnt);
-	}
+	app_ma_w_image_valid_cnt++;
 }
+static void app_ma_w_process_image_not_valid_cbk(void)
+{
+	app_ma_w_image_not_valid_cnt++;
+}
+
 
 /** @} */

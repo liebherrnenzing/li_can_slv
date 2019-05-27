@@ -131,7 +131,7 @@ extern "C" {
 #define lcsa_sync_get_process_periode()	li_can_slv_sync_get_process_periode()
 
 /**
- * Set function pointer to read the valid time for this module type
+ * Set function pointer to read the valid process time for this module type
  * @def lcsa_sync_set_process_time_valid_fnc(module_type, pfnc)
  * @param module_type
  * @param pfnc function pointer to the valid function

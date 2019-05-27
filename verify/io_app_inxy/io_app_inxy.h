@@ -79,6 +79,11 @@ typedef enum
 /*--------------------------------------------------------------------------*/
 extern app_inxy_can_tx_data_t app_inxy_can_tx_data[2];
 
+extern volatile uint32_t app_inxy_image_valid_cnt;
+extern volatile uint32_t app_inxy_process_req_cnt;
+extern volatile uint32_t app_inxy_process_time_valid;
+extern volatile uint32_t app_inxy_image_not_valid_cnt;
+
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/

@@ -83,6 +83,7 @@ extern app_frc2_can_tx_data_t app_frc2_can_tx_data;
 extern volatile uint32_t app_frc2_image_valid_cnt;
 extern volatile uint32_t app_frc2_process_req_cnt;
 extern volatile uint32_t app_frc2_process_time_valid;
+extern volatile uint32_t app_frc2_image_not_valid_cnt;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
