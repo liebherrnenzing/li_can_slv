@@ -203,7 +203,7 @@ extern "C" {
 
 /**
  * Set the callback function pointer for the function which should be called on every not valid process image.
- * @def lcsa_sync_set_process_image_valid_cbk(module_type, pfnc)
+ * @def lcsa_sync_set_process_image_not_valid_cbk(module_type, module_number, pfnc)
  * @param module_type the module type for which the callback is set
  * @param module_number the module number for which the callback is set
  * @param pfnc function pointer to the callback
