@@ -301,6 +301,14 @@ extern "C" {
 #define lcsa_send_module_error(msg_code, priority, group, subgroup, module_nr)	error_syserr_send_full(msg_code, 0, priority, group, subgroup, module_nr)
 
 /**
+ * @param msg_code message code of the error
+ * @param priority the priority used for this message. Usage of #LCSA_ERROR_MSG_PRIO_INFO, #LCSA_ERROR_MSG_PRIO_WARNING or #LCSA_ERROR_MSG_PRIO_ERROR is possible.
+ * @param module_nr logical CAN module number that caused the error
+ * @return #LCSA_ERROR_OK if successful
+ */
+#define lcsa_send_module_error_short(msg_code, priority, module_nr)	error_syserr_send_full(msg_code, 0, priority, MSG_EXTRACT_GROUP(msg_code), MSG_EXTRACT_GROUP_SUBGROUP(msg_code), module_nr)
+
+/**
  * @def lcsa_send_module_error_with_add_info(msg_code, add_info, priority, group, subgroup, module_nr)
  * @param msg_code message code of the error
  * @param add_info additional signed info byte
@@ -311,6 +319,16 @@ extern "C" {
  * @return lcsa_errorcode_t or #LCSA_ERROR_OK if successful
  */
 #define lcsa_send_module_error_with_add_info(msg_code, add_info, priority, group, subgroup, module_nr)	error_syserr_send_full(msg_code, add_info, priority, group, subgroup, module_nr) /**< send module error with info */
+
+/**
+ * @def lcsa_send_module_error_with_add_info(msg_code, add_info, priority, group, subgroup, module_nr)
+ * @param msg_code message code of the error
+ * @param add_info additional signed info byte
+ * @param priority the priority used for this message. Usage of #LCSA_ERROR_MSG_PRIO_INFO, #LCSA_ERROR_MSG_PRIO_WARNING or #LCSA_ERROR_MSG_PRIO_ERROR is possible.
+ * @param module_nr logical CAN module number that caused the error.
+ * @return lcsa_errorcode_t or #LCSA_ERROR_OK if successful
+ */
+#define lcsa_send_module_error_short_with_add_info(msg_code, add_info, priority, module_nr)	error_syserr_send_full(msg_code, add_info, priority, MSG_EXTRACT_GROUP(msg_code), MSG_EXTRACT_GROUP_SUBGROUP(msg_code), module_nr)
 
 /**
  * @def lcsa_send_sensor_error(msg_code, priority,  module_nr)
