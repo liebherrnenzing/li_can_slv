@@ -16,7 +16,6 @@ build_script:
 - inv all
 test_script:
 - inv test
-- inv test_junit
 after_test:
 - inv cov_xml
 - cd build
