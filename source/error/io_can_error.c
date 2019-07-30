@@ -390,9 +390,9 @@ li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_in
 			if (error_syserr_queue.count <  ERROR_SYSERR_QUEUE_NUMENT)
 			{
 				++error_syserr_queue.count;
-#ifdef DEBUG_ERROR
+#ifdef LI_CAN_SLV_DEBUG_ERROR
 				printf("\n-- count ++ -- \n");
-#endif // #ifdef DEBUG_ERROR
+#endif // #ifdef LI_CAN_SLV_DEBUG_ERROR
 			}
 			error_syserr_queue.error_syserr_queue[error_syserr_queue.in_next_idx].msg_code = msg_code;
 			error_syserr_queue.error_syserr_queue[error_syserr_queue.in_next_idx].module_nr = module_nr;
@@ -412,9 +412,9 @@ li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_in
 				if (error_syserr_queue.count < ERROR_SYSERR_QUEUE_NUMENT)
 				{
 					++error_syserr_queue.count;
-#ifdef DEBUG_ERROR
+#ifdef LI_CAN_SLV_DEBUG_ERROR
 					printf("\n-- count ++ -- \n");
-#endif // #ifdef DEBUG_ERROR
+#endif // #ifdef LI_CAN_SLV_DEBUG_ERROR
 				}
 
 				error_syserr_queue.error_syserr_queue[error_syserr_queue.in_next_idx].msg_code = msg_code;
@@ -426,13 +426,13 @@ li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_in
 			}
 		}
 
-#ifdef DEBUG_ERROR
+#ifdef LI_CAN_SLV_DEBUG_ERROR
 		printf("\nsend err:%04X", errnum);
 		printf(" in_idx:%d", error_syserr_queue.in_next_idx);
 		printf(" out_idx:%d", error_syserr_queue.out_next_idx);
 		printf(" cnt:%d", error_syserr_queue.count);
 		printf("\n");
-#endif // #ifdef DEBUG_ERROR
+#endif // #ifdef LI_CAN_SLV_DEBUG_ERROR
 
 #ifdef LI_CAN_SLV_BOOT
 		irq_set_global_state(irq_old);
@@ -601,13 +601,13 @@ li_can_slv_errorcode_t error_syserr_get_full(msg_code_t *pmsg_code, byte_t *padd
 		*pgroup_subgroup = (byte_t) error_syserr_queue.error_syserr_queue[error_syserr_queue.out_next_idx].group_subgroup;
 		error_syserr_queue.out_next_idx = (error_syserr_queue.out_next_idx + 1) % ERROR_SYSERR_QUEUE_NUMENT;
 		error_syserr_queue.count--; // decrement count
-#ifdef DEBUG_ERROR
+#ifdef LI_CAN_SLV_DEBUG_ERROR
 		printf("\nget err:%04X", *pmsg_code);
 		printf(" in_idx:%d", error_syserr_queue.in_next_idx);
 		printf(" out_idx:%d", error_syserr_queue.out_next_idx);
 		printf(" cnt:%d", error_syserr_queue.count);
 		printf("\n");
-#endif // #ifdef DEBUG_ERROR
+#endif // #ifdef LI_CAN_SLV_DEBUG_ERROR
 
 #ifdef LI_CAN_SLV_BOOT
 		irq_set_global_state(irq_old);
@@ -698,9 +698,9 @@ uint16_t error_syserr_num(void)
 		num = error_syserr_queue.count;
 	}
 
-#ifdef DEBUG_ERROR
+#ifdef LI_CAN_SLV_DEBUG_ERROR
 	printf("\nerr_num --> state:%d num:%d", error_system_state, num);
-#endif // #ifdef DEBUG_ERROR
+#endif // #ifdef LI_CAN_SLV_DEBUG_ERROR
 
 	return (num);
 #else

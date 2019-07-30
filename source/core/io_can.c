@@ -465,11 +465,11 @@ li_can_slv_errorcode_t can_dump_msg_objects(uint16_t start_idx, uint16_t end_idx
  */
 li_can_slv_errorcode_t li_can_slv_process(void)
 {
-#ifdef DEBUG_LI_CAN_SLV_PRCOCESS
+#ifdef LI_CAN_SLV_DEBUG_PRCOCESS
 #define	NEXT_PRINT (10000)
 	static uint32_t next_print_tick = can_port_msec_2_ticks(NEXT_PRINT);
 	uint32_t tick;
-#endif // #ifdef DEBUG_LI_CAN_SLV_PRCOCESS
+#endif // #ifdef LI_CAN_SLV_DEBUG_PRCOCESS
 
 #ifndef LI_CAN_SLV_BOOT
 	/*----------------------------------------------------------------------*/
@@ -480,7 +480,7 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 
 	can_main_hw_handler_error();
 
-#ifdef DEBUG_LI_CAN_SLV_PRCOCESS
+#ifdef LI_CAN_SLV_DEBUG_PRCOCESS
 	tick = can_port_get_system_ticks();
 	if (tick >= next_print_tick)
 	{
@@ -488,7 +488,7 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 		LI_CAN_SLV_DEBUG_PRINT("\nlcs proc(ms): %ld", can_port_msec_2_ticks(tick));
 		next_print_tick = can_port_get_system_ticks() + can_port_msec_2_ticks(NEXT_PRINT);
 	}
-#endif // #ifdef DEBUG_LI_CAN_SLV_PRCOCESS
+#endif // #ifdef LI_CAN_SLV_DEBUG_PRCOCESS
 
 #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_ASYNC

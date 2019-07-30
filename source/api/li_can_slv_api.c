@@ -31,6 +31,9 @@
 #include <li_can_slv/core/io_can.h>
 #include <li_can_slv/config/io_can_config.h>
 
+#ifdef LI_CAN_SLV_DEBUG
+#include "li_can_slv_debug.h"
+#endif // #ifdef LI_CAN_SLV_DEBUG
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -129,6 +132,11 @@ lcsa_errorcode_t lcsa_start(void)
 	}
 #endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 	lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT
+	LI_CAN_SLV_DEBUG_PRINT("start\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
+
 	return err;
 #endif // #ifdef LI_CAN_SLV_DLOAD
 	return LCSA_ERROR_OK;

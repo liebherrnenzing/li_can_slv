@@ -55,10 +55,6 @@
 #endif // #ifdef TESTSYS_SYSTEM
 #endif // #ifdef SHOW_CAN_SYNC
 
-#ifdef DEBUG_PIN
-#include "io_app_debug.h"
-#endif //DEBUG_PIN
-
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
@@ -633,10 +629,6 @@ li_can_slv_errorcode_t can_sync_tx_data_main(uint16_t table_pos, uint16_t obj, u
 	dptr4 = dptr1 + 3;
 	sptr4 = sptr1 + 3;
 
-#ifdef DEBUG_PIN
-	DEBUG_PIN_CAN_SYNC_TX_DATA_MAIN = 1;
-#endif // #ifdef DEBUG_PIN
-
 	// copy atomic
 	CAN_PORT_DISABLE_IRQ();
 	*dptr1 = *sptr1;
@@ -644,10 +636,6 @@ li_can_slv_errorcode_t can_sync_tx_data_main(uint16_t table_pos, uint16_t obj, u
 	*dptr3 = *sptr3;
 	*dptr4 = *sptr4;
 	CAN_PORT_ENABLE_IRQ();
-
-#ifdef DEBUG_PIN
-	DEBUG_PIN_CAN_SYNC_TX_DATA_MAIN = 0;
-#endif // #ifdef DEBUG_PIN
 
 #ifdef LI_CAN_SLV_MON
 	err = can_config_module_tab[table_pos].tx_main_sync[obj](can, &can_sync_data_main_tx[table_pos].data[obj][0], dlc);

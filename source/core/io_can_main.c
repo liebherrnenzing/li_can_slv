@@ -145,10 +145,6 @@
 #include "io_smp.h"
 #endif /* #ifdef SMP */
 
-#ifdef DEBUG_PIN
-#include "io_app_debug.h"
-#endif /* #ifdef DEBUG_PIN */
-
 #ifdef SHOW_CAN_MAIN
 #include "io_var.h"
 #ifdef TESTSYS_SYSTEM
@@ -707,10 +703,6 @@ void can_main_sync_process_tx_data(void)
 	uint16_t dlc;
 	li_can_slv_errorcode_t err;
 
-#ifdef DEBUG_PIN
-	DEBUG_PIN_CAN_TX_SEND = 1;
-#endif /* #ifdef DEBUG_PIN */
-
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
 	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_main_sync tx obj_used: %d ", li_can_slv_sync_main_tx_msg_obj_used);
 	LI_CAN_SLV_DEBUG_PRINT("ctrl.send: %08lx", can_main_sync_process_tx_data_ctrl.send);
@@ -785,10 +777,6 @@ void can_main_sync_process_tx_data(void)
 		LI_CAN_SLV_DEBUG_PRINT(" .. empty .. \n\n");
 	}
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
-
-#ifdef DEBUG_PIN
-	DEBUG_PIN_CAN_TX_SEND = 0;
-#endif /* #ifdef DEBUG_PIN */
 }
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
 
@@ -863,7 +851,9 @@ li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id
 #endif /* #ifdef CAN_MAIN_CHECK_DEFINE_OBJECT */
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MAIN
-	LI_CAN_SLV_DEBUG_PRINT("\ncan main def msg obj: %d, id:%d, acc mask: %d, dlc: %d, dir: %d", msg_obj, can_id, acceptance_mask, dlc, dir);
+	LI_CAN_SLV_DEBUG_PRINT("obj: %d, id:%d\n", msg_obj, can_id);
+	LI_CAN_SLV_DEBUG_PRINT("mask: %d\n", acceptance_mask);
+	LI_CAN_SLV_DEBUG_PRINT("dlc: %d, dir: %d\n", dlc, dir);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MAIN */
 
 	/**

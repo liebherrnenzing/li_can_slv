@@ -130,10 +130,6 @@
 #include "io_smp.h"
 #endif // #ifdef SMP
 
-#ifdef DEBUG_PIN
-#include "io_app_debug.h"
-#endif // #ifdef DEBUG_PIN
-
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
