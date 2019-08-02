@@ -141,9 +141,9 @@
 #include <li_can_slv/core/io_can_reconnect.h>
 #endif /* #ifdef LI_CAN_SLV_RECONNECT */
 
-#ifdef SMP
+#ifdef IO_SMP
 #include "io_smp.h"
-#endif /* #ifdef SMP */
+#endif /* #ifdef IO_SMP */
 
 #ifdef DEBUG_PIN
 #include "io_app_debug.h"
@@ -326,13 +326,13 @@ static const var_const_t can_main_var_const[] =
 	{"main.rxok",		&can_main_diagnose.rxok,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[0]},
 	{"main.txok",		&can_main_diagnose.txok,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[1]},
 	{"main.err",		&can_main_diagnose.err,			VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[2]},
-#ifdef SMP
+#ifdef IO_SMP
 	{"main.ewrn",		&can_main_diagnose.ewrn,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_EWRN,	&can_main_var_change[3]},
 	{"main.boff",		&can_main_diagnose.boff,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_BOFF,	&can_main_var_change[4]},
-#else /* #ifdef SMP */
+#else /* #ifdef IO_SMP */
 	{"main.ewrn",		&can_main_diagnose.ewrn,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[3]},
 	{"main.boff",		&can_main_diagnose.boff,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[4]},
-#endif /* #ifdef SMP */
+#endif /* #ifdef IO_SMP */
 	{"main.stuff",		&can_main_diagnose.lec[0],		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[5]},
 	{"main.form",		&can_main_diagnose.lec[1],		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[6]},
 	{"main.ackn",		&can_main_diagnose.lec[2],		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[7]},

@@ -126,9 +126,9 @@
 #endif // #ifdef TESTSYS_SYSTEM
 #endif // #ifdef SHOW_CAN_MON
 
-#ifdef SMP
+#ifdef IO_SMP
 #include "io_smp.h"
-#endif // #ifdef SMP
+#endif // #ifdef IO_SMP
 
 #ifdef DEBUG_PIN
 #include "io_app_debug.h"
@@ -210,15 +210,15 @@ static const var_const_t can_mon_var_const[] =
 	{"mon.rxok",	&can_mon_diagnose.rxok,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[0]},
 	{"mon.txok",	&can_mon_diagnose.txok,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[1]},
 	{"mon.err",		&can_mon_diagnose.err,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[2]},
-#ifdef SMP
+#ifdef IO_SMP
 	{"mon.ewrn",	&can_mon_diagnose.ewrn,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CAN_MON_EWRN,	&can_mon_var_change[3]},
 
 	{"mon.boff",	&can_mon_diagnose.boff,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CAN_MON_BOFF,	&can_mon_var_change[4]},
-#else // #ifdef SMP
+#else // #ifdef IO_SMP
 	{"mon.ewrn",	&can_mon_diagnose.ewrn,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[3]},
 
 	{"mon.boff",	&can_mon_diagnose.boff,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[4]},
-#endif // #ifdef SMP
+#endif // #ifdef IO_SMP
 	{"mon.stuff",	&can_mon_diagnose.lec[0],	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[5]},
 	{"mon.form",	&can_mon_diagnose.lec[1],	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[6]},
 	{"mon.ackn",	&can_mon_diagnose.lec[2],	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[7]},

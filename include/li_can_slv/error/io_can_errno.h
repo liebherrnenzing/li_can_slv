@@ -76,13 +76,13 @@ extern "C" {
 #define MSG_SUBGROUP_UNDEFINED						0x00000000L /*!< service code subgroup definition: undefined/unknown/unused */
 #define MSG_SUBGROUP_CAN_SYSTEM						0x01000000L /*!< service code subgroup definition for group CAN bus: system layer */
 #define MSG_SUBGROUP_CAN_APPLICATION				0x02000000L /*!< service code subgroup definition for group CAN bus: application layer */
-#define MSG_SUBGROUP_CAN_BOOT						0x03000000L /*!< service code subgroup definition for group CAN bus: boot system of module */
-#define MSG_SUBGROUP_CAN_OS							0x04000000L /*!< service code subgroup definition for group CAN bus: OS system of module */
-#define MSG_SUBGROUP_CAN_CAN						0x05000000L /*!< service code subgroup definition for group CAN bus: CAN system of module */
-#define MSG_SUBGROUP_CAN_DRIVERS					0x06000000L /*!< service code subgroup definition for group CAN bus: drivers of module */
-#define MSG_SUBGROUP_CAN_SYSCHECK					0x07000000L /*!< service code subgroup definition for group CAN bus: system checks of module */
-#define MSG_SUBGROUP_CAN_UTILITIES					0x08000000L /*!< service code subgroup definition for group CAN bus: utilities of module */
-#define MSG_SUBGROUP_CAN_RECORDER					0x09000000L /*!< service code subgroup definition for group CAN bus: recorder subsystem (e.g. SMP, MDE) of module */
+#define MSG_SUBGROUP_CAN_BOOT						0x03000000L /*!< service code subgroup definition for group CAN bus: boot system */
+#define MSG_SUBGROUP_CAN_OS							0x04000000L /*!< service code subgroup definition for group CAN bus: OS system */
+#define MSG_SUBGROUP_CAN_CAN						0x05000000L /*!< service code subgroup definition for group CAN bus: CAN system */
+#define MSG_SUBGROUP_CAN_DRIVERS					0x06000000L /*!< service code subgroup definition for group CAN bus: drivers */
+#define MSG_SUBGROUP_CAN_SYSCHECK					0x07000000L /*!< service code subgroup definition for group CAN bus: system checks */
+#define MSG_SUBGROUP_CAN_UTILITIES					0x08000000L /*!< service code subgroup definition for group CAN bus: utilities */
+#define MSG_SUBGROUP_CAN_RECORDER					0x09000000L /*!< service code subgroup definition for group CAN bus: recorder subsystem */
 #define MSG_SUBGROUP_CAN_SENSOR						0x0A000000L /*!< service code subgroup definition for group CAN bus: sensor subsystem */
 
 #define MSG_SG_SHIFT(x) ((li_can_slv_errorcode_t)((msg_code_t)(x) >> 12)) /*!< Adopt subgroup information from 32 value to fit into 16 Bit value (module internal) */
@@ -181,6 +181,17 @@ extern "C" {
 #define ERR_MSG_CAN_CONFIG_CHANGE_MODULE_IN_OPERATION	(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x046u) /*!<A CAN module number change on the selected logical module is already in progress */
 #define ERR_MSG_CAN_MODULE_NR_TUPLE_ID_INVALID			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x047u) /*!< While changing module number an invalid tuple ID was detected.*/
 #define ERR_MSG_CAN_DLOAD_DENIED						(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x048u) /*!<Unknown component received */
+
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_NO_DL				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x049u)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_ST_REQ1			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x04Au)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_ST_REQ2			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x04Bu)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_ST_REQ1_2			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x04Cu)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_ERASURE			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x04Du)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_START_ACK			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x04Eu)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_DL_DATA			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x04Fu)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_BLOCK_ACK			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x050u)
+#define ERR_MSG_CAN_DLOAD_IN_PROGRESS_DL_END			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x051u)
+
 #define ERR_MSG_CAN_CONNECT_STARTUP_125kB				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x052u) /*!< CAN traffic on startup detected, initialized with 125kB (maybe module reset)*/
 #define ERR_MSG_CAN_CONNECT_STARTUP_250kB				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x053u) /*!< CAN traffic on startup detected, initialized with 250kB (maybe module reset)*/
 #define ERR_MSG_CAN_CONNECT_STARTUP_500kB				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x054u) /*!< CAN traffic on startup detected, initialized with 500kB (maybe module reset)*/
@@ -193,19 +204,20 @@ extern "C" {
 #define ERR_MSG_CAN_CONFIG_MODULE_NOT_FOUND				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Bu)
 #define ERR_MSG_CAN_STATE_MACHINE_ERROR 				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Cu) /*!<Wrong state machine command order for hex download */
 
-#define ERR_MSG_CAN_DLOAD_FLASH_WRITE_MAIN				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Du) /*!< \brief message 0x7500005D */
-#define ERR_MSG_CAN_DLOAD_FLASH_WRITE_MON				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Eu) /*!< \brief message 0x7500005E */
-#define ERR_MSG_CAN_DLOAD_FLASH_READ_MAIN				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Fu) /*!< \brief message 0x7500005F */
-#define ERR_MSG_CAN_DLOAD_FLASH_READ_MON				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x060u) /*!< \brief message 0x75000060 */
-#define ERR_MSG_CAN_DLOAD_FLASH_ERASE_MAIN				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x061u) /*!< \brief message 0x75000061 */
-#define ERR_MSG_CAN_DLOAD_FLASH_ERASE_MON				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x062u) /*!< \brief message 0x75000062 */
-#define ERR_MSG_CAN_DLOAD_MAINMON_CONNECTION			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x063u) /*!< \brief message 0x75000062 */
+#define ERR_MSG_CAN_DLOAD_FLASH_WRITE_MAIN				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Du)
+#define ERR_MSG_CAN_DLOAD_FLASH_WRITE_MON				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Eu)
+#define ERR_MSG_CAN_DLOAD_FLASH_READ_MAIN				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x05Fu)
+#define ERR_MSG_CAN_DLOAD_FLASH_READ_MON				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x060u)
+#define ERR_MSG_CAN_DLOAD_FLASH_ERASE_MAIN				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x061u)
+#define ERR_MSG_CAN_DLOAD_FLASH_ERASE_MON				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x062u)
+#define ERR_MSG_CAN_DLOAD_MAINMON_CONNECTION			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x063u)
 
 #define ERR_MSG_CAN_ASYNC_UNKNOWN_COMMAND				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x064u) /**< Unknown asynchrony command received on module */
 #define ERR_MSG_CAN_SYS_UNKNOWN_COMMAND					(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x065u) /**< Unknown system command received on module */
 #define ERR_MSG_CAN_MODULE_TYPE_CHANGE_FAILED			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x066u)
 #define ERR_MSG_CAN_BAUD_RATE_CONFIG_INVALID			(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x067u)
 #define ERR_MSG_CAN_NOT_IMPLEMENTED 					(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x068u)
+#define ERR_MSG_CAN_IO_CONFIG_INVALID_CRC				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x069u)
 #define ERR_MSG_CAN_SYNC_PROCESS_IMAGE_NOT_VALID		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x06Au)
 #define ERR_MSG_CAN_MODULE_NR_CONFIGURATION_FAILED		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x06Bu)
 #define ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_BROADCAST	(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x06Cu)

@@ -85,9 +85,9 @@
 /*--------------------------------------------------------------------------*/
 #include <li_can_slv/core/io_can_reconnect.h>
 
-#ifdef SMP
+#ifdef IO_SMP
 #include "io_smp.h"
-#endif // #ifdef SMP
+#endif // #ifdef IO_SMP
 
 #include <li_can_slv/core/io_can_main.h>
 #include <li_can_slv/core/io_can_mon.h>
@@ -226,7 +226,7 @@ static var_change_t can_reconnect_var_change[] = /**< */
 };
 
 
-#ifdef SMP
+#ifdef IO_SMP
 static const var_const_t can_reconnect_var_const[] = /**< */
 {
 	{"canrc.state",	&can_reconnect.state,	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CANRC_STATE,	&can_reconnect_var_change[0]},
@@ -235,7 +235,7 @@ static const var_const_t can_reconnect_var_const[] = /**< */
 	{"canrc.nr",	&can_reconnect.nr,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CANRC_NR,		&can_reconnect_var_change[3]},
 	{VAR_END_OF_TABLE}
 };
-#else // #ifdef SMP
+#else // #ifdef IO_SMP
 static const var_const_t can_reconnect_var_const[] = /**< */
 {
 	{"canrc.state",	&can_reconnect.state,	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[0]},
@@ -244,7 +244,7 @@ static const var_const_t can_reconnect_var_const[] = /**< */
 	{"canrc.nr",	&can_reconnect.nr,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[3]},
 	{VAR_END_OF_TABLE}
 };
-#endif // #ifdef SMP
+#endif // #ifdef IO_SMP
 
 /*--------------------------------------------------------------------------*/
 /* IO-TESTSYS-PAGE system CAN reconnect                                     */
