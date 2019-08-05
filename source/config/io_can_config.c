@@ -113,10 +113,6 @@
 #endif // #ifdef BGNDCMD
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-#ifdef DEBUG_PIN
-#include "io_app_debug.h"
-#endif // #ifdef DEBUG_PIN
-
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
@@ -807,7 +803,7 @@ li_can_slv_errorcode_t can_config_set_baudrate_table(void)
 #endif // #if defined(LI_CAN_SLV_TUPLE) && defined(CAN_BAUDRATE_TABLE_CNFG)
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_config_set_baudrate_table");
+	LI_CAN_SLV_DEBUG_PRINT(" \n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 #if defined(LI_CAN_SLV_TUPLE) && defined(CAN_BAUDRATE_TABLE_CNFG)
@@ -889,7 +885,7 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 li_can_slv_errorcode_t can_config_set_baudrate_default(void)
 {
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\ncan_config_set_baud rate_default");
+	LI_CAN_SLV_DEBUG_PRINT(" \n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	return (can_config_set_baudrate(can_config_bdr_tab[0].baudrate));
 }
@@ -1008,7 +1004,7 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 #endif // #ifndef LI_CAN_SLV_SYS_MODULE_ERROR
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_config_add_module1 %4s", module->type);
+	LI_CAN_SLV_DEBUG_PRINT("type:%4s\n", module->type);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 	i = 0;
@@ -1023,7 +1019,7 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 				if (can_config_module_tab[j].module_nr == module_nr)
 				{
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-					LI_CAN_SLV_DEBUG_PRINT("\n->check on module_nr.%d", module_nr);
+					LI_CAN_SLV_DEBUG_PRINT("mdnr:%d\n", module_nr);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 					/* set module with default module number */
@@ -1041,7 +1037,7 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 			}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-			LI_CAN_SLV_DEBUG_PRINT("\ncan_config_add_module2 %d", module_nr);
+			LI_CAN_SLV_DEBUG_PRINT("modnr: %d\n", module_nr);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 			/* set module with module number */
@@ -1549,8 +1545,7 @@ void can_config_init_module_nr_main(li_can_slv_module_nr_t module_nr)
 		can_config_module_tab[LI_CAN_SLV_CONFIG_TABLE_POS_MAIN_MODULE].module_nr = LI_CAN_SLV_CONFIG_DEF_MOD_NR1;
 	}
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_config_init_module_nr_main:");
-	LI_CAN_SLV_DEBUG_PRINT(" %d", module_nr);
+	LI_CAN_SLV_DEBUG_PRINT("mdnr: %d\n", module_nr);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
@@ -1792,7 +1787,7 @@ li_can_slv_errorcode_t li_can_slv_config_change_module_nr_and_identifiers(char_t
 	uint16_t table_pos = 0;
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_config_change_module table_pos: %d, modnr: %d", table_pos, new_module_nr);
+	LI_CAN_SLV_DEBUG_PRINT("table_pos: %d, modnr: %d\n", table_pos, new_module_nr);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 	table_pos = get_table_pos_from_type_and_actual_module_number(module_type, actual_module_nr);
@@ -2033,7 +2028,7 @@ static li_can_slv_errorcode_t can_config_set_module(uint16_t table_pos, const li
 	}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_config_set_module table_pos: %d, modnr: %d", table_pos, module_nr);
+	LI_CAN_SLV_DEBUG_PRINT("table_pos: %d, modnr: %d\n", table_pos, module_nr);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 	can_config_module_tab[table_pos].module_nr = module_nr;

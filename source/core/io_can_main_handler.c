@@ -87,10 +87,6 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 #endif // #if defined (LI_CAN_SLV_ASYNC) || defined (CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined (CAN_ASYNC_CTRL_TX_QUEUE)
 
-#ifdef DEBUG_PIN
-	DEBUG_PIN_CAN_TX_ISR = 1;
-#endif // #ifdef DEBUG_PIN
-
 #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
 	LI_CAN_SLV_DEBUG_PRINT("\nc_m_hw_t_isr: %d", caller_idx);
 #else
@@ -189,9 +185,6 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 	}
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
-#ifdef DEBUG_PIN
-	DEBUG_PIN_CAN_TX_ISR = 0;
-#endif // #ifdef DEBUG_PIN
 	return 0;
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)

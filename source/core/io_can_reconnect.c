@@ -285,9 +285,9 @@ li_can_slv_errorcode_t li_can_slv_reconnect_init(void)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 	hist_add(HISTORY_CAN, "cr init");
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef SHOW_CAN_RECONNECT
 	can_reconnect_var_change[0].info = can_reconnect_state_info[can_reconnect.state];
@@ -329,9 +329,9 @@ li_can_slv_errorcode_t li_can_slv_reconnect_startup(void)
 {
 	if (can_reconnect.state == CAN_RECONNECT_STATE_STARTUP)
 	{
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 		hist_add(HISTORY_CAN, "cr startup");
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT_STARTUP
 		LI_CAN_SLV_DEBUG_PRINT("\n\ncr on startup: %ld", can_port_get_system_ticks());
@@ -355,9 +355,9 @@ li_can_slv_errorcode_t li_can_slv_reconnect_startup(void)
 	}
 	else
 	{
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 		hist_addx(HISTORY_CAN, "cr startup state:", can_reconnect.state);
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 		can_main_enable();
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 		can_mon_enable();
@@ -373,9 +373,9 @@ li_can_slv_errorcode_t li_can_slv_reconnect_startup(void)
  */
 li_can_slv_errorcode_t li_can_slv_reconnect_download(void)
 {
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 	hist_add(HISTORY_CAN, "cr download");
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 	LI_CAN_SLV_DEBUG_PRINT("\ncr download");
@@ -424,9 +424,9 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_main_node_online(uint16_t ewrn)
 #endif // #ifdef LI_CAN_SLV_RECONNECT_MAIN_NODE
 	if ((can_reconnect.state == CAN_RECONNECT_STATE_OFF) && (ewrn != 0x0000))
 	{
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 		hist_add(HISTORY_CAN, "cr main online");
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 		LI_CAN_SLV_DEBUG_PRINT("\ncr main online");
@@ -467,9 +467,9 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_main_node_recovery(uint16_t boff)
 
 	if ((can_reconnect.state == CAN_RECONNECT_STATE_OFF) && (boff != 0x0000))
 	{
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 		hist_add(HISTORY_CAN, "cr main recov");
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 		LI_CAN_SLV_DEBUG_PRINT("\nrcr main recov");
@@ -562,12 +562,12 @@ void li_can_slv_reconnect_process_off(void)
  */
 li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 {
-#ifdef DEBUG_HISTORY_CAN_RECONNECT_PROCESS
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT_PROCESS
 	hist_add(HISTORY_CAN, "cr proc");
 	hist_addx(HISTORY_CAN, "intid", intid);
 	hist_addx(HISTORY_CAN, "lec", lec);
 	hist_addx(HISTORY_CAN, "state", can_reconnect.state);
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT_PROCESS
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT_PROCESS
 
 	if (FALSE == process_on_off)
 	{
@@ -820,9 +820,9 @@ static li_can_slv_errorcode_t can_reconnect_on(uint16_t id)
 	li_can_slv_config_bdr_t current_baudrate;
 #endif // #ifdef LI_CAN_SLV_RECONNECT_MAIN_NODE
 
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 	hist_addx(HISTORY_CAN, "cr on", id);
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 	LI_CAN_SLV_DEBUG_PRINT("\ncr on %d", id);
@@ -948,10 +948,10 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT_STARTUP
 
 
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 	hist_addx(HISTORY_CAN, "cr off", id);
 	hist_addx(HISTORY_CAN, "with baudrate", baudrate);
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
@@ -1116,9 +1116,9 @@ static li_can_slv_errorcode_t can_reconnect_next_baudrate(void)
 
 	err = can_config_set_baudrate_listen_only(can_reconnect_bdr_table[can_reconnect.bdr_index]);
 
-#ifdef DEBUG_HISTORY_CAN_RECONNECT
+#ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 	hist_addx(HISTORY_CAN, "cr next", can_reconnect_bdr_table[can_reconnect.bdr_index]);
-#endif // #ifdef DEBUG_HISTORY_CAN_RECONNECT
+#endif // #ifdef LI_CAN_SLV_DEBUG_HISTORY_CAN_RECONNECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 	LI_CAN_SLV_DEBUG_PRINT("\nrecon next: %d", can_reconnect_bdr_table[can_reconnect.bdr_index]);
