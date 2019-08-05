@@ -269,18 +269,18 @@
             <td class="headerValue">..\include\li_can_slv\arch\io_can_main_hw_inline.h</td>
             <td></td>
             <td class="headerName">Lines:</td>
-            <td class="headerTableEntry">0</td>
+            <td class="headerTableEntry">6</td>
             <td class="headerTableEntry">18</td>
-            <td class="headerTableEntry" style="background-color:LightPink">0.0 %</td>
+            <td class="headerTableEntry" style="background-color:LightPink">33.3 %</td>
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2018-12-18 14:54:21</td>
+            <td class="headerValue">2019-08-05 08:52:56</td>
             <td></td>
             <td class="headerName">Branches:</td>
-            <td class="headerTableEntry">0</td>
+            <td class="headerTableEntry">3</td>
             <td class="headerTableEntry">8</td>
-            <td class="headerTableEntry" style="background-color:LightPink">0.0 %</td>
+            <td class="headerTableEntry" style="background-color:LightPink">37.5 %</td>
           </tr>
         </table>
       </td>
@@ -792,8 +792,8 @@
     <tr>
     <td align="right" class="lineno"><pre>71</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount uncoveredLine"><pre></pre></td>
-    <td align="left" class="src uncoveredLine"><pre>CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_main_synchron_rx(uint32_t rxi, uint16_t *msg_obj, uint16_t *table_pos)</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="left" class="src coveredLine"><pre>CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_main_synchron_rx(uint32_t rxi, uint16_t *msg_obj, uint16_t *table_pos)</pre></td>
     </tr>
 
     <tr>
@@ -819,9 +819,9 @@
 
     <tr>
     <td align="right" class="lineno"><pre>75</pre></td>
-    <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount uncoveredLine"><pre></pre></td>
-    <td align="left" class="src uncoveredLine"><pre>	for (i = 0; i &lt; li_can_slv_sync_main_rx_msg_obj_used; i++)</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 10 times">&check;</span><span class="notTakenBranch" title="Branch 1 not taken">&cross;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>10</pre></td>
+    <td align="left" class="src coveredLine"><pre>	for (i = 0; i &lt; li_can_slv_sync_main_rx_msg_obj_used; i++)</pre></td>
     </tr>
 
     <tr>
@@ -833,9 +833,9 @@
 
     <tr>
     <td align="right" class="lineno"><pre>77</pre></td>
-    <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount uncoveredLine"><pre></pre></td>
-    <td align="left" class="src uncoveredLine"><pre>		if ((rxi &amp; li_can_slv_sync_main_rx_msg_obj[i].msg_obj_mask) != 0)</pre></td>
+    <td align="right" class="linebranch"><span class="takenBranch" title="Branch 0 taken 4 times">&check;</span><span class="takenBranch" title="Branch 1 taken 6 times">&check;</span></td>
+    <td align="right" class="linecount coveredLine"><pre>10</pre></td>
+    <td align="left" class="src coveredLine"><pre>		if ((rxi &amp; li_can_slv_sync_main_rx_msg_obj[i].msg_obj_mask) != 0)</pre></td>
     </tr>
 
     <tr>
@@ -848,22 +848,22 @@
     <tr>
     <td align="right" class="lineno"><pre>79</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount uncoveredLine"><pre></pre></td>
-    <td align="left" class="src uncoveredLine"><pre>			*table_pos = li_can_slv_sync_main_rx_msg_obj[i].table_pos;</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="left" class="src coveredLine"><pre>			*table_pos = li_can_slv_sync_main_rx_msg_obj[i].table_pos;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>80</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount uncoveredLine"><pre></pre></td>
-    <td align="left" class="src uncoveredLine"><pre>			*msg_obj = li_can_slv_sync_main_rx_msg_obj[i].msg_obj;</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="left" class="src coveredLine"><pre>			*msg_obj = li_can_slv_sync_main_rx_msg_obj[i].msg_obj;</pre></td>
     </tr>
 
     <tr>
     <td align="right" class="lineno"><pre>81</pre></td>
     <td align="right" class="linebranch"></td>
-    <td align="right" class="linecount uncoveredLine"><pre></pre></td>
-    <td align="left" class="src uncoveredLine"><pre>			return (LI_CAN_SLV_ERR_OK);</pre></td>
+    <td align="right" class="linecount coveredLine"><pre>4</pre></td>
+    <td align="left" class="src coveredLine"><pre>			return (LI_CAN_SLV_ERR_OK);</pre></td>
     </tr>
 
     <tr>
