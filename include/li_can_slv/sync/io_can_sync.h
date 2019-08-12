@@ -157,13 +157,23 @@ li_can_slv_errorcode_t can_sync_tx_data_mon(uint16_t table_pos, uint16_t int_id,
 li_can_slv_errorcode_t can_sync_clr_rx_data_main_mon(uint16_t taple_pos);
 
 void li_can_slv_sync_check_process_image(void);
-uint32_t can_sync_get_pr_time_valid(void);
+
+/**
+ * @brief li_can_slv_sync_get_process_valid_time
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+uint32_t li_can_slv_sync_get_process_valid_time(void);
 
 /**
  * @brief li_can_slv_sync_get_process_periode
  * @return current process period
  */
 uint32_t li_can_slv_sync_get_process_periode(void);
+
+/**
+ * @return current process time on main node
+ */
+uint32_t li_can_slv_sync_get_main_process_timestamp(void);
 
 li_can_slv_errorcode_t li_can_slv_sync_set_process_time_valid_fnc(char_t *type, uint32_t(**pfnc)(void));
 li_can_slv_errorcode_t can_sync_set_pr_call_fnc(void(*pfnc)(void));

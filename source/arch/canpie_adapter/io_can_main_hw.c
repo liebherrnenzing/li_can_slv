@@ -54,19 +54,6 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-#if CP_VERSION_MAJOR <= 2
-#define CANPIE_MODE_START	(CP_MODE_START)
-#define CANPIE_MODE_STOP	(CP_MODE_STOP)
-#define CANPIE_MODE_LISTEN_ONLY	(CP_MODE_LISTEN_ONLY)
-#define CANPIE_BUFFER_DIR_TX	(CP_BUFFER_DIR_TX)
-#define CANPIE_BUFFER_DIR_RX	(CP_BUFFER_DIR_RX)
-#else // #if CP_VERSION_MAJOR <= 2
-#define CANPIE_MODE_START	(eCP_MODE_START)
-#define CANPIE_MODE_STOP	(eCP_MODE_STOP)
-#define CANPIE_MODE_LISTEN_ONLY	(eCP_MODE_LISTEN_ONLY)
-#define CANPIE_BUFFER_DIR_TX	(eCP_BUFFER_DIR_TRM)
-#define CANPIE_BUFFER_DIR_RX	(eCP_BUFFER_DIR_RCV)
-#endif // #if CP_VERSION_MAJOR <= 2
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
