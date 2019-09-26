@@ -158,21 +158,36 @@ extern "C" {
  */
 #define li_can_slv_port_string_n_cpy(dest, source, size) strncpy(dest, source, size)
 
+  
 /**
- * li_can_slv_port_get_boot_kernel_version_major
+ * li_can_slv_port_get_boot_kernel_version_major <= 9
  */
 #define li_can_slv_port_get_boot_kernel_version_major()		(9)
+
 /**
- * li_can_slv_port_get_boot_kernel_version_minor
+ * li_can_slv_port_get_boot_kernel_version_minor <= 999
  */
 #define li_can_slv_port_get_boot_kernel_version_minor()		(999)
 
 /**
- * li_can_slv_port_get_modul_software_version_major
+ * li_can_slv_port_get_modul_software_version_major <= 9
  */
 #define li_can_slv_port_get_modul_software_version_major()	(9)
+
 /**
- * li_can_slv_port_get_modul_software_version_minor
+ \rst
+.. tip:: 
+ 	The Liebherr CAN Protocol uses a major.minor versioning scheme. So theoretically it is possible to 
+ 	us a version number like 255.65535. But in practice do not use numbers above 9.999. Increment the major
+ 	version when you make an incompatible API change, and increment the minor when you add a functionality 
+ 	in a backwards-compatible manner. The boot kernel version represents the version of the boot loader and 
+ 	the module software version is used for the application running on that device. If no boot loader is
+ 	present on that device use the same number for boot kernel and module software. 
+\endrst
+ */
+ 
+/**
+ * li_can_slv_port_get_modul_software_version_minor <= 999
  */
 #define li_can_slv_port_get_modul_software_version_minor()	(999)
 
