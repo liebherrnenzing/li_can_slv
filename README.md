@@ -3,8 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ajirt2alh6i41820?svg=true)](https://ci.appveyor.com/project/mgiaco/li-can-slv)
 [![codecov](https://codecov.io/gh/liebherrnenzing/li_can_slv/branch/master/graph/badge.svg)](https://codecov.io/gh/liebherrnenzing/li_can_slv)
 
-# li_can_slv
-
+# li_can_slv 
 The Liebherr CAN protocol describes the communication of a distributed control system via CAN bus. It is designed to allow synchronous, deterministic real-time networking based on a master-slave system, whereby all input and output modules are connected to a master via CAN bus. This repository includes a slave implementation of the Liebherr CAN protocol.
 
 Some more information is coming soon...
@@ -30,3 +29,5 @@ As an alternative, li_can_slv can be made available under a commercial license. 
 | Can I receive professional technical support on a commercial basis?   | no                | yes                |
 
 Contact Liebherr (oss.lwn(at)liebherr.com) to request additional information and/or a quote for a commercial license.
+
+[Documentation for the Stack](http://li-can-slv.readthedocs.io)

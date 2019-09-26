@@ -1077,11 +1077,7 @@ clear_exit:
 	li_can_slv_sync_clear_process_image();
 }
 
-/*!
- * \brief can_sync_get_pr_time_valid
- * \return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
- */
-uint32_t can_sync_get_pr_time_valid(void)
+uint32_t li_can_slv_sync_get_process_valid_time(void)
 {
 	return (can_sync.pr_time_valid);
 }
@@ -1089,6 +1085,11 @@ uint32_t can_sync_get_pr_time_valid(void)
 uint32_t li_can_slv_sync_get_process_periode(void)
 {
 	return (can_sync.pr_periode);
+}
+
+uint32_t li_can_slv_sync_get_main_process_timestamp(void)
+{
+	return (can_sync.main_pr_time);
 }
 
 /**
