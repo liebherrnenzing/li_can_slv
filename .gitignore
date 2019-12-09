@@ -11,3 +11,5 @@
 result.xml
 /*.cppcheck
 /cmake-build-debug/
+/.idea
+/.vscode
