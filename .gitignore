@@ -10,3 +10,4 @@
 /*.pydevproject
 result.xml
 /*.cppcheck
+/cmake-build-debug/

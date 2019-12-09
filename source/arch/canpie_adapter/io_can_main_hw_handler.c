@@ -227,12 +227,12 @@ uint8_t can_main_hw_handler_error(void)
 #ifdef LI_CAN_SLV_RECONNECT
 	if ((cp_state.ubCanErrState != CANPIE_STATE_BUS_ACTIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 	{
-#ifdef HISTORY
-		hist_addx(HISTORY_CAN, "err->state:", cp_state.ubCanErrState);
-		hist_addx(HISTORY_CAN, "type:", cp_state.ubCanErrType);
-		hist_addx(HISTORY_CAN, "txcnt:", cp_state.ubCanTrmErrCnt);
-		hist_addx(HISTORY_CAN, "rxcnt:", cp_state.ubCanRcvErrCnt);
-#endif // #ifdef HISTORY
+#ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
+		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->state:%d\n", cp_state.ubCanErrState));
+		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->type:%d\n", cp_state.ubCanErrType));
+		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->txcnt:%d\n", cp_state.ubCanTrmErrCnt));
+		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->rxcnt:%d\n", cp_state.ubCanRcvErrCnt));
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
 
 #ifdef LI_CAN_SLV_MAIN_MON
 		if (CAN_MAINMON_TYPE_MAIN == can_mainmon_type)
@@ -240,7 +240,7 @@ uint8_t can_main_hw_handler_error(void)
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 			if (CAN_RECONNECT_STATE_OFF == li_can_slv_reconnect_get_state())
 			{
-				if (CANPIE_STATE_BUS_OFF == cp_state.ubCanErrState)
+				if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF) ||  (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 				{
 #if 0
 					can_config_get_baudrate(&current_baudrate);
@@ -269,6 +269,10 @@ uint8_t can_main_hw_handler_error(void)
 
 			}
 #ifdef LI_CAN_SLV_MAIN_MON
+		}
+		else
+		{
+			can_main_hw_enable_listen_only();
 		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 	}

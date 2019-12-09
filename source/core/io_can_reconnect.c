@@ -895,8 +895,6 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 	// increment reconnect number
 	can_reconnect.nr++;
 
-
-
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
 #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK
