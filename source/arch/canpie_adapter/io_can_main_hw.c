@@ -421,7 +421,7 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint1
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *)src);
 	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
 #else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, 0, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
+	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
 	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
 
@@ -457,7 +457,7 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, 
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *)src);
 	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
 #else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, 0, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
+	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
 	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
 	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
