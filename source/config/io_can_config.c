@@ -1124,7 +1124,7 @@ li_can_slv_errorcode_t can_config_set_critical(char_t *type)
 	}
 
 	/**
-	 * @todo ciritical hier muss ein sync statfinden main mon
+	 * @todo ciritical muss hier nicht ein sync (main mon) statfinden
 	 */
 	/*----------------------------------------------------------------------*/
 	/* switch of synchronous process                                        */
