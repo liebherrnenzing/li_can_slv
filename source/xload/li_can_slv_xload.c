@@ -1046,11 +1046,7 @@ li_can_slv_errorcode_t li_can_slv_uload_data_from_buffer(uint8_t *data, uint16_t
 					if (dload_buffer.bytes_cnt_of_block < data_length)
 					{
 						/* fill data bytes */
-#ifdef IO_BUFFER
-						buffer[i] = io_buffer[dload_buffer.bytes_cnt_of_block];
-#else
 						buffer[i] = data[dload_buffer.bytes_cnt_of_block];
-#endif	// #ifdef IO_BUFFER
 						dload_buffer.bytes_cnt_of_block++;
 					}
 					else
