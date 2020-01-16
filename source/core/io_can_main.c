@@ -206,14 +206,6 @@ volatile can_main_tx_msg_obj_t li_can_slv_sync_main_tx_msg_obj[CAN_CONFIG_SYNC_M
 can_main_diagnose_t can_main_diagnose = {0};
 #endif /* #ifdef CAN_MAIN_DIAGNOSE */
 
-#ifdef CAN_SMP
-uint16_t FASTRAM can_main_canid; /**< */
-uint16_t FASTRAM can_main_d0; /**< */
-uint16_t FASTRAM can_main_lec; /**< */
-uint16_t FASTRAM can_main_recmax; /**< */
-uint16_t FASTRAM can_main_tecmax; /**< */
-#endif /* #ifdef CAN_SMP */
-
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
@@ -301,13 +293,6 @@ static var_change_t can_main_var_change[] =
 	{ VAR_STATE_FRC_SET, "", ""},
 	{ VAR_STATE_FRC_SET, "", ""},
 	{ VAR_STATE_FRC_SET, "", ""},
-#ifdef CAN_SMP
-	{ VAR_STATE_FRC_SET, "", ""},
-	{ VAR_STATE_FRC_SET, "", ""},
-	{ VAR_STATE_FRC_SET, "", ""},
-	{ VAR_STATE_FRC_SET, "", ""},
-	{ VAR_STATE_FRC_SET, "", ""},
-#endif /* #ifdef CAN_SMP */
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED
 	{ VAR_STATE_FRC_SET, "", ""},
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED */
@@ -346,13 +331,6 @@ static const var_const_t can_main_var_const[] =
 	{"main.actrlrx",	&can_main_diagnose.actrlrx,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[16]},
 	{"main.adatarx",	&can_main_diagnose.adatarx,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[17]},
 	{"main.asynctx",	&can_main_diagnose.asynctx,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[18]},
-#ifdef CAN_SMP
-	{"main.canid",		&can_main_canid,				VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_CANID,	&can_main_var_change[19]},
-	{"main.lec",		&can_main_lec,					VAR_WORD,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_LEC,	&can_main_var_change[20]},
-	{"main.d0",			&can_main_d0,					VAR_BYTE,	0,		0x000000FFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_D0,	&can_main_var_change[21]},
-	{"main.recmax",		&can_main_recmax,				VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_CANID,	&can_main_var_change[22]},
-	{"main.tecmax",		&can_main_tecmax,				VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_CANID,	&can_main_var_change[23]},
-#endif /* #ifdef CAN_SMP */
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED
 	{"main.lost_sysrx",	&can_main_diagnose.sys_lost,	VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,					&can_main_var_change[20]},
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED */
@@ -392,11 +370,6 @@ static const testsys_var_t can_main_testsys[] =
 	{&can_main_var_const[16],	1,	17},
 	{&can_main_var_const[17],	1,	18},
 	{&can_main_var_const[18],	1,	19},
-#ifdef CAN_SMP
-	{&can_main_var_const[19],	1,	20},
-	{&can_main_var_const[20],	1,	21},
-	{&can_main_var_const[21],	1,	21},
-#endif /* #ifdef CAN_SMP */
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED
 	{&can_main_var_const[20],	40,	1},
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED */

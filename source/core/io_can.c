@@ -35,10 +35,6 @@
 #include <li_can_slv/core/io_can_types.h>
 #include <li_can_slv/error/io_can_errno.h>
 
-#ifdef CAN_SMP
-#include "io_smp.h"
-#endif // #ifdef CAN_SMP
-
 #ifdef LI_CAN_SLV_RECONNECT
 #include <li_can_slv/core/io_can_reconnect.h>
 #endif // #ifdef LI_CAN_SLV_RECONNECT
@@ -393,15 +389,6 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 	can_mon_enable();
 #endif // #if defined (LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 #endif // #ifdef LI_CAN_SLV_RECONNECT
-
-#ifdef CAN_SMP
-	if ((err == LI_CAN_SLV_ERR_OK) && (can_state != LI_CAN_SLV_STATE_DOWNLOAD))
-	{
-		// activate CAN sample trace not in case of CAN download mode of outer core -> performance problems
-		smp_cnfg_load();
-		smp_trigger_extern();
-	}
-#endif // #ifdef CAN_SMP
 
 #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
 	modhw_info.status_ackn_delay_nops = util_rand(CAN_MAX_STATUS_ACKN_DELAY_NOPS);

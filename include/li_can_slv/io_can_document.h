@@ -29,7 +29,6 @@
 #define huge
 #define HUGE
 #define XHUGE
-#define INLINE
 #define sbit
 #endif /* #if defined( __DOXYGEN__) */
 

@@ -138,13 +138,6 @@ extern uint16_t can_mon_rx_msg_obj_used;
 extern can_mon_diagnose_t can_mon_diagnose;
 #endif // #ifdef CAN_MON_DIAGNOSE
 
-#ifdef CAN_SMP
-extern uint16_t FASTRAM can_mon_canid;
-extern uint16_t FASTRAM can_mon_lec;
-extern uint16_t FASTRAM can_mon_recmax;
-extern uint16_t FASTRAM can_mon_tecmax;
-#endif // #ifdef CAN_SMP
-
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/

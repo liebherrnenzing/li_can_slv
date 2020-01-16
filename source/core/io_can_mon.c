@@ -160,13 +160,6 @@ uint16_t can_mon_rx_msg_obj_used = 0;
 can_mon_tx_msg_obj_t can_mon_tx_msg_obj[CAN_CONFIG_SYNC_MON_MAX_NR_OF_TX_OBJ] = {0};
 uint16_t can_mon_tx_msg_obj_used = 0;
 
-#ifdef CAN_SMP
-uint16_t FASTRAM can_mon_canid;
-uint16_t FASTRAM can_mon_lec;
-uint16_t FASTRAM can_mon_recmax;
-uint16_t FASTRAM can_mon_tecmax;
-#endif // #ifdef CAN_SMP
-
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -194,10 +187,6 @@ static var_change_t can_mon_var_change[] =
 	{VAR_STATE_FRC_SET,	"",		""},
 	{VAR_STATE_FRC_SET,	"",		""},
 	{VAR_STATE_FRC_SET,	"",		""},
-#ifdef CAN_SMP
-	{VAR_STATE_FRC_SET,	"",		""},
-	{VAR_STATE_FRC_SET,	"",		""}
-#endif // #ifdef CAN_SMP
 };
 
 #ifdef CAN_MON_DIAGNOSE
@@ -223,12 +212,6 @@ static const var_const_t can_mon_var_const[] =
 	{"mon.bit0",	&can_mon_diagnose.lec[4],	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[9]},
 	{"mon.crc",		&can_mon_diagnose.lec[5],	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[10]},
 	{"mon.pr",		&can_mon_diagnose.pr,		VAR_UINT16, 0, 	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,					&can_mon_var_change[11]},
-#ifdef CAN_SMP
-	{"mon.canid",	&can_mon_canid,				VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CAN_MON_CANID,	&can_mon_var_change[12]},
-	{"mon.lec",		&can_mon_lec,				VAR_WORD,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CAN_MON_LEC,	&can_mon_var_change[13]},
-	{"mon.recmax",	&can_mon_recmax,			VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_CANID,	&can_mon_var_change[14]},
-	{"mon.tecmax",	&can_mon_tecmax,			VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	HNDLPOS_CAN_MAIN_CANID,	&can_mon_var_change[15]},
-#endif // #ifdef CAN_SMP
 	{VAR_END_OF_TABLE}
 };
 #endif // #ifdef CAN_MON_DIAGNOSE
@@ -253,10 +236,6 @@ static const testsys_var_t can_mon_testsys[] =
 	{&can_mon_var_const[9],		1,	10},
 	{&can_mon_var_const[10],	1,	11},
 	{&can_mon_var_const[11],	1,	12},
-#ifdef CAN_SMP
-	{&can_mon_var_const[12],	1,	13},
-	{&can_mon_var_const[13],	1,	14},
-#endif // #ifdef CAN_SMP
 	{TESTSYS_VAR_END_OF_TABLE,	0,	0}
 };
 #endif // #ifdef SHOW_CAN_MON

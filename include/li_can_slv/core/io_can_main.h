@@ -152,14 +152,6 @@ extern volatile can_main_tx_msg_obj_t li_can_slv_sync_main_tx_msg_obj[CAN_CONFIG
 extern can_main_diagnose_t can_main_diagnose;
 #endif // #ifdef CAN_MAIN_DIAGNOSE
 
-#ifdef CAN_SMP
-extern uint16_t FASTRAM can_main_canid; /**< */
-extern uint16_t FASTRAM can_main_d0; /**< */
-extern uint16_t FASTRAM can_main_lec; /**< */
-extern uint16_t FASTRAM can_main_recmax; /**< */
-extern uint16_t FASTRAM can_main_tecmax; /**< */
-#endif // #ifdef CAN_SMP
-
 /**
  * @todo the global variables should be removed
  */

@@ -48,10 +48,6 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-#ifndef INLINE
-#define INLINE inline
-#endif // #ifndef INLINE
-
 #define CAN_LEC_NO_ERROR						0 /*!< */
 #define CAN_LEC_STUFF							3 /*!< */
 #define CAN_LEC_FORM							4 /*!< */

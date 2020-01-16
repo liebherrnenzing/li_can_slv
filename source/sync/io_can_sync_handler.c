@@ -149,11 +149,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
-#ifdef CAN_SMP
-			can_main_canid = canid;
-			CALL(smp_process)(HNDLPOS_CAN_MAIN_CANID);
-#endif // #ifdef CAN_SMP
-
 #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
 			LI_CAN_SLV_DEBUG_PRINT(" id: %x", canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
@@ -190,11 +185,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 #endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_PROCESS_HANDLER
 
 		msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
-
-#ifdef CAN_SMP
-		can_main_canid = CAN_HW_GET_ID(msg_obj);
-		CALL(smp_process)(HNDLPOS_CAN_MAIN_CANID);
-#endif // #ifdef CAN_SMP
 
 		li_can_slv_sync_process_request_rx();
 
@@ -244,12 +234,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1;
 #endif // #ifdef LI_CAN_SLV_BOOT
 
-#ifdef CAN_SMP
-			can_main_canid = canid;
-			can_main_d0 = *data;
-			CALL(smp_process)(HNDLPOS_CAN_MAIN_CANID);
-#endif // #ifdef CAN_SMP
-
 			// handling of system message
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED
 			LI_CAN_SLV_DEBUG_PRINT(" , md_nr: %d, dlc: %d\n", module_nr, dlc);
@@ -284,11 +268,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 
 		// recalculate module_nr for ASYNC
 		module_nr = ((canid - CAN_CONFIG_ASYNC_CTRL_RX_SLAVE_ID) >> 2) + 1;
-
-#ifdef CAN_SMP
-		can_main_canid = canid;
-		CALL(smp_process)(HNDLPOS_CAN);
-#endif // #ifdef CAN_SMP
 
 		err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, data);
 
@@ -379,9 +358,6 @@ uint8_t can_sync_handler_tx(uint16_t msg_obj, uint8_t dlc, uint16_t canid)
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
-#ifdef CAN_SMP
-			can_main_canid = canid;
-#endif // #ifdef CAN_SMP
 			// calculate obj number from transmitted CAN ID
 			obj = canid & CAN_SYNC_OBJ_MASK;
 #ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
@@ -452,9 +428,6 @@ uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, u
 
 			// call synchronous receive routine of don CAN controller
 			can_sync_rx_data_mon(table_pos, canid, dlc, data);
-#ifdef CAN_SMP
-			CALL(smp_process)(HNDLPOS_CAN_MON_CANID);
-#endif // #ifdef CAN_SMP
 
 #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_DATA
 			LI_CAN_SLV_DEBUG_PRINT("\ndata_mon: ");
@@ -487,11 +460,6 @@ uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, u
 
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
-#ifdef CAN_SMP
-			can_mon_canid = canid;
-			CALL(smp_process)(HNDLPOS_CAN_MON_CANID);
-#endif // #ifdef CAN_SMP
-
 #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_FROM_MAIN_EXTENDED
 			LI_CAN_SLV_DEBUG_PRINT(" id: %x", canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_FROM_MAIN_EXTENDED
