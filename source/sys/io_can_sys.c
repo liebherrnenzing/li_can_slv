@@ -620,6 +620,10 @@ static li_can_slv_errorcode_t can_sys_status_ackn(uint16_t table_pos)
 
 	serial_number = can_port_get_serialnumber();
 
+#ifdef LI_CAN_SLV_DEBUG_CAN_SYS_STATUS
+	LI_CAN_SLV_DEBUG_PRINT("status ackn 1\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_SYS_STATUS
+
 	return (can_sys_status_ackn_send(module_nr, module_type, serial_number));
 }
 #endif // #ifdef LI_CAN_SLV_BOOT
@@ -743,6 +747,10 @@ CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_sys_version_ackn_send_version1
 	data[6] = (byte_t)((0xFF00 & modulsoftware_version_minor) >> 8);  // module software major MSB
 	data[7] = (byte_t)(modulsoftware_version_minor);  // module software major LSB
 
+#ifdef LI_CAN_SLV_DEBUG_CAN_SYS_VERSION
+	LI_CAN_SLV_DEBUG_PRINT("version ackn 1\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_SYS_VERSION
+
 	return (can_main_send_queue_system_tx(module_nr, &data[0]));
 }
 
@@ -763,6 +771,10 @@ CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_sys_version_ackn_send_version2
 	data[5] = (byte_t)((change_index) >> 16);  // MMSB
 	data[6] = (byte_t)((change_index) >> 8);  // MSB
 	data[7] = (byte_t)(change_index);  // LSB
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_SYS_VERSION
+	LI_CAN_SLV_DEBUG_PRINT("version ackn 2\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_SYS_VERSION
 
 	return (can_main_send_queue_system_tx(module_nr, &data[0]));
 }
