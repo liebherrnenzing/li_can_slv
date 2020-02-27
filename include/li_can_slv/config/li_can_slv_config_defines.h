@@ -42,7 +42,9 @@ extern "C" {
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
 /* CAN message object configuration of main CAN-controller (process request) */
+#ifndef CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS
 #define CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS	CAN_MSG_OBJ0 /*!< used CAN message object for receiving process request on main controller */
+#endif // #ifndef CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS
 
 /* CAN message object configuration of monitor CAN-controller (process request) */
 #define CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS	CAN_MSG_OBJ1 /*!< used CAN message object for receiving process request on monitor controller */
@@ -57,7 +59,9 @@ extern "C" {
 #define CAN_CONFIG_MSG_MON_OBJ_RX_SYS1			CAN_MSG_OBJ4
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY_SYSTEM_REQ)
 
+#ifndef CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS
 #define CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS			CAN_MSG_OBJ9 /*!< used CAN message object for transmitting system message */
+#endif // #ifndef CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS
 
 #ifdef LI_CAN_SLV_ASYNC
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_DATA_RX	CAN_MSG_OBJ6 /*!< used CAN message object for receiving asynchronous data */

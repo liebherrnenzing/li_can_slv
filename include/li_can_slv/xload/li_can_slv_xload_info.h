@@ -84,8 +84,12 @@ typedef struct
 /*--------------------------------------------------------------------------*/
 #ifdef __GNUC__
 #pragma pack(1)
-#endif
 typedef struct
+#elif defined(__ICCARM__)
+typedef __packed struct
+#else
+typedef struct
+#endif
 {
 	li_can_slv_xload_info_mode_t mode; /*!< mode */
 #ifdef LI_CAN_SLV_XLOAD_INFO_BACKWARD_COMPATIBILITY
