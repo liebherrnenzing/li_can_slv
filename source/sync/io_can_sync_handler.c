@@ -198,8 +198,8 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
-		li_can_slv_sync_check_process_image();
 		can_sync_rx_process_main(dlc, data);
+		li_can_slv_sync_check_process_image();
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 		// send system error if valid, one error per process, (sending only one error -> hold synchrony process)

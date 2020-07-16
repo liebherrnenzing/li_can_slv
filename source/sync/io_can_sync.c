@@ -1286,6 +1286,7 @@ void li_can_slv_sync_process_request_rx(void)
 		can_sync_first_process_detect = 1;
 		if (can_sync_first_process_request_call != NULL)
 		{
+			can_sync.pr_periode = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
 			can_sync_first_process_request_call();
 		}
 	}
