@@ -1082,8 +1082,21 @@ uint32_t li_can_slv_sync_get_process_valid_time(void)
 	return (can_sync.pr_time_valid);
 }
 
+uint32_t li_can_slv_sync_get_process_configuration_time(void)
+{
+	/**
+	 * @todo
+	 */
+	return 25;
+}
+
 uint32_t li_can_slv_sync_get_process_periode(void)
 {
+	if (can_sync.pr_periode > LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX)
+	{
+		can_sync.pr_periode = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
+	}
+
 	return (can_sync.pr_periode);
 }
 

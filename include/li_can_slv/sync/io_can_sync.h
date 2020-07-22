@@ -165,6 +165,12 @@ void li_can_slv_sync_check_process_image(void);
 uint32_t li_can_slv_sync_get_process_valid_time(void);
 
 /**
+ * @brief li_can_slv_sync_get_process_configuration_time
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+uint32_t li_can_slv_sync_get_process_configuration_time(void);
+
+/**
  * @brief li_can_slv_sync_get_process_periode
  * @return current process period
  */
