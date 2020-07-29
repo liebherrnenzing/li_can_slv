@@ -82,7 +82,7 @@
 #endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
 
 static lcsa_state_t li_can_slv_state = LI_CAN_SLV_STATE_INIT;
-static li_can_slv_mode_t li_can_slv_mode = LI_CAN_SLV_MODE_INIT;
+static li_can_slv_node_mode_t li_can_slv_mode = LI_CAN_SLV_MODE_INIT;
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -124,7 +124,7 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 	// save the baud rate on startup
-	can_config_set_baudrate_startup(baudrate);
+	can_config_save_baudrate_startup(baudrate);
 
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
@@ -143,13 +143,13 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_MON
 		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 		{
-			LI_CAN_SLV_DEBUG_PRINT("\ncan_mainmon => main");
+			LI_CAN_SLV_DEBUG_PRINT("can_mainmon => main\n");
 			//main_mon_uart_log("\r\n hello from main_mon: main");
 		}
 
 		if (can_mainmon_type == CAN_MAINMON_TYPE_MON)
 		{
-			LI_CAN_SLV_DEBUG_PRINT("\ncan_mainmon => mon");
+			LI_CAN_SLV_DEBUG_PRINT("can_mainmon => mon\n");
 			//main_mon_uart_log("\r\n hello from main_mon: mon");
 		}
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_MON
@@ -310,98 +310,13 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 	}
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-#ifdef LI_CAN_SLV_RECONNECT
-#ifdef LI_CAN_SLV_MAIN_MON
-	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
-	{
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-			err = li_can_slv_reconnect_init();
-			if (err == LI_CAN_SLV_ERR_OK)
-			{
-				if (lcsa_get_state() == LI_CAN_SLV_STATE_DOWNLOAD)
-				{
-					li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_OFF);
-					// in case a download is pending switch off the reconnect feature after reset
-					err = li_can_slv_reconnect_download();
-					if (err == LI_CAN_SLV_ERR_OK)
-					{
-						err = can_config_set_baudrate(baudrate);
-					}
-
-				}
-				else
-				{
-					li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_STARTUP);
-					// diagnostic connection to CAN bus
-					err = li_can_slv_reconnect_startup();
-					if (err == LI_CAN_SLV_ERR_OK)
-					{
-						err = can_config_set_baudrate_listen_only(baudrate);
-					}
-				}
-			}
-			else
-			{
-				// directly connection to CAN bus set normal baud rate
-				if (err == LI_CAN_SLV_ERR_OK)
-				{
-					err = can_config_set_baudrate(baudrate);
-				}
-				can_main_enable();
-#if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-				can_mon_enable();
-#endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			}
-		}
-#ifdef LI_CAN_SLV_MAIN_MON
-	}
-	else
-	{
-		// go online on monitor
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-			err = can_config_set_baudrate(baudrate);
-		}
-	}
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MON)
 	{
-		// on the monitor CPU enable the main node normal
-		can_main_enable();
+		can_port_transceiver_enable();
 	}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
-#else // #ifdef LI_CAN_SLV_RECONNECT
-
-	lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
-
-	if (err == LI_CAN_SLV_ERR_OK)
-	{
-		err = can_config_set_baudrate(baudrate);
-	}
-
-	can_main_enable();
-#if defined (LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-	can_mon_enable();
-#endif // #if defined (LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-#endif // #ifdef LI_CAN_SLV_RECONNECT
-
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-	modhw_info.status_ackn_delay_nops = util_rand(CAN_MAX_STATUS_ACKN_DELAY_NOPS);
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-
-#ifdef LI_CAN_SLV_MAIN_MON
-	if (can_mainmon_type == CAN_MAINMON_TYPE_MON)
-	{
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-		err = can_hw_transceiver_enable();
-#ifdef LI_CAN_SLV_MAIN_MON
-	}
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
 	return (err);
 }
 
@@ -471,8 +386,8 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 	tick = can_port_get_system_ticks();
 	if (tick >= next_print_tick)
 	{
-		LI_CAN_SLV_DEBUG_PRINT("\nlcs proc(tick): %ld", tick);
-		LI_CAN_SLV_DEBUG_PRINT("\nlcs proc(ms): %ld", can_port_msec_2_ticks(tick));
+		LI_CAN_SLV_DEBUG_PRINT("lcs proc(tick): %ld\n", tick);
+		LI_CAN_SLV_DEBUG_PRINT("lcs proc(ms): %ld\n", can_port_msec_2_ticks(tick));
 		next_print_tick = can_port_get_system_ticks() + can_port_msec_2_ticks(NEXT_PRINT);
 	}
 #endif // #ifdef LI_CAN_SLV_DEBUG_PRCOCESS
@@ -488,12 +403,20 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 	return LI_CAN_SLV_ERR_OK;
 }
 
-void li_can_slv_set_mode(li_can_slv_mode_t new_mode)
+li_can_slv_errorcode_t li_can_slv_set_node_mode(li_can_slv_node_mode_t new_mode)
 {
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+
 	li_can_slv_mode = new_mode;
+
+	err = can_main_enable();
+#if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+		err = can_mon_enable();
+#endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+	return err;
 }
 
-li_can_slv_mode_t li_can_slv_get_mode(void)
+li_can_slv_node_mode_t li_can_slv_get_node_mode(void)
 {
 	return li_can_slv_mode;
 }

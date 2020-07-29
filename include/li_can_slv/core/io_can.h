@@ -63,14 +63,15 @@ li_can_slv_errorcode_t li_can_slv_process(void);
 li_can_slv_errorcode_t can_transceiver_disable(void);
 
 /**
- * @param new_mode New #li_can_slv_mode_t to set
+ * @param new_mode New #li_can_slv_node_mode_t to set
+ * @return #LCSA_ERROR_OK
  */
-void li_can_slv_set_mode(li_can_slv_mode_t new_mode);
+li_can_slv_errorcode_t li_can_slv_set_node_mode(li_can_slv_node_mode_t new_mode);
 
 /**
- * @return the current #li_can_slv_mode_t
+ * @return the current #li_can_slv_node_mode_t
  */
-li_can_slv_mode_t li_can_slv_get_mode(void);
+li_can_slv_node_mode_t li_can_slv_get_node_mode(void);
 
 #ifdef CAN_HW_DUMP_MSG_OBJECTS
 li_can_slv_errorcode_t can_dump_msg_objects(uint16_t start_idx, uint16_t end_idx);

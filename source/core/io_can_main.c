@@ -655,11 +655,40 @@ li_can_slv_errorcode_t can_main_process_data_tx_set(void)
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_main_enable(void)
 {
-	return can_main_hw_enable();
+	li_can_slv_node_mode_t mode;
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+
+	mode = li_can_slv_get_node_mode();
+
+	if (LI_CAN_SLV_MODE_OPERATIONAL == mode)
+	{
+		err = can_main_hw_enable();
+	}
+#ifdef LI_CAN_SLV_RECONNECT
+	else if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
+	{
+		err = can_main_hw_enable_listen_only();
+	}
+#endif // #ifdef LI_CAN_SLV_RECONNECT
+	else
+	{
+		err = can_main_hw_disable();
+	}
+
+	return err;
 }
 
 li_can_slv_errorcode_t can_main_disable(void)
 {
+	li_can_slv_node_mode_t mode;
+
+	mode = li_can_slv_get_node_mode();
+
+	if (LI_CAN_SLV_MODE_STOPPED != mode)
+	{
+		li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+	}
+
 	return can_main_hw_disable();
 }
 
@@ -677,8 +706,8 @@ void can_main_sync_process_tx_data(void)
 	li_can_slv_errorcode_t err;
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_main_sync tx obj_used: %d ", li_can_slv_sync_main_tx_msg_obj_used);
-	LI_CAN_SLV_DEBUG_PRINT("ctrl.send: %08lx", can_main_sync_process_tx_data_ctrl.send);
+	LI_CAN_SLV_DEBUG_PRINT("can_main_sync tx obj_used: %d\n", li_can_slv_sync_main_tx_msg_obj_used);
+	LI_CAN_SLV_DEBUG_PRINT("ctrl.send: %08lx\n", can_main_sync_process_tx_data_ctrl.send);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
 	if (can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR) /* is there still something to send out? */
@@ -688,7 +717,7 @@ void can_main_sync_process_tx_data(void)
 			msg_obj = li_can_slv_sync_main_tx_msg_obj[i].msg_obj; /* get the number of next usable TX slot for checking if it is free */
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-			LI_CAN_SLV_DEBUG_PRINT("\ntx_slot=%d, mo=%d ", i, msg_obj);
+			LI_CAN_SLV_DEBUG_PRINT("tx_slot=%d, mo=%d\n", i, msg_obj);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
 			/* check if msg object is not busy */
@@ -697,7 +726,7 @@ void can_main_sync_process_tx_data(void)
 			{
 				/* here the searched TX slot seems to be free...now look for an object to fill in here */
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-				LI_CAN_SLV_DEBUG_PRINT("(not busy) ");
+				LI_CAN_SLV_DEBUG_PRINT("(not busy)\n");
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
 				/* switch to next active send flag */
@@ -718,8 +747,8 @@ void can_main_sync_process_tx_data(void)
 					li_can_slv_sync_main_tx_msg_obj[i].table_pos = table_pos;
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-					LI_CAN_SLV_DEBUG_PRINT("\ntable_pos=%d, obj=%d ", table_pos, obj);
-					LI_CAN_SLV_DEBUG_PRINT("ctrl.send %08lx", can_main_sync_process_tx_data_ctrl.send);
+					LI_CAN_SLV_DEBUG_PRINT("table_pos=%d, obj=%d\n", table_pos, obj);
+					LI_CAN_SLV_DEBUG_PRINT("ctrl.send %08lx\n", can_main_sync_process_tx_data_ctrl.send);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
 					/* call synchrony transmit routine of main CAN controller to prepare data to send via can, also capture data for monitor controller */
@@ -823,16 +852,15 @@ li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id
 	}
 #endif /* #ifdef CAN_MAIN_CHECK_DEFINE_OBJECT */
 
-#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MAIN
-	LI_CAN_SLV_DEBUG_PRINT("obj: %d, id:%d\n", msg_obj, can_id);
-	LI_CAN_SLV_DEBUG_PRINT("mask: %d\n", acceptance_mask);
-	LI_CAN_SLV_DEBUG_PRINT("dlc: %d, dir: %d\n", dlc, dir);
-#endif /* #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MAIN */
+#ifdef LI_CAN_SLV_DEBUG_CAN_DEF_OBJ
+	LI_CAN_SLV_DEBUG_PRINT("def msg obj:%d, id:%d\n", msg_obj, can_id);
+	LI_CAN_SLV_DEBUG_PRINT(" m: %d dlc: %d, dir: %d\n",acceptance_mask, dlc, dir);
+#endif /* #ifdef LI_CAN_SLV_DEBUG_CAN_DEF_OBJ */
 
-	/**
-	 * @todo error
-	 */
 	err = can_main_hw_define_msg_obj(msg_obj, can_id, acceptance_mask, dlc, dir, service_id);
+	/**
+	 * @todo use error
+	 */
 
 	switch (service_id)
 	{

@@ -100,13 +100,18 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 #endif // #ifdef LI_CAN_SLV_DLOAD
 #endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 
-	li_can_slv_set_mode(LI_CAN_SLV_MODE_OPERATIONAL);
 	return li_can_slv_init(baudrate);
 }
 
 #ifndef LI_CAN_SLV_BOOT
 lcsa_errorcode_t lcsa_start(void)
 {
+	lcsa_errorcode_t err = LCSA_ERROR_OK;
+#ifndef LI_CAN_SLV_NO_XLOAD_INFO
+	li_can_slv_xload_component_t xload_component;
+	li_can_slv_xload_info_mode_t xload_info_mode;
+#endif
+
 #ifdef LI_CAN_SLV_UNKNOWN_MODULE
 	uint16_t module_nr;
 
@@ -117,40 +122,131 @@ lcsa_errorcode_t lcsa_start(void)
 	}
 #endif // #ifdef LI_CAN_SLV_UNKNOWN_MODULE
 
-#ifdef LI_CAN_SLV_DLOAD
-	lcsa_errorcode_t err = LCSA_ERROR_OK;
-#ifndef LI_CAN_SLV_NO_XLOAD_INFO
-	li_can_slv_xload_component_t xload_component;
-	li_can_slv_xload_info_mode_t xload_info_mode;
-	li_can_slv_xload_info_get_mode(&xload_info_mode);
-#ifdef LI_CAN_SLV_MAIN_MON
-	if ((xload_info_mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_ACKN) && (can_mainmon_type == CAN_MAINMON_TYPE_MAIN))
-#else
-	if (xload_info_mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_ACKN)
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-	{
-		li_can_slv_xload_info_get_dload_component(&xload_component);
-		err = li_can_slv_dload_end_ackn(xload_component.module_nr);
-		// set new mode ignore err here
-		li_can_slv_xload_info_set_mode(LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_RUNNING);
-	}
-#endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
-	lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
-
+#ifdef LI_CAN_SLV_RECONNECT
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
-		li_can_slv_port_sync_baudrate(lcsa_get_baudrate());
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+		if (err == LI_CAN_SLV_ERR_OK)
+		{
+			err = li_can_slv_reconnect_init();
+			if (err == LI_CAN_SLV_ERR_OK)
+			{
+				if (lcsa_get_state() == LI_CAN_SLV_STATE_DOWNLOAD)
+				{
+					li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_OFF);
+					// in case a download is pending switch off the reconnect feature after reset
+					lcsa_set_baudrate(can_config_get_baudrate_startup());
+					li_can_slv_reconnect_download();
+				}
+				else
+				{
+					li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_STARTUP);
+					// diagnostic connection to CAN bus
+					/*TODO: listen only*/
+					lcsa_set_baudrate(can_config_get_baudrate_startup());
+					li_can_slv_reconnect_startup();
+				}
+			}
+			else
+			{
+				// directly connection to CAN bus set normal baud rate
+				can_config_set_baudrate(can_config_get_baudrate_startup());
+				can_main_enable();
+#if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+				can_mon_enable();
+#endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+			}
+		}
+#ifdef LI_CAN_SLV_MAIN_MON
 	}
+	else
+	{
+		// go online on monitor
+		if (err == LI_CAN_SLV_ERR_OK)
+		{
+			err = can_config_set_baudrate(can_config_get_baudrate_startup());
+		}
+	}
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+
+#ifdef LI_CAN_SLV_MAIN_MON
+	if (can_mainmon_type == CAN_MAINMON_TYPE_MON)
+	{
+		// on the monitor CPU enable the main node normal
+		can_main_enable();
+	}
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+
+#else // #ifdef LI_CAN_SLV_RECONNECT
+
+	//err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+
+	(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+
+	if(err == LCSA_ERROR_OK)
+	{
+		err = lcsa_set_baudrate(can_config_get_baudrate_startup());
+		ZF_LOGD("lcsa_start err:%08x\n", err);
+	}
+	if(err == LCSA_ERROR_OK)
+	{
+		err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
+		ZF_LOGD("lcsa_start nodemode:%08x\n", err);
+		if(err == LCSA_ERROR_OK)
+		{
+			lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
+		}
+	}
+#endif // #ifdef LI_CAN_SLV_RECONNECT
+
+#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
+	modhw_info.status_ackn_delay_nops = util_rand(CAN_MAX_STATUS_ACKN_DELAY_NOPS);
+#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
+
+	if (err == LCSA_ERROR_OK)
+	{
+#ifdef LI_CAN_SLV_MAIN_MON
+		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
+		{
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+			can_port_transceiver_enable();
+#ifdef LI_CAN_SLV_MAIN_MON
+		}
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+
+#ifdef LI_CAN_SLV_DLOAD
+#ifndef LI_CAN_SLV_NO_XLOAD_INFO
+		li_can_slv_xload_info_get_mode(&xload_info_mode);
+#ifdef LI_CAN_SLV_MAIN_MON
+		if ((xload_info_mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_ACKN) && (can_mainmon_type == CAN_MAINMON_TYPE_MAIN))
+#else
+		if (xload_info_mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_ACKN)
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+		{
+			li_can_slv_xload_info_get_dload_component(&xload_component);
+			err = li_can_slv_dload_end_ackn(xload_component.module_nr);
+			// set new mode ignore err here
+			li_can_slv_xload_info_set_mode(LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_RUNNING);
+		}
+#endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
+		lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
+
+#ifdef LI_CAN_SLV_MAIN_MON
+		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
+		{
+			li_can_slv_port_sync_baudrate(lcsa_get_baudrate());
+		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	LI_CAN_SLV_DEBUG_PRINT("start\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
+#endif // #ifdef LI_CAN_SLV_DLOAD
+
+	}
 
 	return err;
-#endif // #ifdef LI_CAN_SLV_DLOAD
-	return LCSA_ERROR_OK;
 }
 
 lcsa_errorcode_t lcsa_add_module(const lcsa_module_config_t *module, lcsa_module_number_t module_nr, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3)

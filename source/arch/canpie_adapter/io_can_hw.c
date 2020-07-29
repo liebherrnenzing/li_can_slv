@@ -63,16 +63,6 @@ li_can_slv_errorcode_t can_hw_init(void)
 	return (LI_CAN_SLV_ERR_OK);
 }
 
-li_can_slv_errorcode_t can_hw_transceiver_enable(void)
-{
-	return (LI_CAN_SLV_ERR_OK);
-}
-
-li_can_slv_errorcode_t can_hw_transceiver_disable(void)
-{
-	return (LI_CAN_SLV_ERR_OK);
-}
-
 #ifdef LI_CAN_SLV_MAIN_MON
 can_mainmon_type_t can_hw_get_mainmon_type(void)
 {

@@ -143,7 +143,7 @@ li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 	uint16_t i;
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_hw_get_nex_free_msg_obj");
+	LI_CAN_SLV_DEBUG_PRINT("can_hw_get_nex_free_msg_obj\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	for (i = 0; i < LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ; i++)
@@ -157,7 +157,7 @@ li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 	}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-	LI_CAN_SLV_DEBUG_PRINT("\n\nERR_MSG_CAN_NO_MSG_OBJ_FREE");
+	LI_CAN_SLV_DEBUG_PRINT("ERR_MSG_CAN_NO_MSG_OBJ_FREE\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	// no msg object is free
@@ -166,36 +166,40 @@ li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 
 li_can_slv_errorcode_t can_main_hw_enable(void)
 {
-	li_can_slv_mode_t mode;
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 
-	mode = li_can_slv_get_mode();
-	if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
+	if (CpCoreCanMode(&can_port_main, CANPIE_MODE_START) != eCP_ERR_NONE)
 	{
-		CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
+		err = LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
 	}
-	else
-	{
-		if (li_can_slv_get_mode() != LI_CAN_SLV_MODE_OPERATIONAL)
-		{
-			CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
-		}
-	}
-	return (LI_CAN_SLV_ERR_OK);
+
+	return err;
 }
 
 #ifdef LI_CAN_SLV_RECONNECT
 li_can_slv_errorcode_t can_main_hw_enable_listen_only(void)
 {
-	CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
-	return (LI_CAN_SLV_ERR_OK);
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+
+	if (CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY) != eCP_ERR_NONE)
+	{
+		err = LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
+	}
+
+	return err;
 }
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 li_can_slv_errorcode_t can_main_hw_disable(void)
 {
-	CpCoreCanMode(&can_port_main, CANPIE_MODE_STOP);
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 
-	return (LI_CAN_SLV_ERR_OK);
+	if (CpCoreCanMode(&can_port_main, CANPIE_MODE_STOP) != eCP_ERR_NONE)
+	{
+		err = LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
+	}
+
+	return err;
 }
 
 li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id)
@@ -213,7 +217,8 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 #endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-	LI_CAN_SLV_DEBUG_PRINT("\ncan hw def msgobj:%d, id:%d", msg_obj, can_id);
+	LI_CAN_SLV_DEBUG_PRINT("hw def msgobj:\n");
+	LI_CAN_SLV_DEBUG_PRINT(" obj:%d, id:%d\n", msg_obj, can_id);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	// set message object to used state
@@ -248,13 +253,13 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 	{
 		case CAN_MAIN_SERVICE_ID_TX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MAIN_SERVICE_ID_TX");
+			LI_CAN_SLV_DEBUG_PRINT(" SERVICE_ID_TX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			break;
 
 		case CAN_MAIN_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MAIN_SERVICE_ID_RX");
+			LI_CAN_SLV_DEBUG_PRINT(" SERVICE_ID_RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			break;
 
@@ -263,137 +268,89 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 #ifdef LI_CAN_SLV_BOOT
 		case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX");
+			LI_CAN_SLV_DEBUG_PRINT(" ASYNC_CTRL_SERVICE_ID_RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 #endif // #ifdef LI_CAN_SLV_BOOT
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MAIN_ASYNC_SERVICE_ID_TX or CAN_MAIN_ASYNC_SERVICE_ID_RX");
+			LI_CAN_SLV_DEBUG_PRINT(" ASYNC_SERVICE_ID_TX or RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			break;
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX");
+			LI_CAN_SLV_DEBUG_PRINT(" ASYNC_CTRL_SERVICE_ID_RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 		default:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID");
+			LI_CAN_SLV_DEBUG_PRINT(" ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			return (ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID);
 			break;
 	}
+
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+	LI_CAN_SLV_DEBUG_PRINT("\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
+
 	return (LI_CAN_SLV_ERR_OK);
 }
 
 li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry)
 {
-	CpCoreCanMode(&can_port_main, CANPIE_MODE_STOP);
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 
-	switch (bdr_tab_entry->baudrate)
+	if (LI_CAN_SLV_MODE_INIT == li_can_slv_get_node_mode() || LI_CAN_SLV_MODE_STOPPED == li_can_slv_get_node_mode())
 	{
-		case 125:
+		switch (bdr_tab_entry->baudrate)
+		{
+			case 125:
 #if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_125K);
+				CpCoreBaudrate(&can_port_main, CP_BAUD_125K);
 #else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_125K, eCP_BITRATE_NONE);
+				CpCoreBitrate(&can_port_main, eCP_BITRATE_125K, eCP_BITRATE_NONE);
 #endif // #if CP_VERSION_MAJOR <= 2
-			break;
+				break;
 
-		case 250:
+			case 250:
 #if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_250K);
+				CpCoreBaudrate(&can_port_main, CP_BAUD_250K);
 #else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_250K, eCP_BITRATE_NONE);
+				CpCoreBitrate(&can_port_main, eCP_BITRATE_250K, eCP_BITRATE_NONE);
 #endif // #if CP_VERSION_MAJOR <= 2
-			break;
+				break;
 
-		case 500:
+			case 500:
 #if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_500K);
+				CpCoreBaudrate(&can_port_main, CP_BAUD_500K);
 #else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_500K, eCP_BITRATE_NONE);
+				CpCoreBitrate(&can_port_main, eCP_BITRATE_500K, eCP_BITRATE_NONE);
 #endif // #if CP_VERSION_MAJOR <= 2
-			break;
+				break;
 
-		case 1000:
+			case 1000:
 #if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_1M);
+				CpCoreBaudrate(&can_port_main, CP_BAUD_1M);
 #else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_1M, eCP_BITRATE_NONE);
+				CpCoreBitrate(&can_port_main, eCP_BITRATE_1M, eCP_BITRATE_NONE);
 #endif // #if CP_VERSION_MAJOR <= 2
-			break;
+				break;
 
-		default:
-			CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
-			return (ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE);
-			break;
-	}
-
-	if (li_can_slv_get_mode() == LI_CAN_SLV_MODE_OPERATIONAL)
-	{
-		CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
+			default:
+				err = ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE;
+				break;
+		}
 	}
 	else
 	{
-		CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
+		/* LI_CAN_SLV_MODE_INIT != li_can_slv_get_node_mode() */
+		err = ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE;
 	}
 
-	return (LI_CAN_SLV_ERR_OK);
+	return (err);
 }
-
-#ifdef LI_CAN_SLV_RECONNECT
-li_can_slv_errorcode_t can_main_hw_set_baudrate_listen_only(can_config_bdr_tab_t *bdr_tab_entry)
-{
-	CpCoreCanMode(&can_port_main, CANPIE_MODE_STOP);
-
-	switch (bdr_tab_entry->baudrate)
-	{
-		case 125:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_125K);
-#else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_125K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
-			break;
-
-		case 250:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_250K);
-#else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_250K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
-			break;
-
-		case 500:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_500K);
-#else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_500K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
-			break;
-
-		case 1000:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_main, CP_BAUD_1M);
-#else // #if CP_VERSION_MAJOR <= 2
-			CpCoreBitrate(&can_port_main, eCP_BITRATE_1M, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
-			break;
-
-		default:
-			CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
-			return (ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE);
-			break;
-	}
-
-	CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
-
-	return (LI_CAN_SLV_ERR_OK);
-}
-#endif // #ifdef LI_CAN_SLV_RECONNECT
 
 li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)
 {

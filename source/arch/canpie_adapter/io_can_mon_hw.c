@@ -140,7 +140,7 @@ li_can_slv_errorcode_t can_mon_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 	uint16_t i;
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_hw_get_nex_free_msg_obj");
+	LI_CAN_SLV_DEBUG_PRINT("can_hw_get_nex_free_msg_obj\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	for (i = 0; i < LI_CAN_SLV_MON_NODE_MAX_NOF_MSG_OBJ; i++)
@@ -154,7 +154,7 @@ li_can_slv_errorcode_t can_mon_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 	}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-	LI_CAN_SLV_DEBUG_PRINT("\n\nERR_MSG_CAN_NO_MSG_OBJ_FREE");
+	LI_CAN_SLV_DEBUG_PRINT("ERR_MSG_CAN_NO_MSG_OBJ_FREE\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	// no msg object is free
@@ -207,7 +207,7 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 #endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-	LI_CAN_SLV_DEBUG_PRINT("\ncan hw def msgobj:%d, id:%d", msg_obj, can_id);
+	LI_CAN_SLV_DEBUG_PRINT("can hw def msgobj:%d, id:%d\n", msg_obj, can_id);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
 	// set message object to used state
@@ -243,12 +243,12 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 		case CAN_MON_ISR_ID_RX:
 		case CAN_MON_ISR_ID_RX_MAIN:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MON_SERVICE_ID_TX");
+			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MON_SERVICE_ID_TX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			break;
 		default:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with ERR_MSG_CAN_MON_UNDEFINED_ISR_ID");
+			LI_CAN_SLV_DEBUG_PRINT(" with ERR_MSG_CAN_MON_UNDEFINED_ISR_ID\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 			return (ERR_MSG_CAN_MON_UNDEFINED_ISR_ID);
 			break;

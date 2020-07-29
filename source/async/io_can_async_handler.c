@@ -87,7 +87,7 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 	if ((1L << rxi) & can_main_async_ctrl_objs_mask)
 	{
 #ifdef LI_CAN_SLV_DEBUG_CAN_ASYNC_HW_HANDLER
-		LI_CAN_SLV_DEBUG_PRINT("\ncan_async_hw_handler_rx: msg_obj: %d", rxi);
+		LI_CAN_SLV_DEBUG_PRINT("can_async_hw_handler_rx: msg_obj: %d\n", rxi);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ASYNC_HW_HANDLER
 
 #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1

@@ -128,7 +128,7 @@ uint8_t can_mon_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 #endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_MON_HW_HANDLER
-	LI_CAN_SLV_DEBUG_PRINT("\n\nrx obj: %d id: 0x%x", ubBufferIdxV, canid);
+	LI_CAN_SLV_DEBUG_PRINT("rx obj: %d id: 0x%x\n", ubBufferIdxV, canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MON_HW_HANDLER
 
 #if defined (LI_CAN_SLV_SYNC) && defined (LI_CAN_SLV_MON)

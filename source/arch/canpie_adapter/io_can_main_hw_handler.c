@@ -129,8 +129,9 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 
 	if (li_can_slv_reconnect_get_state() != CAN_RECONNECT_STATE_OFF)
 	{
-#if 0
-		li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
+#if 1
+		/**@todo check */
+		//li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
 #endif
 		return (LI_CAN_SLV_ERR_OK);
 	}
@@ -149,7 +150,7 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 #endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
-	LI_CAN_SLV_DEBUG_PRINT("\n\nrx obj: %d id: 0x%x", ubBufferIdxV, canid);
+	LI_CAN_SLV_DEBUG_PRINT("rx obj: %d id: 0x%x\n", ubBufferIdxV, canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
 
 #if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
@@ -195,7 +196,7 @@ uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 #endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
-	LI_CAN_SLV_DEBUG_PRINT("\n\ntx obj: %d id: 0x%x", ubBufferIdxV, canid);
+	LI_CAN_SLV_DEBUG_PRINT("tx obj: %d id: 0x%x\n", ubBufferIdxV, canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
 
 #if defined (LI_CAN_SLV_SYNC)

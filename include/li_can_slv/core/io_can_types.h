@@ -109,9 +109,10 @@ typedef struct
 typedef enum
 {
 	LI_CAN_SLV_MODE_INIT = 0,
+	LI_CAN_SLV_MODE_STOPPED,
 	LI_CAN_SLV_MODE_OPERATIONAL,
 	LI_CAN_SLV_MODE_LISTEN_ONLY
-} li_can_slv_mode_t;
+} li_can_slv_node_mode_t;
 
 /*--------------------------------------------------------------------------*/
 /* global variables                                                         */

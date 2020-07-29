@@ -140,17 +140,17 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 	{
 		err = can_main_synchron_rx((1L << rxi), &msg_obj, &table_pos);
 #ifdef LI_CAN_SLV_DEBUG_SYNC_RX
-		LI_CAN_SLV_DEBUG_PRINT("\nnode a sync rx: %lu", rxi);
+		LI_CAN_SLV_DEBUG_PRINT("node a sync rx: %lu\n", rxi);
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX
 
 #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
-		LI_CAN_SLV_DEBUG_PRINT(" msg_obj: %d, table_pos: %d,", msg_obj, table_pos);
-		LI_CAN_SLV_DEBUG_PRINT(" err: %04x", err);
+		LI_CAN_SLV_DEBUG_PRINT(" msg_obj: %d, table_pos: %d,\n", msg_obj, table_pos);
+		LI_CAN_SLV_DEBUG_PRINT(" err: %04x\n", err);
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
 #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
-			LI_CAN_SLV_DEBUG_PRINT(" id: %x", canid);
+			LI_CAN_SLV_DEBUG_PRINT(" id: %x\n", canid);
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
 
 			// call synchrony receive routine of main CAN controller
@@ -160,7 +160,7 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 #endif // #ifdef CAN_MAIN_DIAGNOSE
 
 #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_DATA
-			LI_CAN_SLV_DEBUG_PRINT("\ndata: ");
+			LI_CAN_SLV_DEBUG_PRINT("\ndata:");
 			for (i = 0; i < 8; ++i)
 			{
 				LI_CAN_SLV_DEBUG_PRINT("%x ", data[i]);

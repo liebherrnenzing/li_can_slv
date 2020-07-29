@@ -589,7 +589,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 				LI_CAN_SLV_DEBUG_PRINT("no event since startup\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 
-				can_config_set_baudrate(can_config_get_baudrate_startup());
+				lcsa_set_baudrate(can_config_get_baudrate_startup());
 
 				can_reconnect_off(1);
 				return (LI_CAN_SLV_ERR_OK);
@@ -881,8 +881,8 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 	can_mon_enable();
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 
-	CpCoreCanMode(&can_port_main, CANPIE_MODE_START);
-	can_config_set_baudrate(baudrate);
+	// set new baudrate
+	lcsa_set_baudrate(baudrate);
 
 	// enable main CAN-controller
 	can_main_enable();

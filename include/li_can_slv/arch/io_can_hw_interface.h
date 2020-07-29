@@ -64,18 +64,6 @@ extern "C" {
  */
 li_can_slv_errorcode_t can_hw_init(void);
 
-/*!
- * \brief can Hardware enable routine
- * \return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_hw_transceiver_enable(void);
-
-/*!
- * \brief can Hardware disable routine
- * \return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_hw_transceiver_disable(void);
-
 #ifdef LI_CAN_SLV_MAIN_MON
 can_mainmon_type_t can_hw_get_mainmon_type(void);
 #endif // #ifdef LI_CAN_SLV_MAIN_MON

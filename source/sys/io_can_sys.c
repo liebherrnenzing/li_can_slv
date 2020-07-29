@@ -265,7 +265,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 				err = error_syserr_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
 				if (err == LI_CAN_SLV_ERR_OK)
 				{
-					if (LI_CAN_SLV_MODE_OPERATIONAL == li_can_slv_get_mode())
+					if (LI_CAN_SLV_MODE_OPERATIONAL == li_can_slv_get_node_mode())
 					{
 						err = can_sys_send_error_full(module_nr, errnum, add_info, priority, group_subgroup);
 					}
@@ -335,7 +335,19 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 				can_port_nop();
 				can_port_nop();
 			}
-			err = can_config_set_baudrate(baudrate);
+
+			li_can_slv_node_mode_t mode = li_can_slv_get_node_mode();
+			err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+			if (err == LI_CAN_SLV_ERR_OK)
+			{
+				err = lcsa_set_baudrate(baudrate);
+			}
+
+			if (err == LI_CAN_SLV_ERR_OK)
+			{
+				err = li_can_slv_set_node_mode(mode);
+			}
+
 			break;
 
 #if defined(OUTER) || defined(OUTER_APP)
@@ -558,9 +570,9 @@ static li_can_slv_errorcode_t can_sys_status_ackn(void)
 {
 	li_can_slv_module_nr_t module_nr;
 	uint32_t serial_number;
-	li_can_slv_mode_t mode;
+	li_can_slv_node_mode_t mode;
 
-	mode = li_can_slv_get_mode();
+	mode = li_can_slv_get_node_mode();
 	if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
 	{
 		return LI_CAN_SLV_ERR_OK;
@@ -590,9 +602,9 @@ static li_can_slv_errorcode_t can_sys_status_ackn(uint16_t table_pos)
 	char_t module_type[CAN_CONFIG_TYPE_STRING_LENGTH];
 	li_can_slv_module_nr_t module_nr;
 	uint32_t serial_number;
-	li_can_slv_mode_t mode;
+	li_can_slv_node_mode_t mode;
 
-	mode = li_can_slv_get_mode();
+	mode = li_can_slv_get_node_mode();
 	if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
 	{
 		return LI_CAN_SLV_ERR_OK;
@@ -648,9 +660,9 @@ static li_can_slv_errorcode_t can_sys_version_ackn(void)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	li_can_slv_module_nr_t module_nr;
-	li_can_slv_mode_t mode;
+	li_can_slv_node_mode_t mode;
 
-	mode = li_can_slv_get_mode();
+	mode = li_can_slv_get_node_mode();
 	if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
 	{
 		return LI_CAN_SLV_ERR_OK;
@@ -691,9 +703,9 @@ static li_can_slv_errorcode_t can_sys_version_ackn(uint16_t table_pos)
 	uint16_t bootkernel_version_minor;
 	uint8_t modulsoftware_version_major;
 	uint16_t modulsoftware_version_minor;
-	li_can_slv_mode_t mode;
+	li_can_slv_node_mode_t mode;
 
-	mode = li_can_slv_get_mode();
+	mode = li_can_slv_get_node_mode();
 	if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
 	{
 		return LI_CAN_SLV_ERR_OK;

@@ -88,20 +88,21 @@ extern li_can_slv_errorcode_t can_main_hw_free_tx_objs(void);
 extern li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj);
 
 /**
- * @brief enable main CAN-Controller
+ * @brief enable main CAN-Controller node active
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 extern li_can_slv_errorcode_t can_main_hw_enable(void);
 
 /**
- * @brief disable main CAN-Controller
+ * @brief disable main CAN-Controller node stopped/init
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 extern li_can_slv_errorcode_t can_main_hw_disable(void);
 
 #ifdef LI_CAN_SLV_RECONNECT
 /**
- * @return
+ * @brief enable main CAN-Controller node listen only
+ * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 extern li_can_slv_errorcode_t can_main_hw_enable_listen_only(void);
 #endif // #ifdef LI_CAN_SLV_RECONNECT

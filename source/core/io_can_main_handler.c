@@ -88,7 +88,7 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 #endif // #if defined (LI_CAN_SLV_ASYNC) || defined (CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined (CAN_ASYNC_CTRL_TX_QUEUE)
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
-	LI_CAN_SLV_DEBUG_PRINT("\nc_m_hw_t_isr: %d", caller_idx);
+	LI_CAN_SLV_DEBUG_PRINT("c_m_hw_t_isr: %d\n", caller_idx);
 #else
 	/**
 	 * @todo implement statistics/diagnose with this caller_idx
@@ -115,7 +115,7 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 			can_main_sync_process_tx_data_ctrl.send = can_main_sync_process_tx_data_ctrl.send_reg;
 			can_main_sync_process_tx_data_ctrl.send_current = 0;
 #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
-			LI_CAN_SLV_DEBUG_PRINT("\n-> new c_m_s_p_t_d_c_send: %08lx", can_main_sync_process_tx_data_ctrl.send_reg);
+			LI_CAN_SLV_DEBUG_PRINT("-> new c_m_s_p_t_d_c_send: %08lx\n", can_main_sync_process_tx_data_ctrl.send_reg);
 #endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
 		}
 

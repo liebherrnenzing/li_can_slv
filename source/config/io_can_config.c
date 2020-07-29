@@ -802,10 +802,6 @@ li_can_slv_errorcode_t can_config_set_baudrate_table(void)
 	can_config_bdr_tab_t tmp_tab[CAN_CONFIG_SIZE_OF_BDR_TAB];
 #endif // #if defined(LI_CAN_SLV_TUPLE) && defined(CAN_BAUDRATE_TABLE_CNFG)
 
-#ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT(" \n");
-#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-
 #if defined(LI_CAN_SLV_TUPLE) && defined(CAN_BAUDRATE_TABLE_CNFG)
 	err = tuple_read(TUPLE_ID_CAN_BDR_TABLE, (byte_t *) tmp_tab, sizeof(tmp_tab), &num_bytes, NULL, NULL);
 	switch (err)
@@ -829,53 +825,37 @@ li_can_slv_errorcode_t can_config_set_baudrate_table(void)
 	return (err);
 }
 
-#ifdef LI_CAN_SLV_RECONNECT
-/**
- * @param baudrate is the  baud rate to set in kBaud, the node must act as listener only
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_config_set_baudrate_listen_only(can_config_bdr_t baudrate)
-{
-	uint16_t i;
-
-	for (i = 0; i < CAN_CONFIG_SIZE_OF_BDR_TAB; i++)
-	{
-		if (baudrate == can_config_bdr_tab[i].baudrate)
-		{
-			// save current baud rate
-			can_port_memory_cpy(&can_config_bdr_current, &can_config_bdr_tab[i], sizeof(can_config_bdr_current));
-			can_main_hw_set_baudrate_listen_only(&can_config_bdr_tab[i]);
-#if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			can_mon_hw_set_baudrate(&can_config_bdr_tab[i]);
-#endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			return (LI_CAN_SLV_ERR_OK);
-		}
-	}
-	return (ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE);
-}
-#endif // #ifdef LI_CAN_SLV_RECONNECT
-
 /**
  * @param baudrate is the  baud rate to set in kBaud
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 {
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t i;
-
 	for (i = 0; i < CAN_CONFIG_SIZE_OF_BDR_TAB; i++)
 	{
 		if (baudrate == can_config_bdr_tab[i].baudrate)
 		{
 			can_port_memory_cpy(&can_config_bdr_current, &can_config_bdr_tab[i], sizeof(can_config_bdr_current));
-			can_main_hw_set_baudrate(&can_config_bdr_tab[i]);
+			err = can_main_hw_set_baudrate(&can_config_bdr_tab[i]);
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			can_mon_hw_set_baudrate(&can_config_bdr_tab[i]);
+			if(err == LI_CAN_SLV_ERR_OK)
+			{			
+				err = can_mon_hw_set_baudrate(&can_config_bdr_tab[i]);
+			}
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			return (LI_CAN_SLV_ERR_OK);
+			if(err == LI_CAN_SLV_ERR_OK)
+			{
+#ifdef LI_CAN_SLV_NO_XLOAD_INFO
+				can_config_set_baudrate_startup(baudrate);
+#else // #ifdef LI_CAN_SLV_NO_XLOAD_INFO
+				li_can_slv_xload_info_set_can_baudrate(baudrate);
+#endif // #ifdef LI_CAN_SLV_NO_XLOAD_INFO
+			}
 		}
 	}
-	return (ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE);
+	return err; //(ERR_MSG_CAN_CONFIG_SET_INVALID_BAUDRATE);
 }
 
 /**
@@ -885,9 +865,9 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 li_can_slv_errorcode_t can_config_set_baudrate_default(void)
 {
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT(" \n");
+	LI_CAN_SLV_DEBUG_PRINT("bdr def\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	return (can_config_set_baudrate(can_config_bdr_tab[0].baudrate));
+	return (lcsa_set_baudrate(can_config_bdr_tab[0].baudrate));
 }
 
 /**
@@ -921,7 +901,7 @@ uint8_t can_config_is_baudrate_valid(can_config_bdr_t baudrate)
 /**
  *
  */
-void can_config_set_baudrate_startup(li_can_slv_config_bdr_t baud_rate)
+void can_config_save_baudrate_startup(li_can_slv_config_bdr_t baud_rate)
 {
 	can_config_bdr_startup = baud_rate;
 }
@@ -1003,9 +983,9 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 	err = err;
 #endif // #ifndef LI_CAN_SLV_SYS_MODULE_ERROR
 
-#ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("type:%4s\n", module->type);
-#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MOD
+	LI_CAN_SLV_DEBUG_PRINT("add mod, type:%4s\n", module->type);
+#endif // #ifdef #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MOD
 
 	i = 0;
 	while (i < LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES)
@@ -1037,7 +1017,8 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 			}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-			LI_CAN_SLV_DEBUG_PRINT("modnr: %d\n", module_nr);
+			LI_CAN_SLV_DEBUG_PRINT("used modnr: %d\n", module_nr);
+			LI_CAN_SLV_DEBUG_PRINT("mdnr:%d, %08x\n", module_nr, err);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 			/* set module with module number */
@@ -2028,7 +2009,7 @@ static li_can_slv_errorcode_t can_config_set_module(uint16_t table_pos, const li
 	}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("table_pos: %d, modnr: %d\n", table_pos, module_nr);
+	LI_CAN_SLV_DEBUG_PRINT("set module, table_pos: %d, modnr: %d\n", table_pos, module_nr);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 
 	can_config_module_tab[table_pos].module_nr = module_nr;
