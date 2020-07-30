@@ -133,6 +133,7 @@ typedef struct
 	uint32_t time_next_bdr_change; /**< time stamp of next allowed baud rate  change in reconnect (used for timed checks for next baud rate  on no CAN messages */
 	uint16_t id_on;
 	uint16_t id_off;
+	li_can_slv_config_bdr_t back_bdr;
 } li_can_slv_reconnect_t;
 
 /*--------------------------------------------------------------------------*/

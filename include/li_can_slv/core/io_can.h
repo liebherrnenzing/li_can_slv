@@ -60,7 +60,6 @@ extern can_mainmon_type_t can_mainmon_type;
 li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate);
 li_can_slv_errorcode_t li_can_slv_deinit(void);
 li_can_slv_errorcode_t li_can_slv_process(void);
-li_can_slv_errorcode_t can_transceiver_disable(void);
 
 /**
  * @param new_mode New #li_can_slv_node_mode_t to set

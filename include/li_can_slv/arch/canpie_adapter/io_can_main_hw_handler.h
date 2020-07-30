@@ -56,7 +56,7 @@ extern "C" {
 extern uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV);
 extern uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV);
 extern uint8_t can_main_hw_handler_error(void);
-
+extern uint8_t _can_main_hw_handler_error(CpState_ts *ptsErrV);
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

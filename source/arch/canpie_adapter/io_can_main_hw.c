@@ -99,8 +99,12 @@ li_can_slv_errorcode_t can_main_hw_init(void)
 #else // #if CP_VERSION_MAJOR <= 2
 	CpCoreDriverInit(LI_CAN_SLV_MAIN_ARCH, &can_port_main, 0);
 #endif // #if CP_VERSION_MAJOR <= 2
-	/* CpCoreIntFunctions(&can_port_main,  can_main_hw_handler_rx, can_main_hw_handler_tx, can_main_hw_handler_error); */
+
+#ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
+	CpCoreIntFunctions(&can_port_main,  can_main_hw_handler_rx, can_main_hw_handler_tx, _can_main_hw_handler_error);
+#else // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 	CpCoreIntFunctions(&can_port_main, can_main_hw_handler_rx, can_main_hw_handler_tx, 0L);
+#endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 
 	return (LI_CAN_SLV_ERR_OK);
 }

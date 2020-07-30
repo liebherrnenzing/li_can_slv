@@ -329,16 +329,6 @@ li_can_slv_errorcode_t li_can_slv_deinit(void)
 	return LI_CAN_SLV_ERR_OK;
 }
 
-/*!
- * \brief can Hardware enable routine
- * \return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_transceiver_disable(void)
-{
-	can_hw_transceiver_disable();
-	return (LI_CAN_SLV_ERR_OK);
-}
-
 /**
 * @todo rename can_dump_msg_objects
 */

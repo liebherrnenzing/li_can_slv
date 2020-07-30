@@ -129,10 +129,7 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 
 	if (li_can_slv_reconnect_get_state() != CAN_RECONNECT_STATE_OFF)
 	{
-#if 1
-		/**@todo check */
-		//li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
-#endif
+//		li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
 		return (LI_CAN_SLV_ERR_OK);
 	}
 #endif // #ifdef LI_CAN_SLV_RECONNECT
@@ -207,9 +204,20 @@ uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 	return 0;
 }
 
+#ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 /**
  * @return
  */
+uint8_t _can_main_hw_handler_error(CpState_ts *ptsErrV)
+{
+	ptsErrV = ptsErrV;
+
+	can_main_hw_handler_error();
+
+	return 0;
+}
+#endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
+
 uint8_t can_main_hw_handler_error(void)
 {
 	CpState_ts cp_state;
@@ -243,13 +251,9 @@ uint8_t can_main_hw_handler_error(void)
 			{
 				if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF) ||  (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 				{
-#if 0
-					can_config_get_baudrate(&current_baudrate);
-					can_config_set_baudrate_listen_only(current_baudrate);
-#else
+					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
 
-					can_main_hw_enable_listen_only();
-#endif
 					li_can_slv_reconnect_on_main_node_recovery(1);
 				}
 
@@ -259,12 +263,13 @@ uint8_t can_main_hw_handler_error(void)
 					// if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 					// if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE) ||  ((cp_state.ubCanErrState == CANPIE_STATE_BUS_ACTIVE) && (cp_state.ubCanErrType == CANPIE_ERR_TYPE_FORM)))
 				{
-#if 0
-					can_config_get_baudrate(&current_baudrate);
-					can_config_set_baudrate_listen_only(current_baudrate);
-#else
-					can_main_hw_enable_listen_only();
-#endif
+
+
+					CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
+
+					//(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+					//(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
+
 					li_can_slv_reconnect_on_main_node_online(1);
 				}
 
@@ -273,7 +278,8 @@ uint8_t can_main_hw_handler_error(void)
 		}
 		else
 		{
-			can_main_hw_enable_listen_only();
+			(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+			(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
 		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 	}

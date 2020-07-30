@@ -126,6 +126,7 @@ lcsa_errorcode_t lcsa_start(void)
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
+		// main cpu
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
@@ -136,52 +137,102 @@ lcsa_errorcode_t lcsa_start(void)
 				{
 					li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_OFF);
 					// in case a download is pending switch off the reconnect feature after reset
-					lcsa_set_baudrate(can_config_get_baudrate_startup());
+
+					// ignore error in stopped mode
+					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+
+					if(err == LCSA_ERROR_OK)
+					{
+						err = lcsa_set_baudrate(can_config_get_baudrate_startup());
+
+						// send baud rate to monitor cpu
+						if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
+						{
+							li_can_slv_port_sync_baudrate(can_config_get_baudrate_startup());
+						}
+					}
+
 					li_can_slv_reconnect_download();
+
+					err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
+
+					if(err == LCSA_ERROR_OK)
+					{
+						lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
+					}
+
 				}
 				else
 				{
 					li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_STARTUP);
-					// diagnostic connection to CAN bus
-					/*TODO: listen only*/
-					lcsa_set_baudrate(can_config_get_baudrate_startup());
+
+					// ignore error in stopped mode
+					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+
+					if(err == LCSA_ERROR_OK)
+					{
+						err = lcsa_set_baudrate(can_config_get_baudrate_startup());
+					}
+
 					li_can_slv_reconnect_startup();
+
+					// diagnostic connection to CAN bus
+					err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
+
 				}
 			}
 			else
 			{
-				// directly connection to CAN bus set normal baud rate
-				can_config_set_baudrate(can_config_get_baudrate_startup());
-				can_main_enable();
-#if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-				can_mon_enable();
-#endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
+				(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+
+				if(err == LCSA_ERROR_OK)
+				{
+					err = lcsa_set_baudrate(can_config_get_baudrate_startup());
+				}
+
+				if(err == LCSA_ERROR_OK)
+				{
+					err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
+					if(err == LCSA_ERROR_OK)
+					{
+						lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
+					}
+				}
 			}
 		}
 #ifdef LI_CAN_SLV_MAIN_MON
 	}
 	else
 	{
-		// go online on monitor
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-			err = can_config_set_baudrate(can_config_get_baudrate_startup());
-		}
-	}
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
+		// monitor cpu go online
+		(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-#ifdef LI_CAN_SLV_MAIN_MON
-	if (can_mainmon_type == CAN_MAINMON_TYPE_MON)
-	{
-		// on the monitor CPU enable the main node normal
-		can_main_enable();
+		if(err == LCSA_ERROR_OK)
+		{
+			err = lcsa_set_baudrate(can_config_get_baudrate_startup());
+		}
+
+		if(err == LCSA_ERROR_OK)
+		{
+			err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
+			if(err == LCSA_ERROR_OK)
+			{
+				lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
+			}
+		}
 	}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
 #else // #ifdef LI_CAN_SLV_RECONNECT
 
-	//err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+#ifdef LI_CAN_SLV_MAIN_MON
+	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
+	{
+		li_can_slv_port_sync_baudrate(lcsa_get_baudrate());
+	}
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
 
+	// ignore error in stopped mode
 	(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
 	if(err == LCSA_ERROR_OK)
@@ -198,6 +249,7 @@ lcsa_errorcode_t lcsa_start(void)
 			lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 		}
 	}
+
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
@@ -230,20 +282,13 @@ lcsa_errorcode_t lcsa_start(void)
 			li_can_slv_xload_info_set_mode(LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_RUNNING);
 		}
 #endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
-		lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
-
-#ifdef LI_CAN_SLV_MAIN_MON
-		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
-		{
-			li_can_slv_port_sync_baudrate(lcsa_get_baudrate());
-		}
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
+		/* todo right place? */
+		lcsa_set_state(LI_CAN_SLV_STATE_RUNNING); 
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	LI_CAN_SLV_DEBUG_PRINT("start\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 #endif // #ifdef LI_CAN_SLV_DLOAD
-
 	}
 
 	return err;

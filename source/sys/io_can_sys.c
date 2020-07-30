@@ -191,7 +191,10 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 #endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
 	byte_t add_info;
 	byte_t group_subgroup;
+
+#ifdef LI_CAN_SLV_CHANGE_CAN_BAUDRATE_DELAY
 	uint32_t i;
+#endif // #ifdef LI_CAN_SLV_CHANGE_CAN_BAUDRATE_DELAY
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER_EXTENDED
 	LI_CAN_SLV_DEBUG_PRINT("\n\ncan_sys_msg_rx");
@@ -325,9 +328,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			LI_CAN_SLV_DEBUG_PRINT("\nchange CAN baudrate: %d", baudrate);
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYS_CHANGE_CAN_BAUDRATE
 
-			/**
-			 * @todo remove that or add a define, this is used for STM32
-			 */
+#ifdef LI_CAN_SLV_CHANGE_CAN_BAUDRATE_DELAY
 			for (i = 0; i <= 100; i++)
 			{
 				can_port_nop();
@@ -335,6 +336,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 				can_port_nop();
 				can_port_nop();
 			}
+#endif // #ifdef LI_CAN_SLV_CHANGE_CAN_BAUDRATE_DELAY
 
 			li_can_slv_node_mode_t mode = li_can_slv_get_node_mode();
 			err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
