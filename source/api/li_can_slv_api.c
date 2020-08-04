@@ -122,6 +122,15 @@ lcsa_errorcode_t lcsa_start(void)
 	}
 #endif // #ifdef LI_CAN_SLV_UNKNOWN_MODULE
 
+#ifdef LI_CAN_SLV_MAIN_MON
+	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
+	{
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+		can_port_transceiver_enable();
+#ifdef LI_CAN_SLV_MAIN_MON
+	}
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+
 #ifdef LI_CAN_SLV_RECONNECT
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
@@ -258,15 +267,6 @@ lcsa_errorcode_t lcsa_start(void)
 
 	if (err == LCSA_ERROR_OK)
 	{
-#ifdef LI_CAN_SLV_MAIN_MON
-		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
-		{
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-			can_port_transceiver_enable();
-#ifdef LI_CAN_SLV_MAIN_MON
-		}
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-
 #ifdef LI_CAN_SLV_DLOAD
 #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 		li_can_slv_xload_info_get_mode(&xload_info_mode);
