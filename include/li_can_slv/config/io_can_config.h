@@ -51,6 +51,12 @@
 extern uint16_t can_config_nr_of_modules;
 #endif // #ifndef LI_CAN_SLV_BOOT
 
+#ifdef LI_CAN_SLV_ASYNC
+#if defined(OUTER) || defined(OUTER_APP)
+extern uint16_t can_config_async_ctrl_rx_objs[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
+#endif // #if defined(OUTER) || defined(OUTER_APP)
+#endif // #ifdef LI_CAN_SLV_ASYNC
+
 #ifdef LI_CAN_SLV_BOOT
 extern li_can_slv_config_module_t can_config_module_tab;
 #endif // #ifndef LI_CAN_SLV_BOOT

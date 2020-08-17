@@ -223,7 +223,8 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 	if (rxi == CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1)
 #endif //#ifdef LI_CAN_SLV_BOOT
 #if defined(OUTER) || defined(OUTER_APP)
-		if ((rxi == CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1) || (rxi == CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2))
+		//if ((rxi == CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1) || (rxi == CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2))
+		if ((rxi == CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1))
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 		{
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYS_HANDLER

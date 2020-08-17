@@ -94,14 +94,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 1 on obj_async_ctrl1   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX;
-
-#ifdef LI_CAN_SLV_DEBUG_CAN_ASYNC_HW_HANDLER
-			LI_CAN_SLV_DEBUG_PRINT("CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX\n");
-#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ASYNC_HW_HANDLER
-
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
@@ -118,9 +113,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 2 on obj_async_ctrl2   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL2_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL2_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL2_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL2_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
@@ -135,9 +130,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 3 on obj_async_ctrl3   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL3_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL3_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL3_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL3_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
@@ -152,9 +147,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 4 on obj_async_ctrl4   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL4_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL4_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL4_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL4_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
@@ -169,9 +164,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 5 on obj_async_ctrl5   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL5_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL5_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL5_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL5_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
@@ -186,9 +181,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 6 on obj_async_ctrl6   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL6_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL6_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL6_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL6_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
@@ -203,9 +198,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 7 on obj_async_ctrl7   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL7_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL7_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL7_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL7_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
@@ -220,9 +215,9 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 		/*------------------------------------------------------------------------------*/
 		/* asynchronous control data received for logical module 8 on obj_async_ctrl8   */
 		/*------------------------------------------------------------------------------*/
-		if ((rxi == (CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX)))
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX])))
 		{
-			msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX;
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX];
 			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 			if (err != LI_CAN_SLV_ERR_OK)
