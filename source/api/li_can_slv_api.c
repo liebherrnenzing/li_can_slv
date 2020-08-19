@@ -86,7 +86,7 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 
 #ifdef LI_CAN_SLV_DLOAD
 	li_can_slv_xload_info_get_mode(&mode);
-	if ((mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_ACKN) || (mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_OUT))
+	if ((mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_ACKN) || (mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_OUT) || (mode == LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_REBOOT))
 	{
 		// if download or download ackn then use the baud rate of the xload_info
 		li_can_slv_xload_info_get_can_baudrate(&xload_info_baudrate);

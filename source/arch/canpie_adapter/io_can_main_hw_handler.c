@@ -249,7 +249,7 @@ uint8_t can_main_hw_handler_error(void)
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 			if (CAN_RECONNECT_STATE_OFF == li_can_slv_reconnect_get_state())
 			{
-				if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF) ||  (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
+				if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 				{
 					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);

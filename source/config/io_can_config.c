@@ -133,6 +133,12 @@ static li_can_slv_config_bdr_t can_config_bdr_startup;
 uint16_t can_config_nr_of_modules = 0; /**< number of modules*/
 #endif // #ifndef LI_CAN_SLV_BOOT
 
+#ifdef LI_CAN_SLV_ASYNC
+#if defined(OUTER) || defined(OUTER_APP)
+uint16_t can_config_async_ctrl_rx_objs[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
+#endif // #if defined(OUTER) || defined(OUTER_APP)
+#endif // #ifdef LI_CAN_SLV_ASYNC
+
 #ifdef LI_CAN_SLV_BOOT
 li_can_slv_config_module_t can_config_module_tab =
 {
@@ -573,36 +579,7 @@ static can_config_bdr_tab_t can_config_bdr_tab[CAN_CONFIG_SIZE_OF_BDR_TAB] = /**
 
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)
-static const uint16_t can_config_async_ctrl_rx_objs[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] =
-{
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL2_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL3_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL4_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL5_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL6_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL7_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
-	CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX,
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
-#warning LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES out of range!
-#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
-}; /**< */
+uint16_t can_config_async_ctrl_rx_objs[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
@@ -1886,7 +1863,7 @@ li_can_slv_errorcode_t li_can_slv_config_change_module_nr_and_identifiers(char_t
 		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1, CAN_CONFIG_SYS_MSG_ID, CAN_CONFIG_ACCEPTANCE_MASK | mask, CAN_CONFIG_SYS_MSG_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
 	}
 
-#if 1
+#ifdef LI_CAN_SLV_SYS_OBJ2
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
 		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2, CAN_CONFIG_SYS_MSG_ID, CAN_CONFIG_ACCEPTANCE_MASK | mask, CAN_CONFIG_SYS_MSG_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
@@ -1896,7 +1873,7 @@ li_can_slv_errorcode_t li_can_slv_config_change_module_nr_and_identifiers(char_t
 	{
 		err = can_hw_combine_msg_obj_to_two_stage_fifo(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1, CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2);
 	}
-#endif
+#endif // #ifdef LI_CAN_SLV_SYS_OBJ2
 
 	/* in case of silent state call silent awake routine */
 	if (err == LI_CAN_SLV_ERR_OK)
@@ -2195,7 +2172,7 @@ static li_can_slv_errorcode_t can_config_set_module(uint16_t table_pos, const li
 		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1, CAN_CONFIG_SYS_MSG_ID, CAN_CONFIG_ACCEPTANCE_MASK | mask, CAN_CONFIG_SYS_MSG_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
 	}
 
-#if 1
+#ifdef LI_CAN_SLV_SYS_OBJ2
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
 		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2, CAN_CONFIG_SYS_MSG_ID, CAN_CONFIG_ACCEPTANCE_MASK | mask, CAN_CONFIG_SYS_MSG_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
@@ -2205,7 +2182,7 @@ static li_can_slv_errorcode_t can_config_set_module(uint16_t table_pos, const li
 	{
 		err = can_hw_combine_msg_obj_to_two_stage_fifo(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1, CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2);
 	}
-#endif
+#endif // #ifdef LI_CAN_SLV_SYS_OBJ2
 
 	/* in case of silent state call silent awake routine */
 	if (err == LI_CAN_SLV_ERR_OK)
@@ -2297,17 +2274,22 @@ static li_can_slv_errorcode_t tx_mon_dummy(byte_t *can, void *app, uint16_t dlc)
  */
 static li_can_slv_errorcode_t can_config_get_async_ctrl_rx_obj(uint16_t table_pos, uint16_t *msg_obj_nr)
 {
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+	uint16_t msg_obj;
+
 	if (table_pos > (LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES - 1u))
 	{
 		return (ERR_MSG_CAN_CONFIG_MODULE_WRONG_TABLE_POS);
 	}
 
-	/**
-	 * @todo es kann hier zu einem Problem kommen bei get message object
-	 */
-	*msg_obj_nr = can_config_async_ctrl_rx_objs[table_pos];
+	err = can_main_get_next_free_msg_obj(&msg_obj);
+	if (err == LI_CAN_SLV_ERR_OK)
+	{
+		can_config_async_ctrl_rx_objs[table_pos] = msg_obj;
+		*msg_obj_nr = msg_obj;
+	}
 
-	return (LI_CAN_SLV_ERR_OK);
+	return (err);
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #endif // #ifdef LI_CAN_SLV_ASYNC

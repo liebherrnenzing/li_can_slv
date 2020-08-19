@@ -119,6 +119,10 @@ li_can_slv_errorcode_t can_main_hw_deinit(void)
 li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)
 {
 	msg_obj_used[msg_obj] = FALSE;
+#ifdef CANPIE_BUFFER_DO_NOT_USE_MSG_OBJ0
+	/* used for xmc4xx devices because message obj 0 is not usable on this devices */
+	msg_obj_used[0] = TRUE;
+#endif // #ifdef CANPIE_BUFFER_DO_NOT_USE_MSG_OBJ0
 	CpCoreBufferRelease(&can_port_main, msg_obj);
 
 	return (LI_CAN_SLV_ERR_OK);
@@ -382,6 +386,9 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint1
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *)src);
 	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
 #else // #if CP_VERSION_MAJOR <= 2
+
+
+
 	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
 	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
 	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
