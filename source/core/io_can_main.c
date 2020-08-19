@@ -728,7 +728,11 @@ void can_main_sync_process_tx_data(void)
 
 					if (err == LI_CAN_SLV_ERR_OK)
 					{
-						err = can_main_hw_send_msg_obj_none_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
+						err = can_main_hw_send_msg_obj_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
+					}
+					else
+					{
+						while(true);
 					}
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
