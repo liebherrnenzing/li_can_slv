@@ -50,17 +50,19 @@ extern "C" {
 #define CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS	CAN_MSG_OBJ1 /*!< used CAN message object for receiving process request on monitor controller */
 
 /* CAN message object configuration of main CAN-controller (system messages)*/
-#define CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1		CAN_MSG_OBJ2 /*!< used CAN message object for receiving system message (broadcast/module) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1	CAN_MSG_OBJ2 /*!< used CAN message object for receiving system message (broadcast/module) */
 #if defined(OUTER) || defined(OUTER_APP)
-#define CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2		CAN_MSG_OBJ3 /*!< used CAN message object for receiving system message (broadcast/module) */
+#ifdef LI_CAN_SLV_SYS_OBJ2
+#define CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2	CAN_MSG_OBJ3 /*!< used CAN message object for receiving system message (broadcast/module) */
+#endif // #ifdef LI_CAN_SLV_SYS_OBJ2
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY_SYSTEM_REQ)
-#define CAN_CONFIG_MSG_MON_OBJ_RX_SYS1			CAN_MSG_OBJ4
+#define CAN_CONFIG_MSG_MON_OBJ_RX_SYS1	CAN_MSG_OBJ4
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY_SYSTEM_REQ)
 
 #ifndef CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS
-#define CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS			CAN_MSG_OBJ9 /*!< used CAN message object for transmitting system message */
+#define CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS	CAN_MSG_OBJ9 /*!< used CAN message object for transmitting system message */
 #endif // #ifndef CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS
 
 #ifdef LI_CAN_SLV_ASYNC

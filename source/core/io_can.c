@@ -223,7 +223,7 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 		// define two message object(s) for receiving system messages
 		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1, CAN_CONFIG_SYS_MSG_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_SYS_MSG_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
 #if defined(OUTER) || defined(OUTER_APP)
-#if 0
+#ifdef LI_CAN_SLV_SYS_OBJ2
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
 			err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2, CAN_CONFIG_SYS_MSG_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_SYS_MSG_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
@@ -232,7 +232,7 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 		{
 			err = can_hw_combine_msg_obj_to_two_stage_fifo(CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS1, CAN_CONFIG_MSG_MAIN_OBJ_RX_SYS2);
 		}
-#endif
+#endif // #ifdef LI_CAN_SLV_SYS_OBJ2
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 	}
 
