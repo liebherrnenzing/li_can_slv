@@ -94,10 +94,10 @@ extern "C" {
 #endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
 
 #if defined(OUTER) || defined(OUTER_APP)
-#define can_port_trigger_can_main_async_data_tx_queue()	can_main_handler_tx(3)
+#define can_port_trigger_can_main_async_data_tx_queue() can_main_handler_tx(3)
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-#define can_port_trigger_can_main_sync_process_data_tx_queue()	can_main_handler_tx(4)
+#define can_port_trigger_can_main_sync_process_data_tx_queue() can_main_handler_tx(4)
 
 #ifdef CAN_ASYNC_CTRL_RX_QUEUE
 #warning can_port_trigger_can_async_ctrl_rx_queue() not implemented!

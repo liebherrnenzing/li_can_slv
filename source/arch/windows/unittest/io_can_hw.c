@@ -72,7 +72,7 @@ static char default_name[] = "can_hw.log";
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_hw_init(void)
 {
-	strncpy(can_hw_log_file_path, default_name, sizeof(default_name));
+	strncpy(can_hw_log_file_path, default_name, sizeof(can_hw_log_file_path));
 
 	int ret = can_hw_log_open();
 

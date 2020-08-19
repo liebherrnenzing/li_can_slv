@@ -30,10 +30,7 @@
 #include <li_can_slv/api/li_can_slv_api.h>
 #include <li_can_slv/core/io_can.h>
 #include <li_can_slv/config/io_can_config.h>
-
-#ifdef LI_CAN_SLV_MAIN_MON
 #include "io_can_port.h"
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
@@ -247,12 +244,16 @@ lcsa_errorcode_t lcsa_start(void)
 	if(err == LCSA_ERROR_OK)
 	{
 		err = lcsa_set_baudrate(can_config_get_baudrate_startup());
-		ZF_LOGD("lcsa_start err:%08x\n", err);
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT
+		LI_CAN_SLV_DEBUG_PRINT("lcsa_start err:%08x\n", err);
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	}
 	if(err == LCSA_ERROR_OK)
 	{
 		err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
-		ZF_LOGD("lcsa_start nodemode:%08x\n", err);
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT
+		LI_CAN_SLV_DEBUG_PRINT("lcsa_start nodemode:%08x\n", err);
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 		if(err == LCSA_ERROR_OK)
 		{
 			lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);

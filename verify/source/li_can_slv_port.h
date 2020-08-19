@@ -82,6 +82,9 @@ extern "C" {
 
 #define li_can_slv_port_sw_reset()
 
+#define li_can_slv_port_transceiver_enable()
+#define li_can_slv_port_transceiver_disable()
+
 #ifdef LI_CAN_SLV_USE_ASYNC_DOWNLOAD_BUFFER_EXTERNAL
 #define li_can_slv_port_dload_add_byte_to_buffer(a) add_byte_to_buffer(a)
 #endif // #ifdef LI_CAN_SLV_USE_ASYNC_DOWNLOAD_BUFFER_EXTERNAL
@@ -98,6 +101,7 @@ extern "C" {
 #define li_can_slv_start_sps_monitor_handle()
 #endif // #ifdef SPS_MONITOR_CONNECTION_TYPE_LP
 #endif // #ifdef LI_CAN_SLV_USE_ASYNC_TUNNEL
+
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */
 /*--------------------------------------------------------------------------*/

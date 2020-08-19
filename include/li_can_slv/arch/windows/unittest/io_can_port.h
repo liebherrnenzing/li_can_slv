@@ -94,7 +94,6 @@ extern "C" {
 #define can_port_trigger_can_async_ctrl_rx_queue()
 #endif // #ifdef CAN_ASYNC_CTRL_RX_QUEUE
 
-
 #define can_port_get_boot_kernel_version_major()	li_can_slv_port_get_boot_kernel_version_major()
 #define can_port_get_boot_kernel_version_minor()	li_can_slv_port_get_boot_kernel_version_minor()
 
@@ -105,23 +104,26 @@ extern "C" {
 #define can_port_get_changeindex()	li_can_slv_port_get_changeindex()
 #define can_port_get_serialnumber()	li_can_slv_port_get_serialnumber()
 
-
 #define can_port_memory_cmp(ptr1, ptr2, size)		li_can_slv_port_memory_cmp(ptr1, ptr2, size)
 #define can_port_memory_cpy(dest, source, size)		li_can_slv_port_memory_cpy(dest, source, size)
 #define can_port_memory_set(ptr, value, num)		li_can_slv_port_memory_set(ptr, value, num)
-
 
 #define can_port_string_cmp(str1, str2)				li_can_slv_port_string_cmp(str1, str2)
 #define can_port_string_n_cmp(str1, str2, num)		li_can_slv_port_string_n_cmp(str1, str2, num)
 #define can_port_string_cpy(dest, source)			li_can_slv_port_string_cpy(dest, source)
 #define can_port_string_n_cpy(dest, source, size)	li_can_slv_port_string_n_cpy(dest, source, size)
 
+#define can_port_transceiver_enable()	li_can_slv_port_transceiver_enable()
+#define can_port_transceiver_disable()	li_can_slv_port_transceiver_disable()
 
 #ifdef LI_CAN_SLV_BYTE_ORDER_BIG_ENDIAN
 #warning can_port_swap_uint16() not implemented!
 #define can_port_swap_uint16(a)	li_can_slv_port_swap_uint16(a)
 #endif // #ifdef LI_CAN_SLV_BYTE_ORDER_BIG_ENDIAN
 
+#ifdef LI_CAN_SLV_MAIN_MON
+#define can_port_get_mainmon_type()		li_can_slv_port_get_mainmon_type()
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */

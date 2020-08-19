@@ -825,7 +825,7 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 			if(err == LI_CAN_SLV_ERR_OK)
 			{
 #ifdef LI_CAN_SLV_NO_XLOAD_INFO
-				can_config_set_baudrate_startup(baudrate);
+				can_config_save_baudrate_startup(baudrate);
 #else // #ifdef LI_CAN_SLV_NO_XLOAD_INFO
 				li_can_slv_xload_info_set_can_baudrate(baudrate);
 #endif // #ifdef LI_CAN_SLV_NO_XLOAD_INFO
@@ -844,7 +844,7 @@ li_can_slv_errorcode_t can_config_set_baudrate_default(void)
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	LI_CAN_SLV_DEBUG_PRINT("bdr def\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	return (lcsa_set_baudrate(can_config_bdr_tab[0].baudrate));
+	return (can_config_set_baudrate(can_config_bdr_tab[0].baudrate));
 }
 
 /**

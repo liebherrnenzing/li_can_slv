@@ -761,7 +761,10 @@ void can_main_sync_process_tx_data(void)
 					}
 					else
 					{
-						while(true);
+						/**
+						 * @toto add timeout
+						 */
+						while(TRUE);
 					}
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR

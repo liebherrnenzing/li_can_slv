@@ -342,7 +342,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 			if (err == LI_CAN_SLV_ERR_OK)
 			{
-				err = lcsa_set_baudrate(baudrate);
+				err = can_config_set_baudrate(baudrate);
 			}
 
 			if (err == LI_CAN_SLV_ERR_OK)

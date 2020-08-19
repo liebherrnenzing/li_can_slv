@@ -52,13 +52,11 @@ TARGET_LINK_LIBRARIES(li_can_slv_error_test li_can_slv li_can_slv_hw unity)
 ADD_EXECUTABLE(li_can_slv_sync_test source/li_can_slv_sync_test.c source/li_can_slv_sync_test_Runner.c)
 TARGET_LINK_LIBRARIES(li_can_slv_sync_test li_can_slv li_can_slv_hw unity)
 
-
 ADD_CUSTOM_TARGET(unittest_run
 	COMMAND 
 	li_can_slv_core_test.exe > result.testresult & 
 	li_can_slv_error_test.exe >> result.testresult & 
-	li_can_slv_sync_test.exe >> result.testresult ||
-	(exit 0) &
+	li_can_slv_sync_test.exe >> result.testresult &
 	type result.testresult
 )
 

@@ -126,7 +126,8 @@ lcsa_errorcode_t app_inxy_init(li_can_slv_module_nr_t modnr)
 #ifdef APP_INXY_HW
 	app_inxy_hw_init();
 #endif // #ifdef APP_INXY_HW
-	app_port_memory_set(&app_inxy_can_tx_data, 0, sizeof(app_inxy_can_tx_data_t));
+
+	app_port_memory_set(&app_inxy_can_tx_data, 0, sizeof(app_inxy_can_tx_data));
 
 	/*----------------------------------------------------------------------*/
 	/* add logical module "INXY" to CAN										*/

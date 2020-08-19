@@ -100,7 +100,7 @@ static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_main_hw_init(void)
 {
-	(void) strncpy(can_main_hw_log_file_path, default_name, sizeof(default_name));
+	(void) strncpy(can_main_hw_log_file_path, default_name, sizeof(can_main_hw_log_file_path));
 
 	int ret = can_main_hw_log_open();
 
