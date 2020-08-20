@@ -50,8 +50,8 @@
 
 #include <string.h>
 
+#include <li_can_slv/core/io_can_main.h>
 #include <li_can_slv/core/io_can_main_handler.h>
-
 #include <li_can_slv/sync/io_can_sync_handler.h>
 
 #include "io_app_module_change.h"
@@ -106,6 +106,9 @@ void setUp(void)
 
 		/* clear module table */
 		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
+
+		li_can_slv_sync_main_rx_msg_obj_used = 0;
+		li_can_slv_sync_main_tx_msg_obj_used = 0;
 
 		/* after initialization no call is set */
 		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);
@@ -357,7 +360,9 @@ void test_sys_msg_broadcast_no_module(void)
 
 	/* clear module table */
 	can_config_nr_of_modules = 0;
+	// del for the test
 	memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
+	// reinit for next test
 	reinit = TRUE;
 
 	/* simulate a status request message */

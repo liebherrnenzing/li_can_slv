@@ -369,7 +369,7 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 	/*----------------------------------------------------------------------*/
 	li_can_slv_sync_trigger_process_periode();
 #endif // #ifndef LI_CAN_SLV_BOOT
-	can_port_trigger_can_main_sync_process_data_tx_queue();
+//	can_port_trigger_can_main_sync_process_data_tx_queue();
 
 	can_main_hw_handler_error();
 

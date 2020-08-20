@@ -50,8 +50,8 @@
 
 #include <string.h>
 
+#include <li_can_slv/core/io_can_main.h>
 #include <li_can_slv/core/io_can_main_handler.h>
-
 #include <li_can_slv/sync/io_can_sync_handler.h>
 
 #include "io_app_module_change.h"
@@ -115,6 +115,9 @@ void setUp(void)
 		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
 		/* clean sync structure */
 		memset(&can_sync, 0x00, sizeof(can_sync));
+
+		li_can_slv_sync_main_rx_msg_obj_used = 0;
+		li_can_slv_sync_main_tx_msg_obj_used = 0;
 
 		/* after initialization no call is set */
 		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);
@@ -406,16 +409,16 @@ void test_sync_check_image_valid(void)
 	// none_blocking: msg_obj = 4, can_id = 0x3C2, dlc = 8,  00 00 00 00 00 00 00 00
 	// none_blocking: msg_obj = 1, can_id = 0x3C3, dlc = 8,  00 00 00 00 00 00 00 00
 
-	ret = can_sync_handler_rx(5, 8, 0x3c0, rx_data);
+	ret = can_sync_handler_rx(11, 8, 0x3c0, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	ret = can_sync_handler_rx(8, 8, 0x3c1, rx_data);
+	ret = can_sync_handler_rx(12, 8, 0x3c1, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	ret = can_sync_handler_rx(10, 8, 0x3c2, rx_data);
+	ret = can_sync_handler_rx(13, 8, 0x3c2, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	ret = can_sync_handler_rx(11, 8, 0x3c3, rx_data);
+	ret = can_sync_handler_rx(14, 8, 0x3c3, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
 	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);

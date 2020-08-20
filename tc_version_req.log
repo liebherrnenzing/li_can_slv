@@ -1,8 +1,0 @@
-blocking: msg_obj = 9, can_id = 0x103, dlc = 8,  05 09 00 0A 00 09 00 01 
-blocking: msg_obj = 9, can_id = 0x103, dlc = 8,  06 01 C9 C3 7D 00 00 09 
-blocking: msg_obj = 9, can_id = 0x11B, dlc = 8,  05 09 00 0A 00 09 00 01 
-blocking: msg_obj = 9, can_id = 0x11B, dlc = 8,  06 01 C9 C3 7D 00 00 09 
-blocking: msg_obj = 9, can_id = 0x13B, dlc = 8,  05 09 00 0A 00 09 00 01 
-blocking: msg_obj = 9, can_id = 0x13B, dlc = 8,  06 01 C9 C3 7D 00 00 09 
-blocking: msg_obj = 9, can_id = 0x1C3, dlc = 8,  05 09 00 0A 00 09 00 01 
-blocking: msg_obj = 9, can_id = 0x1C3, dlc = 8,  06 01 C9 C3 7D 00 00 09 

@@ -37,6 +37,8 @@ extern "C" {
 #define LI_CAN_SLV_BASIC
 #define LI_CAN_SLV_SET_MAX_NR_OF_LOGICAL_MODULES (8u)
 
+#define LI_CAN_SLV_SYS_OBJ2
+
 /*--------------------------------------------------------------------------*/
 /* special definitions                                                      */
 /*--------------------------------------------------------------------------*/
