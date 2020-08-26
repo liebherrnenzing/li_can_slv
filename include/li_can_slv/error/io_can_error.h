@@ -62,10 +62,10 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 li_can_slv_errorcode_t error_init(void);
 li_can_slv_errorcode_t error_syserr_get_diag(uint16_t idx, msg_code_t *pmsg_code);
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 #if defined(ERROR_SYSERR_ADDITIONAL_INFO_BYTE) || defined(LI_CAN_SLV_SYS_MODULE_ERROR)
 li_can_slv_errorcode_t error_syserr_send_with_info_byte(li_can_slv_errorcode_t errnum, err_prio_t priority, li_can_slv_module_nr_t module_nr, err_prio_t priority_redundant, byte_t info);
@@ -80,12 +80,12 @@ uint16_t error_syserr_num(void);
 
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-#if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 li_can_slv_errorcode_t error_apperr_get_diag(uint16_t idx, msg_code_t *perrnum, err_apperr_state_t *perrstate);
 uint16_t error_apperr_num(void);
 li_can_slv_errorcode_t error_apperr_send(li_can_slv_errorcode_t errnum, err_apperr_state_t errstate, li_can_slv_module_nr_t module_nr);
 li_can_slv_errorcode_t error_apperr_get(msg_code_t *perrnum, err_apperr_state_t *perrstate);
-#endif // #if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#endif // #if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 
 #ifdef ERROR_SUBGROUP_TEXT
 const char_t *error_get_subgroup_text(uint8_t subgroup);

@@ -508,6 +508,11 @@ li_can_slv_errorcode_t can_sys_send_error_full(li_can_slv_module_nr_t module_nr,
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	byte_t data[CAN_CONFIG_SYS_MSG_DLC];
 
+	if ((module_nr > CAN_CONFIG_MAX_MODULE_NR) || (module_nr < CAN_CONFIG_MIN_MODULE_NR))
+	{
+		module_nr = can_config_get_module_nr_main();
+	}
+
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{

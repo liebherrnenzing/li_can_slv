@@ -61,18 +61,20 @@
 #ifdef SYSINFO
 #include "io_sysinfo.h"
 #endif // #ifdef SYSINFO
+
 #ifdef SYSSTATE
 #include "io_sysstate.h"
 #endif // #ifdef SYSSTATE
-#ifdef SYSERR_QUEUE
-#include "io_irq.h"
-#include "io_modhw.h"
-#endif // #ifdef SYSERR_QUEUE
 
-#if defined (MAIN_MON) && defined (MAIN_MON_COMM_UART)
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
+//#include "io_irq.h"
+//#include "io_modhw.h"
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
+
+#ifdef ERROR_MAIN_MON
 #include "io_mainmon.h"
 #include "io_mainmon_comm.h"
-#endif // #if defined (MAIN_MON) && defined (MAIN_MON_COMM_UART)
+#endif // #ifdef ERROR_MAIN_MON
 
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
@@ -86,7 +88,7 @@
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private, not exported)                       */
 /*--------------------------------------------------------------------------*/
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 /*!
  * \brief Defines a system error queue entry
  */
@@ -111,7 +113,7 @@ typedef struct
 	uint16_t out_next_idx; /*!< index of next queue entry to be read*/
 	uint16_t count; /*!< number of entries of array that have been used already*/
 } error_syserr_queue_t;
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 
 #ifdef ERROR_APPLICATION
@@ -151,7 +153,7 @@ typedef struct error_apperr_queue_tag
 #endif // #ifdef ERROR_APPLICATION
 
 
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 /*!
  * \brief Defines the possible states of the error system
  * @enum error_system_state_tag
@@ -162,7 +164,7 @@ typedef enum error_system_state_tag
 	ERR_SYS_NOT_INITIALIZED	= 0, /*!< error system has not been initialized */
 	ERR_SYS_READY = 0xFFFF /*!< error system has been initialized already*/
 } error_system_state_t;
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 /*--------------------------------------------------------------------------*/
 /* global (exported) variables                                              */
@@ -172,17 +174,17 @@ typedef enum error_system_state_tag
 /* global (not exported) variables                                          */
 /*--------------------------------------------------------------------------*/
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 static volatile error_syserr_queue_t error_syserr_queue;
 static volatile error_system_state_t error_system_state = ERR_SYS_NOT_INITIALIZED;
-#else // #ifdef SYSERR_QUEUE
+#else // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 static li_can_slv_module_nr_t error_module_nr;
 static msg_code_t error_msg_code;
 static err_prio_t error_priority;
 static uint16_t error_syserr_number = 0;
 static byte_t error_add_info;
 static byte_t error_group_subgroup;
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
 #ifdef ERROR_APPLICATION
@@ -192,7 +194,7 @@ static volatile error_apperr_queue_t error_apperr_queue;
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
 /*--------------------------------------------------------------------------*/
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 /*!
  * \brief Initializes the error system (handler and queues)
  * \remarks Empties all error queues
@@ -203,7 +205,7 @@ li_can_slv_errorcode_t error_init(void)
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t i;
 
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 	//reset the system error queue
 	for (i = 0; i < ERROR_SYSERR_QUEUE_NUMENT; ++i)
 	{
@@ -216,7 +218,7 @@ li_can_slv_errorcode_t error_init(void)
 	error_syserr_queue.count = 0;
 	error_syserr_queue.out_next_idx = 0;
 	error_syserr_queue.in_next_idx = 0;
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 #ifdef ERROR_APPLICATION
 	//reset the application error queue
@@ -234,7 +236,7 @@ li_can_slv_errorcode_t error_init(void)
 
 	return (err);
 }
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 /*!
@@ -304,10 +306,14 @@ li_can_slv_errorcode_t error_syserr_send_with_info_byte(li_can_slv_errorcode_t e
 li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_info, li_can_slv_msg_priority_t priority, byte_t group, byte_t subgroup, li_can_slv_module_nr_t module_nr)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-#ifdef SYSERR_QUEUE
+#ifdef ERROR_MAIN_MON
+	mainmon_comm_error_t mmc_err;
+#endif // #ifdef ERROR_MAIN_MON
+
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 	sint16_t free;
-#endif //  #ifdef SYSERR_QUEUE
-#ifdef SYSERR_QUEUE
+#endif //  #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 #ifdef LI_CAN_SLV_BOOT
 	irq_sysstate_t irq_old;
 #else
@@ -315,25 +321,37 @@ li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_in
 	uint16_t irq_old;
 #endif // #if defined (_KEIL) || defined (__TASKING__)
 #endif // #ifdef LI_CAN_SLV_BOOT
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 #ifdef SYSINFO_ERR
 	sysinfo_error_t sysinfoerr;
 #endif // #ifdef SYSINFO_ERR
 	byte_t group_subgroup;
 
-#if defined (MAIN_MON) && defined (MAIN_MON_COMM_UART)
-#ifdef MAINMON_COMM_SYSERR
-	err = mainmon_comm_syserr_send_full(msg_code, add_info, priority, group, subgroup, module_nr);
-#endif // #ifdef MAINMON_COMM_SYSERR
-#endif // #if defined (MAIN_MON) && defined (MAIN_MON_COMM_UART)
+#ifdef ERROR_MAIN_MON
+	if (mainmon_get_type() == MAINMON_TYPE_MON)
+	{
+		mmc_err = mainmon_comm_syserr_send_full(msg_code, add_info, priority, group, subgroup, module_nr);
 
-#ifdef SYSERR_QUEUE
+		if (MAINMON_COMM_ERROR_OK != mmc_err)
+		{
+			/**
+			 * @todo add error
+			 */
+			err = ERR_MSG_CAN_ERR_NOT_DEFINED;
+		}
+
+		goto clear_exit;
+	}
+
+#endif // #ifdef ERROR_MAIN_MON
+
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 	//Check if error system has been initialized already and do so if not
 	if (error_system_state != ERR_SYS_READY)
 	{
 		error_init();
 	}
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 	/* calculate group subgroup info */
 	group_subgroup = (byte_t)(subgroup + (group << 4));
@@ -358,7 +376,7 @@ li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_in
 		modhw_reset(); //...and reset the module
 #endif // #if defined (_KEIL) || defined (__TASKING__)
 	}
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 	else
 	{
 		//alert, critical, error or lower priority...send it to the queue (if space) and trigger CAN-system
@@ -510,7 +528,13 @@ li_can_slv_errorcode_t error_syserr_send_full(msg_code_t msg_code, byte_t add_in
 		error_group_subgroup = group_subgroup;
 	}
 	return (err);
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
+
+#ifdef ERROR_MAIN_MON
+clear_exit:
+	return err;
+#endif
+
 }
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
@@ -565,7 +589,7 @@ li_can_slv_errorcode_t error_syserr_get_with_info_byte(li_can_slv_module_nr_t *p
  */
 li_can_slv_errorcode_t error_syserr_get_full(msg_code_t *pmsg_code, byte_t *padd_info, err_prio_t *ppriority, byte_t *pgroup_subgroup, li_can_slv_module_nr_t *pmodule_nr)
 {
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 #ifdef LI_CAN_SLV_BOOT
 	irq_sysstate_t irq_old;
@@ -626,11 +650,11 @@ li_can_slv_errorcode_t error_syserr_get_full(msg_code_t *pmsg_code, byte_t *padd
 	*pgroup_subgroup = error_group_subgroup;
 	error_syserr_number = 0;
 	return (LI_CAN_SLV_ERR_OK);
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 }
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 /****************************************************************************/
 /*!	\brief Reads out a selected system error from app error queue
  * \remarks \arg Read entry will NOT be removed from queue
@@ -678,7 +702,7 @@ li_can_slv_errorcode_t error_syserr_get_diag(uint16_t idx, msg_code_t *pmsg_code
 
 	return (err);
 }
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 /**
@@ -687,7 +711,7 @@ li_can_slv_errorcode_t error_syserr_get_diag(uint16_t idx, msg_code_t *pmsg_code
  */
 uint16_t error_syserr_num(void)
 {
-#ifdef SYSERR_QUEUE
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 	uint16_t num = 0;
 	if (error_system_state != ERR_SYS_READY)
 	{
@@ -705,11 +729,11 @@ uint16_t error_syserr_num(void)
 	return (num);
 #else
 	return (error_syserr_number);
-#endif // #ifdef SYSERR_QUEUE
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 }
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-#if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 /*!
  * \brief Adds an application error (incl. state) to the application error queue
  * \remarks \arg All tasks are blocked while queue management
@@ -773,9 +797,9 @@ li_can_slv_errorcode_t error_apperr_send(li_can_slv_errorcode_t errnum, err_appe
 
 	return (err);
 }
-#endif // #if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#endif // #if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 
-#if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 /****************************************************************************/
 /*!
  * \brief Reads out the next application error from app error queue
@@ -813,9 +837,9 @@ li_can_slv_errorcode_t error_apperr_get(msg_code_t *perrnum, err_apperr_state_t 
 
 	return (err);
 }
-#endif // #if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#endif // #if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 
-#if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 /****************************************************************************/
 /*!
  * \brief Returns the actual number of entries in application error queue
@@ -836,9 +860,9 @@ uint16_t error_apperr_num(void)
 
 	return (num);
 }
-#endif // #if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#endif // #if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 
-#if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 /****************************************************************************/
 /*!
  * \brief Reads out a selected application error from app error queue
@@ -889,7 +913,7 @@ li_can_slv_errorcode_t error_apperr_get_diag(uint16_t idx, msg_code_t *perrnum, 
 
 	return (err);
 }
-#endif // #if defined(ERROR_APPLICATION) && defined(SYSERR_QUEUE)
+#endif // #if defined(ERROR_APPLICATION) && defined(LI_CAN_SLV_SYS_ERROR_QUEUE)
 
 #ifdef ERROR_SUBGROUP_TEXT
 /****************************************************************************/
