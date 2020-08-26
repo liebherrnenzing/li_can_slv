@@ -394,7 +394,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_main_node_online(uint16_t ewrn)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 
-	if ((can_reconnect.state == CAN_RECONNECT_STATE_OFF) && (ewrn != 0x0000))
+	if ((can_reconnect.state == CAN_RECONNECT_STATE_OFF) && (ewrn != 0x0000) && (lcsa_get_state() != LI_CAN_SLV_STATE_STOPPED))
 	{
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 		LI_CAN_SLV_DEBUG_PRINT("mo\n");
@@ -431,7 +431,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_main_node_recovery(uint16_t boff)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 
-	if ((can_reconnect.state == CAN_RECONNECT_STATE_OFF) && (boff != 0x0000))
+	if ((can_reconnect.state == CAN_RECONNECT_STATE_OFF) && (boff != 0x0000) && (lcsa_get_state() != LI_CAN_SLV_STATE_STOPPED))
 	{
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 		LI_CAN_SLV_DEBUG_PRINT("cr m rec\n");
