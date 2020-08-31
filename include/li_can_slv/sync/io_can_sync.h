@@ -94,9 +94,9 @@ typedef struct can_sync_err_tag
  */
 typedef struct can_sync_tag
 {
-	uint32_t main_pr_time; /*!< time stamp of received process request on main */
+	uint32_t main_pr_timestamp; /*!< time stamp of received process request on main */
 #ifdef LI_CAN_SLV_MON
-	uint32_t mon_pr_time; /*!< time stamp of received process request on monitor */
+	uint32_t mon_pr_timestamp; /*!< time stamp of received process request on monitor */
 #endif // #ifdef LI_CAN_SLV_MON
 	uint16_t main_pr_cnt; /*!< main process request counter */
 	uint16_t main_pr_dlc; /*!< main data length code of process request */
@@ -119,6 +119,7 @@ typedef struct can_sync_tag
 	uint32_t pr_time_valid; /*!< time stamp of last valid process image */
 	uint32_t pr_time_valid_module[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES]; /*!< time stamp of last valid process image for each logical module */
 	uint32_t pr_periode; /*!< process period */
+	uint32_t pr_cycle_time; /*!< process cycle time */
 	uint8_t image_valid[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES]; /*!< image valid */
 	can_sync_err_t err; /*!< error counter structure for diagnostics */
 } can_sync_t;
@@ -165,10 +166,16 @@ void li_can_slv_sync_check_process_image(void);
 uint32_t li_can_slv_sync_get_process_valid_time(void);
 
 /**
- * @brief li_can_slv_sync_get_process_configuration_time
+ * @brief li_can_slv_sync_get_process_cycle_time
  * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
  */
-uint32_t li_can_slv_sync_get_process_configuration_time(void);
+uint32_t li_can_slv_sync_get_process_cycle_time(void);
+
+/**
+ * @param main_pr_time_ms
+ * @return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+li_can_slv_errorcode_t li_can_slv_sync_set_process_cycle_time(uint32_t time);
 
 /**
  * @brief li_can_slv_sync_get_process_periode
@@ -176,16 +183,12 @@ uint32_t li_can_slv_sync_get_process_configuration_time(void);
  */
 uint32_t li_can_slv_sync_get_process_periode(void);
 
-/**
- * @return current process time on main node
- */
-uint32_t li_can_slv_sync_get_main_process_timestamp(void);
-
 li_can_slv_errorcode_t li_can_slv_sync_set_process_time_valid_fnc(char_t *type, uint32_t(**pfnc)(void));
 li_can_slv_errorcode_t can_sync_set_pr_call_fnc(void(*pfnc)(void));
 li_can_slv_errorcode_t li_can_slv_sync_set_process_image_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void));
 li_can_slv_errorcode_t li_can_slv_sync_set_process_image_not_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void));
 li_can_slv_errorcode_t li_can_slv_sync_set_process_request_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void));
+
 
 /**
  * @brief This functions is used to increase the period if no trigger happens

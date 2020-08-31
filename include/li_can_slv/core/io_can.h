@@ -72,10 +72,6 @@ li_can_slv_errorcode_t li_can_slv_set_node_mode(li_can_slv_node_mode_t new_mode)
  */
 li_can_slv_node_mode_t li_can_slv_get_node_mode(void);
 
-#ifdef CAN_HW_DUMP_MSG_OBJECTS
-li_can_slv_errorcode_t can_dump_msg_objects(uint16_t start_idx, uint16_t end_idx);
-#endif // #ifdef CAN_HW_DUMP_MSG_OBJECTS
-
 #ifdef __cplusplus
 }// closing brace for extern "C"
 #endif

@@ -40,11 +40,6 @@ extern "C" {
 #include <li_can_slv/core/io_can_main_handler.h>
 #include <li_can_slv/error/io_can_error.h>
 
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-#include "io_util.h"
-#include "io_modhw.h"
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/

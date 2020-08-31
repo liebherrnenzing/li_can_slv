@@ -92,15 +92,16 @@
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-static uint16_t can_sys_status_ackn_delay; /**< */
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
 static uint16_t can_sys_first_status_detect = 0;
 static void(*li_can_slv_sys_first_status_request_cbk)(void) = NULL;
 
 #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 static li_can_slv_factory_reset_cbk_funcp_t li_can_slv_factory_reset_cbk = NULL;
 #endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
+
+#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+static uint32_t li_can_slv_rand_value;
+#endif // #ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -119,6 +120,12 @@ static li_can_slv_errorcode_t can_sys_set_silent_awake(const byte_t *src, li_can
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_number_expected,  byte_t *mmsb, byte_t *msb, byte_t *lsb);
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+
+#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+static uint32_t li_can_slv_rand(void);
+static void li_can_slv_seeding(uint32_t seed);
+#endif // #ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
 /*--------------------------------------------------------------------------*/
@@ -130,6 +137,9 @@ li_can_slv_errorcode_t can_sys_init(void)
 {
 	can_sys_first_status_detect = 0;
 	li_can_slv_sys_first_status_request_cbk = NULL;
+#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+	li_can_slv_seeding(li_can_slv_port_get_serialnumber());
+#endif // #ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
 	return (LI_CAN_SLV_ERR_OK);
 }
 
@@ -186,9 +196,9 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 	msg_code_t errnum;
 	err_prio_t priority;
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-	uint16_t i;
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
+#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+	uint32_t wait_status_req;
+#endif // #ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
 	byte_t add_info;
 	byte_t group_subgroup;
 
@@ -277,16 +287,10 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 #else // #ifdef LI_CAN_SLV_BOOT
 
-			/**
-			 * @todo remove modhw_info.status_ackn_delay_nops could not be used this way in the general implementation
-			 */
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-			// status acknowledge delay from 0 to 104us
-			for (i = 0; i < modhw_info.status_ackn_delay_nops; i++)
-			{
-				NOP();
-			}
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
+#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+			wait_status_req = li_can_slv_rand();
+			li_can_slv_port_wait_us(wait_status_req);
+#endif // #ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
 			if (message_is_broadcast)
 			{
 				for (table_pos = 0; table_pos < nr_of_modules; table_pos++)
@@ -396,11 +400,8 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_PROCESS_CONFIGURATION:
-			/**
-			 * @todo check if implementation is needed and
-			 * if ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED could be used
-			 */
-			return LI_CAN_SLV_ERR_OK;
+			err = li_can_slv_sync_set_process_cycle_time((uint32_t)src[2]);
+			return err;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
@@ -865,4 +866,24 @@ static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_num
 	return (serial_number_expected == serial_nr) ? (1) : (0);
 }
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+
+#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+/**
+ * randomize the status acknowledge response time delay time needs only to be
+ * in arbitration area; (13 Bit: 1 Start Bit, 11 Identifier Bits, 1 RTR Bit)
+ * => lowest baudrate 125k => 104us
+ * => the random range should be 0us...104us
+ */
+static uint32_t li_can_slv_rand(void)
+{
+	li_can_slv_rand_value = li_can_slv_rand_value * 1103515245 + 12345;
+	return (uint32_t) (li_can_slv_rand_value * 65536) % 104;
+}
+
+static void li_can_slv_seeding(uint32_t seed)
+{
+	li_can_slv_rand_value = seed;
+}
+#endif //#ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+
 /** @} */

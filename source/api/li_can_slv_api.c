@@ -262,10 +262,6 @@ lcsa_errorcode_t lcsa_start(void)
 
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-	modhw_info.status_ackn_delay_nops = util_rand(CAN_MAX_STATUS_ACKN_DELAY_NOPS);
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-
 	if (err == LCSA_ERROR_OK)
 	{
 #ifdef LI_CAN_SLV_DLOAD

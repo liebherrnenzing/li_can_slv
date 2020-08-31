@@ -497,14 +497,7 @@ li_can_slv_errorcode_t can_async_rx(li_can_slv_module_nr_t module_nr, byte_t con
 					can_async_tunnel.state = LI_CAN_SLV_ASYNC_TUNNEL_ACTIVE;
 					can_async_tunnel.connection_type = data[4];
 					can_async_tunnel.async_data_delay = (((uint16_t)data[5]) << 8) + (uint16_t)(data[6]);
-					/**
-					 * @todo add correct var for minimum time delay between asynchronous data objects here
-					 */
-					//adopt the delay between two consecutive messages to match the module requirements
-					// if (can_async_tunnel.async_data_delay < can_info.async_data_delay)
-					// {
-					//   can_async_tunnel.async_data_delay = can_info.async_data_delay;	//in us
-					// }
+
 					switch (can_async_tunnel.connection_type)
 					{
 						case CAN_ASYNC_CONNECTION_TYPE_DEFAULT:

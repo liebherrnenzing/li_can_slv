@@ -131,10 +131,10 @@ extern "C" {
 #define lcsa_sync_get_process_periode()	li_can_slv_sync_get_process_periode()
 
 /**
- * @brief lcsa_sync_get_process_configuration_time
+ * @brief lcsa_sync_get_process_cycle_time
  * @return lcsa_errorcode_t or #LCSA_ERROR_OK if successful
  */
-#define lcsa_sync_get_process_configuration_time()	li_can_slv_sync_get_process_configuration_time()
+#define lcsa_sync_get_process_cycle_time()	li_can_slv_sync_get_process_cycle_time()
 
 /**
  * Set function pointer to read the valid process time for this module type

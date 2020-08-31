@@ -113,7 +113,7 @@ static var_change_t can_sync_node_a_var_change[] = /**< */
 
 static const var_const_t can_sync_node_a_var_const[] = /**< */
 {
-	{"sync.ma.time",	&can_sync.main_pr_time,				VAR_UINT32,	0,		0xFFFFFFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_a_var_change[0]},
+	{"sync.ma.time",	&can_sync.main_pr_timestamp,				VAR_UINT32,	0,		0xFFFFFFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_a_var_change[0]},
 	{"sync.ma.cnt",		&can_sync.main_pr_cnt,				VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_a_var_change[1]},
 	{"sync.ma.dlc",		&can_sync.main_pr_dlc,				VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_a_var_change[2]},
 	{"sync.ptv",		&can_sync.pr_time_valid,			VAR_UINT32,	0,		0xFFFFFFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_a_var_change[3]},
@@ -142,7 +142,7 @@ static var_change_t can_sync_node_b_var_change[] = /**< */
 
 static const var_const_t can_sync_node_b_var_const[] = /**< */
 {
-	{"sync.mo.time",	&can_sync.mon_pr_time,		VAR_UINT32,	0,		0xFFFFFFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_b_var_change[0]},
+	{"sync.mo.time",	&can_sync.mon_pr_timestamp,	VAR_UINT32,	0,		0xFFFFFFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_b_var_change[0]},
 	{"sync.mo.cnt",		&can_sync.mon_pr_cnt,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_b_var_change[1]},
 	{"sync.mo.dlc",		&can_sync.mon_pr_dlc,		VAR_UINT16,	0,		0x0000FFFFL,	1,		VAR_ID_NOT_USED,	NULL,	&can_sync_node_b_var_change[2]},
 	{VAR_END_OF_TABLE}
@@ -413,6 +413,7 @@ li_can_slv_errorcode_t can_sync_init(void)
 #endif // #ifdef LI_CAN_SLV_MON
 
 	can_sync.pr_periode = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
+	can_sync.pr_cycle_time = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
 	for (i = 0; i < LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES; i++)
 	{
 		can_sync_process_image_valid_cbk_table[i] = NULL;
@@ -463,8 +464,8 @@ li_can_slv_errorcode_t can_sync_rx_process_main(uint16_t dlc, byte_t const *can)
 
 	can = can; // suppress warning
 
-	can_sync.pr_periode = can_port_ticks_2_msec(can_port_get_system_ticks() - can_sync.main_pr_time);
-	can_sync.main_pr_time = can_port_get_system_ticks();
+	can_sync.pr_periode = can_port_ticks_2_msec(can_port_get_system_ticks() - can_sync.main_pr_timestamp);
+	can_sync.main_pr_timestamp = can_port_get_system_ticks();
 
 	can_sync.main_pr_cnt++;
 	can_sync.main_pr_dlc = dlc;
@@ -693,7 +694,7 @@ li_can_slv_errorcode_t can_sync_rx_process_mon(uint16_t dlc, byte_t const *can)
 
 	can = can; // suppress warning
 
-	can_sync.mon_pr_time = can_port_get_system_ticks();
+	can_sync.mon_pr_timestamp = can_port_get_system_ticks();
 
 	can_sync.mon_pr_cnt++;
 	can_sync.mon_pr_dlc = dlc;
@@ -1079,15 +1080,12 @@ clear_exit:
 
 uint32_t li_can_slv_sync_get_process_valid_time(void)
 {
-	return (can_sync.pr_time_valid);
+	return can_sync.pr_time_valid;
 }
 
-uint32_t li_can_slv_sync_get_process_configuration_time(void)
+uint32_t li_can_slv_sync_get_process_cycle_time(void)
 {
-	/**
-	 * @todo
-	 */
-	return 25;
+	return can_sync.pr_cycle_time;
 }
 
 uint32_t li_can_slv_sync_get_process_periode(void)
@@ -1097,12 +1095,7 @@ uint32_t li_can_slv_sync_get_process_periode(void)
 		can_sync.pr_periode = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
 	}
 
-	return (can_sync.pr_periode);
-}
-
-uint32_t li_can_slv_sync_get_main_process_timestamp(void)
-{
-	return (can_sync.main_pr_time);
+	return can_sync.pr_periode;
 }
 
 /**
@@ -1256,6 +1249,26 @@ li_can_slv_errorcode_t li_can_slv_sync_set_process_request_cbk(char_t *type, li_
 	return (err);
 }
 
+
+li_can_slv_errorcode_t li_can_slv_sync_set_process_cycle_time(uint32_t time)
+{
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+
+	if (time <= LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX)
+	{
+		can_sync.pr_cycle_time = time;
+	}
+	else
+	{
+		can_sync.pr_cycle_time = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
+		/* TODO: create error code */
+		err = LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
+	}
+
+	return err;
+}
+
+
 void li_can_slv_sync_trigger_process_periode(void)
 {
 	uint32_t dtime;
@@ -1263,7 +1276,7 @@ void li_can_slv_sync_trigger_process_periode(void)
 
 	periode_max_ticks = can_port_msec_2_ticks(LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX);
 
-	dtime = can_port_get_system_ticks() - can_sync.main_pr_time;
+	dtime = can_port_get_system_ticks() - can_sync.main_pr_timestamp;
 	if (dtime > periode_max_ticks)
 	{
 		dtime = periode_max_ticks;
@@ -1299,7 +1312,6 @@ void li_can_slv_sync_process_request_rx(void)
 		can_sync_first_process_detect = 1;
 		if (can_sync_first_process_request_call != NULL)
 		{
-			can_sync.pr_periode = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
 			can_sync_first_process_request_call();
 		}
 	}

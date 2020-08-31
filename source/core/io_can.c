@@ -67,20 +67,6 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-#ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-/* randomize the status acknowledge response time */
-/* delay time needs only to be in arbitration area; (13 Bit: 1 Start Bit, 11 Identifier Bits, 1 RTR Bit) */
-/* => lowest baudrate 125k => 104us */
-/* => the random range should be 0us...104us */
-#define CAN_MAX_STATUS_ACKN_DELAY_NS		104000L /*!< maximum time delay of status acknowledge in ns */
-#ifdef XE167
-#define CAN_NOP_NS							12.5 /*!< time of one NOP in ns */
-#else // #ifdef XE167
-#define CAN_NOP_NS							25L /*!< time of one NOP in ns */
-#endif // #ifdef XE167
-#define CAN_MAX_STATUS_ACKN_DELAY_NOPS		(uint16_t)(CAN_MAX_STATUS_ACKN_DELAY_NS/CAN_NOP_NS)	/*!<  maximum number NOP for time delays of status acknowledge */
-#endif // #ifdef CAN_RANDOM_STATUS_ACKNOWLEDGE
-
 static lcsa_state_t li_can_slv_state = LI_CAN_SLV_STATE_INIT;
 static li_can_slv_node_mode_t li_can_slv_mode = LI_CAN_SLV_MODE_INIT;
 
@@ -328,29 +314,6 @@ li_can_slv_errorcode_t li_can_slv_deinit(void)
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 	return LI_CAN_SLV_ERR_OK;
 }
-
-/**
-* @todo rename can_dump_msg_objects
-*/
-#ifdef CAN_HW_DUMP_MSG_OBJECTS
-/**
- * @param start_idx
- * @param end_idx
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_dump_msg_objects(uint16_t start_idx, uint16_t end_idx)
-{
-	uint16_t i;
-	LI_CAN_SLV_DEBUG_PRINT("\n");
-	LI_CAN_SLV_DEBUG_PRINT("MSG ID   MASK    DLC DIR IDE MIDE D0   D1   D2   D3   D4   D5   D6   D7\n");
-
-	for (i = start_idx; i < end_idx; i++)
-	{
-		can_hw_dump_msg_obj(i);
-	}
-	return (LI_CAN_SLV_ERR_OK);
-}
-#endif // #ifdef CAN_HW_DUMP_MSG_OBJECTS
 
 /**
  * @return LI_CAN_SLV_ERR_OK

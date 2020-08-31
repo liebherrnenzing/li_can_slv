@@ -70,6 +70,8 @@ extern "C" {
 #define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_NUMBER
 #define LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
 
+#define LI_CAN_SLV_USE_SYS_RANDOM_STATUS_ACKNOWLEDGE
+
 /*--------------------------------------------------------------------------*/
 /* LI_CAN_SLV Synchronous protocol definitions                              */
 /*--------------------------------------------------------------------------*/

@@ -287,6 +287,18 @@ extern "C" {
 #endif
 #endif // #ifdef __DOXYGEN__
 
+
+#ifdef __DOXYGEN__
+/**
+ * Use random status acknowledge feature.
+ */
+#define LI_CAN_SLV_USE_SYS_RANDOM_STATUS_ACKNOWLEDGE
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_USE_SYS_RANDOM_STATUS_ACKNOWLEDGE
+#define LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
+#endif
+#endif // #ifdef __DOXYGEN__
+
 /**
  * @}
  */
