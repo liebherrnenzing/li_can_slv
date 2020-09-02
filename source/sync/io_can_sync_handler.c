@@ -203,9 +203,9 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 		// send system error if valid, one error per process, (sending only one error -> hold synchrony process)
-		if (error_syserr_num() > 0)
+		if (can_error_sys_error_count() > 0)
 		{
-			err = error_syserr_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
+			err = can_error_sys_error_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
 			if (err == LI_CAN_SLV_ERR_OK)
 			{
 				err = can_sys_send_error_full(module_nr, errnum, add_info, priority, group_subgroup);

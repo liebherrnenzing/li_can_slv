@@ -117,8 +117,6 @@
 uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 {
 	uint8_t data[8];
-	/** @todo add workaround for the aligned problem for tricore cpu */
-	/* uint8_t __attribute__ ((aligned(2))) data[8]; */
 	uint16_t canid;
 	uint8_t dlc;
 
@@ -129,7 +127,7 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 
 	if (li_can_slv_reconnect_get_state() != CAN_RECONNECT_STATE_OFF)
 	{
-//		li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
+		//		li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
 		return (LI_CAN_SLV_ERR_OK);
 	}
 #endif // #ifdef LI_CAN_SLV_RECONNECT
@@ -175,8 +173,6 @@ uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 {
 #ifndef LI_CAN_SLV_BOOT
 	uint8_t data[8];
-	/** @todo add workaround for the aligned problem for tricore cpu */
-	/* uint8_t __attribute__ ((aligned(2))) data[8]; */
 	uint16_t canid;
 	uint8_t dlc;
 

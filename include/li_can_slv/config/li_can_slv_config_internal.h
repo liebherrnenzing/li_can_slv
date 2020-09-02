@@ -260,8 +260,18 @@ extern "C" {
 #ifdef LI_CAN_SLV_USE_SYS_ERROR_16_BIT
 #define LI_CAN_SLV_SYS_MODULE_ERROR
 #define LI_CAN_SLV_SYS_MODULE_ERROR_16_BIT
-//#define LI_CAN_SLV_SYS_MODULE_ERROR_QUEUE
-//#define LI_CAN_SLV_SYS_MODULE_ERROR_QUEUE_SIZE
+#endif
+#endif // #ifdef __DOXYGEN__
+
+
+#ifdef __DOXYGEN__
+/**
+ * This define is used to enable the error message queue
+ */
+#define LI_CAN_SLV_USE_SYS_ERROR_QUEUE
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_USE_SYS_ERROR_QUEUE
+#define LI_CAN_SLV_SYS_ERROR_QUEUE
 #endif
 #endif // #ifdef __DOXYGEN__
 

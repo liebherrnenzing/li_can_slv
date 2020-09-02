@@ -90,9 +90,6 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
 	LI_CAN_SLV_DEBUG_PRINT("c_m_hw_t_isr: %d\n", caller_idx);
 #else
-	/**
-	 * @todo implement statistics/diagnose with this caller_idx
-	 * */
 	caller_idx = caller_idx;
 #endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
 

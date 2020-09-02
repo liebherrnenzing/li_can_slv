@@ -77,7 +77,7 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 	err = li_can_slv_xload_info_init();
 	if (err != LCSA_ERROR_OK)
 	{
-		error_syserr_send(err, ERR_LVL_ERROR, can_config_get_module_nr_main(), ERR_LVL_ERROR);
+		can_error_sys_error_send_full(err, 0, LCSA_ERROR_MSG_PRIO_ERROR, LCSA_ERROR_GROUP_CAN, LCSA_ERROR_SUBGROUP_CAN_APPLICATION, can_config_get_module_nr_main());
 	}
 #endif // #ifdef LI_CAN_SLV_DLOAD
 
@@ -147,7 +147,7 @@ lcsa_errorcode_t lcsa_start(void)
 					// ignore error in stopped mode
 					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-					if(err == LCSA_ERROR_OK)
+					if (err == LCSA_ERROR_OK)
 					{
 						err = lcsa_set_baudrate(can_config_get_baudrate_startup());
 
@@ -162,7 +162,7 @@ lcsa_errorcode_t lcsa_start(void)
 
 					err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
 
-					if(err == LCSA_ERROR_OK)
+					if (err == LCSA_ERROR_OK)
 					{
 						lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 					}
@@ -175,7 +175,7 @@ lcsa_errorcode_t lcsa_start(void)
 					// ignore error in stopped mode
 					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-					if(err == LCSA_ERROR_OK)
+					if (err == LCSA_ERROR_OK)
 					{
 						err = lcsa_set_baudrate(can_config_get_baudrate_startup());
 					}
@@ -191,15 +191,15 @@ lcsa_errorcode_t lcsa_start(void)
 			{
 				(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-				if(err == LCSA_ERROR_OK)
+				if (err == LCSA_ERROR_OK)
 				{
 					err = lcsa_set_baudrate(can_config_get_baudrate_startup());
 				}
 
-				if(err == LCSA_ERROR_OK)
+				if (err == LCSA_ERROR_OK)
 				{
 					err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
-					if(err == LCSA_ERROR_OK)
+					if (err == LCSA_ERROR_OK)
 					{
 						lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 					}
@@ -213,15 +213,15 @@ lcsa_errorcode_t lcsa_start(void)
 		// monitor cpu go online
 		(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-		if(err == LCSA_ERROR_OK)
+		if (err == LCSA_ERROR_OK)
 		{
 			err = lcsa_set_baudrate(can_config_get_baudrate_startup());
 		}
 
-		if(err == LCSA_ERROR_OK)
+		if (err == LCSA_ERROR_OK)
 		{
 			err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
-			if(err == LCSA_ERROR_OK)
+			if (err == LCSA_ERROR_OK)
 			{
 				lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 			}
@@ -241,20 +241,20 @@ lcsa_errorcode_t lcsa_start(void)
 	// ignore error in stopped mode
 	(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-	if(err == LCSA_ERROR_OK)
+	if (err == LCSA_ERROR_OK)
 	{
 		err = lcsa_set_baudrate(can_config_get_baudrate_startup());
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 		LI_CAN_SLV_DEBUG_PRINT("lcsa_start err:%08x\n", err);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 	}
-	if(err == LCSA_ERROR_OK)
+	if (err == LCSA_ERROR_OK)
 	{
 		err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 		LI_CAN_SLV_DEBUG_PRINT("lcsa_start nodemode:%08x\n", err);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-		if(err == LCSA_ERROR_OK)
+		if (err == LCSA_ERROR_OK)
 		{
 			lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 		}
@@ -280,10 +280,10 @@ lcsa_errorcode_t lcsa_start(void)
 		}
 #endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 		/* todo right place? */
-		lcsa_set_state(LI_CAN_SLV_STATE_RUNNING); 
+		lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-	LI_CAN_SLV_DEBUG_PRINT("start\n");
+		LI_CAN_SLV_DEBUG_PRINT("start\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 #endif // #ifdef LI_CAN_SLV_DLOAD
 	}

@@ -132,7 +132,7 @@ extern "C" {
 #define ERR_MSG_CAN_MON_RX_WRONG_MODULE_NR				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x018u) /*!<different (wrong) module number received for defined module */
 
 //Also defined above as FATAL error and to be held free
-//#define ERR_MSG_CAN_INIT_FAILED						(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x019u) /*!<Fatal error while initializing CAN base system (25)*/
+#define ERR_MSG_CAN_INIT_FAILED						(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x019u) /*!<Fatal error while initializing CAN base system (25)*/
 
 #define ERR_MSG_CAN_MON_RX_WRONG_DLC					(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x01Au) /*!<different (wrong) data length code received for defined module */
 #define ERR_MSG_CAN_MON_TX_WRONG_MODULE_NR				(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x01Bu) /*!<different (wrong) module number received for defined module */

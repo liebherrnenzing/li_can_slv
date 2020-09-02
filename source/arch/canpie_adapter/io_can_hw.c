@@ -74,7 +74,7 @@ can_mainmon_type_t can_hw_get_mainmon_type(void)
 li_can_slv_errorcode_t can_hw_combine_msg_obj_to_two_stage_fifo(uint16_t msg_obj, uint16_t msg_obj2)
 {
 	/**
-	 * @todo check if needed
+	 * @todo is this needed in the future
 	 */
 	msg_obj = msg_obj;
 	msg_obj2 = msg_obj2;

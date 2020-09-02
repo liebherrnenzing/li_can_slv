@@ -332,7 +332,7 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 	/*----------------------------------------------------------------------*/
 	li_can_slv_sync_trigger_process_periode();
 #endif // #ifndef LI_CAN_SLV_BOOT
-//	can_port_trigger_can_main_sync_process_data_tx_queue();
+	//	can_port_trigger_can_main_sync_process_data_tx_queue();
 
 	can_main_hw_handler_error();
 
@@ -365,7 +365,7 @@ li_can_slv_errorcode_t li_can_slv_set_node_mode(li_can_slv_node_mode_t new_mode)
 
 	err = can_main_enable();
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-		err = can_mon_enable();
+	err = can_mon_enable();
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 	return err;
 }

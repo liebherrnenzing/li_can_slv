@@ -195,6 +195,8 @@ li_can_slv_errorcode_t can_mon_hw_disable(void)
 li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_mon_service_id_t service_id)
 {
 	uint8_t ubBufferIdxV;
+	CpStatus_tv status;
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 #if CP_VERSION_MAJOR <= 2
 	CpCanMsg_ts can_msg;
 	enum CP_BUFFER_DIR msg_dir;
@@ -228,9 +230,6 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 		msg_dir = CANPIE_BUFFER_DIR_RX;
 	}
 
-	/**
-	 * @todo check if the acceptance_mask is correct!
-	 * */
 #if CP_VERSION_MAJOR <= 2
 	CpCoreBufferInit(&can_port_mon, &can_msg, ubBufferIdxV, msg_dir);
 	CpCoreBufferAccMask(&can_port_mon, ubBufferIdxV, acceptance_mask);
@@ -238,22 +237,29 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 	CpCoreBufferConfig(&can_port_mon, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
 #endif // #if CP_VERSION_MAJOR <= 2
 
-	switch (service_id)
+	if (eCP_ERR_NONE == status)
 	{
-		case CAN_MON_ISR_ID_RX:
-		case CAN_MON_ISR_ID_RX_MAIN:
+		switch (service_id)
+		{
+			case CAN_MON_ISR_ID_RX:
+			case CAN_MON_ISR_ID_RX_MAIN:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with CAN_MON_SERVICE_ID_TX\n");
+				LI_CAN_SLV_DEBUG_PRINT(" with CAN_MON_SERVICE_ID_TX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			break;
-		default:
+				break;
+			default:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" with ERR_MSG_CAN_MON_UNDEFINED_ISR_ID\n");
+				LI_CAN_SLV_DEBUG_PRINT(" with ERR_MSG_CAN_MON_UNDEFINED_ISR_ID\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			return (ERR_MSG_CAN_MON_UNDEFINED_ISR_ID);
-			break;
+				err = ERR_MSG_CAN_MON_UNDEFINED_ISR_ID;
+				break;
+		}
 	}
-	return (LI_CAN_SLV_ERR_OK);
+	else
+	{
+		err = ERR_MSG_CAN_INIT_FAILED;
+	}
+	return err;
 }
 
 li_can_slv_errorcode_t can_mon_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry)

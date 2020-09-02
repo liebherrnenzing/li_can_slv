@@ -817,12 +817,12 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 			can_port_memory_cpy(&can_config_bdr_current, &can_config_bdr_tab[i], sizeof(can_config_bdr_current));
 			err = can_main_hw_set_baudrate(&can_config_bdr_tab[i]);
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			if(err == LI_CAN_SLV_ERR_OK)
-			{			
+			if (err == LI_CAN_SLV_ERR_OK)
+			{
 				err = can_mon_hw_set_baudrate(&can_config_bdr_tab[i]);
 			}
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-			if(err == LI_CAN_SLV_ERR_OK)
+			if (err == LI_CAN_SLV_ERR_OK)
 			{
 #ifdef LI_CAN_SLV_NO_XLOAD_INFO
 				can_config_save_baudrate_startup(baudrate);
@@ -952,7 +952,6 @@ li_can_slv_errorcode_t can_config_add_module(char_t *module_type, li_can_slv_mod
 li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *module, li_can_slv_module_nr_t module_nr,
         void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3)
 {
-	/**@todo fix error handling */
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t i, j;
 
@@ -988,7 +987,8 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 						error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
 					}
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-					return (ERR_MSG_CAN_CONFIG_REDECLARED_MODULE_NR);
+					err = ERR_MSG_CAN_CONFIG_REDECLARED_MODULE_NR;
+					goto clear_exit;
 				}
 				j++;
 			}
@@ -1007,11 +1007,15 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
 			}
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-			return (LI_CAN_SLV_ERR_OK);
+			err = LI_CAN_SLV_ERR_OK;
+			goto clear_exit;
 		}
 		i++;
 	}
-	return (ERR_MSG_CAN_CONFIG_MAXIMUM_NR_OF_MODULE_TYPE);
+	err = ERR_MSG_CAN_CONFIG_MAXIMUM_NR_OF_MODULE_TYPE;
+
+clear_exit:
+	return err;
 }
 #endif // #ifdef LI_CAN_SLV_BOOT
 
@@ -1072,24 +1076,21 @@ li_can_slv_errorcode_t can_config_set_critical(char_t *type)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t table_pos;
-#ifdef CLEAR_CRITICAL_OBJ
+#ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
 	uint16_t msg_obj, i;
-#endif // #ifdef CLEAR_CRITICAL_OBJ
+#endif // #ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
 	err = can_config_module_type_valid(type, &table_pos);
 	if (err != LI_CAN_SLV_ERR_OK)
 	{
 		return (err);
 	}
 
-	/**
-	 * @todo ciritical muss hier nicht ein sync (main mon) statfinden
-	 */
 	/*----------------------------------------------------------------------*/
 	/* switch of synchronous process                                        */
 	/*----------------------------------------------------------------------*/
 	can_config_sync_off(table_pos);
 
-#ifdef CLEAR_CRITICAL_OBJ
+#ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
 	/*----------------------------------------------------------------------*/
 	/* clear CAN message object for receiving synchronous data from         */
 	/* main CAN-controller on monitor CAN-controller                        */
@@ -1124,7 +1125,7 @@ li_can_slv_errorcode_t can_config_set_critical(char_t *type)
 			return (err);
 		}
 	}
-#endif // #ifdef CLEAR_CRITICAL_OBJ
+#endif // #ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
 
 	return (err);
 }

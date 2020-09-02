@@ -273,9 +273,9 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			/*--------------------------------------------------------------*/
 			/* send system errors if valid                                   */
 			/*--------------------------------------------------------------*/
-			while (error_syserr_num() != 0)
+			while (can_error_sys_error_count() != 0)
 			{
-				err = error_syserr_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
+				err = can_error_sys_error_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
 				if (err == LI_CAN_SLV_ERR_OK)
 				{
 					if (LI_CAN_SLV_MODE_OPERATIONAL == li_can_slv_get_node_mode())
@@ -310,9 +310,9 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			/*--------------------------------------------------------------*/
 			/* send system errors if valid                                  */
 			/*--------------------------------------------------------------*/
-			while (error_syserr_num() != 0)
+			while (can_error_sys_error_count() != 0)
 			{
-				err = error_syserr_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
+				err = can_error_sys_error_get_full(&errnum, &add_info, &priority, &group_subgroup, &module_nr);
 				if (err == LI_CAN_SLV_ERR_OK)
 				{
 					err = can_sys_send_error_full(module_nr, errnum, add_info, priority, group_subgroup);
@@ -877,7 +877,7 @@ static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_num
 static uint32_t li_can_slv_rand(void)
 {
 	li_can_slv_rand_value = li_can_slv_rand_value * 1103515245 + 12345;
-	return (uint32_t) (li_can_slv_rand_value * 65536) % 104;
+	return (uint32_t)(li_can_slv_rand_value * 65536) % 104;
 }
 
 static void li_can_slv_seeding(uint32_t seed)

@@ -152,9 +152,6 @@ extern volatile can_main_tx_msg_obj_t li_can_slv_sync_main_tx_msg_obj[CAN_CONFIG
 extern can_main_diagnose_t can_main_diagnose;
 #endif // #ifdef CAN_MAIN_DIAGNOSE
 
-/**
- * @todo the global variables should be removed
- */
 #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
 extern volatile uint16_t can_main_system_msg_tx_queue_state; /*!< state of the system message transmit queue */
 #endif // #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE

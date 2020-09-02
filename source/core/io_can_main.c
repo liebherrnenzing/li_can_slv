@@ -637,9 +637,10 @@ li_can_slv_errorcode_t can_main_process_data_tx_set(void)
 	/*--------------------------------------------------------------------------*/
 
 	/**
-	 * @todo 1. check send mask --> must be zero, else transmission not completed\n
-	 * before next process request was coming in\n
+	 * @todo is it possible to check the send mask ==> must be zero, else transmission
+	 * before was not completed before next process request was coming in\n
 	 */
+
 	/* indicate that a new sync TX request was issued */
 	can_main_sync_process_tx_data_ctrl.send_cmd = CAN_MAIN_PROCESS_SYNC_SEND_DATA;
 
@@ -721,7 +722,6 @@ void can_main_sync_process_tx_data(void)
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
 			/* check if msg object is not busy */
-			/** @todo is here a while(! busy) not better - what should we do if the object is busy - maybe it is possible that both objects are busy */
 			if (!CAN_HW_MSG_OBJ_BUSY(msg_obj))
 			{
 				/* here the searched TX slot seems to be free...now look for an object to fill in here */
@@ -760,17 +760,17 @@ void can_main_sync_process_tx_data(void)
 						err = can_main_hw_send_msg_obj_none_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
 					}
 
-//					if (err == LI_CAN_SLV_ERR_OK)
-//					{
-//						err = can_main_hw_send_msg_obj_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
-//					}
-//					else
-//					{
-//						/**
-//						 * @toto add timeout
-//						 */
-//						while(TRUE);
-//					}
+					//					if (err == LI_CAN_SLV_ERR_OK)
+					//					{
+					//						err = can_main_hw_send_msg_obj_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
+					//					}
+					//					else
+					//					{
+					//						/**
+					//						 * @toto add timeout
+					//						 */
+					//						while(TRUE);
+					//					}
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 					if (err != LI_CAN_SLV_ERR_OK)
@@ -866,49 +866,48 @@ li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_DEF_OBJ
 	LI_CAN_SLV_DEBUG_PRINT("def msg obj:%d, id:%d\n", msg_obj, can_id);
-	LI_CAN_SLV_DEBUG_PRINT(" m: %d dlc: %d, dir: %d\n",acceptance_mask, dlc, dir);
+	LI_CAN_SLV_DEBUG_PRINT(" m: %d dlc: %d, dir: %d\n", acceptance_mask, dlc, dir);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_CAN_DEF_OBJ */
 
 	err = can_main_hw_define_msg_obj(msg_obj, can_id, acceptance_mask, dlc, dir, service_id);
-	/**
-	 * @todo use error
-	 */
 
-	switch (service_id)
+	if (LI_CAN_SLV_ERR_OK == err)
 	{
-		case CAN_MAIN_SERVICE_ID_TX:
-			if (is_sync_obj != 0u)
-			{
-				can_main_isr_inp_mask_tx |= (1UL << msg_obj);
-			}
-			can_main_objs_mask |= (1L << msg_obj);
-			break;
+		switch (service_id)
+		{
+			case CAN_MAIN_SERVICE_ID_TX:
+				if (is_sync_obj != 0u)
+				{
+					can_main_isr_inp_mask_tx |= (1UL << msg_obj);
+				}
+				can_main_objs_mask |= (1L << msg_obj);
+				break;
 
-		case CAN_MAIN_SERVICE_ID_RX:
-			if (is_sync_obj != 0u)
-			{
-				can_main_isr_inp_mask_rx |= (1UL << msg_obj);
-			}
-			can_main_objs_mask |= (1L << msg_obj);
-			break;
+			case CAN_MAIN_SERVICE_ID_RX:
+				if (is_sync_obj != 0u)
+				{
+					can_main_isr_inp_mask_rx |= (1UL << msg_obj);
+				}
+				can_main_objs_mask |= (1L << msg_obj);
+				break;
 
-		case CAN_MAIN_ASYNC_SERVICE_ID_TX:
-		case CAN_MAIN_ASYNC_SERVICE_ID_RX:
+			case CAN_MAIN_ASYNC_SERVICE_ID_TX:
+			case CAN_MAIN_ASYNC_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_BOOT
-		case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
+			case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
 #endif /* #ifdef LI_CAN_SLV_BOOT */
-			can_main_async_objs_mask |= (1L << msg_obj);
-			break;
+				can_main_async_objs_mask |= (1L << msg_obj);
+				break;
 #if defined(OUTER) || defined(OUTER_APP)
-		case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
-			can_main_async_ctrl_objs_mask |= (1L << msg_obj);
-			break;
+			case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
+				can_main_async_ctrl_objs_mask |= (1L << msg_obj);
+				break;
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
-		default:
-			return (ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID);
-			break;
+			default:
+				err = ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID;
+				break;
+		}
 	}
-
 	return (err);
 }
 

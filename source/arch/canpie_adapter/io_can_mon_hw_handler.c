@@ -110,8 +110,6 @@
 uint8_t can_mon_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 {
 	uint8_t data[8];
-	/** @todo add workaround for the aligned problem for tricore cpu */
-	/* uint8_t __attribute__ ((aligned(2))) data[8]; */
 	uint16_t canid;
 	uint8_t dlc;
 

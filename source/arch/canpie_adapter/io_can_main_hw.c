@@ -128,16 +128,14 @@ li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)
 li_can_slv_errorcode_t can_main_hw_free_tx_objs(void)
 {
 	/**
-	 * @todo check usage for canpie
+	 * @todo check usage for canpie arch layer
 	 */
-
-	//uint16_t i;
+	//	uint16_t i;
 	//
-	//for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++)
-	//{
-	//	//	CpCoreBufferRelease(&can_port_main, li_can_slv_sync_main_tx_msg_obj[i].msg_obj);
-	//}
-
+	//	for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++)
+	//	{
+	//		CpCoreBufferRelease(&can_port_main, li_can_slv_sync_main_tx_msg_obj[i].msg_obj);
+	//	}
 	return (LI_CAN_SLV_ERR_OK);
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
@@ -209,6 +207,8 @@ li_can_slv_errorcode_t can_main_hw_disable(void)
 li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id)
 {
 	uint8_t ubBufferIdxV;
+	CpStatus_tv status;
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 #if CP_VERSION_MAJOR <= 2
 	CpCanMsg_ts can_msg;
 	enum CP_BUFFER_DIR msg_dir;
@@ -243,63 +243,66 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 		msg_dir = CANPIE_BUFFER_DIR_RX;
 	}
 
-	/**
-	 * @todo check if the acceptance_mask is correct!
-	 * */
 #if CP_VERSION_MAJOR <= 2
 	CpCoreBufferInit(&can_port_main, &can_msg, ubBufferIdxV, msg_dir);
 	CpCoreBufferAccMask(&can_port_main, ubBufferIdxV, acceptance_mask);
 #else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
+	status = CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
 #endif // #if CP_VERSION_MAJOR <= 2
 
-	switch (service_id)
+	if (eCP_ERR_NONE == status)
 	{
-		case CAN_MAIN_SERVICE_ID_TX:
+		switch (service_id)
+		{
+			case CAN_MAIN_SERVICE_ID_TX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" SERVICE_ID_TX\n");
+				LI_CAN_SLV_DEBUG_PRINT(" SERVICE_ID_TX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			break;
+				break;
 
-		case CAN_MAIN_SERVICE_ID_RX:
+			case CAN_MAIN_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" SERVICE_ID_RX\n");
+				LI_CAN_SLV_DEBUG_PRINT(" SERVICE_ID_RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			break;
+				break;
 
-		case CAN_MAIN_ASYNC_SERVICE_ID_TX:
-		case CAN_MAIN_ASYNC_SERVICE_ID_RX:
+			case CAN_MAIN_ASYNC_SERVICE_ID_TX:
+			case CAN_MAIN_ASYNC_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_BOOT
-		case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
+			case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" ASYNC_CTRL_SERVICE_ID_RX\n");
+				LI_CAN_SLV_DEBUG_PRINT(" ASYNC_CTRL_SERVICE_ID_RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 #endif // #ifdef LI_CAN_SLV_BOOT
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" ASYNC_SERVICE_ID_TX or RX\n");
+				LI_CAN_SLV_DEBUG_PRINT(" ASYNC_SERVICE_ID_TX or RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			break;
+				break;
 #if defined(OUTER) || defined(OUTER_APP)
-		case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
+			case CAN_MAIN_ASYNC_CTRL_SERVICE_ID_RX:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" ASYNC_CTRL_SERVICE_ID_RX\n");
+				LI_CAN_SLV_DEBUG_PRINT(" ASYNC_CTRL_SERVICE_ID_RX\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			break;
+				break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-		default:
+			default:
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			LI_CAN_SLV_DEBUG_PRINT(" ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID\n");
+				LI_CAN_SLV_DEBUG_PRINT(" ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
-			return (ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID);
-			break;
+				err =  ERR_MSG_CAN_MAIN_UNDEFINED_ISR_ID;
+				break;
+		}
 	}
-
+	else
+	{
+		err = ERR_MSG_CAN_INIT_FAILED;
+	}
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 	LI_CAN_SLV_DEBUG_PRINT("\n");
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 
-	return (LI_CAN_SLV_ERR_OK);
+	return err;
 }
 
 li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_entry)
@@ -375,7 +378,7 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint1
 
 	while (CpCoreBufferBusy(&can_port_main, ubBufferIdxV) == CpErr_BUFFER_BUSY)
 	{
-		/** @todo implement any timeout handling here or search for a better solution */
+		/** @todo timeout handling */
 	}
 
 	CpCoreBufferInit(&can_port_main, &msg, ubBufferIdxV, CP_BUFFER_DIR_TX);
@@ -391,7 +394,7 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint1
 	while (ret != eCP_ERR_NONE)
 	{
 		ret = CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-		/** @todo implement any timeout handling here or search for a better solution */
+		/** @todo timeout handling */
 	}
 #endif // #if CP_VERSION_MAJOR <= 2
 	return (LI_CAN_SLV_ERR_OK);

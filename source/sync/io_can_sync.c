@@ -936,7 +936,9 @@ li_can_slv_errorcode_t can_sync_clr_rx_data_main_mon(uint16_t table_pos)
 			return (err);
 		}
 #ifdef LI_CAN_SLV_MAIN_MON
-		/**@todo warning Not implemented... */
+		/**
+		 * @todo any special handling needed here
+		 * */
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
 #ifdef LI_CAN_SLV_MON

@@ -40,9 +40,6 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-/**
- * @todo fix for XE16x devices
- */
 #ifdef LI_CAN_SLV_RECONNECT
 #define CAN_RECONNECT_IDLE_CNT 2 /**< */
 #else // #ifdef LI_CAN_SLV_RECONNECT
