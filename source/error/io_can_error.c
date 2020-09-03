@@ -115,7 +115,9 @@ static byte_t can_error_group_subgroup;
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
+#ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 static void can_error_init(void);
+#endif // #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
