@@ -358,11 +358,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_SYSTEM_ERROR_RX:
-			/**
-			 * @todo check if implementation is needed and
-			 * if ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED could be used
-			 */
-			return LI_CAN_SLV_ERR_OK;
+			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
@@ -391,11 +387,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_CURRENT_SYSTEM_TIME:
-			/**
-			 * @todo check if implementation is needed and
-			 * if ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED could be used
-			 */
-			return LI_CAN_SLV_ERR_OK;
+			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
@@ -406,20 +398,12 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_HARDWARE_VERSION_REQUEST:
-			/**
-			 * @todo check if implementation is needed and
-			 * if ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED could be used
-			 */
-			return LI_CAN_SLV_ERR_OK;
+			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_RX_RATE:
-			/**
-			 * @todo check if implementation is needed and
-			 * if ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED could be used
-			 */
-			return LI_CAN_SLV_ERR_OK;
+			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
@@ -470,11 +454,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_SHOW_MODULE_IDENTIFICATION:
-			/**
-			 * @todo check if implementation is needed and
-			 * if ERR_MSG_CAN_SYSTEM_MSG_NOT_IMPLEMENTED could be used
-			 */
-			return LI_CAN_SLV_ERR_OK;
+			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 

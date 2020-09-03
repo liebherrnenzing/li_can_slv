@@ -851,10 +851,6 @@ li_can_slv_errorcode_t li_can_slv_dload_termination(li_can_slv_module_nr_t modul
 	LI_CAN_SLV_DEBUG_PRINT("\ndload_termination() err:%08lx", error);
 #endif // #ifdef LI_CAN_SLV_DEBUG_DLOAD
 
-	/**
-	 * @todo fix that use send error from error
-	 */
-
 	/*----------------------------------------------------------------------*/
 	/* clear component name for next correct download                       */
 	/*----------------------------------------------------------------------*/
@@ -1190,11 +1186,7 @@ li_can_slv_errorcode_t li_can_slv_uload_end(li_can_slv_module_nr_t module_nr)
 	li_can_slv_errorcode_t rc;
 	uint16_t icnt;
 
-	/**
-	 * @todo is this still needed
-	 */
 	dload_buffer.block_status = DLOAD_END;
-
 	buffer[0] = CAN_ASYNC_DL_END;
 	for (icnt = 1; icnt <= 7; icnt++)
 	{

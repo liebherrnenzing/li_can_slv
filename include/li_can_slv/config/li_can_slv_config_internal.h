@@ -54,7 +54,7 @@ extern "C" {
  */
 
 /**
- * @todo fix documentation for Boot
+ * @todo add more documentation for boot
  */
 //#define LI_CAN_SLV_BOOT
 #else // #ifdef __DOXYGEN__
@@ -109,11 +109,6 @@ extern "C" {
 #define OUTER_APP
 #endif
 #endif // #ifdef __DOXYGEN__
-
-/**
- * @todo add documentaion for LI_CAN_SLV_BOOT
- */
-
 /**
  * @}
  */
@@ -517,7 +512,7 @@ extern "C" {
  */
 
 /**
- * @todo remove TUPLE and IO_CONFIG
+ * @todo TUPLE and IO_CONFIG should be removed in the future
  */
 #ifdef __DOXYGEN__
 /**

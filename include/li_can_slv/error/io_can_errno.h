@@ -230,10 +230,10 @@ extern "C" {
 #define ERR_MSG_CAN_DLOAD_ADD_HANDLE 					(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x072u)
 #define ERR_MSG_CAN_ULOAD_ADD_HANDLE			 		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x073u)
 #define ERR_MSG_CAN_XLOAD_INFO_BAD_CRC					(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x074u)
-
 #define ERR_MSG_CAN_SYSTEM_MSG_NOT_ALLOWED_DIRECT		(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x075u)
-
 #define ERR_MSG_CAN_ERR_NOT_DEFINED						(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x076u)
+#define ERR_MSG_CAN_CONFIG_INVALID						(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x077u)
+#define ERR_MSG_CAN_MSG_SEND							(MSG_SG_SHIFT(MSG_SUBGROUP_CAN_CAN) | 0x078u)
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */

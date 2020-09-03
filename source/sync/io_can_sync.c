@@ -1246,7 +1246,6 @@ li_can_slv_errorcode_t li_can_slv_sync_set_process_request_cbk(char_t *type, li_
 	{
 		return (err);
 	}
-
 	can_sync_process_request_rx_cbk_table[table_pos] = pfnc;
 	return (err);
 }
@@ -1263,10 +1262,8 @@ li_can_slv_errorcode_t li_can_slv_sync_set_process_cycle_time(uint32_t time)
 	else
 	{
 		can_sync.pr_cycle_time = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
-		/* TODO: create error code */
-		err = LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
+		err = ERR_MSG_CAN_CONFIG_INVALID;
 	}
-
 	return err;
 }
 

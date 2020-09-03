@@ -80,9 +80,6 @@ extern "C" {
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX	(7) /*!< used CAN message object for receiving asynchronous control data (logical module 8) */
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
-/**
- * @todo on a main monitor system this is not right
- */
 #ifndef LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
 #define LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES	1
 #endif // #ifndef LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
@@ -96,8 +93,9 @@ extern "C" {
 #define CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ	(LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES * CAN_CONFIG_NR_OF_MODULE_OBJS)
 #define CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_TX_OBJ	CAN_CONFIG_MSG_MAIN_OBJ_TX_NR /**< */
 
-/** @todo check the following 2 define usage, etc.. */
 #define CAN_CONFIG_SYNC_MON_MAX_NR_OF_RX_OBJ	CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ /**< */
+
+/** @todo check 16 something like this should be used maybe (LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES * CAN_CONFIG_NR_OF_MODULE_OBJS) */
 #define CAN_CONFIG_SYNC_MON_MAX_NR_OF_TX_OBJ	16 /**< */
 
 #define CAN_CONFIG_ACCEPTANCE_ONE_ID	0x07FF /*!< acceptance mask is set to 1 identifier */

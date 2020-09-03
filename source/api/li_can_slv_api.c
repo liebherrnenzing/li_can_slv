@@ -87,10 +87,6 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 	{
 		// if download or download ackn then use the baud rate of the xload_info
 		li_can_slv_xload_info_get_can_baudrate(&xload_info_baudrate);
-		/**
-		 * @todo Use a better name for LI_CAN_SLV_STATE_DOWNLOAD because the behavior of this state is also used on
-		 * on LI_CAN_SLV_STATE_DOWNLOAD_ACKN state.
-		 */
 		lcsa_set_state(LI_CAN_SLV_STATE_DOWNLOAD);
 		baudrate = xload_info_baudrate;
 	}
@@ -279,7 +275,6 @@ lcsa_errorcode_t lcsa_start(void)
 			li_can_slv_xload_info_set_mode(LI_CAN_SLV_XLOAD_INFO_MODE_DOWNLOAD_RUNNING);
 		}
 #endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
-		/* todo right place? */
 		lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT

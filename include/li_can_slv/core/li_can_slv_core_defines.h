@@ -115,14 +115,6 @@ extern "C" {
 #define CAN_MSG_OBJ62		62u /*!< CAN message object 62 number */
 #define CAN_MSG_OBJ63		63u /*!< CAN message object 63 number */
 
-/**
- * @todo move to reconnect maybe
- */
-#define CAN_INTID_NO_INTERRUPT_PENDING	0 /*!< interrupt pending */
-#define CAN_INTID_LEC_IE_TXOK_RXOK		1 /*!< lec or txok or rxok */
-//#define CAN_INTID_REQUEST				-1 /*!< request */
-#define CAN_INTID_MSG					2 /*!< successful message */
-
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */
 /*--------------------------------------------------------------------------*/

@@ -56,6 +56,10 @@
 #define CAN_RECONNECT_STARTUP_NO_TRAFFIC_TIME (LI_CAN_SLV_RECONNECT_STARTUP_NO_TRAFFIC_TIME) /**< startup reconnect time */
 #endif // #ifndef LI_CAN_SLV_RECONNECT_STARTUP_NO_TRAFFIC_TIME
 
+#define CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING	0 /**< interrupt pending */
+#define CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK	1 /**< lec or txok or rxok */
+#define CAN_RECONNECT_INTID_MSG	2 /**< successful message */
+
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */
 /*--------------------------------------------------------------------------*/

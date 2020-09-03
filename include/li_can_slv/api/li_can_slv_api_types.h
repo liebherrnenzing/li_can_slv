@@ -52,11 +52,11 @@ extern "C" {
  */
 typedef enum
 {
-	LI_CAN_SLV_STATE_RUNNING = 0,
-	LI_CAN_SLV_STATE_DOWNLOAD,
-	LI_CAN_SLV_STATE_RECONNECT,
-	LI_CAN_SLV_STATE_INIT,
-	LI_CAN_SLV_STATE_STOPPED
+	LI_CAN_SLV_STATE_RUNNING = 0, /**< stack is in running mode */
+	LI_CAN_SLV_STATE_DOWNLOAD, /**< stack is in download or after download mode */
+	LI_CAN_SLV_STATE_RECONNECT, /**< stack is in reconnect mode */
+	LI_CAN_SLV_STATE_INIT, /**< stack is in init mode */
+	LI_CAN_SLV_STATE_STOPPED /**< stack is stopped */
 } lcsa_state_t;
 
 /**

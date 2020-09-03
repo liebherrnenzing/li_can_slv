@@ -205,10 +205,7 @@ li_can_slv_errorcode_t can_error_sys_error_send_full(msg_code_t msg_code, byte_t
 
 		if (MAINMON_COMM_ERROR_OK != mmc_err)
 		{
-			/**
-			 * @todo add error
-			 */
-			err = ERR_MSG_CAN_ERR_NOT_DEFINED;
+			err = ERR_MSG_CAN_MSG_SEND;
 		}
 
 		goto clear_exit;

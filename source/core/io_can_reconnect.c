@@ -134,8 +134,8 @@
 /*--------------------------------------------------------------------------*/
 /* global variables (public/exported)                                       */
 /*--------------------------------------------------------------------------*/
-volatile int16_t li_can_slv_reconnect_main_node_msg_pending = CAN_INTID_NO_INTERRUPT_PENDING;
-volatile int16_t li_can_slv_reconnect_mon_node_msg_pending = CAN_INTID_NO_INTERRUPT_PENDING;
+volatile int16_t li_can_slv_reconnect_main_node_msg_pending = CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING;
+volatile int16_t li_can_slv_reconnect_mon_node_msg_pending = CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING;
 
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
@@ -340,8 +340,8 @@ li_can_slv_errorcode_t li_can_slv_reconnect_startup(void)
 		can_reconnect.time = can_port_get_system_ticks() + can_port_msec_2_ticks(CAN_RECONNECT_STARTUP_NO_TRAFFIC_TIME);
 		can_reconnect.cause = CAN_RECONNECT_CAUSE_STARTUP_NO_TRAFFIC;
 
-		li_can_slv_reconnect_main_node_msg_pending = CAN_INTID_NO_INTERRUPT_PENDING;
-		li_can_slv_reconnect_mon_node_msg_pending = CAN_INTID_NO_INTERRUPT_PENDING;
+		li_can_slv_reconnect_main_node_msg_pending = CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING;
+		li_can_slv_reconnect_mon_node_msg_pending = CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING;
 
 		can_reconnect_on(1);
 	}
@@ -413,8 +413,8 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_main_node_online(uint16_t ewrn)
 		can_reconnect.state = CAN_RECONNECT_STATE_ON;
 		can_reconnect.cause = CAN_RECONNECT_CAUSE_ONLINE_MAIN_EWRN;
 
-		li_can_slv_reconnect_main_node_msg_pending = CAN_INTID_LEC_IE_TXOK_RXOK;
-		li_can_slv_reconnect_mon_node_msg_pending = CAN_INTID_LEC_IE_TXOK_RXOK;
+		li_can_slv_reconnect_main_node_msg_pending = CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK;
+		li_can_slv_reconnect_mon_node_msg_pending = CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK;
 
 		err = can_reconnect_on(10);
 	}
@@ -450,8 +450,8 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_main_node_recovery(uint16_t boff)
 		can_reconnect.state = CAN_RECONNECT_STATE_ON;
 		can_reconnect.cause = CAN_RECONNECT_CAUSE_ONLINE_MAIN_BOFF;
 
-		li_can_slv_reconnect_main_node_msg_pending = CAN_INTID_LEC_IE_TXOK_RXOK;
-		li_can_slv_reconnect_mon_node_msg_pending = CAN_INTID_LEC_IE_TXOK_RXOK;
+		li_can_slv_reconnect_main_node_msg_pending = CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK;
+		li_can_slv_reconnect_mon_node_msg_pending = CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK;
 
 		err = can_reconnect_on(20);
 	}
@@ -546,7 +546,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 			/*--------------------------------------------------------------*/
 			/* reconnect startup                                            */
 			/*--------------------------------------------------------------*/
-			if (intid == CAN_INTID_MSG)
+			if (intid == CAN_RECONNECT_INTID_MSG)
 			{
 				/*----------------------------------------------------------*/
 				/* any valid event on CAN                                   */
@@ -574,7 +574,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 				return (LI_CAN_SLV_ERR_OK);
 			}
 
-			if (intid == CAN_INTID_LEC_IE_TXOK_RXOK)
+			if (intid == CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK)
 			{
 				/*----------------------------------------------------------*/
 				/* no valid event on CAN                                    */
@@ -596,7 +596,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 			/*--------------------------------------------------------------*/
 			/* reconnect on                                                 */
 			/*--------------------------------------------------------------*/
-			if (intid == CAN_INTID_MSG)
+			if (intid == CAN_RECONNECT_INTID_MSG)
 			{
 				/*----------------------------------------------------------*/
 				/* any valid event on CAN                                   */
@@ -604,7 +604,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 				can_reconnect.back = CAN_RECONNECT_BACK_VALID_EVENT;
 				can_reconnect_off(10);
 			}
-			else if ((intid == CAN_INTID_LEC_IE_TXOK_RXOK) && (lec == CAN_LEC_NO_ERROR))
+			else if ((intid == CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK) && (lec == CAN_LEC_NO_ERROR))
 			{
 				// switch next baud rate (if time has passed)
 				if (can_port_get_system_ticks() > can_reconnect.time_next_bdr_change)
@@ -664,7 +664,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 						break;
 
 					case CAN_LEC_NOT_DEFINED:
-						if (intid == CAN_INTID_NO_INTERRUPT_PENDING)
+						if (intid == CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING)
 						{
 							/*--------------------------------------------------*/
 							/* undefined lec and no interrupt pending           */
@@ -676,7 +676,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 							can_reconnect.back = CAN_RECONNECT_BACK_NO_IRQ_PENDING;
 							can_reconnect_off(13);
 #else
-							if (intid == CAN_INTID_NO_INTERRUPT_PENDING)
+							if (intid == CAN_RECONNECT_INTID_NO_INTERRUPT_PENDING)
 							{
 								can_reconnect_next_baudrate();
 							}
