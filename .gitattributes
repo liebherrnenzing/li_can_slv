@@ -1,2 +1,4 @@
+*.txt text=auto
+
 verify/* linguist-vendored
 docs/* linguist-documentation
