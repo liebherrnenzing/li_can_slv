@@ -1,24 +1,73 @@
-PROJECT(li_can_slv)
+cmake_minimum_required(VERSION 3.16)
 
-SET(CMAKE_SYSTEM_NAME Windows)
+project(li_can_slv LANGUAGES C VERSION 2.0.0)
 
 # Set Path of own or modified CMake-Modules
 # SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/project/cmake_modules)
 
-# set minimum cmake version
-cmake_minimum_required(VERSION 3.0)
-
 # Uncomment if you want to do profiling with gprof
-SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
-SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
+#SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
+#SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
 
-set(LI_CAN_SLV_ARCH_CANPIE OFF CACHE BOOL "activate canpie_adapter")
-set(LI_CAN_SLV_ARCH_WINDOWS ON CACHE BOOL "activate unittest windows")
+option(LI_CAN_SLV_ARCH_CANPIE "activate canpie_adapter" OFF)
+option(LI_CAN_SLV_ARCH_WINDOWS "activate unittest windows" ON)
+option(LI_CAN_SLV_MON "activate LI_CAN_SLV_MON" OFF)
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/verify/source)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/windows/unittest)
+add_library(${PROJECT_NAME}_core INTERFACE)
+target_sources(${PROJECT_NAME}_core INTERFACE
+	${CMAKE_CURRENT_SOURCE_DIR}/source/api/li_can_slv_api.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/async/io_can_async.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/config/io_can_config.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/core/io_can.c 
+	${CMAKE_CURRENT_SOURCE_DIR}/source/sys/io_can_sys.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/core/io_can_main.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/core/io_can_main_handler.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/error/io_can_error.c 
+	${CMAKE_CURRENT_SOURCE_DIR}/source/error/io_can_errno.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/sync/io_can_sync.c 
+	${CMAKE_CURRENT_SOURCE_DIR}/source/sync/io_can_sync_handler.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/util/li_can_slv_assert.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/xload/li_can_slv_xload.c 
+	${CMAKE_CURRENT_SOURCE_DIR}/source/xload/li_can_slv_xload_buffer.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw_handler.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_async_hw.c)
 
+target_include_directories(${PROJECT_NAME}_core INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:include>)
+
+#stack arch
+add_library(${PROJECT_NAME}_arch INTERFACE)
+
+if(LI_CAN_SLV_ARCH_WINDOWS)
+	if(LI_CAN_SLV_MON)
+	target_sources(${PROJECT_NAME}_arch INTERFACE
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_hw.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw_handler.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_mon_hw.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_async_hw.c)		
+	else()
+	target_sources(${PROJECT_NAME}_arch INTERFACE
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_hw.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw_handler.c
+		${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_async_hw.c)
+	endif()
+
+	target_include_directories(${PROJECT_NAME}_arch INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/windows/unittest>
+		$<INSTALL_INTERFACE:/include/li_can_slv/arch/windows/unittest>)
+endif()
+
+add_library(li_can_slv INTERFACE)
+
+target_link_libraries(${PROJECT_NAME} INTERFACE ${PROJECT_NAME}_core ${PROJECT_NAME}_arch)
+
+target_include_directories(${PROJECT_NAME} INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>)
+			
 add_subdirectory(verify)
-add_subdirectory(source)
-
