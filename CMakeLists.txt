@@ -13,17 +13,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
 endif()
 
-option(LI_CAN_SLV_ARCH_CANPIE "activate canpie_adapter" OFF)
-
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-	option(LI_CAN_SLV_ARCH_WINDOWS "activate unittest windows" ON)
-else()
-	option(LI_CAN_SLV_ARCH_WINDOWS "activate unittest windows" OFF)
-endif()
-
-option(LI_CAN_SLV_MON "activate LI_CAN_SLV_MON" OFF)
-
-# core lib => li_can_slv_core
+########################## core lib => li_can_slv_core
 add_library(${PROJECT_NAME}_core INTERFACE)
 
 target_sources(${PROJECT_NAME}_core INTERFACE
@@ -46,7 +36,19 @@ target_include_directories(${PROJECT_NAME}_core INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>)
 
-# reconnect lib => li_can_slv_reconnect
+
+################## core_mon lib => li_can_slv_core_mon
+add_library(${PROJECT_NAME}_core_mon INTERFACE)
+
+target_sources(${PROJECT_NAME}_core_mon INTERFACE 
+	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_mon_hw.c)
+
+target_include_directories(${PROJECT_NAME}_core_mon INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+	$<INSTALL_INTERFACE:include>)
+
+	
+################ reconnect lib => li_can_slv_reconnect
 add_library(${PROJECT_NAME}_reconnect INTERFACE)
 
 target_sources(${PROJECT_NAME}_reconnect INTERFACE
@@ -57,7 +59,8 @@ target_include_directories(${PROJECT_NAME}_reconnect INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>)
 
-# xload lib => li_can_slv_xload
+
+######################## xload lib => li_can_slv_xload
 add_library(${PROJECT_NAME}_xload INTERFACE)
 
 target_sources(${PROJECT_NAME}_xload INTERFACE
@@ -69,7 +72,8 @@ target_include_directories(${PROJECT_NAME}_xload INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>)
 
-# xload_info lib => li_can_slv_xload_info
+
+############## xload_info lib => li_can_slv_xload_info
 add_library(${PROJECT_NAME}_xload_info INTERFACE)
 
 target_sources(${PROJECT_NAME}_xload_info INTERFACE
@@ -80,37 +84,37 @@ target_include_directories(${PROJECT_NAME}_xload_info INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>)
 
-# arch lib => li_can_slv_arch
-add_library(${PROJECT_NAME}_arch INTERFACE)
 
-if(LI_CAN_SLV_ARCH_WINDOWS)
-	message("arch windows")
-	set(arch "arch/windows/unittest")
-elseif(LI_CAN_SLV_ARCH_CANPIE)
-	message("arch/canpie_adapter")
-	set(arch "arch/canpie_adapter")
-endif()
+############################### arch_win_unittest lib
+add_library(${PROJECT_NAME}_arch_win_unittest INTERFACE)
 
-if(LI_CAN_SLV_MON)
-target_sources(${PROJECT_NAME}_arch INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_main_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_main_hw_handler.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_mon_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_async_hw.c)		
-else()
-target_sources(${PROJECT_NAME}_arch INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_main_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_main_hw_handler.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_async_hw.c)
-endif()
+target_sources(${PROJECT_NAME}_arch_win_unittest INTERFACE
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw_handler.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_async_hw.c)		
+	
+target_include_directories(${PROJECT_NAME}_arch_win_unittest INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/windows/unittest>
+	$<INSTALL_INTERFACE:include/li_can_slv/arch/windows/unittest>)
 
-target_include_directories(${PROJECT_NAME}_arch INTERFACE
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/${arch}>
-	$<INSTALL_INTERFACE:/include/li_can_slv/${arch}>)
+
+###################################### arch_canpie lib
+add_library(${PROJECT_NAME}_arch_canpie INTERFACE)
+
+target_sources(${PROJECT_NAME}_arch_canpie INTERFACE
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_main_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_main_hw_handler.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_async_hw.c)
 		
-# li_can_slv_core, li_can_slv_reconnect, li_can_slv_xload, li_can_slv_xload_info, li_can_slv_arch
+target_include_directories(${PROJECT_NAME}_arch_canpie INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/canpie_adapter>
+	$<INSTALL_INTERFACE:include/li_can_slv/arch/canpie_adapter>)
+
+# interface libraries
+# li_can_slv_core, li_can_slv_core_mon, li_can_slv_reconnect, li_can_slv_xload, 
+# li_can_slv_xload_info, li_can_slv_arch_win_unittest, li_can_slv_arch_canpie
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 	add_subdirectory(verify)
