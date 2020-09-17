@@ -112,6 +112,8 @@
 
 #include <li_can_slv/core/li_can_slv_core_api.h>
 
+#include <li_can_slv/config/io_can_config.h>
+
 #ifdef LI_CAN_SLV_DEBUG
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
@@ -848,18 +850,18 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 	// ignore error in stopped mode
 	(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 
-	if (err == LCSA_ERROR_OK)
+	if (err == LI_CAN_SLV_ERR_OK)
 	{
 		err = lcsa_set_baudrate(baud);
 	}
-	if (err == LCSA_ERROR_OK)
+	if (err == LI_CAN_SLV_ERR_OK)
 	{
 		err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
 #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 		LI_CAN_SLV_DEBUG_PRINT("cr set mode err: %08x\n", err);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 
-		if (err == LCSA_ERROR_OK)
+		if (err == LI_CAN_SLV_ERR_OK)
 		{
 			lcsa_set_state(LI_CAN_SLV_STATE_RUNNING);
 		}
@@ -1016,13 +1018,6 @@ static li_can_slv_errorcode_t can_reconnect_next_baudrate(void)
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 	can_mon_disable();
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-
-#ifndef LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
-	/* clear receive and transmit error counters on  monitor CAN-controller */
-	CAN_BCR_MAP |= CAN_CTRL_CCE;
-	CAN_BECNTL_MAP = 0x0000;
-	CAN_BCR_MAP &= ~CAN_CTRL_CCE;
-#endif // #ifndef LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
 
 	if (can_reconnect.bdr_index < CAN_RECONNECT_MAX_BDR_INDEX - 1)
 	{
