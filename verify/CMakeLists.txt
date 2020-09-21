@@ -1,30 +1,22 @@
-#set custom defines
-add_definitions(-DUNITY_INCLUDE_CONFIG_H)
+list (APPEND li_can_slv_test_HEADER
+	${CMAKE_CURRENT_SOURCE_DIR}/source
+	${CMAKE_CURRENT_SOURCE_DIR}/unity/src
+	${CMAKE_CURRENT_SOURCE_DIR}/xtfw
+	${CMAKE_CURRENT_SOURCE_DIR}/xtfw/framework/unity
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app_conv
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app_hw
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app_frc2
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app_incx
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app_inxy
+	${CMAKE_CURRENT_SOURCE_DIR}/io_app_ma_w
+)
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/source)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/unity/src)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/xtfw)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/xtfw/framework/unity)
-
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app_conv)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app_hw)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app_frc2)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app_incx)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app_inxy)
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/io_app_ma_w)
-
-list (APPEND li_can_slv_hw_SOURCE
+list (APPEND li_can_slv_test_SOURCE
 	io_app_conv/io_app_convc.c
 	io_app/io_app_module_change.c
-)
-
-add_library(li_can_slv_hw ${li_can_slv_hw_SOURCE})
-
-list (APPEND UNITY_SOURCES
 	unity/src/unity.c
 )
-add_library(unity ${UNITY_SOURCES})
 
 get_filename_component(li_can_slv_core_test_absolute_path "source/li_can_slv_core_test.c" REALPATH CACHE)
 get_filename_component(li_can_slv_error_test_absolute_path "source/li_can_slv_error_test.c" REALPATH CACHE)
@@ -42,17 +34,25 @@ execute_process(
  COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_sync_test_absolute_path}
 )
 
+add_executable(li_can_slv_core_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c ${li_can_slv_test_SOURCE})
+target_include_directories(li_can_slv_core_test PUBLIC ${li_can_slv_test_HEADER})
+target_compile_definitions(li_can_slv_core_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_link_libraries(li_can_slv_core_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
+add_test(NAME li_can_slv_core_test COMMAND li_can_slv_core_test)
 
-ADD_EXECUTABLE(li_can_slv_core_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c)
-TARGET_LINK_LIBRARIES(li_can_slv_core_test li_can_slv li_can_slv_hw unity)
+add_executable(li_can_slv_error_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c ${li_can_slv_test_SOURCE})
+target_include_directories(li_can_slv_error_test PUBLIC ${li_can_slv_test_HEADER})
+target_compile_definitions(li_can_slv_error_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_link_libraries(li_can_slv_error_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
+add_test(NAME li_can_slv_error_test COMMAND li_can_slv_error_test)
 
-ADD_EXECUTABLE(li_can_slv_error_test source/li_can_slv_error_test.c source/li_can_slv_error_test_Runner.c)
-TARGET_LINK_LIBRARIES(li_can_slv_error_test li_can_slv li_can_slv_hw unity)
+add_executable(li_can_slv_sync_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c ${li_can_slv_test_SOURCE})
+target_include_directories(li_can_slv_sync_test PUBLIC ${li_can_slv_test_HEADER})
+target_compile_definitions(li_can_slv_sync_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_link_libraries(li_can_slv_sync_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
+add_test(NAME li_can_slv_sync_test COMMAND li_can_slv_sync_test)
 
-ADD_EXECUTABLE(li_can_slv_sync_test source/li_can_slv_sync_test.c source/li_can_slv_sync_test_Runner.c)
-TARGET_LINK_LIBRARIES(li_can_slv_sync_test li_can_slv li_can_slv_hw unity)
-
-ADD_CUSTOM_TARGET(unittest_run
+add_custom_target(unittest_run
 	COMMAND 
 	li_can_slv_core_test.exe > result.testresult & 
 	li_can_slv_error_test.exe >> result.testresult & 
@@ -60,7 +60,7 @@ ADD_CUSTOM_TARGET(unittest_run
 	type result.testresult
 )
 
-ADD_CUSTOM_TARGET(unittest_prepare
+add_custom_target(unittest_prepare
 	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_core_test_absolute_path}
 	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_error_test_absolute_path}
 	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_sync_test_absolute_path}	
@@ -70,4 +70,4 @@ list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_cor
 list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_error_test_Runner.c")
 list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_sync_test_Runner.c")
 
-SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${extra_clean_files}")
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${extra_clean_files}")
