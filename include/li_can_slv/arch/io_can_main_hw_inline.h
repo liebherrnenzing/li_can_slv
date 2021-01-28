@@ -87,42 +87,6 @@ CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_main_synchron_rx(uint32_t rxi,
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-#if defined(OUTER) || defined(OUTER_APP)
-/*!
- * \brief tries to find the table entry and message object number for the given main sync tx slots
- * \param[in] txi bit to check for correspondence
- * \param[out] msg_obj message object number of the searched slot
- * \param[out] table_pos table position of the searched slot
- * \return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_main_synchron_tx(uint32_t txi, uint16_t *msg_obj, uint16_t *table_pos)
-{
-	uint16_t i;
-#ifdef LI_CAN_SLV_DEBUG_MAIN_SYNCHRON_TX_FNC
-	LI_CAN_SLV_DEBUG_PRINT("c_m_s_t txi=%d \n", txi);
-#endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNCHRON_TX_FNC
-
-	for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++)
-	{
-		if ((txi & li_can_slv_sync_main_tx_msg_obj[i].msg_obj_mask) != 0)
-		{
-			*table_pos = li_can_slv_sync_main_tx_msg_obj[i].table_pos;
-			*msg_obj = li_can_slv_sync_main_tx_msg_obj[i].msg_obj;
-#ifdef LI_CAN_SLV_DEBUG_MAIN_SYNCHRON_TX_FNC
-			LI_CAN_SLV_DEBUG_PRINT("t=%d, mo=%d\n", *table_pos, *msg_obj);
-#endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNCHRON_TX_FNC
-			return (LI_CAN_SLV_ERR_OK);
-		}
-	}
-	*table_pos = 0;
-	*msg_obj = 0;
-#ifdef LI_CAN_SLV_DEBUG_MAIN_SYNCHRON_TX_FNC
-	LI_CAN_SLV_DEBUG_PRINT("ERR_MSG_CAN_MAIN_TX_WRONG_SLOT\n");
-#endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNCHRON_TX_FNC
-	return (ERR_MSG_CAN_MAIN_TX_WRONG_SLOT);
-}
-#endif // #if defined(OUTER) || defined(OUTER_APP)
-
 #ifdef __cplusplus
 }// closing brace for extern "C"
 #endif // #ifdef __cplusplus

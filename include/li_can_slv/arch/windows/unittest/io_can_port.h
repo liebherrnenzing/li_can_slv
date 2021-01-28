@@ -57,26 +57,11 @@ extern "C" {
 #define CAN_PORT_DISABLE_IRQ()	li_can_slv_port_disable_irq()
 #define CAN_PORT_ENABLE_IRQ()	li_can_slv_port_enable_irq()
 
-#ifdef CAN_SYSTEM_TX_QUEUE
-#warning "CAN_SYSTEM_TX_QUEUE is deprecated and will be removed soon so use CAN_MAIN_SYSTEM_MSG_TX_QUEUE instead"
-#define CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-#endif // #ifdef CAN_SYSTEM_TX_QUEUE
-
 #define can_port_nop() li_can_slv_port_nop()
 
 #define can_port_get_system_ticks()	li_can_slv_port_get_system_ticks()
 #define can_port_msec_2_ticks(a)	li_can_slv_port_msec_2_ticks(a)
 #define can_port_ticks_2_msec(a)	li_can_slv_port_ticks_2_msec(a)
-
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-#warning can_port_trigger_can_main_system_msg_tx_queue() not implemented!
-#define can_port_trigger_can_main_system_msg_tx_queue()
-#endif // #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-#warning can_port_trigger_can_main_async_ctrl_tx_queue() not implemented!
-#define can_port_trigger_can_main_async_ctrl_tx_queue()
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
 
 #if defined(OUTER) || defined(OUTER_APP)
 #define can_port_trigger_can_main_async_data_tx_queue() can_main_handler_tx(3)

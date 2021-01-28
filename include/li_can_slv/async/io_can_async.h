@@ -183,10 +183,6 @@ extern volatile uint16_t can_async_rx_queue_state;
 extern volatile can_async_rx_queue_t can_async_ctrl_rx_queue[CAN_ASYNC_CTRL_RX_QUEUE_LENGTH];
 #endif // #ifdef CAN_ASYNC_CTRL_RX_QUEUE
 
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-extern volatile uint16_t can_async_ctrl_tx_queue_state; /*!< state of the asynchronous transmit control queue */
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 #if defined(OUTER) || defined(OUTER_APP)
 extern volatile uint16_t can_async_data_tx_queue_state; /*!< state of the asynchronous transmit data queue */
 #endif // #if defined(OUTER) || defined(OUTER_APP)

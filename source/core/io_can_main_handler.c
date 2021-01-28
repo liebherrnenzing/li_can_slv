@@ -76,16 +76,16 @@
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
 /*--------------------------------------------------------------------------*/
-#if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)
+#if defined(OUTER) || defined(OUTER_APP)
 /**
  * @param caller_idx
  * @return LI_CAN_SLV_ERR_OK
  */
 uint8_t can_main_handler_tx(uint16_t caller_idx)
 {
-#if defined (LI_CAN_SLV_ASYNC) || defined (CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined (CAN_ASYNC_CTRL_TX_QUEUE)
+#if defined (LI_CAN_SLV_ASYNC)
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-#endif // #if defined (LI_CAN_SLV_ASYNC) || defined (CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined (CAN_ASYNC_CTRL_TX_QUEUE)
+#endif // #if defined (LI_CAN_SLV_ASYNC)
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
 	LI_CAN_SLV_DEBUG_PRINT("c_m_hw_t_isr: %d\n", caller_idx);
@@ -120,46 +120,6 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-		/*----------------------------------------------------------------------*/
-		/* check if any system message should be transmitted                    */
-		/*----------------------------------------------------------------------*/
-		if (can_main_system_msg_tx_queue_state > 0)
-		{
-			err = can_main_hndl_queue_system_tx();
-			if (err != LI_CAN_SLV_ERR_OK)
-			{
-#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-#ifdef LI_CAN_SLV_BOOT
-				error_syserr_send(err, ERR_LVL_INFO,  can_config_get_module_nr(), ERR_LVL_INFO);
-#else // #ifdef LI_CAN_SLV_BOOT
-				error_syserr_send(err, ERR_LVL_INFO,  can_config_get_module_nr_main(), ERR_LVL_INFO);
-#endif // #ifdef LI_CAN_SLV_BOOT
-#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-			}
-		}
-#endif // #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-		/*----------------------------------------------------------------------*/
-		/* check if any asynchronous control data should be transmitted         */
-		/*----------------------------------------------------------------------*/
-		if (can_async_ctrl_tx_queue_state > 0)
-		{
-			err = can_main_hndl_queue_async_ctrl_tx();
-			if (err != LI_CAN_SLV_ERR_OK)
-			{
-#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-#ifdef LI_CAN_SLV_BOOT
-				error_syserr_send(err, ERR_LVL_INFO,  can_config_get_module_nr(), ERR_LVL_INFO);
-#else // #ifdef LI_CAN_SLV_BOOT
-				error_syserr_send(err, ERR_LVL_INFO,  can_config_get_module_nr_main(), ERR_LVL_INFO);
-#endif // #ifdef LI_CAN_SLV_BOOT
-#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-			}
-		}
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)
 		/*----------------------------------------------------------------------*/
@@ -184,7 +144,7 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 
 	return 0;
 }
-#endif // #if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)
+#endif // #if defined(OUTER) || defined(OUTER_APP)
 
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */

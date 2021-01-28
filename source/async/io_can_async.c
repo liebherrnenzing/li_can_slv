@@ -96,13 +96,6 @@
 #define CAN_ASYNC_TNL_PARTLYFILLES_TXOBJ_DELAY_MS	50 /*!< Time in msec that a partly filled TX asynchronous data object is delayed until it is transmitted to the TX queue */
 #endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
 
-// CAN main asynchronous message transmit queue definitions
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-#ifndef CAN_ASYNC_CTRL_TX_QUEUE_LENGTH
-#define CAN_ASYNC_CTRL_TX_QUEUE_LENGTH	16
-#endif // #ifndef CAN_ASYNC_CTRL_TX_QUEUE_LENGTH
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 #if defined(OUTER) || defined(OUTER_APP)
 #define CAN_ASYNC_DATA_TX_QUEUE_LENGTH		4 /**< */
 #endif // #if defined(OUTER) || defined(OUTER_APP)
@@ -110,18 +103,6 @@
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
 /*--------------------------------------------------------------------------*/
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-/*!
- * \brief define an element of the asynchronous control tx queue
- * \typedef can_async_ctrl_tx_queue_t
- */
-typedef struct
-{
-	uint16_t can_id;
-	byte_t data[CAN_CONFIG_ASYNC_CTRL_TX_DLC]; /**< */
-} can_async_ctrl_tx_queue_t; /**< */
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)
 /**
@@ -173,14 +154,6 @@ typedef struct can_async_tmpdata_tag
 /*--------------------------------------------------------------------------*/
 /* global variables (public/exported)                                       */
 /*--------------------------------------------------------------------------*/
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-// asynchronous transmit control queue
-static volatile uint16_t can_async_ctrl_tx_queue_write = 0; /*!< write pointer of the asynchronous transmit control queue */
-static volatile uint16_t can_async_ctrl_tx_queue_read = 0; /*!< read pointer of the asynchronous transmit control queue */
-volatile uint16_t can_async_ctrl_tx_queue_state = 0; /*!< state of the asynchronous transmit control queue */
-static volatile can_async_ctrl_tx_queue_t can_async_ctrl_tx_queue[CAN_ASYNC_CTRL_TX_QUEUE_LENGTH]; /*!< asynchronous transmit control queue */
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)
 // asynchronous transmit data queue
@@ -686,46 +659,6 @@ li_can_slv_errorcode_t can_async_rx(li_can_slv_module_nr_t module_nr, byte_t con
  * \return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t can_async_send_data_to_async_ctrl_tx_queue(li_can_slv_module_nr_t module_nr, can_async_ctrl_tx_type_t type, const byte_t *src)
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-{
-	if (!(can_async_ctrl_tx_queue_state < CAN_ASYNC_CTRL_TX_QUEUE_LENGTH))
-	{
-		return (ERR_MSG_CAN_ASYNC_CTRL_TX_QUEUE_OVERFLOW);
-	}
-
-	can_port_memory_cpy(&can_async_ctrl_tx_queue[can_async_ctrl_tx_queue_write].data[0], src, (uint32_t)CAN_CONFIG_ASYNC_CTRL_TX_DLC);
-
-	switch (type)
-	{
-		case CAN_ASYNC_CTRL_TX_TYPE_SLAVE:
-			can_async_ctrl_tx_queue[can_async_ctrl_tx_queue_write].can_id = CAN_CONFIG_ASYNC_CTRL_TX_SLAVE_ID + ((module_nr - 1) << 2);
-			break;
-
-		case CAN_ASYNC_CTRL_TX_TYPE_MASTER:
-			can_async_ctrl_tx_queue[can_async_ctrl_tx_queue_write].can_id = CAN_CONFIG_ASYNC_CTRL_TX_MASTER_ID + ((module_nr - 1) << 2);
-			break;
-
-		default:
-			break;
-	}
-
-	if (can_async_ctrl_tx_queue_write < (CAN_ASYNC_CTRL_TX_QUEUE_LENGTH - 1))
-	{
-		can_async_ctrl_tx_queue_write++;
-	}
-	else
-	{
-		can_async_ctrl_tx_queue_write = 0;
-	}
-
-	can_async_ctrl_tx_queue_state++;
-
-	// trigger queue handling
-	can_port_trigger_can_main_async_ctrl_tx_queue();
-
-	return (LI_CAN_SLV_ERR_OK);
-}
-#else
 {
 	word_t can_id;
 
@@ -748,15 +681,12 @@ li_can_slv_errorcode_t can_async_send_data_to_async_ctrl_tx_queue(li_can_slv_mod
 			break;
 	}
 
-	(void) can_main_hw_send_msg_obj_blocking(CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX, can_id, CAN_CONFIG_ASYNC_CTRL_TX_DLC, src);
+	(void) can_main_hw_send_msg(can_id, CAN_CONFIG_ASYNC_CTRL_TX_DLC, src);
 
 	return (LI_CAN_SLV_ERR_OK);
 }
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 
 #if defined(OUTER) || defined(OUTER_APP)
-/****************************************************************************/
 /*!
  * \param module_nr module number
  * \param type asynchronous ctrl transmit type
@@ -827,8 +757,7 @@ li_can_slv_errorcode_t can_async_handle_async_data_tx_queue(void)
 		/**
 		 * @todo fix this volatile problem here
 		 */
-		err = can_main_hw_send_msg_obj_blocking(CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX, can_async_data_tx_queue[can_async_data_tx_queue_read].can_id,
-		                                        (uint16_t)(can_async_data_tx_queue[can_async_data_tx_queue_read].dlc), &can_async_data_tx_queue[can_async_data_tx_queue_read].data[0]);
+		err = can_main_hw_send_msg(can_async_data_tx_queue[can_async_data_tx_queue_read].can_id, (uint16_t)(can_async_data_tx_queue[can_async_data_tx_queue_read].dlc), &can_async_data_tx_queue[can_async_data_tx_queue_read].data[0]);
 
 		if (err == LI_CAN_SLV_ERR_OK)
 		{
@@ -847,40 +776,6 @@ li_can_slv_errorcode_t can_async_handle_async_data_tx_queue(void)
 	return (err);
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
-
-
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-/**
- * @brief can_main_hndl_queue_async_ctrl_tx handles the asynchronous transmit control queue
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_main_hndl_queue_async_ctrl_tx(void)
-{
-	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-
-	if (can_async_ctrl_tx_queue_state > 0)
-	{
-		err = can_main_hw_send_msg_obj_blocking(CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX, can_async_ctrl_tx_queue[can_async_ctrl_tx_queue_read].can_id,
-		                                        (uint16_t)(CAN_CONFIG_ASYNC_CTRL_TX_DLC), &can_async_ctrl_tx_queue[can_async_ctrl_tx_queue_read].data[0]);
-
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-			// service read pointer
-			if (can_async_ctrl_tx_queue_read < (CAN_ASYNC_CTRL_TX_QUEUE_LENGTH - 1))
-			{
-				can_async_ctrl_tx_queue_read++;
-			}
-			else
-			{
-				can_async_ctrl_tx_queue_read = 0;
-			}
-			can_async_ctrl_tx_queue_state--;
-		}
-	}
-	return (err);
-}
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
-
 
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */

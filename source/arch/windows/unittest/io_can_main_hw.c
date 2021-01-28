@@ -288,29 +288,6 @@ li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint1
 	return (LI_CAN_SLV_ERR_OK);
 }
 
-li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)
-{
-	uint16_t i;
-
-	if (can_main_hw_log != NULL)
-	{
-		fprintf(can_main_hw_log, "none_blocking: msg_obj = %d, can_id = 0x%X, dlc = %d, ", msg_obj, can_id, dlc);
-	}
-
-	if (can_main_hw_log != NULL)
-	{
-		fprintf(can_main_hw_log, " ");
-
-		for (i = 0; i < dlc; i++)
-		{
-			fprintf(can_main_hw_log, "%02X ", src[i]);
-		}
-		fprintf(can_main_hw_log, "\n");
-	}
-
-	return (LI_CAN_SLV_ERR_OK);
-}
-
 void can_main_hw_set_log_file_name(char *file_name)
 {
 	(void) strcpy(can_main_hw_log_file_path, file_name);

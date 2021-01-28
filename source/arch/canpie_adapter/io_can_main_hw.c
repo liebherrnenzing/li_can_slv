@@ -51,9 +51,12 @@
 #include "li_can_slv_debug.h"
 #endif // #ifdef LI_CAN_SLV_DEBUG
 
+#include "li_can_slv_port.h"
+
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
+#define CAN_MAIN_TX_FIFO_SIZE	(16u)
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -80,6 +83,8 @@ const can_config_bdr_tab_t can_main_hw_default_baudrate_table[CAN_CONFIG_SIZE_OF
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
 static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
+static CpFifo_ts tx_fifo;
+static CpCanMsg_ts tx_fifo_messages[CAN_MAIN_TX_FIFO_SIZE];
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -94,19 +99,22 @@ static uint8_t msg_obj_used[LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ];
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_main_hw_init(void)
 {
-#if CP_VERSION_MAJOR <= 2
-	CpCoreDriverInit(LI_CAN_SLV_MAIN_ARCH, &can_port_main);
-#else // #if CP_VERSION_MAJOR <= 2
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+
 	CpCoreDriverInit(LI_CAN_SLV_MAIN_ARCH, &can_port_main, 0);
 #endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
-	CpCoreIntFunctions(&can_port_main,  can_main_hw_handler_rx, can_main_hw_handler_tx, _can_main_hw_handler_error);
+	CpCoreIntFunctions(&can_port_main,  can_main_hw_handler_rx, 0L, _can_main_hw_handler_error);
 #else // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
-	CpCoreIntFunctions(&can_port_main, can_main_hw_handler_rx, can_main_hw_handler_tx, 0L);
+	CpCoreIntFunctions(&can_port_main, can_main_hw_handler_rx, 0L, 0L);
 #endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 
-	return (LI_CAN_SLV_ERR_OK);
+    CpFifoInit(&tx_fifo, &tx_fifo_messages[0], CAN_MAIN_TX_FIFO_SIZE);
+    CpCoreBufferConfig(&can_port_main, li_can_slv_sync_main_tx_msg_obj, (uint32_t) 0, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
+	CpCoreFifoConfig(&can_port_main, li_can_slv_sync_main_tx_msg_obj, &tx_fifo);
+
+	return err;
 }
 
 li_can_slv_errorcode_t can_main_hw_deinit(void)
@@ -127,15 +135,7 @@ li_can_slv_errorcode_t can_main_hw_msg_obj_init(uint16_t msg_obj)
 #if defined(OUTER) || defined(OUTER_APP)
 li_can_slv_errorcode_t can_main_hw_free_tx_objs(void)
 {
-	/**
-	 * @todo check usage for canpie arch layer
-	 */
-	//	uint16_t i;
-	//
-	//	for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++)
-	//	{
-	//		CpCoreBufferRelease(&can_port_main, li_can_slv_sync_main_tx_msg_obj[i].msg_obj);
-	//	}
+	//CpCoreBufferRelease(&can_port_main, li_can_slv_sync_main_tx_msg_obj.msg_obj);
 	return (LI_CAN_SLV_ERR_OK);
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
@@ -209,16 +209,9 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 	uint8_t ubBufferIdxV;
 	CpStatus_tv status;
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-#if CP_VERSION_MAJOR <= 2
-	CpCanMsg_ts can_msg;
-	enum CP_BUFFER_DIR msg_dir;
-
-	ubBufferIdxV = (uint8_t)(msg_obj + 1);
-#else // #if CP_VERSION_MAJOR <= 2
 	enum CpBufferDir_e msg_dir;
 
 	ubBufferIdxV = (uint8_t) msg_obj;
-#endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 	LI_CAN_SLV_DEBUG_PRINT("hw def msgobj:\n");
@@ -228,11 +221,6 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 	// set message object to used state
 	msg_obj_used[msg_obj] = TRUE;
 
-#if CP_VERSION_MAJOR <= 2
-	CpMsgClear(&can_msg);
-	CpMsgSetStdId(&can_msg, can_id);
-	CpMsgSetDlc(&can_msg, dlc);
-#endif // #if CP_VERSION_MAJOR <= 2
 
 	if (dir == CAN_CONFIG_DIR_TX)
 	{
@@ -243,12 +231,8 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 		msg_dir = CANPIE_BUFFER_DIR_RX;
 	}
 
-#if CP_VERSION_MAJOR <= 2
-	CpCoreBufferInit(&can_port_main, &can_msg, ubBufferIdxV, msg_dir);
-	CpCoreBufferAccMask(&can_port_main, ubBufferIdxV, acceptance_mask);
-#else // #if CP_VERSION_MAJOR <= 2
-	status = CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
-#endif // #if CP_VERSION_MAJOR <= 2
+
+	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
 
 	if (eCP_ERR_NONE == status)
 	{
@@ -314,35 +298,19 @@ li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_en
 		switch (bdr_tab_entry->baudrate)
 		{
 			case 125:
-#if CP_VERSION_MAJOR <= 2
-				CpCoreBaudrate(&can_port_main, CP_BAUD_125K);
-#else // #if CP_VERSION_MAJOR <= 2
 				CpCoreBitrate(&can_port_main, eCP_BITRATE_125K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 				break;
 
 			case 250:
-#if CP_VERSION_MAJOR <= 2
-				CpCoreBaudrate(&can_port_main, CP_BAUD_250K);
-#else // #if CP_VERSION_MAJOR <= 2
 				CpCoreBitrate(&can_port_main, eCP_BITRATE_250K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 				break;
 
 			case 500:
-#if CP_VERSION_MAJOR <= 2
-				CpCoreBaudrate(&can_port_main, CP_BAUD_500K);
-#else // #if CP_VERSION_MAJOR <= 2
 				CpCoreBitrate(&can_port_main, eCP_BITRATE_500K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 				break;
 
 			case 1000:
-#if CP_VERSION_MAJOR <= 2
-				CpCoreBaudrate(&can_port_main, CP_BAUD_1M);
-#else // #if CP_VERSION_MAJOR <= 2
 				CpCoreBitrate(&can_port_main, eCP_BITRATE_1M, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 				break;
 
 			default:
@@ -359,77 +327,25 @@ li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_en
 	return (err);
 }
 
-li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)
+li_can_slv_errorcode_t can_main_hw_send_msg(uint16_t can_id, uint16_t dlc, const volatile byte_t *data)
 {
-	uint8_t ubBufferIdxV;
-#if CP_VERSION_MAJOR <= 2
-	CpCanMsg_ts msg;
-
-	ubBufferIdxV = (uint8_t)(msg_obj + 1);
-#else // #if CP_VERSION_MAJOR <= 2
 	CpStatus_tv ret = eCP_ERR_TRM_FULL;
-	ubBufferIdxV = (uint8_t) msg_obj;
-#endif // #if CP_VERSION_MAJOR <= 2
+	CpCanMsg_ts can_msg;
+	uint32_t tx_cnt = 1;
 
-#if CP_VERSION_MAJOR <= 2
-	CpMsgClear(&msg);
-	CpMsgSetStdId(&msg, can_id);
-	CpMsgSetDlc(&msg, dlc);
+	CpMsgInit(&can_msg, CP_MSG_FORMAT_CBFF);
+	CpMsgSetDlc(&can_msg, dlc);
+	CpMsgSetIdentifier(&can_msg, can_id);
+	li_can_slv_port_memory_cpy(&can_msg.tuMsgData, (uint8_t *)data, dlc);
 
-	while (CpCoreBufferBusy(&can_port_main, ubBufferIdxV) == CpErr_BUFFER_BUSY)
-	{
-		/** @todo timeout handling */
-	}
+    ret = CpCoreFifoWrite(&can_port_main, li_can_slv_sync_main_tx_msg_obj,  &can_msg, &tx_cnt);
 
-	CpCoreBufferInit(&can_port_main, &msg, ubBufferIdxV, CP_BUFFER_DIR_TX);
-	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *)src);
-	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-#else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
-	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
-	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
-
-	// tx message and wait until timeout
-	ret = eCP_ERR_TRM_FULL;
-	while (ret != eCP_ERR_NONE)
-	{
-		ret = CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-		/** @todo timeout handling */
-	}
-#endif // #if CP_VERSION_MAJOR <= 2
-	return (LI_CAN_SLV_ERR_OK);
-}
-
-#if defined(OUTER) || defined(OUTER_APP)
-li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src)
-{
-	uint8_t ubBufferIdxV;
-#if CP_VERSION_MAJOR <= 2
-	CpCanMsg_ts msg;
-
-	ubBufferIdxV = (uint8_t)(msg_obj + 1);
-#else // #if CP_VERSION_MAJOR <= 2
-	ubBufferIdxV = (uint8_t) msg_obj;
-#endif // #if CP_VERSION_MAJOR <= 2
-
-#if CP_VERSION_MAJOR <= 2
-	CpMsgClear(&msg);
-	CpMsgSetStdId(&msg, can_id);
-	CpMsgSetDlc(&msg, dlc);
-
-	CpCoreBufferInit(&can_port_main, &msg, ubBufferIdxV, CP_BUFFER_DIR_TX);
-	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *)src);
-	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-#else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
-	CpCoreBufferSetData(&can_port_main, ubBufferIdxV, (uint8_t *) src, 0, dlc);
-	CpCoreBufferSetDlc(&can_port_main, ubBufferIdxV, dlc);
-	CpCoreBufferSend(&can_port_main, ubBufferIdxV);
-#endif // #if CP_VERSION_MAJOR <= 2
+//	if(eCP_ERR_NONE != ret)
+//	{
+//		/**@todo */
+//	}
 
 	return (LI_CAN_SLV_ERR_OK);
 }
-
-#endif // #if defined(OUTER) || defined(OUTER_APP)
 
 /** @} */

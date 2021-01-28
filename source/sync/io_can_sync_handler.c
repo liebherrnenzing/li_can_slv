@@ -104,9 +104,7 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint32_t rxi;
 #ifndef LI_CAN_SLV_BOOT
-#if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
-	uint32_t txi;
-#endif // #if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
+
 #endif // #ifndef LI_CAN_SLV_BOOT
 	li_can_slv_module_nr_t module_nr;
 
@@ -124,11 +122,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_DATA
 
 	rxi = msg_obj;
-#ifndef LI_CAN_SLV_BOOT
-#if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
-	txi = rxi;
-#endif // #if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
-#endif // #ifndef LI_CAN_SLV_BOOT
 
 	module_nr = ((canid >> 2) & 0x007F) + 1;
 
@@ -192,8 +185,8 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 		{
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
-			// send transmit data as fast as possible
-			can_main_process_data_tx_set();
+			// send prcosses tx data as fast as possible
+			can_main_process_trigger_sync_tx();
 #ifdef LI_CAN_SLV_MAIN_MON
 		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
@@ -284,36 +277,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 	}
 #endif // #ifdef LI_CAN_SLV_BOOT
 
-	/**
-	 * @todo i think this could be a bug so the define is correct i think
-	 * */
-#if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
-	// system message sent
-	if (txi == CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS)
-	{
-		msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS;
-		// request to the CAN tx task it is possible that an other system message should be send
-		can_main_handler_tx(410);
-#ifdef CAN_MAIN_DIAGNOSE
-		can_main_diagnose.systx++;
-#endif // #ifdef CAN_MAIN_DIAGNOSE
-	}
-#endif // #if defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE)
-
-#if defined(CAN_ASYNC_CTRL_TX_QUEUE)
-	// asynchronous control data and asynchronous data sent
-	if (txi & (1L << CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX))
-	{
-		msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX;
-		// request to the CAN tx task
-		can_main_handler_tx(420);
-#ifdef CAN_MAIN_DIAGNOSE
-		can_main_diagnose.asynctx++;
-#endif // #ifdef CAN_MAIN_DIAGNOSE
-	}
-#endif // #if defined(CAN_ASYNC_CTRL_TX_QUEUE)
-	//	}
-
 #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(LI_CAN_SLV_ASYNC_TUNNEL)
@@ -325,70 +288,6 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 	return 0;
 }
 #endif // #if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
-
-#if defined (LI_CAN_SLV_SYNC)
-uint8_t can_sync_handler_tx(uint16_t msg_obj, uint8_t dlc, uint16_t canid)
-{
-	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-	uint32_t rxi;
-#ifndef LI_CAN_SLV_BOOT
-	uint32_t txi;
-#endif // #ifndef LI_CAN_SLV_BOOT
-#if defined(OUTER) || defined(OUTER_APP)
-	uint16_t table_pos;
-	uint16_t obj;
-#endif // #if defined(OUTER) || defined(OUTER_APP)
-
-	(void)dlc;
-	rxi = msg_obj;
-#ifndef LI_CAN_SLV_BOOT
-	txi = rxi;
-#endif // #ifndef LI_CAN_SLV_BOOT
-
-	//	if ((((1L << rxi) | (1L << txi)) & can_main_objs_mask) != 0)
-	//	{
-#if defined(OUTER) || defined(OUTER_APP)
-	// sync tx objects
-	if ((1L << txi) & can_main_isr_inp_mask_tx)
-	{
-		err = can_main_synchron_tx((1L << txi), &msg_obj, &table_pos);
-#ifdef LI_CAN_SLV_DEBUG_SYNC_TX
-		LI_CAN_SLV_DEBUG_PRINT("\nnode a sync tx: %lu", rxi);
-#endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_TX
-
-#ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
-		LI_CAN_SLV_DEBUG_PRINT(" msg_obj: %d, table_pos: %d,", msg_obj, table_pos);
-		LI_CAN_SLV_DEBUG_PRINT(" err: %04x,", err);
-#endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-			// calculate obj number from transmitted CAN ID
-			obj = canid & CAN_SYNC_OBJ_MASK;
-#ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
-			LI_CAN_SLV_DEBUG_PRINT(" id: %x, obj: %d", canid, obj);
-#endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
-			can_sync_tx_data_main_ok(table_pos, obj);
-#ifdef CAN_MAIN_DIAGNOSE
-			can_main_diagnose.synctx++;
-#endif // #ifdef CAN_MAIN_DIAGNOSE
-		}
-#ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
-		else
-		{
-			LI_CAN_SLV_DEBUG_PRINT(" error");
-		}
-#endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_TX_EXTENDED
-
-#if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)
-		// request to the CAN tx task
-		can_main_handler_tx(197);
-#endif // #if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)
-	}
-#endif // #if defined(OUTER) || defined(OUTER_APP)
-	//	}
-	return 0;
-}
-#endif // #if defined (LI_CAN_SLV_SYNC)
 
 #if defined (LI_CAN_SLV_SYNC) && defined (LI_CAN_SLV_MON)
 uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8_t *data)

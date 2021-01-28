@@ -57,10 +57,6 @@ extern "C" {
 uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8_t *data);
 #endif // #if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
 
-#if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
-uint8_t can_sync_handler_tx(uint16_t msg_obj, uint8_t dlc, uint16_t canid);
-#endif // #if defined (LI_CAN_SLV_SYNC) || defined (LI_CAN_SLV_BOOT)
-
 #if defined (LI_CAN_SLV_SYNC) && defined (LI_CAN_SLV_MON)
 uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8_t *data);
 #endif // #if defined (LI_CAN_SLV_SYNC) && defined (LI_CAN_SLV_MON)

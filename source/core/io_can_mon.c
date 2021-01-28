@@ -378,11 +378,14 @@ li_can_slv_errorcode_t can_mon_define_msg_obj(uint16_t msg_obj, uint16_t can_id,
 #endif // #ifdef CAN_MON_CHECK_DEFINE_OBJECT
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MON
-	LI_CAN_SLV_DEBUG_PRINT("def msg obj:%d, id:%d\n", msg_obj, can_id);
-	LI_CAN_SLV_DEBUG_PRINT(" m: %d dlc: %d, dir: %d\n", acceptance_mask, dlc, dir);
+	LI_CAN_SLV_DEBUG_PRINT("mon def msg obj:%d, id:%d\n", msg_obj, can_id);
+	LI_CAN_SLV_DEBUG_PRINT("mask: %d dlc: %d, dir: %d\n",acceptance_mask, dlc, dir);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MON
 
 	err = can_mon_hw_define_msg_obj(msg_obj, can_id, acceptance_mask, dlc, dir, service_id);
+	/**
+	 * @todo use error
+	 */
 
 	if (LI_CAN_SLV_ERR_OK == err)
 	{

@@ -222,19 +222,7 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 	}
 
-	if (err == LI_CAN_SLV_ERR_OK)
-	{
-		// define message object for transmitting system messages
-		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_NOT_SYNC);
-	}
-
 #ifdef LI_CAN_SLV_ASYNC
-	if (err == LI_CAN_SLV_ERR_OK)
-	{
-		// define message object for transmitting asynchronous control and asynchronous data
-		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_NOT_SYNC);
-	}
-
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
 		// define message object for receiving asynchronous control data
@@ -255,21 +243,16 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 #if defined(OUTER) || defined(OUTER_APP)
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
-		/*------------------------------------------------------------------*/
-		/* definition of message object for synchronous data transmission   */
-		/*------------------------------------------------------------------*/
-		for (i = 0; i < CAN_CONFIG_MSG_MAIN_OBJ_TX_NR; i++)
+		// define message object for synchronous data transmission
+		//err = can_main_get_next_free_msg_obj(&msg_obj);
+		if (err == LI_CAN_SLV_ERR_OK)
 		{
-			err = can_main_get_next_free_msg_obj(&msg_obj);
+
+			//err = can_main_define_msg_obj(msg_obj, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_IS_SYNC);
+			err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_IS_SYNC);
 			if (err == LI_CAN_SLV_ERR_OK)
 			{
-				// define message object for transmitting synchronous data
-				err = can_main_define_msg_obj(msg_obj, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_IS_SYNC);
-				if (err == LI_CAN_SLV_ERR_OK)
-				{
-					// add CAN_CONFIG_MSG_MAIN_OBJ_TX_NR of TX objects
-					err = can_main_msg_obj_tx_data_cnfg(msg_obj);
-				}
+				//can_main_msg_obj_tx_data_cnfg(msg_obj);
 			}
 		}
 	}
@@ -332,7 +315,7 @@ li_can_slv_errorcode_t li_can_slv_process(void)
 	/*----------------------------------------------------------------------*/
 	li_can_slv_sync_trigger_process_periode();
 #endif // #ifndef LI_CAN_SLV_BOOT
-	can_port_trigger_can_main_sync_process_data_tx_queue();
+	//can_port_trigger_can_main_sync_process_data_tx_queue();
 
 	can_main_hw_handler_error();
 

@@ -61,13 +61,13 @@ extern "C" {
 #define CAN_CONFIG_MSG_MON_OBJ_RX_SYS1	CAN_MSG_OBJ4
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY_SYSTEM_REQ)
 
-#ifndef CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS
-#define CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS	CAN_MSG_OBJ9 /*!< used CAN message object for transmitting system message */
-#endif // #ifndef CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS
+/**
+ * @todo remove or?
+ */
+#define CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC CAN_MSG_OBJ10
 
 #ifdef LI_CAN_SLV_ASYNC
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_DATA_RX	CAN_MSG_OBJ6 /*!< used CAN message object for receiving asynchronous data */
-#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_TX		CAN_MSG_OBJ7 /*!< used CAN message object for transmitting asynchronous control data and asynchronous data */
 
 /* CAN message object configuration of main CAN-controller (asynchronous objects) */
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX	(0) /*!< used CAN message object for receiving asynchronous control data (logical module 1) */
@@ -84,14 +84,8 @@ extern "C" {
 #define LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES	1
 #endif // #ifndef LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
 
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES < 2
-#define CAN_CONFIG_MSG_MAIN_OBJ_TX_NR			1 /**< */
-#else // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES < 2
-#define CAN_CONFIG_MSG_MAIN_OBJ_TX_NR			2 /**< */
-#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES < 2
-
 #define CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ	(LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES * CAN_CONFIG_NR_OF_MODULE_OBJS)
-#define CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_TX_OBJ	CAN_CONFIG_MSG_MAIN_OBJ_TX_NR /**< */
+
 
 #define CAN_CONFIG_SYNC_MON_MAX_NR_OF_RX_OBJ	CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ /**< */
 

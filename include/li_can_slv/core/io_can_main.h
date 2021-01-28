@@ -40,12 +40,6 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-// CAN main system message transmit queue definitions
-#ifndef CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH
-#define CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH		16
-#endif // #ifndef CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH
-#endif // #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
 
 /* CAN sync send request */
 #define CAN_MAIN_PROCESS_SYNC_SEND_DATA			0xAAAA /**< */
@@ -96,16 +90,6 @@ typedef struct
 } can_main_rx_msg_obj_t;
 
 /**
- * @brief define the tx message object configuration
- */
-typedef struct
-{
-	dword_t msg_obj_mask; /**< */
-	uint16_t msg_obj; /**< */
-	uint16_t table_pos; /**< */
-} can_main_tx_msg_obj_t;
-
-/**
  * @brief define the control of the process data transmission
  */
 typedef struct
@@ -135,7 +119,6 @@ extern volatile dword_t can_main_async_ctrl_objs_mask; /*!< mask that identifies
 
 #if defined(OUTER) || defined(OUTER_APP)
 extern volatile uint16_t li_can_slv_sync_main_rx_msg_obj_used; /**< */
-extern volatile uint16_t li_can_slv_sync_main_tx_msg_obj_used; /**< */
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 #if defined(OUTER) || defined(OUTER_APP)
@@ -145,16 +128,12 @@ extern volatile can_main_sync_process_tx_data_ctrl_t can_main_sync_process_tx_da
 
 #if defined(OUTER) || defined(OUTER_APP)
 extern volatile can_main_rx_msg_obj_t li_can_slv_sync_main_rx_msg_obj[CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ]; /**< */
-extern volatile can_main_tx_msg_obj_t li_can_slv_sync_main_tx_msg_obj[CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_TX_OBJ]; /**< */
+extern uint16_t li_can_slv_sync_main_tx_msg_obj; /**< */
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 #ifdef CAN_MAIN_DIAGNOSE
 extern can_main_diagnose_t can_main_diagnose;
 #endif // #ifdef CAN_MAIN_DIAGNOSE
-
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-extern volatile uint16_t can_main_system_msg_tx_queue_state; /*!< state of the system message transmit queue */
-#endif // #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
@@ -168,20 +147,12 @@ li_can_slv_errorcode_t can_main_sync_process_tx_data_cnfg(uint16_t table_pos, ui
 void can_main_synchron_tx_data_off(uint16_t table_pos, uint16_t obj);
 void can_main_synchron_tx_data_on(uint16_t table_pos, uint16_t obj);
 li_can_slv_errorcode_t can_main_msg_obj_rx_data_cnfg(uint16_t msg_obj, uint16_t table_pos);
-li_can_slv_errorcode_t can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj);
-li_can_slv_errorcode_t can_main_process_data_tx_set(void);
+void can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj);
+li_can_slv_errorcode_t can_main_process_trigger_sync_tx(void);
 #endif	// #if defined(OUTER) || defined(OUTER_APP)
 
 li_can_slv_errorcode_t can_main_enable(void);
 li_can_slv_errorcode_t can_main_disable(void);
-
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-li_can_slv_errorcode_t can_main_hndl_queue_system_tx(void);
-#endif // #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-
-#ifdef CAN_ASYNC_CTRL_TX_QUEUE
-li_can_slv_errorcode_t can_main_hndl_queue_async_ctrl_tx(void);
-#endif // #ifdef CAN_ASYNC_CTRL_TX_QUEUE
 
 #if defined(OUTER) || defined(OUTER_APP)
 li_can_slv_errorcode_t can_async_handle_async_data_tx_queue(void);

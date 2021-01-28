@@ -170,42 +170,6 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 	return 0;
 }
 
-/**
- * @param ptsCanMsgV
- * @param ubBufferIdxV
- * @return
- */
-uint8_t can_main_hw_handler_tx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
-{
-#ifndef LI_CAN_SLV_BOOT
-	uint8_t data[8];
-	uint16_t canid;
-	uint8_t dlc;
-
-	canid = CpMsgGetStdId(ptsCanMsgV);
-	CpCoreBufferGetDlc(&can_port_main, ubBufferIdxV, &dlc);
-#if CP_VERSION_MAJOR <= 2
-	CpCoreBufferGetData(&can_port_main, ubBufferIdxV, &(data[0]));
-#else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferGetData(&can_port_main, ubBufferIdxV, &(data[0]), 0, dlc);
-#endif // #if CP_VERSION_MAJOR <= 2
-
-#if CP_VERSION_MAJOR <= 2
-	ubBufferIdxV = ubBufferIdxV - 1;
-#endif // #if CP_VERSION_MAJOR <= 2
-
-#ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
-	LI_CAN_SLV_DEBUG_PRINT("tx obj: %d id: 0x%x\n", ubBufferIdxV, canid);
-#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_MAIN_HW_HANDLER
-
-#if defined (LI_CAN_SLV_SYNC)
-	(void) can_sync_handler_tx(ubBufferIdxV, dlc, canid);
-#endif // #if defined (LI_CAN_SLV_SYNC)
-
-#endif // #ifndef LI_CAN_SLV_BOOT
-	return 0;
-}
-
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 /**
  * @return

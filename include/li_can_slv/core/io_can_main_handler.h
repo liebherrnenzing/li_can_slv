@@ -52,9 +52,9 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/
-#if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)
+#if defined(OUTER) || defined(OUTER_APP)
 extern uint8_t can_main_handler_tx(uint16_t caller_idx);
-#endif // #if defined(OUTER) || defined(OUTER_APP) || defined(CAN_MAIN_SYSTEM_MSG_TX_QUEUE) || defined(CAN_ASYNC_CTRL_TX_QUEUE)
+#endif // #if defined(OUTER) || defined(OUTER_APP)
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

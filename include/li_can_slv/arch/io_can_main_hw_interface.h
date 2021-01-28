@@ -131,25 +131,12 @@ extern li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr
 extern li_can_slv_errorcode_t can_main_hw_set_baudrate_listen_only(can_config_bdr_tab_t *bdr_tab_entry);
 
 /**
- * @param msg_obj
  * @param can_id
  * @param dlc
- * @param src
+ * @param data
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
-extern li_can_slv_errorcode_t can_main_hw_send_msg_obj_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src);
-
-#if defined(OUTER) || defined(OUTER_APP)
-/**
- * @param msg_obj
- * @param can_id
- * @param dlc
- * @param src
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-extern li_can_slv_errorcode_t can_main_hw_send_msg_obj_none_blocking(uint16_t msg_obj, uint16_t can_id, uint16_t dlc, const volatile byte_t *src);
-
-#endif // #if defined(OUTER) || defined(OUTER_APP)
+extern li_can_slv_errorcode_t can_main_hw_send_msg(uint16_t can_id, uint16_t dlc, const volatile byte_t *data);
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

@@ -167,17 +167,6 @@
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
 /*--------------------------------------------------------------------------*/
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-/*!
- * \brief define an element of the system message tx queue
- * \typedef can_main_system_msg_tx_queue_t
- */
-typedef struct
-{
-	li_can_slv_module_nr_t module_nr; /**< */
-	byte_t data[CAN_CONFIG_SYS_MSG_DLC]; /**< */
-} can_main_system_msg_tx_queue_t;
-#endif /* #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE */
 
 /*--------------------------------------------------------------------------*/
 /* global variables (public/exported)                                       */
@@ -194,12 +183,11 @@ volatile dword_t can_main_async_ctrl_objs_mask = 0; /*!< mask that identifies al
 
 #if defined(OUTER) || defined(OUTER_APP)
 volatile uint16_t li_can_slv_sync_main_rx_msg_obj_used = 0; /**< */
-volatile uint16_t li_can_slv_sync_main_tx_msg_obj_used = 0; /**< */
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
 
 #if defined(OUTER) || defined(OUTER_APP)
 volatile can_main_rx_msg_obj_t li_can_slv_sync_main_rx_msg_obj[CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_RX_OBJ] = {{0}}; /**< */
-volatile can_main_tx_msg_obj_t li_can_slv_sync_main_tx_msg_obj[CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_TX_OBJ] = {{0}}; /**< */
+uint16_t li_can_slv_sync_main_tx_msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC; /**< */
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
 
 #ifdef CAN_MAIN_DIAGNOSE
@@ -255,14 +243,6 @@ volatile can_main_sync_process_tx_data_ctrl_t can_main_sync_process_tx_data_ctrl
 #endif /* #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9 */
 };
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
-
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-/* system message transmit queue */
-static volatile uint16_t can_main_system_msg_tx_queue_write = 0; /*!< write pointer of the system message transmit queue */
-static volatile uint16_t can_main_system_msg_tx_queue_read = 0; /*!< read pointer of the system message transmit queue */
-volatile uint16_t can_main_system_msg_tx_queue_state = 0; /*!< state of the system message transmit queue */
-static volatile can_main_system_msg_tx_queue_t can_main_system_msg_tx_queue[CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH]; /*!< system message transmit queue */
-#endif /* #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE */
 
 #ifdef SHOW_CAN_MAIN
 /*--------------------------------------------------------------------------*/
@@ -534,68 +514,13 @@ li_can_slv_errorcode_t can_main_msg_obj_rx_data_cnfg(uint16_t msg_obj, uint16_t 
 #if defined(OUTER) || defined(OUTER_APP)
 /**
  * @param msg_obj used message object
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
-li_can_slv_errorcode_t can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj)
+void can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj)
 {
-	if (li_can_slv_sync_main_tx_msg_obj_used < CAN_CONFIG_SYNC_MAIN_MAX_NR_OF_TX_OBJ)
-	{
-		li_can_slv_sync_main_tx_msg_obj[li_can_slv_sync_main_tx_msg_obj_used].msg_obj = msg_obj;
-		li_can_slv_sync_main_tx_msg_obj[li_can_slv_sync_main_tx_msg_obj_used].msg_obj_mask = (1L << msg_obj);
-		/* not relevant here...will be set when the object is used for transmission */
-		li_can_slv_sync_main_tx_msg_obj[li_can_slv_sync_main_tx_msg_obj_used].table_pos = 0;
-		/* object number can be calculated from CAN ID on TX OK */
-		li_can_slv_sync_main_tx_msg_obj_used++;
-		return (LI_CAN_SLV_ERR_OK);
-	}
-	return (ERR_MSG_CAN_MAIN_MSG_OBJ_TX_DATA_CNFG);
+	li_can_slv_sync_main_tx_msg_obj = msg_obj;
 }
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
 
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-/**
- * @param module_nr used module number
- * @param[in] src source pointer of data
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_main_send_queue_system_tx(li_can_slv_module_nr_t module_nr, byte_t const *src)
-{
-	li_can_slv_errorcode_t err;
-	uint16_t table_pos, module_found = 0, table_end = 0;
-	can_config_module_silent_t module_silent;
-
-	err = can_config_module_nr_valid(module_nr, &table_pos, &module_silent, &module_found);
-
-	if (module_silent == LI_CAN_SLV_CONFIG_MODULE_STATE_SILENT)
-	{
-		return LI_CAN_SLV_ERR_OK;
-	}
-
-	if (!(can_main_system_msg_tx_queue_state < CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH))
-	{
-		return (ERR_MSG_CAN_TX_SYS_MSG_QUEUE_OVERFLOW);
-	}
-
-	can_main_system_msg_tx_queue[can_main_system_msg_tx_queue_write].module_nr = module_nr;
-	can_port_memory_cpy(&can_main_system_msg_tx_queue[can_main_system_msg_tx_queue_write].data[0], src, CAN_CONFIG_SYS_MSG_DLC);
-
-	if (can_main_system_msg_tx_queue_write < (CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH - 1))
-	{
-		can_main_system_msg_tx_queue_write++;
-	}
-	else
-	{
-		can_main_system_msg_tx_queue_write = 0;
-	}
-
-	can_main_system_msg_tx_queue_state++;
-
-	/* trigger queue handling */
-	can_port_trigger_can_main_system_msg_tx_queue();
-
-	return (LI_CAN_SLV_ERR_OK);
-}
-#else /* #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE */
 /**
  * @param module_nr module number
  * @param[in] src source pointer of data
@@ -607,17 +532,16 @@ li_can_slv_errorcode_t can_main_send_queue_system_tx(li_can_slv_module_nr_t modu
 
 	/* calculation of CAN identifier */
 	can_id = CAN_CONFIG_SYS_TX_MASK + ((module_nr - 1) << 2);
-	can_main_hw_send_msg_obj_blocking(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS, can_id, CAN_CONFIG_SYS_MSG_DLC, src);
+	can_main_hw_send_msg(can_id, CAN_CONFIG_SYS_MSG_DLC, src);
 	return (LI_CAN_SLV_ERR_OK);
 }
-#endif /* #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE */
 
 #if defined(OUTER) || defined(OUTER_APP)
 /*!
  * \brief set the send flag of all synchrony process data of all defined logical modules
  * \return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
-li_can_slv_errorcode_t can_main_process_data_tx_set(void)
+li_can_slv_errorcode_t can_main_process_trigger_sync_tx(void)
 {
 #ifdef CAN_TEST_ONLY_SEND_MASTER
 	return (LI_CAN_SLV_ERR_OK);
@@ -635,11 +559,6 @@ li_can_slv_errorcode_t can_main_process_data_tx_set(void)
 	/*                                                                          */
 	/*  bit = 0x000F >> (4-nr)                                                  */
 	/*--------------------------------------------------------------------------*/
-
-	/**
-	 * @todo is it possible to check the send mask ==> must be zero, else transmission
-	 * before was not completed before next process request was coming in\n
-	 */
 
 	/* indicate that a new sync TX request was issued */
 	can_main_sync_process_tx_data_ctrl.send_cmd = CAN_MAIN_PROCESS_SYNC_SEND_DATA;
@@ -700,133 +619,68 @@ li_can_slv_errorcode_t can_main_disable(void)
 void can_main_sync_process_tx_data(void)
 {
 	uint8_t data[8];
-	uint16_t i;
 	uint16_t table_pos, obj;
-	uint16_t msg_obj;
 	uint16_t dlc;
 	li_can_slv_errorcode_t err;
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-	LI_CAN_SLV_DEBUG_PRINT("can_main_sync tx obj_used: %d\n", li_can_slv_sync_main_tx_msg_obj_used);
+	LI_CAN_SLV_DEBUG_PRINT("can_main_sync tx data\n");
 	LI_CAN_SLV_DEBUG_PRINT("ctrl.send: %08lx\n", can_main_sync_process_tx_data_ctrl.send);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
-	if (can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR) /* is there still something to send out? */
+	/* send all tx objects */
+	while(can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR)
 	{
-		for (i = 0; i < li_can_slv_sync_main_tx_msg_obj_used; i++) /* search all usable sync-TX-slots */
-		{
-			msg_obj = li_can_slv_sync_main_tx_msg_obj[i].msg_obj; /* get the number of next usable TX slot for checking if it is free */
-
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-			LI_CAN_SLV_DEBUG_PRINT("tx_slot=%d, mo=%d\n", i, msg_obj);
+			LI_CAN_SLV_DEBUG_PRINT("tx_slot=%d, mo=%d\n", i, li_can_slv_sync_main_tx_msg_obj);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
-			/* check if msg object is not busy */
-			if (!CAN_HW_MSG_OBJ_BUSY(msg_obj))
+			/* switch to next active send flag */
+			while ((can_main_sync_process_tx_data_ctrl.send_current <= can_main_sync_process_tx_data_ctrl.send_end) && ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000000L))
 			{
-				/* here the searched TX slot seems to be free...now look for an object to fill in here */
+				can_main_sync_process_tx_data_ctrl.send_current++;
+				can_main_sync_process_tx_data_ctrl.send >>= 1;
+			}
+
+			/* check if send flag of current object is valid */
+			if ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000001L)
+			{
+				table_pos = can_main_sync_process_tx_data_ctrl.send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;
+				obj = can_main_sync_process_tx_data_ctrl.send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;
+
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-				LI_CAN_SLV_DEBUG_PRINT("(not busy)\n");
+				LI_CAN_SLV_DEBUG_PRINT("table_pos=%d, obj=%d\n", table_pos, obj);
+				LI_CAN_SLV_DEBUG_PRINT("ctrl.send %08lx\n", can_main_sync_process_tx_data_ctrl.send);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
-				/* switch to next active send flag */
-				while ((can_main_sync_process_tx_data_ctrl.send_current <= can_main_sync_process_tx_data_ctrl.send_end) && ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000000L))
+				/* call synchrony transmit routine of main CAN controller to prepare data to send via can, also capture data for monitor controller */
+				dlc = (uint16_t) can_config_module_tab[table_pos].tx_dlc[obj];
+				err = can_sync_tx_data_main(table_pos, obj, dlc, data);
+
+				if (err == LI_CAN_SLV_ERR_OK)
 				{
-					can_main_sync_process_tx_data_ctrl.send_current++;
-					can_main_sync_process_tx_data_ctrl.send >>= 1;
+					err = can_main_hw_send_msg(can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
 				}
-
-				/* check if send flag of current object is valid */
-				if ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000001L)
+				else
 				{
-					table_pos = can_main_sync_process_tx_data_ctrl.send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;
-					obj = can_main_sync_process_tx_data_ctrl.send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;
-
-					/* update the cross reference list with the position of the actually sent logical module... */
-					/* ...the object number of the module can be restored on TXOK with the CAN ID */
-					li_can_slv_sync_main_tx_msg_obj[i].table_pos = table_pos;
-
-#ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-					LI_CAN_SLV_DEBUG_PRINT("table_pos=%d, obj=%d\n", table_pos, obj);
-					LI_CAN_SLV_DEBUG_PRINT("ctrl.send %08lx\n", can_main_sync_process_tx_data_ctrl.send);
-#endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
-
-					/* call synchrony transmit routine of main CAN controller to prepare data to send via can, also capture data for monitor controller */
-					dlc = (uint16_t) can_config_module_tab[table_pos].tx_dlc[obj];
-					err = can_sync_tx_data_main(table_pos, obj, dlc, data);
-
-					if (err == LI_CAN_SLV_ERR_OK)
-					{
-						err = can_main_hw_send_msg_obj_none_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
-					}
-
-					//					if (err == LI_CAN_SLV_ERR_OK)
-					//					{
-					//						err = can_main_hw_send_msg_obj_blocking(msg_obj, can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
-					//					}
-					//					else
-					//					{
-					//						/**
-					//						 * @toto add timeout
-					//						 */
-					//						while(TRUE);
-					//					}
+					/**
+					 * @toto add error handling
+					 */
+				}
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-					if (err != LI_CAN_SLV_ERR_OK)
-					{
-						error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
-					}
+				if (err != LI_CAN_SLV_ERR_OK)
+				{
+					error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+				}
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-					can_main_sync_process_tx_data_ctrl.send_current++;
-					can_main_sync_process_tx_data_ctrl.send >>= 1;
-				}
+				can_main_sync_process_tx_data_ctrl.send_current++;
+				can_main_sync_process_tx_data_ctrl.send >>= 1;
 			}
-		}
 	}
-#ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-	else
-	{
-		LI_CAN_SLV_DEBUG_PRINT(" .. empty .. \n\n");
-	}
-#endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 }
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */
-
-#ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE
-/**
- * @brief can_main_hndl_queue_system_tx handles the system message transmit queue
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_main_hndl_queue_system_tx(void)
-{
-	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-	uint16_t can_id;
-
-	if (can_main_system_msg_tx_queue_state > 0)
-	{
-		/* calculation of CAN identifier */
-		can_id = CAN_CONFIG_SYS_TX_MASK + ((can_main_system_msg_tx_queue[can_main_system_msg_tx_queue_read].module_nr - 1) << 2);
-		err = can_main_hw_send_msg_obj_blocking(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYS, can_id, CAN_CONFIG_SYS_MSG_DLC, &can_main_system_msg_tx_queue[can_main_system_msg_tx_queue_read].data[0]);
-
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-			/* service read pointer */
-			if (can_main_system_msg_tx_queue_read < (CAN_MAIN_SYSTEM_MSG_TX_QUEUE_LENGTH - 1))
-			{
-				can_main_system_msg_tx_queue_read++;
-			}
-			else
-			{
-				can_main_system_msg_tx_queue_read = 0;
-			}
-			can_main_system_msg_tx_queue_state--;
-		}
-	}
-	return (err);
-}
-#endif /* #ifdef CAN_MAIN_SYSTEM_MSG_TX_QUEUE */
 
 /**
  * @param msg_obj used message object to define
@@ -864,10 +718,10 @@ li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id
 	}
 #endif /* #ifdef CAN_MAIN_CHECK_DEFINE_OBJECT */
 
-#ifdef LI_CAN_SLV_DEBUG_CAN_DEF_OBJ
+#ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MAIN
 	LI_CAN_SLV_DEBUG_PRINT("def msg obj:%d, id:%d\n", msg_obj, can_id);
 	LI_CAN_SLV_DEBUG_PRINT(" m: %d dlc: %d, dir: %d\n", acceptance_mask, dlc, dir);
-#endif /* #ifdef LI_CAN_SLV_DEBUG_CAN_DEF_OBJ */
+#endif /* #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_MAIN */
 
 	err = can_main_hw_define_msg_obj(msg_obj, can_id, acceptance_mask, dlc, dir, service_id);
 

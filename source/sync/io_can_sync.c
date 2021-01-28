@@ -559,9 +559,6 @@ li_can_slv_errorcode_t can_sync_rx_data_main(uint16_t table_pos, uint16_t can_id
 			// copy atomic
 			// CAN_PORT_DISABLE_IRQ();
 			err = can_config_module_tab[table_pos].tx_main_rx_mon_sync[obj](can, (byte_t *) can_config_module_tab[table_pos].tx[obj], dlc);
-#ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-			can_sync.main_tx_cnt[table_pos][obj]++;
-#endif // #ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
 			// CAN_PORT_ENABLE_IRQ();
 		}
 	}
@@ -656,24 +653,6 @@ li_can_slv_errorcode_t can_sync_tx_data_main(uint16_t table_pos, uint16_t obj, u
 	}
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MAIN
 	return (err);
-}
-
-/**
- * @brief increment the main TX-counter of the given object number (obj)
- * @param table_pos is the position in the CAN configuration module table (maximum defined logical modules
- * are #LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES)
- * @param obj is the transmit object number (maximum of 4 transmit objects for each logical module)
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_sync_tx_data_main_ok(uint16_t table_pos, uint16_t obj)
-{
-#ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-	can_sync.main_tx_cnt[table_pos][obj]++;
-#else // #ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-	table_pos = table_pos;
-	obj = obj;
-#endif // #ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-	return (LI_CAN_SLV_ERR_OK);
 }
 
 #ifdef LI_CAN_SLV_MON
@@ -1353,9 +1332,6 @@ static void li_can_slv_sync_clear_process_image(void)
 		}
 		for (j = 0; j < can_config_module_tab[i].tx_obj_sync; j++)
 		{
-#ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-			can_sync.main_tx_cnt[i][j] = 0;
-#endif // #ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
 #ifdef LI_CAN_SLV_MON
 			can_sync.mon_tx_cnt[i][j] = 0;
 #endif // #ifdef LI_CAN_SLV_MON
@@ -1376,19 +1352,6 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 	// check the transmit data objects
 	for (i = 0; i < can_config_module_tab[table_pos].tx_obj_sync; i++)
 	{
-#ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-		/**
-		 * Use LI_CAN_SLV_SYNC_MAIN_TX_CNT to enable the synchronous tx counter on the main node, but
-		 * this is not possible on every target. On the STM32 bxCAN this is not possible because there
-		 * is no guaranteed connection between the transmitted message and the tx interrupt.
-		 */
-		if (can_sync.main_tx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_TX_DATA)
-		{
-			can_sync.err.main_tx_cnt[table_pos]++;
-			return (ERR_MSG_CAN_MAIN_NR_OF_TX_DATA);
-		}
-#endif // #ifdef LI_CAN_SLV_SYNC_MAIN_TX_CNT
-
 #ifdef LI_CAN_SLV_MON
 		if (can_sync.mon_tx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_TX_DATA)
 		{

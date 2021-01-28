@@ -117,7 +117,6 @@ void setUp(void)
 		memset(&can_sync, 0x00, sizeof(can_sync));
 
 		li_can_slv_sync_main_rx_msg_obj_used = 0;
-		li_can_slv_sync_main_tx_msg_obj_used = 0;
 
 		/* after initialization no call is set */
 		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);

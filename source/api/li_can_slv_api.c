@@ -248,7 +248,7 @@ lcsa_errorcode_t lcsa_start(void)
 	{
 		err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_OPERATIONAL);
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
-		LI_CAN_SLV_DEBUG_PRINT("lcsa_start nodemode:%08x\n", err);
+		LI_CAN_SLV_DEBUG_PRINT("lcsa_start node:%08x\n", err);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_INIT
 		if (err == LCSA_ERROR_OK)
 		{
