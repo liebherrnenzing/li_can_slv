@@ -34,21 +34,41 @@ execute_process(
  COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_sync_test_absolute_path}
 )
 
+#find_program(CMAKE_C_CPPCHECK NAMES cppcheck)
+#if (CMAKE_C_CPPCHECK)
+#	message("-- CppCheck found : ${CMAKE_C_CPPCHECK}")
+#	message("-- current source dir : ${CMAKE_CURRENT_SOURCE_DIR}")
+#	message("-- source dir : ${CMAKE_SOURCE_DIR}")
+#    list(
+#        APPEND CMAKE_C_CPPCHECK 
+#        	"--enable=warning,style,performance,portability,information,missingInclude"
+#        	"--force"    
+#            "-i${CMAKE_CURRENT_SOURCE_DIR}/unity/"
+#            "-i${CMAKE_SOURCE_DIR}/verify/unity/"
+#            #"--suppress=*:${CMAKE_SOURCE_DIR}/verify/unity/*"
+#            #"--suppressions-list=${CMAKE_SOURCE_DIR}/CppCheckSuppressions.txt"
+#            #"--template=gcc"
+#    )
+#endif()
+
 add_executable(li_can_slv_core_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c ${li_can_slv_test_SOURCE})
 target_include_directories(li_can_slv_core_test PUBLIC ${li_can_slv_test_HEADER})
 target_compile_definitions(li_can_slv_core_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_compile_options(li_can_slv_core_test PUBLIC -O0 -ggdb)
 target_link_libraries(li_can_slv_core_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
 add_test(NAME li_can_slv_core_test COMMAND li_can_slv_core_test)
 
-add_executable(li_can_slv_error_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c ${li_can_slv_test_SOURCE})
+add_executable(li_can_slv_error_test source/li_can_slv_error_test.c source/li_can_slv_error_test_Runner.c ${li_can_slv_test_SOURCE})
 target_include_directories(li_can_slv_error_test PUBLIC ${li_can_slv_test_HEADER})
 target_compile_definitions(li_can_slv_error_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_compile_options(li_can_slv_error_test PUBLIC -O0 -ggdb)
 target_link_libraries(li_can_slv_error_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
 add_test(NAME li_can_slv_error_test COMMAND li_can_slv_error_test)
 
-add_executable(li_can_slv_sync_test source/li_can_slv_core_test.c source/li_can_slv_core_test_Runner.c ${li_can_slv_test_SOURCE})
+add_executable(li_can_slv_sync_test source/li_can_slv_sync_test.c source/li_can_slv_sync_test_Runner.c ${li_can_slv_test_SOURCE})
 target_include_directories(li_can_slv_sync_test PUBLIC ${li_can_slv_test_HEADER})
 target_compile_definitions(li_can_slv_sync_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_compile_options(li_can_slv_sync_test PUBLIC -O0 -ggdb)
 target_link_libraries(li_can_slv_sync_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
 add_test(NAME li_can_slv_sync_test COMMAND li_can_slv_sync_test)
 
