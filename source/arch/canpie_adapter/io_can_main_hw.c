@@ -100,9 +100,7 @@ static CpCanMsg_ts tx_fifo_messages[CAN_MAIN_TX_FIFO_SIZE];
 li_can_slv_errorcode_t can_main_hw_init(void)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-
 	CpCoreDriverInit(LI_CAN_SLV_MAIN_ARCH, &can_port_main, 0);
-#endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 	CpCoreIntFunctions(&can_port_main,  can_main_hw_handler_rx, 0L, _can_main_hw_handler_error);
@@ -232,7 +230,7 @@ li_can_slv_errorcode_t can_main_hw_define_msg_obj(uint16_t msg_obj, uint16_t can
 	}
 
 
-	CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
+	status = CpCoreBufferConfig(&can_port_main, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
 
 	if (eCP_ERR_NONE == status)
 	{
