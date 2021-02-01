@@ -41,10 +41,6 @@
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
 
-/* CAN sync send request */
-#define CAN_MAIN_PROCESS_SYNC_SEND_DATA			0xAAAA /**< */
-#define CAN_MAIN_PROCESS_SYNC_SEND_DATA_ACK		0x0000 /**< */
-
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */
 /*--------------------------------------------------------------------------*/
@@ -94,11 +90,8 @@ typedef struct
  */
 typedef struct
 {
-	uint16_t send_cmd; /**< indicates a new send request for sync data*/
-	dword_t send_reg; /**< send register for synchronous process data */
-	dword_t send; /**< send flags for synchronous process data */
+	uint32_t send_reg; /**< send register for synchronous process data */
 	uint16_t send_end; /**< bit position of last active send flag */
-	uint16_t send_current; /**< bit position of current send flag */
 	uint16_t id[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES][CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< standard (11-bit) identifier */
 	uint16_t dlc[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES][CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< data length code */
 } can_main_sync_process_tx_data_ctrl_t;
@@ -148,7 +141,6 @@ void can_main_synchron_tx_data_off(uint16_t table_pos, uint16_t obj);
 void can_main_synchron_tx_data_on(uint16_t table_pos, uint16_t obj);
 li_can_slv_errorcode_t can_main_msg_obj_rx_data_cnfg(uint16_t msg_obj, uint16_t table_pos);
 void can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj);
-li_can_slv_errorcode_t can_main_process_trigger_sync_tx(void);
 #endif	// #if defined(OUTER) || defined(OUTER_APP)
 
 li_can_slv_errorcode_t can_main_enable(void);

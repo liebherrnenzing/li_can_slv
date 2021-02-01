@@ -160,9 +160,7 @@
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
 /* CAN main general definitions */
-#define CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR		0x00000000 /**< clear send flags of synchronous process data transmission */
-#define CAN_MAIN_PROCESS_DATA_TX_ACTIVE_CLEAR	0x00000000 /**< clear active flags of synchronous process data transmission */
-#define CAN_MAIN_PROCESS_DATA_TX_SET_CLEAR		0x00000001 /**< clear set flags of synchronous process data transmission */
+#define CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR	(0x00000000) /**< clear send flags of synchronous process data transmission */
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -201,11 +199,8 @@ can_main_diagnose_t can_main_diagnose = {0};
 /* process data transmit control */
 volatile can_main_sync_process_tx_data_ctrl_t can_main_sync_process_tx_data_ctrl =
 {
-	CAN_MAIN_PROCESS_SYNC_SEND_DATA_ACK, /* send_cmd */
 	CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR, /* send_reg */
-	CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR, /* send */
 	0, /* send_end */
-	0, /* send_current */
 #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES == 1
 	{ {0, 0, 0, 0} }, /* id */
 	{ {0, 0, 0, 0} } /* dlc */
@@ -536,27 +531,6 @@ li_can_slv_errorcode_t can_main_send_queue_system_tx(li_can_slv_module_nr_t modu
 	return (LI_CAN_SLV_ERR_OK);
 }
 
-#if defined(OUTER) || defined(OUTER_APP)
-/*!
- * \brief set the send flag of all synchrony process data of all defined logical modules
- * \return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t can_main_process_trigger_sync_tx(void)
-{
-#ifdef CAN_TEST_ONLY_SEND_MASTER
-	return (LI_CAN_SLV_ERR_OK);
-#endif /* #ifdef CAN_TEST_ONLY_SEND_MASTER */
-
-	/* indicate that a new sync TX request was issued */
-	can_main_sync_process_tx_data_ctrl.send_cmd = CAN_MAIN_PROCESS_SYNC_SEND_DATA;
-
-	/* trigger queue handling */
-	can_port_trigger_can_main_sync_process_data_tx_queue();
-
-	return (LI_CAN_SLV_ERR_OK);
-}
-#endif /* #if defined(OUTER) || defined(OUTER_APP) */
-
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -600,23 +574,28 @@ li_can_slv_errorcode_t can_main_disable(void)
 }
 
 #if defined(OUTER) || defined(OUTER_APP)
-/*!
- * @brief can_main_sync_process_tx_data
- */
 void can_main_sync_send_process_data(void)
 {
+	li_can_slv_errorcode_t err;
 	uint8_t data[8];
 	uint16_t table_pos, obj;
 	uint16_t dlc;
-	li_can_slv_errorcode_t err;
+	uint32_t send; /**< send flags for synchronous process data */
+	uint16_t send_current; /**< bit position of current send flag */
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
 	LI_CAN_SLV_DEBUG_PRINT("can_main_sync tx data\n");
 	LI_CAN_SLV_DEBUG_PRINT("ctrl.send: %08lx\n", can_main_sync_process_tx_data_ctrl.send);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
+	/*----------------------------------------------------------------------*/
+	/* check if any synchronous process transmit are valid                  */
+	/*----------------------------------------------------------------------*/
+	send = can_main_sync_process_tx_data_ctrl.send_reg;
+	send_current = 0;
+
 	/* send all tx objects */
-	while (can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR)
+	while (send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR)
 	{
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
 		LI_CAN_SLV_DEBUG_PRINT("tx_slot=%d, mo=%d\n", i, li_can_slv_sync_main_tx_msg_obj);
@@ -636,17 +615,17 @@ void can_main_sync_send_process_data(void)
 		/*--------------------------------------------------------------------------*/
 
 		/* switch to next active send flag */
-		while ((can_main_sync_process_tx_data_ctrl.send_current <= can_main_sync_process_tx_data_ctrl.send_end) && ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000000L))
+		while ((send_current <= can_main_sync_process_tx_data_ctrl.send_end) && ((send & 0x00000001L) == 0x00000000L))
 		{
-			can_main_sync_process_tx_data_ctrl.send_current++;
-			can_main_sync_process_tx_data_ctrl.send >>= 1;
+			send_current++;
+			send >>= 1;
 		}
 
 		/* check if send flag of current object is valid */
-		if ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000001L)
+		if ((send & 0x00000001L) == 0x00000001L)
 		{
-			table_pos = can_main_sync_process_tx_data_ctrl.send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;
-			obj = can_main_sync_process_tx_data_ctrl.send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;
+			table_pos = send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;
+			obj = send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
 			LI_CAN_SLV_DEBUG_PRINT("table_pos=%d, obj=%d\n", table_pos, obj);
@@ -675,8 +654,8 @@ void can_main_sync_send_process_data(void)
 			}
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-			can_main_sync_process_tx_data_ctrl.send_current++;
-			can_main_sync_process_tx_data_ctrl.send >>= 1;
+			send_current++;
+			send >>= 1;
 		}
 	}
 }

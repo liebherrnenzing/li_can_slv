@@ -97,9 +97,6 @@ can_mainmon_type_t can_mainmon_type = CAN_MAINMON_TYPE_UNDEF;
 li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-#if defined(OUTER) || defined(OUTER_APP)
-	uint16_t msg_obj;
-#endif // #if defined(OUTER) || defined(OUTER_APP)
 	uint16_t i;
 
 #if defined(OUTER) || defined(OUTER_APP)

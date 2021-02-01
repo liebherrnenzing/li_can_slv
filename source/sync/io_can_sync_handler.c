@@ -185,8 +185,7 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 		{
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
-			// send prcosses tx data as fast as possible
-			can_main_process_trigger_sync_tx();
+			can_main_sync_send_process_data();
 #ifdef LI_CAN_SLV_MAIN_MON
 		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON

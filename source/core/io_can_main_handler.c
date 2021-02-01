@@ -101,25 +101,6 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 	{
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
-#if defined(OUTER) || defined(OUTER_APP)
-		/*----------------------------------------------------------------------*/
-		/* check if any synchronous process transmit are valid                  */
-		/*----------------------------------------------------------------------*/
-		if (can_main_sync_process_tx_data_ctrl.send_cmd != CAN_MAIN_PROCESS_SYNC_SEND_DATA_ACK)
-		{
-			/* start transmission of new sync data set */
-			can_main_sync_process_tx_data_ctrl.send_cmd = CAN_MAIN_PROCESS_SYNC_SEND_DATA_ACK;
-			can_main_sync_process_tx_data_ctrl.send = can_main_sync_process_tx_data_ctrl.send_reg;
-			can_main_sync_process_tx_data_ctrl.send_current = 0;
-#ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
-			LI_CAN_SLV_DEBUG_PRINT("-> new c_m_s_p_t_d_c_send: %08lx\n", can_main_sync_process_tx_data_ctrl.send_reg);
-#endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
-		}
-
-		can_main_sync_send_process_data();
-
-#endif // #if defined(OUTER) || defined(OUTER_APP)
-
 #ifdef LI_CAN_SLV_ASYNC
 #if defined(OUTER) || defined(OUTER_APP)
 		/*----------------------------------------------------------------------*/
