@@ -190,14 +190,6 @@ static li_can_slv_errorcode_t can_async_tunnel_putc(char_t dat);
 #endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
 #endif	// #if defined(OUTER) || defined(OUTER_APP)
 
-#if defined (QTP) && defined(LI_CAN_SLV_RECONNECT)
-static li_can_slv_errorcode_t can_async_qtp_can_test_send_data(li_can_slv_module_nr_t module_nr, byte_t *src);
-#endif // #if defined (QTP) && defined(LI_CAN_SLV_RECONNECT)
-
-#ifdef LI_CAN_SLV_ASYNC_TEST_MESSAGE
-void li_can_slv_async_send_test_message_ack(void);
-#endif // #ifdef LI_CAN_SLV_ASYNC_TEST_MESSAGE
-
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
@@ -632,19 +624,6 @@ li_can_slv_errorcode_t can_async_rx(li_can_slv_module_nr_t module_nr, byte_t con
 			break;
 #endif // #ifdef LIDIS
 
-#if (defined(QTP) && defined (LI_CAN_SLV_RECONNECT)) || defined (LI_CAN_SLV_ASYNC_TEST_MESSAGE)
-		case CAN_ASYNC_TEST_MESSAGE:
-#if defined(QTP) && defined (LI_CAN_SLV_RECONNECT)
-			li_can_slv_reconnect_set_state(CAN_RECONNECT_STATE_DEACTIVATED);
-			err = can_async_qtp_can_test_send_data(module_nr, data);
-#endif // #if defined(QTP) && defined (LI_CAN_SLV_RECONNECT)
-
-#ifdef LI_CAN_SLV_ASYNC_TEST_MESSAGE
-			li_can_slv_async_send_test_message_ack();
-#endif // #ifdef LI_CAN_SLV_ASYNC_TEST_MESSAGE
-			break;
-#endif // #if (defined(QTP) && defined (LI_CAN_SLV_RECONNECT)) || defined (LI_CAN_SLV_ASYNC_TEST_MESSAGE)
-
 		default:
 			err = ERR_MSG_CAN_ASYNC_UNKNOWN_COMMAND;
 			break;
@@ -1031,55 +1010,6 @@ li_can_slv_errorcode_t can_async_tunnel_process_tx_data(void)
 }
 #endif // #ifdef LI_CAN_SLV_ASYNC_TUNNEL
 #endif // #if defined(OUTER) || defined(OUTER_APP)
-
-
-#if defined (QTP) && defined(LI_CAN_SLV_RECONNECT)
-/**
- * @brief can_async_qtp_can_test_send_data
- * @param module_nr number of the module for the download
- * @param src pointer to the source of the data
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-static li_can_slv_errorcode_t can_async_qtp_can_test_send_data(li_can_slv_module_nr_t module_nr, byte_t *src)
-{
-	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-	byte_t msg[8];
-	li_can_slv_module_nr_t module_nr_send;
-	module_nr = module_nr; //dummy assignment
-
-	module_nr_send = can_port_irol(*((uint16_t *)&src[1]), 8);
-
-	msg[0] = CAN_ASYNC_QTP_CAN_TEST_DEACTIVATE_RECONNECT;
-	msg[1] = 0x01;
-	msg[2] = 0x02;
-	msg[3] = 0x03;
-	msg[4] = 0x04;
-	msg[5] = 0x05;
-	msg[6] = 0x06;
-	msg[7] = 0x07;
-	for (;;)
-	{
-		err = can_async_send_data_to_async_ctrl_tx_queue(module_nr_send, CAN_ASYNC_CTRL_TX_TYPE_MASTER, &msg[0]);
-	}
-	return (err);
-}
-#endif // #if defined (QTP) && defined(LI_CAN_SLV_RECONNECT)
-
-
-#ifdef LI_CAN_SLV_ASYNC_TEST_MESSAGE
-/**
- * @brief can_async_qtp_can_test_send_data
- * @param module_nr number of the module for the download
- * @param src pointer to the source of the data
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-void li_can_slv_async_send_test_message_ack(void)
-{
-	byte_t msg[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-
-	(void) can_async_send_data_to_async_ctrl_tx_queue(can_config_get_module_nr_main(), CAN_ASYNC_CTRL_TX_TYPE_MASTER, &msg[0]);
-}
-#endif // #ifdef LI_CAN_SLV_ASYNC_TEST_MESSAGE
 
 
 #if defined(OUTER) || defined(OUTER_APP)

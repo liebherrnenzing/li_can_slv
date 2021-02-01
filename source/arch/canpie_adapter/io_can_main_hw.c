@@ -108,8 +108,8 @@ li_can_slv_errorcode_t can_main_hw_init(void)
 	CpCoreIntFunctions(&can_port_main, can_main_hw_handler_rx, 0L, 0L);
 #endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_ADAPTER_ERROR_HANDLER
 
-    CpFifoInit(&tx_fifo, &tx_fifo_messages[0], CAN_MAIN_TX_FIFO_SIZE);
-    CpCoreBufferConfig(&can_port_main, li_can_slv_sync_main_tx_msg_obj, (uint32_t) 0, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
+	CpFifoInit(&tx_fifo, &tx_fifo_messages[0], CAN_MAIN_TX_FIFO_SIZE);
+	CpCoreBufferConfig(&can_port_main, li_can_slv_sync_main_tx_msg_obj, (uint32_t) 0, CP_MASK_STD_FRAME, CP_MSG_FORMAT_CBFF, eCP_BUFFER_DIR_TRM);
 	CpCoreFifoConfig(&can_port_main, li_can_slv_sync_main_tx_msg_obj, &tx_fifo);
 
 	return err;
@@ -327,23 +327,28 @@ li_can_slv_errorcode_t can_main_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_en
 
 li_can_slv_errorcode_t can_main_hw_send_msg(uint16_t can_id, uint16_t dlc, const volatile byte_t *data)
 {
-	CpStatus_tv ret = eCP_ERR_TRM_FULL;
-	CpCanMsg_ts can_msg;
-	uint32_t tx_cnt = 1;
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+	CpCanMsg_ts can_msg = {0};
+	uint32_t tx_cnt;
+	CpStatus_tv ret;
 
+	CpMsgClear(&can_msg);
 	CpMsgInit(&can_msg, CP_MSG_FORMAT_CBFF);
+
 	CpMsgSetDlc(&can_msg, dlc);
 	CpMsgSetIdentifier(&can_msg, can_id);
+
 	li_can_slv_port_memory_cpy(&can_msg.tuMsgData, (uint8_t *)data, dlc);
 
-    ret = CpCoreFifoWrite(&can_port_main, li_can_slv_sync_main_tx_msg_obj,  &can_msg, &tx_cnt);
+	tx_cnt = 1;
+	ret = CpCoreFifoWrite(&can_port_main, li_can_slv_sync_main_tx_msg_obj,  &can_msg, &tx_cnt);
 
-//	if(eCP_ERR_NONE != ret)
-//	{
-//		/**@todo */
-//	}
+	if (eCP_ERR_NONE != ret)
+	{
+		err = ERR_MSG_CAN_MSG_SEND;
+	}
 
-	return (LI_CAN_SLV_ERR_OK);
+	return err;
 }
 
 /** @} */

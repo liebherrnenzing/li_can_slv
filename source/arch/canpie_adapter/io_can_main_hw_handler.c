@@ -133,7 +133,7 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 	// 29Bit is not handled here
-	if(CpMsgIsExtended(ptsCanMsgV))
+	if (CpMsgIsExtended(ptsCanMsgV))
 	{
 		return (LI_CAN_SLV_ERR_OK);
 	}

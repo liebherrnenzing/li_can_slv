@@ -357,7 +357,6 @@ extern "C" {
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_USE_ASYNC
 #define LI_CAN_SLV_ASYNC
-//#define LI_CAN_SLV_ASYNC_TEST_MESSAGE
 #endif
 #endif // #ifdef __DOXYGEN__
 

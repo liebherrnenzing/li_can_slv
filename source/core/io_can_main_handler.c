@@ -116,7 +116,7 @@ uint8_t can_main_handler_tx(uint16_t caller_idx)
 #endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_TX_HANDLER
 		}
 
-		can_main_sync_process_tx_data();
+		can_main_sync_send_process_data();
 
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 

@@ -244,17 +244,7 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
 		// define message object for synchronous data transmission
-		//err = can_main_get_next_free_msg_obj(&msg_obj);
-		if (err == LI_CAN_SLV_ERR_OK)
-		{
-
-			//err = can_main_define_msg_obj(msg_obj, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_IS_SYNC);
-			err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_IS_SYNC);
-			if (err == LI_CAN_SLV_ERR_OK)
-			{
-				//can_main_msg_obj_tx_data_cnfg(msg_obj);
-			}
-		}
+		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC, CAN_CONFIG_ONLINE_ARB_ID, CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ONLINE_DLC, CAN_CONFIG_DIR_TX, CAN_MAIN_SERVICE_ID_TX, CAN_OBJECT_IS_SYNC);
 	}
 #endif	// #if defined(OUTER) || defined(OUTER_APP)
 

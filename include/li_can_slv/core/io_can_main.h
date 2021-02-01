@@ -156,7 +156,7 @@ li_can_slv_errorcode_t can_main_disable(void);
 
 #if defined(OUTER) || defined(OUTER_APP)
 li_can_slv_errorcode_t can_async_handle_async_data_tx_queue(void);
-void can_main_sync_process_tx_data(void);
+void can_main_sync_send_process_data(void);
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id, uint16_t acceptance_mask, byte_t dlc, byte_t dir, can_main_service_id_t service_id, bit_t is_sync_obj);

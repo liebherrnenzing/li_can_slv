@@ -547,19 +547,6 @@ li_can_slv_errorcode_t can_main_process_trigger_sync_tx(void)
 	return (LI_CAN_SLV_ERR_OK);
 #endif /* #ifdef CAN_TEST_ONLY_SEND_MASTER */
 
-	/*--------------------------------------------------------------------------*/
-	/*  number of objects                                                       */
-	/*                                                                          */
-	/*  nr    send                                                              */
-	/*  0     0000	                                                            */
-	/*  1     0001	                                                            */
-	/*  2     0011					                                            */
-	/*  3     0111			                                                    */
-	/*  4     1111		                                                        */
-	/*                                                                          */
-	/*  bit = 0x000F >> (4-nr)                                                  */
-	/*--------------------------------------------------------------------------*/
-
 	/* indicate that a new sync TX request was issued */
 	can_main_sync_process_tx_data_ctrl.send_cmd = CAN_MAIN_PROCESS_SYNC_SEND_DATA;
 
@@ -616,7 +603,7 @@ li_can_slv_errorcode_t can_main_disable(void)
 /*!
  * @brief can_main_sync_process_tx_data
  */
-void can_main_sync_process_tx_data(void)
+void can_main_sync_send_process_data(void)
 {
 	uint8_t data[8];
 	uint16_t table_pos, obj;
@@ -629,55 +616,68 @@ void can_main_sync_process_tx_data(void)
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
 	/* send all tx objects */
-	while(can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR)
+	while (can_main_sync_process_tx_data_ctrl.send != CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR)
 	{
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-			LI_CAN_SLV_DEBUG_PRINT("tx_slot=%d, mo=%d\n", i, li_can_slv_sync_main_tx_msg_obj);
+		LI_CAN_SLV_DEBUG_PRINT("tx_slot=%d, mo=%d\n", i, li_can_slv_sync_main_tx_msg_obj);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
-			/* switch to next active send flag */
-			while ((can_main_sync_process_tx_data_ctrl.send_current <= can_main_sync_process_tx_data_ctrl.send_end) && ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000000L))
-			{
-				can_main_sync_process_tx_data_ctrl.send_current++;
-				can_main_sync_process_tx_data_ctrl.send >>= 1;
-			}
+		/*--------------------------------------------------------------------------*/
+		/*  number of objects                                                       */
+		/*                                                                          */
+		/*  nr    send                                                              */
+		/*  0     0000	                                                            */
+		/*  1     0001	                                                            */
+		/*  2     0011					                                            */
+		/*  3     0111			                                                    */
+		/*  4     1111		                                                        */
+		/*                                                                          */
+		/*  bit = 0x000F >> (4-nr)                                                  */
+		/*--------------------------------------------------------------------------*/
 
-			/* check if send flag of current object is valid */
-			if ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000001L)
-			{
-				table_pos = can_main_sync_process_tx_data_ctrl.send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;
-				obj = can_main_sync_process_tx_data_ctrl.send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;
+		/* switch to next active send flag */
+		while ((can_main_sync_process_tx_data_ctrl.send_current <= can_main_sync_process_tx_data_ctrl.send_end) && ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000000L))
+		{
+			can_main_sync_process_tx_data_ctrl.send_current++;
+			can_main_sync_process_tx_data_ctrl.send >>= 1;
+		}
+
+		/* check if send flag of current object is valid */
+		if ((can_main_sync_process_tx_data_ctrl.send & 0x00000001L) == 0x00000001L)
+		{
+			table_pos = can_main_sync_process_tx_data_ctrl.send_current / CAN_CONFIG_NR_OF_MODULE_OBJS;
+			obj = can_main_sync_process_tx_data_ctrl.send_current % CAN_CONFIG_NR_OF_MODULE_OBJS;
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-				LI_CAN_SLV_DEBUG_PRINT("table_pos=%d, obj=%d\n", table_pos, obj);
-				LI_CAN_SLV_DEBUG_PRINT("ctrl.send %08lx\n", can_main_sync_process_tx_data_ctrl.send);
+			LI_CAN_SLV_DEBUG_PRINT("table_pos=%d, obj=%d\n", table_pos, obj);
+			LI_CAN_SLV_DEBUG_PRINT("ctrl.send %08lx\n", can_main_sync_process_tx_data_ctrl.send);
 #endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
 
-				/* call synchrony transmit routine of main CAN controller to prepare data to send via can, also capture data for monitor controller */
-				dlc = (uint16_t) can_config_module_tab[table_pos].tx_dlc[obj];
-				err = can_sync_tx_data_main(table_pos, obj, dlc, data);
+			/* call synchrony transmit routine of main CAN controller to prepare data to send via can, also capture data for monitor controller */
+			dlc = (uint16_t) can_config_module_tab[table_pos].tx_dlc[obj];
+			err = can_sync_tx_data_main(table_pos, obj, dlc, data);
 
-				if (err == LI_CAN_SLV_ERR_OK)
-				{
-					err = can_main_hw_send_msg(can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
-				}
-				else
-				{
-					/**
-					 * @toto add error handling
-					 */
-				}
+			if (err == LI_CAN_SLV_ERR_OK)
+			{
+				err = can_main_hw_send_msg(can_main_sync_process_tx_data_ctrl.id[table_pos][obj], can_main_sync_process_tx_data_ctrl.dlc[table_pos][obj], data);
+			}
+			else
+			{
+				/**
+				 * @toto add error handling
+				 */
+			}
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-				if (err != LI_CAN_SLV_ERR_OK)
-				{
-					error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
-				}
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
-				can_main_sync_process_tx_data_ctrl.send_current++;
-				can_main_sync_process_tx_data_ctrl.send >>= 1;
-			}
+			can_main_sync_process_tx_data_ctrl.send_current++;
+			can_main_sync_process_tx_data_ctrl.send >>= 1;
+		}
 	}
 }
 #endif /* #if defined(OUTER) || defined(OUTER_APP) */

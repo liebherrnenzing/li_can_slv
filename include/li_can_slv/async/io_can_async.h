@@ -88,7 +88,6 @@
 #ifdef QTP
 #define	CAN_ASYNC_QTP_CAN_TEST_DEACTIVATE_RECONNECT		0xFE /*!< use asynchronous control data for QTP CAN reconnect off */
 #endif // #ifdef QTP
-#define CAN_ASYNC_TEST_MESSAGE							0xFF /*!< test message */
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */
