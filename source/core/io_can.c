@@ -222,8 +222,8 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 #ifdef LI_CAN_SLV_ASYNC
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
-		// define message object for receiving asynchronous control data
 #ifdef LI_CAN_SLV_BOOT
+		// define message object for receiving asynchronous control data
 		err = can_main_define_msg_obj(CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL1_RX, CAN_CONFIG_ASYNC_CTRL_RX_SLAVE_ID,  CAN_CONFIG_ACCEPTANCE_ONE_ID, CAN_CONFIG_ASYNC_CTRL_RX_DLC, CAN_CONFIG_DIR_RX, CAN_MAIN_SERVICE_ID_RX, CAN_OBJECT_NOT_SYNC);
 #endif // #ifdef LI_CAN_SLV_BOOT
 	}

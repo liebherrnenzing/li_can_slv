@@ -916,7 +916,7 @@ li_can_slv_errorcode_t can_sync_clr_rx_data_main_mon(uint16_t table_pos)
 		}
 #ifdef LI_CAN_SLV_MAIN_MON
 		/**
-		 * @todo any special handling needed here
+		 * @todo Do we need any special handling needed here.
 		 * */
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 

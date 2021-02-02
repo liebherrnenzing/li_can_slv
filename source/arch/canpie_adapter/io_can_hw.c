@@ -70,6 +70,7 @@ can_mainmon_type_t can_hw_get_mainmon_type(void)
 }
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
+#ifdef LI_CAN_SLV_SYS_OBJ2
 #if defined(OUTER) || defined(OUTER_APP)
 li_can_slv_errorcode_t can_hw_combine_msg_obj_to_two_stage_fifo(uint16_t msg_obj, uint16_t msg_obj2)
 {
@@ -80,6 +81,7 @@ li_can_slv_errorcode_t can_hw_combine_msg_obj_to_two_stage_fifo(uint16_t msg_obj
 	msg_obj2 = msg_obj2;
 	return (LI_CAN_SLV_ERR_OK);
 }
+#endif // #ifdef LI_CAN_SLV_SYS_OBJ2
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 /*--------------------------------------------------------------------------*/

@@ -68,6 +68,7 @@ li_can_slv_errorcode_t can_hw_init(void);
 can_mainmon_type_t can_hw_get_mainmon_type(void);
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 
+#ifdef LI_CAN_SLV_SYS_OBJ2
 #if defined(OUTER) || defined(OUTER_APP)
 /*!
  * \brief combine two message objects to FIFO
@@ -76,6 +77,7 @@ can_mainmon_type_t can_hw_get_mainmon_type(void);
  * \return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 extern li_can_slv_errorcode_t can_hw_combine_msg_obj_to_two_stage_fifo(uint16_t msg_obj, uint16_t msg_obj2);
+#endif // #ifdef LI_CAN_SLV_SYS_OBJ2
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
 #ifdef __cplusplus

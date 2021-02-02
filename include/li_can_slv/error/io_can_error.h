@@ -42,7 +42,7 @@ extern "C" {
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
 #ifndef LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE
-#define LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE	16 /**<number of possible application error queue entries */
+#define LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE	(16u) /**<number of possible error entries */
 #endif // #ifndef LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE
 
 /*--------------------------------------------------------------------------*/
