@@ -16,7 +16,7 @@ Functions
 Init, Start and State
 `````````````````````
 
-.. doxygenfunction:: lcsa_init(can_config_bdr_t baudrate)
+.. doxygenfunction:: lcsa_init(lcsa_bdr_t baudrate)
 
 .. doxygenfunction:: lcsa_start(void)
 
