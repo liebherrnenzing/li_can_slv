@@ -64,19 +64,11 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-#if CP_VERSION_MAJOR <= 2
-#define CANPIE_STATE_BUS_ACTIVE	(CP_STATE_BUS_ACTIVE)
-#define CANPIE_STATE_BUS_PASSIVE	(CP_STATE_BUS_PASSIVE)
-#define CANPIE_STATE_BUS_OFF	(CP_STATE_BUS_OFF)
-#define CANPIE_ERR_TYPE_NONE	(CP_ERR_TYPE_NONE)
-#define CANPIE_ERR_TYPE_FORM	(CP_ERR_TYPE_FORM)
-#else // #if CP_VERSION_MAJOR <= 2
 #define CANPIE_STATE_BUS_ACTIVE	(eCP_STATE_BUS_ACTIVE)
 #define CANPIE_STATE_BUS_PASSIVE	(eCP_STATE_BUS_PASSIVE)
 #define CANPIE_STATE_BUS_OFF	(eCP_STATE_BUS_OFF)
 #define CANPIE_ERR_TYPE_NONE	(eCP_ERR_TYPE_NONE)
 #define CANPIE_ERR_TYPE_FORM	(eCP_ERR_TYPE_FORM)
-#endif // #if CP_VERSION_MAJOR <= 2
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -115,15 +107,7 @@ uint8_t can_mon_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 
 	canid = CpMsgGetStdId(ptsCanMsgV);
 	CpCoreBufferGetDlc(&can_port_mon, ubBufferIdxV, &dlc);
-#if CP_VERSION_MAJOR <= 2
-	CpCoreBufferGetData(&can_port_mon, ubBufferIdxV, &(data[0]));
-#else // #if CP_VERSION_MAJOR <= 2
 	CpCoreBufferGetData(&can_port_mon, ubBufferIdxV, &(data[0]), 0, dlc);
-#endif // #if CP_VERSION_MAJOR <= 2
-
-#if CP_VERSION_MAJOR <= 2
-	ubBufferIdxV = ubBufferIdxV - 1;
-#endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_MON_HW_HANDLER
 	LI_CAN_SLV_DEBUG_PRINT("rx obj: %d id: 0x%x\n", ubBufferIdxV, canid);

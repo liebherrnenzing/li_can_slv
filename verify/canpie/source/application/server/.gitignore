@@ -1,0 +1,5 @@
+/translations/*.qm
+/ui_*.h
+/debug
+/release
+qrc_server.cpp

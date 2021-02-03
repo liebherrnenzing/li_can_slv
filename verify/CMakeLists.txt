@@ -10,9 +10,19 @@ list (APPEND li_can_slv_test_HEADER
 	${CMAKE_CURRENT_SOURCE_DIR}/io_app_incx
 	${CMAKE_CURRENT_SOURCE_DIR}/io_app_inxy
 	${CMAKE_CURRENT_SOURCE_DIR}/io_app_ma_w
+	
+	${CMAKE_CURRENT_SOURCE_DIR}/canpie/source/misc    
+    ${CMAKE_CURRENT_SOURCE_DIR}/canpie/source/canpie-fd
+    ${CMAKE_CURRENT_SOURCE_DIR}/canpie-fd_device
+   
 )
 
 list (APPEND li_can_slv_test_SOURCE
+
+	canpie-fd_device/unittest_canpie-fd.c
+	canpie/source/canpie-fd/cp_msg.c
+	canpie/source/canpie-fd/cp_fifo.c
+	
 	io_app_conv/io_app_convc.c
 	io_app/io_app_module_change.c
 	unity/src/unity.c
@@ -55,21 +65,21 @@ add_executable(li_can_slv_core_test source/li_can_slv_core_test.c source/li_can_
 target_include_directories(li_can_slv_core_test PUBLIC ${li_can_slv_test_HEADER})
 target_compile_definitions(li_can_slv_core_test PRIVATE UNITY_INCLUDE_CONFIG_H)
 target_compile_options(li_can_slv_core_test PUBLIC -O0 -ggdb)
-target_link_libraries(li_can_slv_core_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
+target_link_libraries(li_can_slv_core_test li_can_slv_core li_can_slv_xload li_can_slv_arch_canpie)
 add_test(NAME li_can_slv_core_test COMMAND li_can_slv_core_test)
 
 add_executable(li_can_slv_error_test source/li_can_slv_error_test.c source/li_can_slv_error_test_Runner.c ${li_can_slv_test_SOURCE})
 target_include_directories(li_can_slv_error_test PUBLIC ${li_can_slv_test_HEADER})
 target_compile_definitions(li_can_slv_error_test PRIVATE UNITY_INCLUDE_CONFIG_H)
 target_compile_options(li_can_slv_error_test PUBLIC -O0 -ggdb)
-target_link_libraries(li_can_slv_error_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
+target_link_libraries(li_can_slv_error_test li_can_slv_core li_can_slv_xload li_can_slv_arch_canpie)
 add_test(NAME li_can_slv_error_test COMMAND li_can_slv_error_test)
 
 add_executable(li_can_slv_sync_test source/li_can_slv_sync_test.c source/li_can_slv_sync_test_Runner.c ${li_can_slv_test_SOURCE})
 target_include_directories(li_can_slv_sync_test PUBLIC ${li_can_slv_test_HEADER})
 target_compile_definitions(li_can_slv_sync_test PRIVATE UNITY_INCLUDE_CONFIG_H)
 target_compile_options(li_can_slv_sync_test PUBLIC -O0 -ggdb)
-target_link_libraries(li_can_slv_sync_test li_can_slv_core li_can_slv_xload li_can_slv_arch_win_unittest)
+target_link_libraries(li_can_slv_sync_test li_can_slv_core li_can_slv_xload li_can_slv_arch_canpie)
 add_test(NAME li_can_slv_sync_test COMMAND li_can_slv_sync_test)
 
 add_custom_target(unittest_run

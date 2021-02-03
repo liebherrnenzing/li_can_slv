@@ -178,15 +178,6 @@ li_can_slv_errorcode_t error_syserr_send_with_info_byte(li_can_slv_errorcode_t e
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-/**
- * @param msg_code message code
- * @param add_info additional info
- * @param priority error priority
- * @param group error group
- * @param subgroup error subgroup
- * @param module_nr module number
- * @return LI_CAN_SLV_ERR_OK if successful
- */
 li_can_slv_errorcode_t can_error_sys_error_send_full(msg_code_t msg_code, byte_t add_info, li_can_slv_msg_priority_t priority, byte_t group, byte_t subgroup, li_can_slv_module_nr_t module_nr)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;

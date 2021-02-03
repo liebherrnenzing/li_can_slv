@@ -584,9 +584,8 @@ void can_main_sync_send_process_data(void)
 	uint16_t send_current; /**< bit position of current send flag */
 
 #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
-	LI_CAN_SLV_DEBUG_PRINT("can_main_sync tx data\n");
-	LI_CAN_SLV_DEBUG_PRINT("ctrl.send: %08lx\n", can_main_sync_process_tx_data_ctrl.send);
-#endif /* #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA */
+	LI_CAN_SLV_DEBUG_PRINT("can_main_sync_send_process_data\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_MAIN_SYNC_PROCESS_TX_DATA
 
 	/*----------------------------------------------------------------------*/
 	/* check if any synchronous process transmit are valid                  */
@@ -643,7 +642,7 @@ void can_main_sync_send_process_data(void)
 			else
 			{
 				/**
-				 * @toto add error handling
+				 * @todo add error handling
 				 */
 			}
 

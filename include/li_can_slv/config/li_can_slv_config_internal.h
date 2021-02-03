@@ -54,7 +54,7 @@ extern "C" {
  */
 
 /**
- * @todo add more documentation for boot
+ * @todo add more documentation for LI_CAN_SLV_BOOT
  */
 //#define LI_CAN_SLV_BOOT
 #else // #ifdef __DOXYGEN__
@@ -443,11 +443,7 @@ extern "C" {
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
 #include "canpie.h"
-#if CP_VERSION_MAJOR <= 2
-#define LI_CAN_SLV_MAIN_ARCH	CP_CHANNEL_1
-#else
 #define LI_CAN_SLV_MAIN_ARCH	eCP_CHANNEL_1
-#endif
 #endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
 #endif // #ifdef __DOXYGEN__
 
@@ -459,11 +455,7 @@ extern "C" {
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MAIN_NODE
 #include "canpie.h"
-#if CP_VERSION_MAJOR <= 2
-#define LI_CAN_SLV_MAIN_ARCH	CP_CHANNEL_2
-#else
 #define LI_CAN_SLV_MAIN_ARCH	eCP_CHANNEL_2
-#endif
 #endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MAIN_NODE
 #endif // #ifdef __DOXYGEN__
 
@@ -475,11 +467,7 @@ extern "C" {
 #else // #ifdef __DOXYGEN__
 #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MON_NODE
 #include "canpie.h"
-#if CP_VERSION_MAJOR <= 2
-#define LI_CAN_SLV_MON_ARCH	CP_CHANNEL_2
-#else
 #define LI_CAN_SLV_MON_ARCH	eCP_CHANNEL_2
-#endif
 #endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MON_NODE
 #endif // #ifdef __DOXYGEN__
 

@@ -67,7 +67,7 @@ void setUp(void)
 // tearDown will be called after each test
 void tearDown(void)
 {
-
+	//	li_can_slv_deinit();
 }
 
 /**

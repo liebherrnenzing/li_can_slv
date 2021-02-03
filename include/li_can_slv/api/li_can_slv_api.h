@@ -327,7 +327,7 @@ extern "C" {
 #define lcsa_send_module_error_with_add_info(msg_code, add_info, priority, group, subgroup, module_nr)	can_error_sys_error_send_full(msg_code, add_info, priority, group, subgroup, module_nr) /**< send module error with info */
 
 /**
- * @def lcsa_send_module_error_with_add_info(msg_code, add_info, priority, group, subgroup, module_nr)
+ * @def lcsa_send_module_error_short_with_add_info(msg_code, add_info, priority, module_nr)
  * @param msg_code message code of the error
  * @param add_info additional signed info byte
  * @param priority the priority used for this message. Usage of #LCSA_ERROR_MSG_PRIO_INFO, #LCSA_ERROR_MSG_PRIO_WARNING or #LCSA_ERROR_MSG_PRIO_ERROR is possible.

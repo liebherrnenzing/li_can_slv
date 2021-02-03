@@ -1,8 +1,4 @@
-blocking: msg_obj = 9, can_id = 0x103, dlc = 8,  04 46 52 43 32 1E 74 DE 
-blocking: module_type: FRC2, serial_number: 1995998
-blocking: msg_obj = 9, can_id = 0x11B, dlc = 8,  04 49 4E 43 58 1E 74 DE 
-blocking: module_type: INCX, serial_number: 1995998
-blocking: msg_obj = 9, can_id = 0x13B, dlc = 8,  04 49 4E 58 59 1E 74 DE 
-blocking: module_type: INXY, serial_number: 1995998
-blocking: msg_obj = 9, can_id = 0x1C3, dlc = 8,  04 4D 41 5F 57 1E 74 DE 
-blocking: module_type: MA_W, serial_number: 1995998
+CpCoreBufferSend: 10 std_can_id = 0x103, dlc = 8, 04 46 52 43 32 1E 74 DE 
+CpCoreBufferSend: 10 std_can_id = 0x11B, dlc = 8, 04 49 4E 43 58 1E 74 DE 
+CpCoreBufferSend: 10 std_can_id = 0x13B, dlc = 8, 04 49 4E 58 59 1E 74 DE 
+CpCoreBufferSend: 10 std_can_id = 0x1C3, dlc = 8, 04 4D 41 5F 57 1E 74 DE 

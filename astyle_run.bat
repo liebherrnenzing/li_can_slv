@@ -10,5 +10,5 @@ cd %RETURN_PATH%
 
 set RETURN_PATH=%cd%
 cd verify
-call .\..\astyle.bat *.h *.c %* --exclude=unity --exclude=xtfw
+call .\..\astyle.bat *.h *.c %* --exclude=unity --exclude=xtfw --exclude=canpie
 cd %RETURN_PATH%

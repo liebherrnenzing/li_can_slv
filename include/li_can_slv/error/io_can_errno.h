@@ -54,17 +54,17 @@ extern "C" {
 /*********************************************************/
 /* groups */
 /*********************************************************/
-/*!
- * \name message groups
+/**
+ * @name message groups
  */
-/*@{*/
+/** @{ */
 #define MSG_GROUP_UNDEFINED							0x00000000L /*! service code group definition: undefined/unknown/unused */
 #define MSG_GROUP_CAN								0x70000000L /*!< service code group definition: CAN bus */
 
 #define MSG_CODE_MASK								0x00FFFFFFL /*!< */
 #define MSG_SUBGROUP_MASK							0x0F000000L /*!< */
 #define MSG_GROUP_MASK								0xF0000000L /*!< */
-/*@}*/
+/** @} */
 
 /*********************************************************/
 /* subgroups */
@@ -72,7 +72,7 @@ extern "C" {
 /**
  * @name message subgroups
  */
-/*@{*/
+/**@{ */
 #define MSG_SUBGROUP_UNDEFINED						0x00000000L /*!< service code subgroup definition: undefined/unknown/unused */
 #define MSG_SUBGROUP_CAN_SYSTEM						0x01000000L /*!< service code subgroup definition for group CAN bus: system layer */
 #define MSG_SUBGROUP_CAN_APPLICATION				0x02000000L /*!< service code subgroup definition for group CAN bus: application layer */
@@ -84,6 +84,7 @@ extern "C" {
 #define MSG_SUBGROUP_CAN_UTILITIES					0x08000000L /*!< service code subgroup definition for group CAN bus: utilities */
 #define MSG_SUBGROUP_CAN_RECORDER					0x09000000L /*!< service code subgroup definition for group CAN bus: recorder subsystem */
 #define MSG_SUBGROUP_CAN_SENSOR						0x0A000000L /*!< service code subgroup definition for group CAN bus: sensor subsystem */
+/** @} */
 
 #define MSG_SG_SHIFT(x) ((li_can_slv_errorcode_t)((msg_code_t)(x) >> 12)) /*!< Adopt subgroup information from 32 value to fit into 16 Bit value (module internal) */
 
@@ -96,7 +97,6 @@ extern "C" {
 #define MSG_EXTRACT_SUBGROUP(x) ((byte_t)((((msg_code_t)(x)) & (MSG_SUBGROUP_MASK))>>24))
 #define MSG_EXTRACT_GROUP(x) ((byte_t)((((msg_code_t)(x)) & (MSG_GROUP_MASK))>>28))
 #define MSG_EXTRACT_GROUP_SUBGROUP(x) ((byte_t)((((msg_code_t)(x)) & (MSG_GROUP_MASK | MSG_SUBGROUP_MASK))>>24))
-/*@}*/
 
 #define LI_CAN_SLV_ERR_OK	(0x0000u) /**<no error occured */
 #define LI_CAN_SLV_ERR_NOT_IMPLEMENTED (ERR_MSG_CAN_NOT_IMPLEMENTED)

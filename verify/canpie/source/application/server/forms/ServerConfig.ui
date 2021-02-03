@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ServerConfig</class>
+ <widget class="QDialog" name="ServerConfig">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>640</width>
+    <height>480</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>640</width>
+    <height>480</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/images/network-icon.png</normaloff>:/images/network-icon.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <widget class="QPushButton" name="pclBtnCloseM">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>440</y>
+     <width>113</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="pclTabConfigM">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>611</width>
+     <height>401</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="pclTabConfigNetworkM">
+    <attribute name="title">
+     <string>Network configuration</string>
+    </attribute>
+    <widget class="QGroupBox" name="pclGrpNetworkConfM">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>5</y>
+       <width>451</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>CAN configuration</string>
+     </property>
+     <widget class="QComboBox" name="pclCbbNetNomBitrateM">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>28</y>
+        <width>131</width>
+        <height>26</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclLblNetNomBitrateM">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>30</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nominal Bit-rate</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pclCkbNetErrorFramesM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>171</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Error frames</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pclCkbNetCanFdM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>171</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CAN-FD support</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pclCkbNetListenOnlyM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>171</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Listen-only</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclLblNetDatBitrateM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>60</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Data Bit-rate</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="pclCbbNetDatBitrateM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>58</y>
+        <width>131</width>
+        <height>26</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pclPbtNetDevSpecificConfigM">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>110</y>
+        <width>201</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Device Configuration</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="pclGrpNetworkStatM">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>160</y>
+       <width>451</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>CAN statistics</string>
+     </property>
+     <widget class="QProgressBar" name="pclPgbStatLoadM">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>30</y>
+        <width>181</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Bus load in percent</string>
+      </property>
+      <property name="value">
+       <number>50</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclLblStatMsgM">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Messages / sec:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclLblStatErrM">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Error frames:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclLblStatCanM">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CAN frames:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclCntStatCanM">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>60</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string notr="true">0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclCntStatErrM">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>90</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string notr="true">0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclCntStatMsgM">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>30</y>
+        <width>91</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string notr="true">0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="Line" name="line_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>20</y>
+       <width>20</width>
+       <height>341</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="pclGrpNetworkStatusM">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>290</y>
+       <width>451</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>CAN status</string>
+     </property>
+     <widget class="QLabel" name="pclTxtStatusBusM">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>121</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Error active</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="pclBtnStatusResetM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>20</y>
+        <width>36</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string notr="true">Reset CAN interface</string>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="whatsThis">
+       <string notr="true"/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 0px;</string>
+      </property>
+      <property name="text">
+       <string notr="true"/>
+      </property>
+      <property name="icon">
+       <iconset resource="../server.qrc">
+        <normaloff>:/images/mc_reset_256.png</normaloff>:/images/mc_reset_256.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="popupMode">
+       <enum>QToolButton::DelayedPopup</enum>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonIconOnly</enum>
+      </property>
+      <property name="autoRaise">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="pclTabConfigServerM">
+    <attribute name="title">
+     <string>Server configuration</string>
+    </attribute>
+    <widget class="QPushButton" name="pclBtnConfigDefaultM">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>340</y>
+       <width>191</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Set default values</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="pclGrpNetworkM">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>5</y>
+       <width>561</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Access via network</string>
+     </property>
+     <widget class="QCheckBox" name="pclChkServerRemoteAccessM">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>481</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Allow access to server from remote computer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="pclLblSrvPortM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>161</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CANpie FD server port</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="pclEdtSrvPortM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>60</y>
+        <width>113</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="maxLength">
+       <number>6</number>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="pclGrpSettingM">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>225</y>
+       <width>561</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>CAN network </string>
+     </property>
+     <widget class="QCheckBox" name="pclChkDisableNetworkM">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>60</y>
+        <width>191</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Allow to disable a network </string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pclChkDisableNotificationM">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>401</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Suppress notifications (bus-off, error conditions)</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pclChkBusOffRecoverM">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>401</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Recover from bus-off automatically</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="pclGrpApplicationM">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>115</y>
+       <width>561</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Access via application</string>
+     </property>
+     <widget class="QCheckBox" name="pclChkChangeBitrateM">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>481</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Allow application to change bit-rate settings</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pclChkChangeModeM">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>481</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Allow application to change operation mode (e.g. listen-only)</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="pclTabConfigInfoM">
+    <attribute name="title">
+     <string>Information</string>
+    </attribute>
+    <widget class="QLabel" name="pclLblInfoIconM">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>271</width>
+       <height>100</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../server.qrc">:/images/canpie_fd_logo.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="pclLblInfoVersionM">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>60</y>
+       <width>261</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string notr="true">CANpie FD Server Version 0.82</string>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="pclTrwNetworkM">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>561</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="itemsExpandable">
+      <bool>true</bool>
+     </property>
+     <column>
+      <property name="text">
+       <string>CAN</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Connections</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Interface</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Version</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="pclTabConfigPluginM">
+    <attribute name="title">
+     <string>Plugins</string>
+    </attribute>
+    <widget class="QTreeWidget" name="pclTrwPluginM">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>40</y>
+       <width>541</width>
+       <height>192</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>Plug-In</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Version</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>420</y>
+     <width>611</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>pclTabConfigM</tabstop>
+  <tabstop>pclCkbNetCanFdM</tabstop>
+  <tabstop>pclCbbNetNomBitrateM</tabstop>
+  <tabstop>pclCbbNetDatBitrateM</tabstop>
+  <tabstop>pclCkbNetErrorFramesM</tabstop>
+  <tabstop>pclCkbNetListenOnlyM</tabstop>
+  <tabstop>pclPbtNetDevSpecificConfigM</tabstop>
+  <tabstop>pclBtnStatusResetM</tabstop>
+  <tabstop>pclBtnCloseM</tabstop>
+  <tabstop>pclChkServerRemoteAccessM</tabstop>
+  <tabstop>pclEdtSrvPortM</tabstop>
+  <tabstop>pclChkChangeBitrateM</tabstop>
+  <tabstop>pclChkDisableNetworkM</tabstop>
+  <tabstop>pclChkDisableNotificationM</tabstop>
+  <tabstop>pclBtnConfigDefaultM</tabstop>
+  <tabstop>pclTrwNetworkM</tabstop>
+  <tabstop>pclTrwPluginM</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../server.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>pclBtnCloseM</sender>
+   <signal>clicked()</signal>
+   <receiver>ServerConfig</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>566</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -103,7 +103,7 @@ typedef struct
 
 
 /**
- * @typedef li_can_slv_mode_t
+ * @typedef li_can_slv_node_mode_t
  * @brief defines the mode of the used can node
  */
 typedef enum

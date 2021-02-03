@@ -825,14 +825,6 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 
 	li_can_slv_reconnect_process_off();
 
-#ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
-#if CP_VERSION_MAJOR <= 2
-#if (MC_TARGET == MC_FAM_STM32F103)
-	CAN1->ESR = 0;
-#endif
-#endif
-#endif // #ifdef LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
-
 #if defined(OUTER) || defined(OUTER_APP)
 	// free all async/sys/sync CAN TX objects for sending
 	can_main_hw_free_tx_objs();

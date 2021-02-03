@@ -43,15 +43,6 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-#if CP_VERSION_MAJOR <= 2
-#define CAN_LEC_NO_ERROR						CP_ERR_TYPE_NONE /*!< */
-#define CAN_LEC_STUFF							CP_ERR_TYPE_STUFF /*!< */
-#define CAN_LEC_FORM							CP_ERR_TYPE_FORM /*!< */
-#define CAN_LEC_ACK								CP_ERR_TYPE_ACK /*!< */
-#define CAN_LEC_BIT1							CP_ERR_TYPE_BIT1 /*!< */
-#define CAN_LEC_BIT0							CP_ERR_TYPE_BIT0 /*!< */
-#define CAN_LEC_CRC								CP_ERR_TYPE_CRC /*!< */
-#else // #if CP_VERSION_MAJOR <= 2
 #define CAN_LEC_NO_ERROR						eCP_ERR_TYPE_NONE /*!< */
 #define CAN_LEC_STUFF							eCP_ERR_TYPE_STUFF /*!< */
 #define CAN_LEC_FORM							eCP_ERR_TYPE_FORM /*!< */
@@ -59,8 +50,8 @@ extern "C" {
 #define CAN_LEC_BIT1							eCP_ERR_TYPE_BIT1 /*!< */
 #define CAN_LEC_BIT0							eCP_ERR_TYPE_BIT0 /*!< */
 #define CAN_LEC_CRC								eCP_ERR_TYPE_CRC /*!< */
-#endif // #if CP_VERSION_MAJOR <= 2
-#define CAN_LEC_NOT_DEFINED						-1 /*!< */
+
+#define CAN_LEC_NOT_DEFINED						(-1) /*!< */
 
 #define CAN_PORT_STATIC_INLINE LI_CAN_SLV_PORT_STATIC_INLINE
 

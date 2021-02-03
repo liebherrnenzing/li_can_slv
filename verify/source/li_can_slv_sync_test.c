@@ -56,6 +56,8 @@
 
 #include "io_app_module_change.h"
 
+#include "unittest_canpie-fd.h"
+
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -151,6 +153,8 @@ void tearDown(void)
 {
 	// for next test
 	reinit = TRUE;
+	//	li_can_slv_deinit();
+
 }
 
 /**
@@ -163,7 +167,7 @@ void test_process_req(void)
 	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 	int ret;
 
-	can_main_hw_set_log_file_name("tc_process_req.log");
+	can_main_hw_set_log_file_name("_tc_process_req.log");
 	ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -191,35 +195,14 @@ void test_process_req(void)
 
 	XTFW_ASSERT_EQUAL_INT(1, first_process_request_cnt);
 
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_process_req.log");
+	ret = doesFileExist("_tc_process_req.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("tc_process_req_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_process_req.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_process_req.log");
 
 	// use a second process request to check that the callback did not happen.
 	first_process_request_cnt = 0;
@@ -240,7 +223,7 @@ void test_sync_check_image_not_valid(void)
 	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 	int ret;
 
-	can_main_hw_set_log_file_name("test_sync_check_image_not_valid.log");
+	can_main_hw_set_log_file_name("_test_sync_check_image_not_valid.log");
 	ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -264,28 +247,6 @@ void test_sync_check_image_not_valid(void)
 	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-
 	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
@@ -300,27 +261,6 @@ void test_sync_check_image_not_valid(void)
 	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-
 	can_main_hw_log_close();
 
 	XTFW_ASSERT_EQUAL_INT(1, app_frc2_image_valid_cnt);
@@ -330,12 +270,12 @@ void test_sync_check_image_not_valid(void)
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
 
-	ret = doesFileExist("test_sync_check_image_not_valid.log");
+	ret = doesFileExist("_test_sync_check_image_not_valid.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("test_sync_check_image_not_valid_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "test_sync_check_image_not_valid.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_test_sync_check_image_not_valid.log");
 }
 
 /**
@@ -347,8 +287,7 @@ void test_sync_check_image_valid(void)
 	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 	int ret;
 
-
-	can_main_hw_set_log_file_name("test_sync_check_image_valid.log");
+	can_main_hw_set_log_file_name("_test_sync_check_image_valid.log");
 	ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -373,28 +312,6 @@ void test_sync_check_image_valid(void)
 	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	// rx processdaten module zum master
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-
 	// tx prozessdaten
 
 	// now simulate some process input data for ma_w module number 113
@@ -408,16 +325,16 @@ void test_sync_check_image_valid(void)
 	// none_blocking: msg_obj = 4, can_id = 0x3C2, dlc = 8,  00 00 00 00 00 00 00 00
 	// none_blocking: msg_obj = 1, can_id = 0x3C3, dlc = 8,  00 00 00 00 00 00 00 00
 
-	ret = can_sync_handler_rx(11, 8, 0x3c0, rx_data);
+	ret = can_sync_handler_rx(7, 8, 0x3c0, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	ret = can_sync_handler_rx(12, 8, 0x3c1, rx_data);
+	ret = can_sync_handler_rx(8, 8, 0x3c1, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	ret = can_sync_handler_rx(13, 8, 0x3c2, rx_data);
+	ret = can_sync_handler_rx(9, 8, 0x3c2, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	ret = can_sync_handler_rx(14, 8, 0x3c3, rx_data);
+	ret = can_sync_handler_rx(11, 8, 0x3c3, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
 	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
@@ -433,27 +350,6 @@ void test_sync_check_image_valid(void)
 	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-	can_main_handler_tx(1);
-
 	can_main_hw_log_close();
 
 	XTFW_ASSERT_EQUAL_INT(1, app_frc2_image_valid_cnt);
@@ -462,12 +358,12 @@ void test_sync_check_image_valid(void)
 	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
 
-	ret = doesFileExist("test_sync_check_image_valid.log");
+	ret = doesFileExist("_test_sync_check_image_valid.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("test_sync_check_image_valid_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "test_sync_check_image_valid.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_test_sync_check_image_valid.log");
 }
 
 /*--------------------------------------------------------------------------*/

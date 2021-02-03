@@ -87,7 +87,7 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* HW/architecture definitions                                              */
 /*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
+#define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
 #define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
 #define LI_CAN_SLV_ARCH_MAIN_NODE_MAX_NOF_MSG_OBJ	(32)
 #define LI_CAN_SLV_ARCH_MON_NODE_MAX_NOF_MSG_OBJ	(32)

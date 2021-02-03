@@ -56,6 +56,8 @@
 
 #include "io_app_module_change.h"
 
+#include "unittest_canpie-fd.h"
+
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -140,7 +142,7 @@ void setUp(void)
 // tearDown will be called after each test
 void tearDown(void)
 {
-
+	//li_can_slv_deinit();
 }
 
 /**
@@ -163,7 +165,7 @@ void test_sys_msg_first_status_req(void)
 	first_status_request_cnt = 0;
 	XTFW_ASSERT_EQUAL_UINT(0, first_status_request_cnt);
 
-	can_main_hw_set_log_file_name("tc_first_status_req.log");
+	can_main_hw_set_log_file_name("_tc_first_status_req.log");
 	ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -177,7 +179,7 @@ void test_sys_msg_first_status_req(void)
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_first_status_req.log");
+	ret = doesFileExist("_tc_first_status_req.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* check if the callback was called */
@@ -185,7 +187,7 @@ void test_sys_msg_first_status_req(void)
 
 	/* compare file content */
 	get_expected_file_path("tc_first_status_req_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_first_status_req.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_first_status_req.log");
 }
 
 /**
@@ -199,7 +201,7 @@ void test_sys_msg_status_req(void)
 	lcsa_module_number_t module_nr = 1;
 	uint16_t dlc = 8;
 
-	can_main_hw_set_log_file_name("tc_status_req.log");
+	can_main_hw_set_log_file_name("_tc_status_req.log");
 	int ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -213,12 +215,12 @@ void test_sys_msg_status_req(void)
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_status_req.log");
+	ret = doesFileExist("_tc_status_req.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("tc_status_req_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_status_req.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_status_req.log");
 }
 
 /**
@@ -232,7 +234,7 @@ void test_sys_msg_status_req_broadcast(void)
 	lcsa_module_number_t module_nr;
 	uint16_t dlc = 8;
 
-	can_main_hw_set_log_file_name("tc_status_req_broadcast_ma_w.log");
+	can_main_hw_set_log_file_name("_tc_status_req_broadcast_ma_w.log");
 	int ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -249,12 +251,12 @@ void test_sys_msg_status_req_broadcast(void)
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_status_req_broadcast_ma_w.log");
+	ret = doesFileExist("_tc_status_req_broadcast_ma_w.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("tc_status_req_broadcast_ma_w_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_status_req_broadcast_ma_w.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_status_req_broadcast_ma_w.log");
 }
 
 /**
@@ -270,7 +272,7 @@ void test_sys_msg_version_req(void)
 	uint16_t dlc = 8;
 	int ret;
 
-	can_main_hw_set_log_file_name("tc_version_req.log");
+	can_main_hw_set_log_file_name("_tc_version_req.log");
 	ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -284,12 +286,12 @@ void test_sys_msg_version_req(void)
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_version_req.log");
+	ret = doesFileExist("_tc_version_req.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("tc_version_req_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_version_req.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_version_req.log");
 }
 
 /**
@@ -305,7 +307,7 @@ void test_sys_msg_version_req_broadcast(void)
 	uint16_t dlc = 8;
 	int ret;
 
-	can_main_hw_set_log_file_name("tc_version_req_broadcast_frc2.log");
+	can_main_hw_set_log_file_name("_tc_version_req_broadcast_frc2.log");
 	ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -322,12 +324,12 @@ void test_sys_msg_version_req_broadcast(void)
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_version_req_broadcast_frc2.log");
+	ret = doesFileExist("_tc_version_req_broadcast_frc2.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("tc_version_req_broadcast_frc2_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_version_req_broadcast_frc2.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_version_req_broadcast_frc2.log");
 }
 
 /**
@@ -381,7 +383,7 @@ void test_sys_msg_invalid_module_number(void)
 	lcsa_module_number_t module_nr = 200;
 	uint16_t dlc = 8;
 
-	can_main_hw_set_log_file_name("tc_status_req_invalid_module_number.log");
+	can_main_hw_set_log_file_name("_tc_status_req_invalid_module_number.log");
 	int ret = can_main_hw_log_open();
 	if (ret == EXIT_FAILURE)
 	{
@@ -397,16 +399,16 @@ void test_sys_msg_invalid_module_number(void)
 	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
 
 	// send a dummy msg
-	can_main_hw_send_msg_obj_blocking(0,  0x002,  8, &rx_data[0]);
+	can_main_hw_send_msg(0x002,  8, &rx_data[0]);
 
 	can_main_hw_log_close();
 
-	ret = doesFileExist("tc_status_req_invalid_module_number.log");
+	ret = doesFileExist("_tc_status_req_invalid_module_number.log");
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
 	get_expected_file_path("tc_status_req_invalid_module_number_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "tc_status_req_invalid_module_number.log");
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_status_req_invalid_module_number.log");
 }
 
 /**

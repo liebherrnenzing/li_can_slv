@@ -42,13 +42,6 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
 /*--------------------------------------------------------------------------*/
-#if CP_VERSION_MAJOR <= 2
-// This function checks whether the chosen message object is still executing a transmit request,
-// or if the object can be accessed exclusively. 1 message object is busy 0 message object not busy
-#define CAN_HW_MSG_OBJ_BUSY(msg_obj) ((CpCoreBufferBusy(&can_port_main, msg_obj+1) == CpErr_BUFFER_BUSY) ? 1 : 0)
-#else // #if CP_VERSION_MAJOR <= 2
-#define CAN_HW_MSG_OBJ_BUSY(msg_obj) (0)
-#endif // #if CP_VERSION_MAJOR <= 2
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions                                               */

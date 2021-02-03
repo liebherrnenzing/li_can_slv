@@ -57,19 +57,11 @@
 /*--------------------------------------------------------------------------*/
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
-#if CP_VERSION_MAJOR <= 2
-#define CANPIE_MODE_START	(CP_MODE_START)
-#define CANPIE_MODE_STOP	(CP_MODE_STOP)
-#define CANPIE_MODE_LISTEN_ONLY	(CP_MODE_LISTEN_ONLY)
-#define CANPIE_BUFFER_DIR_TX	(CP_BUFFER_DIR_TX)
-#define CANPIE_BUFFER_DIR_RX	(CP_BUFFER_DIR_RX)
-#else // #if CP_VERSION_MAJOR <= 2
 #define CANPIE_MODE_START	(eCP_MODE_START)
 #define CANPIE_MODE_STOP	(eCP_MODE_STOP)
 #define CANPIE_MODE_LISTEN_ONLY	(eCP_MODE_LISTEN_ONLY)
 #define CANPIE_BUFFER_DIR_TX	(eCP_BUFFER_DIR_TRM)
 #define CANPIE_BUFFER_DIR_RX	(eCP_BUFFER_DIR_RCV)
-#endif // #if CP_VERSION_MAJOR <= 2
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */
@@ -110,11 +102,7 @@ static uint8_t mon_msg_obj_used[LI_CAN_SLV_MON_NODE_MAX_NOF_MSG_OBJ];
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_mon_hw_init(void)
 {
-#if CP_VERSION_MAJOR <= 2
-	CpCoreDriverInit(LI_CAN_SLV_MON_ARCH, &can_port_mon);
-#else // #if CP_VERSION_MAJOR <= 2
 	CpCoreDriverInit(LI_CAN_SLV_MON_ARCH, &can_port_mon, 0);
-#endif // #if CP_VERSION_MAJOR <= 2
 	CpCoreIntFunctions(&can_port_mon, can_mon_hw_handler_rx, 0L, 0L);
 
 	return (LI_CAN_SLV_ERR_OK);
@@ -197,16 +185,9 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 	uint8_t ubBufferIdxV;
 	CpStatus_tv status;
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-#if CP_VERSION_MAJOR <= 2
-	CpCanMsg_ts can_msg;
-	enum CP_BUFFER_DIR msg_dir;
-
-	ubBufferIdxV = (uint8_t)(msg_obj + 1);
-#else // #if CP_VERSION_MAJOR <= 2
 	enum CpBufferDir_e msg_dir;
 
 	ubBufferIdxV = (uint8_t) msg_obj;
-#endif // #if CP_VERSION_MAJOR <= 2
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW
 	LI_CAN_SLV_DEBUG_PRINT("can hw def msgobj:%d, id:%d\n", msg_obj, can_id);
@@ -214,12 +195,6 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 
 	// set message object to used state
 	mon_msg_obj_used[msg_obj] = TRUE;
-
-#if CP_VERSION_MAJOR <= 2
-	CpMsgClear(&can_msg);
-	CpMsgSetStdId(&can_msg, can_id);
-	CpMsgSetDlc(&can_msg, dlc);
-#endif // #if CP_VERSION_MAJOR <= 2
 
 	if (dir == CAN_CONFIG_DIR_TX)
 	{
@@ -230,12 +205,7 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 		msg_dir = CANPIE_BUFFER_DIR_RX;
 	}
 
-#if CP_VERSION_MAJOR <= 2
-	CpCoreBufferInit(&can_port_mon, &can_msg, ubBufferIdxV, msg_dir);
-	CpCoreBufferAccMask(&can_port_mon, ubBufferIdxV, acceptance_mask);
-#else // #if CP_VERSION_MAJOR <= 2
 	CpCoreBufferConfig(&can_port_mon, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
-#endif // #if CP_VERSION_MAJOR <= 2
 
 	if (eCP_ERR_NONE == status)
 	{
@@ -269,35 +239,19 @@ li_can_slv_errorcode_t can_mon_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_ent
 	switch (bdr_tab_entry->baudrate)
 	{
 		case 125:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_mon, CP_BAUD_125K);
-#else // #if CP_VERSION_MAJOR <= 2
 			CpCoreBitrate(&can_port_mon, eCP_BITRATE_125K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 			break;
 
 		case 250:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_mon, CP_BAUD_250K);
-#else // #if CP_VERSION_MAJOR <= 2
 			CpCoreBitrate(&can_port_mon, eCP_BITRATE_250K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 			break;
 
 		case 500:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_mon, CP_BAUD_500K);
-#else // #if CP_VERSION_MAJOR <= 2
 			CpCoreBitrate(&can_port_mon, eCP_BITRATE_500K, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 			break;
 
 		case 1000:
-#if CP_VERSION_MAJOR <= 2
-			CpCoreBaudrate(&can_port_mon, CP_BAUD_1M);
-#else // #if CP_VERSION_MAJOR <= 2
 			CpCoreBitrate(&can_port_mon, eCP_BITRATE_1M, eCP_BITRATE_NONE);
-#endif // #if CP_VERSION_MAJOR <= 2
 			break;
 
 		default:

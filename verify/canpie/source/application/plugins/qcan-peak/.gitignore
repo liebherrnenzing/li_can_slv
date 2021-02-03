@@ -1,0 +1,10 @@
+/objs/
+/.DS_Store
+/.qmake.stash
+/include/PCANBasic.h
+/debug
+/objs
+/release
+/Makefile*
+/moc_*.cpp
+/qrc_*.cpp

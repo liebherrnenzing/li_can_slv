@@ -172,7 +172,7 @@ uint32_t li_can_slv_sync_get_process_valid_time(void);
 uint32_t li_can_slv_sync_get_process_cycle_time(void);
 
 /**
- * @param main_pr_time_ms
+ * @param time
  * @return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t li_can_slv_sync_set_process_cycle_time(uint32_t time);

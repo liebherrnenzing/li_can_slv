@@ -85,20 +85,6 @@ target_include_directories(${PROJECT_NAME}_xload_info INTERFACE
 	$<INSTALL_INTERFACE:include>)
 
 
-############################### arch_win_unittest lib
-add_library(${PROJECT_NAME}_arch_win_unittest INTERFACE)
-
-target_sources(${PROJECT_NAME}_arch_win_unittest INTERFACE
-	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_main_hw_handler.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/windows/unittest/io_can_async_hw.c)		
-	
-target_include_directories(${PROJECT_NAME}_arch_win_unittest INTERFACE
-	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/windows/unittest>
-	$<INSTALL_INTERFACE:include/li_can_slv/arch/windows/unittest>)
-
-
 ###################################### arch_canpie lib
 add_library(${PROJECT_NAME}_arch_canpie INTERFACE)
 
@@ -114,7 +100,7 @@ target_include_directories(${PROJECT_NAME}_arch_canpie INTERFACE
 
 # interface libraries
 # li_can_slv_core, li_can_slv_core_mon, li_can_slv_reconnect, li_can_slv_xload, 
-# li_can_slv_xload_info, li_can_slv_arch_win_unittest, li_can_slv_arch_canpie
+# li_can_slv_xload_inft, li_can_slv_arch_canpie
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
 	add_subdirectory(verify)

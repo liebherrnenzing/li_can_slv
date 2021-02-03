@@ -1,1 +1,1 @@
-blocking: msg_obj = 0, can_id = 0x2, dlc = 8,  01 01 02 03 04 05 FF FE 
+CpCoreBufferSend: 10 std_can_id = 0x2, dlc = 8, 01 01 02 03 04 05 FF FE 
