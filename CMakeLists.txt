@@ -13,6 +13,11 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
 endif()
 
+# generate version string
+set(PRE_CONFIGURE_FILE "li_can_slv_version.in.h")
+set(POST_CONFIGURE_FILE "include/li_can_slv_version.h")
+include(cmake/git_watcher.cmake)
+
 ########################## core lib => li_can_slv_core
 add_library(${PROJECT_NAME}_core INTERFACE)
 
