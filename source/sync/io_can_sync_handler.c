@@ -180,6 +180,10 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 		msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
 
 		li_can_slv_sync_process_request_rx();
+		/**
+		*@todo check process image
+		*/
+		li_can_slv_sync_check_process_image();
 
 #ifdef LI_CAN_SLV_MAIN_MON
 		if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
