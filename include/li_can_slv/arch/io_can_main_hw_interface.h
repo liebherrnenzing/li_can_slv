@@ -88,6 +88,13 @@ extern li_can_slv_errorcode_t can_main_hw_free_tx_objs(void);
 extern li_can_slv_errorcode_t can_main_hw_get_next_free_msg_obj(uint16_t *msg_obj);
 
 /**
+ * @brief reserves the message object number if not used
+ * @param msg_obj number of message object
+ * @return #LI_CAN_SLV_ERR_OK or #ERR_MSG_CAN_NO_MSG_OBJ_FREE
+ */
+extern li_can_slv_errorcode_t can_main_hw_reserve_msg_obj(uint16_t msg_obj);
+
+/**
  * @brief enable main CAN-Controller node active
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */

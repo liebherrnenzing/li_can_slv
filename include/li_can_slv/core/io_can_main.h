@@ -160,5 +160,12 @@ li_can_slv_errorcode_t can_main_define_msg_obj(uint16_t msg_obj, uint16_t can_id
  */
 li_can_slv_errorcode_t can_main_get_next_free_msg_obj(uint16_t *msg_obj);
 
+/**
+ * @brief reserves at free message object number
+ * @param[out] msg_obj number of the reserved message object
+ * @return #LI_CAN_SLV_ERR_OK or #ERR_MSG_CAN_NO_MSG_OBJ_FREE
+ */
+li_can_slv_errorcode_t can_main_reserve_next_free_msg_obj(uint16_t *msg_obj);
+
 #endif // #ifndef IO_CAN_MAIN_H
 /** @} */
