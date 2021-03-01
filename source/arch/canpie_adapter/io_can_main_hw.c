@@ -351,4 +351,19 @@ li_can_slv_errorcode_t can_main_hw_send_msg(uint16_t can_id, uint16_t dlc, const
 	return err;
 }
 
+li_can_slv_errorcode_t can_main_hw_reserve_msg_obj(uint16_t msg_obj)
+{
+	li_can_slv_errorcode_t err;
+
+	err = ERR_MSG_CAN_NO_MSG_OBJ_FREE;
+
+	if ((msg_obj < LI_CAN_SLV_MAIN_NODE_MAX_NOF_MSG_OBJ) && (FALSE == msg_obj_used[msg_obj]))
+	{
+		msg_obj_used[msg_obj] = TRUE;
+		err = LI_CAN_SLV_ERR_OK;
+	}
+
+	return err;
+}
+
 /** @} */

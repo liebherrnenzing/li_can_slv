@@ -752,4 +752,18 @@ li_can_slv_errorcode_t can_main_get_next_free_msg_obj(uint16_t *msg_obj)
 	return (err);
 }
 
+li_can_slv_errorcode_t can_main_reserve_next_free_msg_obj(uint16_t *msg_obj)
+{
+	li_can_slv_errorcode_t err;
+
+	err = can_main_hw_get_next_free_msg_obj(msg_obj);
+
+	if (LI_CAN_SLV_ERR_OK == err)
+	{
+		err = can_main_hw_reserve_msg_obj(*msg_obj);
+	}
+
+	return (err);
+}
+
 /** @} */
