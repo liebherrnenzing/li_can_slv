@@ -180,6 +180,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	can_config_bdr_t baudrate;
+	li_can_slv_node_mode_t mode;
 #ifndef LI_CAN_SLV_BOOT
 	uint16_t table_pos;
 #endif // #ifndef LI_CAN_SLV_BOOT
@@ -343,7 +344,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			}
 #endif // #ifdef LI_CAN_SLV_CHANGE_CAN_BAUDRATE_DELAY
 
-			li_can_slv_node_mode_t mode = li_can_slv_get_node_mode();
+			mode = li_can_slv_get_node_mode();
 			err = li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
 			if (err == LI_CAN_SLV_ERR_OK)
 			{

@@ -118,8 +118,8 @@ extern "C" {
 #define can_port_string_cpy(dest, source)			li_can_slv_port_string_cpy(dest, source)
 #define can_port_string_n_cpy(dest, source, size)	li_can_slv_port_string_n_cpy(dest, source, size)
 
-#define can_port_transceiver_enable()	li_can_slv_port_transceiver_enable();
-#define can_port_transceiver_disable()	li_can_slv_port_transceiver_disable();
+#define can_port_transceiver_enable()	li_can_slv_port_transceiver_enable()
+#define can_port_transceiver_disable()	li_can_slv_port_transceiver_disable()
 
 #ifdef LI_CAN_SLV_BYTE_ORDER_BIG_ENDIAN
 #define can_port_swap_uint16(a)	li_can_slv_port_swap_uint16(a)
