@@ -163,9 +163,9 @@ li_can_slv_errorcode_t can_mon_hw_get_next_free_msg_obj(uint16_t *msg_obj)
 
 li_can_slv_errorcode_t can_mon_hw_enable(void)
 {
-	li_can_slv_mode_t mode;
+	li_can_slv_node_mode_t mode;
 
-	mode = li_can_slv_get_mode();
+	mode = li_can_slv_get_node_mode();
 	if (LI_CAN_SLV_MODE_LISTEN_ONLY == mode)
 	{
 		CpCoreCanMode(&can_port_mon, CANPIE_MODE_LISTEN_ONLY);
@@ -234,7 +234,7 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 	CpCoreBufferInit(&can_port_mon, &can_msg, ubBufferIdxV, msg_dir);
 	CpCoreBufferAccMask(&can_port_mon, ubBufferIdxV, acceptance_mask);
 #else // #if CP_VERSION_MAJOR <= 2
-	CpCoreBufferConfig(&can_port_mon, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
+	status = CpCoreBufferConfig(&can_port_mon, ubBufferIdxV, can_id, acceptance_mask, CP_MSG_FORMAT_CBFF, msg_dir);
 #endif // #if CP_VERSION_MAJOR <= 2
 
 	if (eCP_ERR_NONE == status)
@@ -306,7 +306,7 @@ li_can_slv_errorcode_t can_mon_hw_set_baudrate(can_config_bdr_tab_t *bdr_tab_ent
 			break;
 	}
 
-	if (li_can_slv_get_mode() == LI_CAN_SLV_MODE_OPERATIONAL)
+	if (li_can_slv_get_node_mode() == LI_CAN_SLV_MODE_OPERATIONAL)
 	{
 		CpCoreCanMode(&can_port_mon, CANPIE_MODE_START);
 	}

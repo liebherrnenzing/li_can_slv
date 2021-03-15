@@ -418,7 +418,7 @@ li_can_slv_errorcode_t can_async_rx(li_can_slv_module_nr_t module_nr, byte_t con
 	}
 
 #ifdef LI_CAN_SLV_BOOT
-	mode = li_can_slv_get_mode();
+	mode = li_can_slv_get_node_mode();
 	if ((LI_CAN_SLV_MODE_LISTEN_ONLY == mode) && (data[0] != CAN_ASYNC_DL_VERSION_REQUEST_SHORT) && (data[0] != CAN_ASYNC_DL_VERSION_REQUEST_LONG1) && (data[0] != CAN_ASYNC_DL_VERSION_REQUEST_LONG2))
 	{
 		return LI_CAN_SLV_ERR_OK;
