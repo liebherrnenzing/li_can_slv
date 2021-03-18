@@ -160,7 +160,7 @@
 /* general definitions (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
 /* CAN main general definitions */
-#define CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR	(0x00000000) /**< clear send flags of synchronous process data transmission */
+#define CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR	(0x00000000UL) /**< clear send flags of synchronous process data transmission */
 
 /*--------------------------------------------------------------------------*/
 /* structure/type definitions (private/not exported)                        */

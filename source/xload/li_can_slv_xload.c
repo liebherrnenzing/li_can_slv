@@ -1020,7 +1020,7 @@ li_can_slv_errorcode_t li_can_slv_uload_start_request2(li_can_slv_module_nr_t mo
  */
 li_can_slv_errorcode_t li_can_slv_uload_data_from_buffer(uint8_t *data, uint16_t data_length)
 {
-	errorcode_t rc = LI_CAN_SLV_ERR_OK;
+	li_can_slv_errorcode_t rc = LI_CAN_SLV_ERR_OK;
 	uint16_t i;
 	uint16_t state;
 	uint32_t systick_old;
@@ -1201,12 +1201,12 @@ li_can_slv_errorcode_t li_can_slv_uload_end(li_can_slv_module_nr_t module_nr)
 #ifdef LI_CAN_SLV_ULOAD
 /**
  * @param module_nr
- * @return #errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ * @return #li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
  */
-errorcode_t li_can_slv_uload_data_block_end(li_can_slv_module_nr_t module_nr)
+li_can_slv_errorcode_t li_can_slv_uload_data_block_end(li_can_slv_module_nr_t module_nr)
 {
 	byte_t buffer[8];
-	errorcode_t rc;
+	li_can_slv_errorcode_t rc;
 
 	buffer[0] = CAN_ASYNC_DL_DATA_BLOCK_END;
 	buffer[1] = (byte_t)((dload_buffer.bytes_cnt_of_block & 0xFF00) >> 8);

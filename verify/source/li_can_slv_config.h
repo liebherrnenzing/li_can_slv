@@ -68,6 +68,7 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 #define LI_CAN_SLV_USE_SYS_ERROR_16_BIT
 #define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_NUMBER
+#define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_TYPE
 #define LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK
 //#define LI_CAN_SLV_USE_SYS_RANDOM_STATUS_ACKNOWLEDGE
 

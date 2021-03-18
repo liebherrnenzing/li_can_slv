@@ -187,6 +187,21 @@ typedef enum
 } lcsa_module_change_voter_state_t;
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+/**
+ * @brief define the can module configuration type
+ * @struct can_config_module_tag
+ * @typedef struct can_config_module_tag can_config_module_t
+ */
+typedef struct can_config_change_module_type_tag
+{
+	li_can_slv_config_module_t *can_config_module;
+	void *rx[CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< data pointer to rx data of modules */
+	void *tx[CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< data pointer to tx data of modules */
+	void (*callback)(char_t *module_type);
+} can_config_change_module_type_t;
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+
 /*--------------------------------------------------------------------------*/
 /* global variables                                                         */
 /*--------------------------------------------------------------------------*/

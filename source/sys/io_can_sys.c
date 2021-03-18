@@ -119,7 +119,7 @@ CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_sys_version_ackn_send_version2
 CAN_PORT_STATIC_INLINE li_can_slv_errorcode_t can_sys_status_ackn_send(li_can_slv_module_nr_t module_nr, char_t *module_type, uint32_t serial_number);
 static li_can_slv_errorcode_t can_sys_set_silent_awake(const byte_t *src, li_can_slv_module_nr_t module_nr, can_config_module_silent_t silent_awake);
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
-static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_number_expected,  byte_t *mmsb, byte_t *msb, byte_t *lsb);
+static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_number_expected, const byte_t *mmsb, const byte_t *msb, const byte_t *lsb);
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 
 #ifdef LI_CAN_SLV_SYS_RANDOM_STATUS_ACKNOWLEDGE
@@ -416,7 +416,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			}
 			serial_nr = can_port_get_serialnumber();
 
-			if (check_if_serial_number_is_valid_from_can_data(serial_nr, (byte_t *) &src[5], (byte_t *) &src[6], (byte_t *) &src[7]))
+			if (check_if_serial_number_is_valid_from_can_data(serial_nr, &src[5], &src[6], &src[7]))
 			{
 				new_module_nr = (li_can_slv_module_nr_t) src[2];
 #ifdef LI_CAN_SLV_BOOT
@@ -460,7 +460,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-#if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE)
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 		case CAN_SYS_M2S_CHANGE_MODULE_TYPE:
 			if (message_is_broadcast)
 			{
@@ -470,11 +470,10 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 			if (check_if_serial_number_is_valid_from_can_data(serial_nr, &src[5], &src[6], &src[7]))
 			{
-				li_can_slv_config_change_module_type(table_pos, (char_t *)&src[1]);
+				can_config_change_module_type(table_pos, (char_t *)&src[1]);
 			}
 			break;
-#endif // #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE)
-
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 		default:
 			/*--------------------------------------------------------------*/
 			/* unknown system command										*/
@@ -839,7 +838,7 @@ static li_can_slv_errorcode_t can_sys_set_silent_awake(const byte_t *src, li_can
  * @param lsb
  * @return
  */
-static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_number_expected, byte_t *mmsb, byte_t *msb, byte_t *lsb)
+static uint8_t check_if_serial_number_is_valid_from_can_data(uint32_t serial_number_expected, const byte_t *mmsb, const byte_t *msb, const byte_t *lsb)
 {
 	uint32_t serial_nr = 0;
 

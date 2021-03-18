@@ -283,6 +283,18 @@ extern "C" {
 
 #ifdef __DOXYGEN__
 /**
+ * Use the change module type feature.
+ */
+#define LI_CAN_SLV_USE_SYS_CHANGE_MODULE_TYPE
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_USE_SYS_CHANGE_MODULE_TYPE
+#define LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+#endif
+#endif // #ifdef __DOXYGEN__
+
+
+#ifdef __DOXYGEN__
+/**
  * Use the factory reset feature.
  */
 #define LI_CAN_SLV_USE_SYS_FACTORY_RESET_CALLBACK

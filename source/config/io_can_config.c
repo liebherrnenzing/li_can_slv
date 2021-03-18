@@ -522,6 +522,36 @@ li_can_slv_config_module_t can_config_module_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MO
 };
 #endif // #ifdef LI_CAN_SLV_BOOT
 
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+can_config_change_module_type_t can_config_change_module_type_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] = /**< can configuration change module type table*/
+{
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
+	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
+#endif
+};
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
@@ -1675,34 +1705,6 @@ li_can_slv_errorcode_t can_config_set_module_silent_awake(uint16_t table_pos, ca
 }
 #endif // #ifndef LI_CAN_SLV_BOOT
 
-#ifndef LI_CAN_SLV_BOOT
-/**
- *
- * @param module_type
- * @param module_nr
- * @param desired_state
- * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
- */
-li_can_slv_errorcode_t li_can_slv_config_set_module_silent_awake_from_type_and_nr(char_t *module_type, li_can_slv_module_nr_t module_nr, can_config_module_silent_t desired_state)
-{
-	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
-	uint16_t table_pos = 0;
-
-	table_pos = get_table_pos_from_type_and_actual_module_number(module_type, module_nr);
-
-	if (table_pos < LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES)
-	{
-		err = can_config_set_module_silent_awake(table_pos, desired_state);
-	}
-	else
-	{
-		err = ERR_MSG_CAN_CONFIG_MODULE_NOT_FOUND;
-	}
-
-	return (err);
-}
-#endif // #ifndef LI_CAN_SLV_BOOT
-
 #if defined(LI_CAN_SLV_SYS_CHANGE_MODULE_NR) && !defined(LI_CAN_SLV_BOOT)
 /**
  * @brief returns the actual module number of the given logical module type
@@ -1731,7 +1733,6 @@ li_can_slv_errorcode_t can_config_get_module_nr_by_type(li_can_slv_module_nr_t *
 #if defined(OUTER) || defined(OUTER_APP)
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
 /**
- *
  * @param module_type
  * @param new_module_nr
  * @param actual_module_nr
@@ -1897,15 +1898,175 @@ li_can_slv_errorcode_t can_config_set_module_silent_awake_call_fnc(void(*pfnc)(u
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 
-/**
- *
- */
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+/**
+ * @param pfnc function pointer for module number change voter
+ */
 void li_can_slv_config_set_module_nr_change_voter(lcsa_module_change_voter_state_t (*pfnc)(char_t *module_type, li_can_slv_module_nr_t new_module_nr, li_can_slv_module_nr_t actual_module_nr))
 {
 	module_nr_change_validator = pfnc;
 }
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_NR
+
+#ifndef LI_CAN_SLV_BOOT
+/**
+ * @param module_type
+ * @param module_nr
+ * @param desired_state
+ * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
+ */
+li_can_slv_errorcode_t li_can_slv_config_set_module_silent_awake_from_type_and_nr(char_t *module_type, li_can_slv_module_nr_t module_nr, can_config_module_silent_t desired_state)
+{
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+	uint16_t table_pos = 0;
+
+	table_pos = get_table_pos_from_type_and_actual_module_number(module_type, module_nr);
+
+	if (table_pos < LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES)
+	{
+		err = can_config_set_module_silent_awake(table_pos, desired_state);
+	}
+	else
+	{
+		err = ERR_MSG_CAN_CONFIG_MODULE_NOT_FOUND;
+	}
+
+	return (err);
+}
+#endif // #ifndef LI_CAN_SLV_BOOT
+
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+/**
+ * @brief change module type of configured module
+ * @pre check matching of serial number and actual module number must have been done when calling this function
+ * @remarks changes the module type of a configured logical modules. Therefore the module type and the current module type
+ * must be valid in the CAN configuration module table.
+ * @param table_pos
+ * @param module_type_change
+ * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
+ */
+li_can_slv_errorcode_t can_config_change_module_type(uint16_t table_pos, char_t *module_type_change)
+{
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+	uint16_t i;
+	uint16_t j = 0;
+
+	if (can_config_change_module_type_tab[table_pos].can_config_module != NULL)
+	{
+		if (can_port_string_n_cmp(can_config_change_module_type_tab[table_pos].can_config_module->type, module_type_change, (CAN_CONFIG_TYPE_STRING_LENGTH - 1)) == 0)
+		{
+			/* valid change module type detected */
+			/* set new can_configuration */
+			can_port_memory_cpy(can_config_module_tab[table_pos].type, can_config_change_module_type_tab[table_pos].can_config_module->type, CAN_CONFIG_TYPE_STRING_LENGTH);
+
+			// set receive application data pointers
+			can_config_module_tab[table_pos].rx_obj = can_config_change_module_type_tab[table_pos].can_config_module->rx_obj;
+			can_config_module_tab[table_pos].rx_obj_sync = can_config_change_module_type_tab[table_pos].can_config_module->rx_obj_sync;
+			for (i = 0; i < CAN_CONFIG_NR_OF_MODULE_OBJS; i++)
+			{
+				can_config_module_tab[table_pos].rx[i] = can_config_change_module_type_tab[table_pos].rx[i];
+				can_config_module_tab[table_pos].rx_dlc[i] = can_config_change_module_type_tab[table_pos].can_config_module->rx_dlc[i];
+				can_config_module_tab[table_pos].rx_main[i] = can_config_change_module_type_tab[table_pos].can_config_module->rx_main[i];
+#ifdef LI_CAN_SLV_MON
+				can_config_module_tab[table_pos].rx_mon[i] = can_config_change_module_type_tab[table_pos].can_config_module->rx_mon[i];
+#endif // #ifdef LI_CAN_SLV_MON
+				can_config_module_tab[table_pos].rx_dlc_sync[i] = can_config_change_module_type_tab[table_pos].can_config_module->rx_dlc[i];
+				can_config_module_tab[table_pos].rx_main_sync[i] = can_config_change_module_type_tab[table_pos].can_config_module->rx_main_sync[i];
+#ifdef LI_CAN_SLV_MON
+				can_config_module_tab[table_pos].rx_mon_sync[i] = can_config_change_module_type_tab[table_pos].can_config_module->rx_mon_sync[i];
+#endif // #ifdef LI_CAN_SLV_MON
+			}
+
+			// set transmit application data pointers
+			can_config_module_tab[table_pos].tx_obj = can_config_change_module_type_tab[table_pos].can_config_module->tx_obj;
+			can_config_module_tab[table_pos].tx_obj_sync = can_config_change_module_type_tab[table_pos].can_config_module->tx_obj_sync;
+			for (i = 0; i < CAN_CONFIG_NR_OF_MODULE_OBJS; i++)
+			{
+				can_config_module_tab[table_pos].tx[i] = can_config_change_module_type_tab[table_pos].tx[i];
+				can_config_module_tab[table_pos].tx_dlc[i] = can_config_change_module_type_tab[table_pos].can_config_module->tx_dlc[i];
+				can_config_module_tab[table_pos].tx_main[i] = can_config_change_module_type_tab[table_pos].can_config_module->tx_main[i];
+#ifdef LI_CAN_SLV_MON
+				can_config_module_tab[table_pos].tx_mon[i] = can_config_change_module_type_tab[table_pos].can_config_module->tx_mon[i];
+#endif // #ifdef LI_CAN_SLV_MON
+				can_config_module_tab[table_pos].tx_dlc_sync[i] = can_config_change_module_type_tab[table_pos].can_config_module->tx_dlc[i];
+				can_config_module_tab[table_pos].tx_main_sync[i] = can_config_change_module_type_tab[table_pos].can_config_module->tx_main_sync[i];
+#ifdef LI_CAN_SLV_MON
+				can_config_module_tab[table_pos].tx_mon_sync[i] = can_config_change_module_type_tab[table_pos].can_config_module->tx_mon_sync[i];
+#endif // #ifdef LI_CAN_SLV_MON
+			}
+
+			can_main_sync_process_tx_data_ctrl.send_reg = 0x00000000UL;
+			can_main_sync_process_tx_data_ctrl.send_end = 0x00000000UL;
+
+			while (j < can_config_nr_of_modules)
+			{
+				if (can_config_module_silent[j] == LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE)
+				{
+					for (i = 0; i < can_config_module_tab[j].tx_obj; i++)
+					{
+						err = can_main_sync_process_tx_data_cnfg(j, i, can_config_module_tab[j].module_nr);
+					}
+				}
+				j++;
+			}
+
+			/* if callback is set call with new module type */
+			if (can_config_change_module_type_tab[table_pos].callback != NULL)
+			{
+				can_config_change_module_type_tab[table_pos].callback(module_type_change);
+			}
+
+		}
+
+	}
+	else
+	{
+		err = ERR_MSG_CAN_MODULE_TYPE_CHANGE_FAILED;
+	}
+
+	return (err);
+}
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+
+#ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
+/**
+ * @brief
+ * @param module_type
+ * @param can_config_module
+ * @param rx0 data pointer to application data of CAN receive object 0
+ * @param rx1 data pointer to application data of CAN receive object 1
+ * @param rx2 data pointer to application data of CAN receive object 2
+ * @param rx3 data pointer to application data of CAN receive object 3
+ * @param tx0 data pointer to application data of CAN transmit object 0
+ * @param tx1 data pointer to application data of CAN transmit object 1
+ * @param tx2 data pointer to application data of CAN transmit object 2
+ * @param tx3 data pointer to application data of CAN transmit object 3
+ * @param pfnc
+ * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
+ */
+li_can_slv_errorcode_t can_config_change_module_type_add(char_t *module_type, li_can_slv_config_module_t *can_config_module, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3, void (*pfnc)(char_t *module_type))
+{
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+	uint16_t table_pos;
+
+	err = can_config_module_type_valid(module_type, &table_pos);
+	if (err == LI_CAN_SLV_ERR_OK)
+	{
+		can_config_change_module_type_tab[table_pos].can_config_module = can_config_module;
+		can_config_change_module_type_tab[table_pos].rx[0] = rx0;
+		can_config_change_module_type_tab[table_pos].rx[1] = rx1;
+		can_config_change_module_type_tab[table_pos].rx[2] = rx2;
+		can_config_change_module_type_tab[table_pos].rx[3] = rx3;
+		can_config_change_module_type_tab[table_pos].tx[0] = tx0;
+		can_config_change_module_type_tab[table_pos].tx[1] = tx1;
+		can_config_change_module_type_tab[table_pos].tx[2] = tx2;
+		can_config_change_module_type_tab[table_pos].tx[3] = tx3;
+		can_config_change_module_type_tab[table_pos].callback = pfnc;
+	}
+
+	return (err);
+}
+#endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
