@@ -389,7 +389,7 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_CURRENT_SYSTEM_TIME:
-			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
+			return LI_CAN_SLV_ERR_OK;
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
