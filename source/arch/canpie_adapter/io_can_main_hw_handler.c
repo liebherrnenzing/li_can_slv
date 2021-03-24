@@ -184,15 +184,16 @@ uint8_t can_main_hw_handler_error(void)
 	cp_lec = cp_state.ubCanErrType;
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
-#ifdef LI_CAN_SLV_RECONNECT
 	if ((cp_state.ubCanErrState != CANPIE_STATE_BUS_ACTIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 	{
 #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
-		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->state:%d\n", cp_state.ubCanErrState));
-		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->type:%d\n", cp_state.ubCanErrType));
-		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->txcnt:%d\n", cp_state.ubCanTrmErrCnt));
-		DO_EVERY(20, LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->rxcnt:%d\n", cp_state.ubCanRcvErrCnt));
+		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->state:%d\n", cp_state.ubCanErrState);
+		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->type:%d\n", cp_state.ubCanErrType);
+		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->txcnt:%d\n", cp_state.ubCanTrmErrCnt);
+		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->rxcnt:%d\n", cp_state.ubCanRcvErrCnt);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
+
+#ifdef LI_CAN_SLV_RECONNECT
 
 #ifdef LI_CAN_SLV_MAIN_MON
 		if (CAN_MAINMON_TYPE_MAIN == can_mainmon_type)
@@ -233,8 +234,8 @@ uint8_t can_main_hw_handler_error(void)
 			(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
 		}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
-	}
 #endif // #ifdef LI_CAN_SLV_RECONNECT
+	}
 
 #ifdef LI_CAN_SLV_RECONNECT
 	// can reconnect process

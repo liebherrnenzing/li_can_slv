@@ -146,12 +146,13 @@ lcsa_errorcode_t lcsa_start(void)
 					if (err == LCSA_ERROR_OK)
 					{
 						err = lcsa_set_baudrate(can_config_get_baudrate_startup());
-
+#ifdef LI_CAN_SLV_MAIN_MON
 						// send baud rate to monitor cpu
 						if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 						{
 							li_can_slv_port_sync_baudrate(can_config_get_baudrate_startup());
 						}
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
 					}
 
 					li_can_slv_reconnect_download();
