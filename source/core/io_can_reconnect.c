@@ -107,6 +107,7 @@
 #include "io_can_main_hw.h"
 
 #include "io_can_port.h"
+#include <li_can_slv/core/io_can.h>
 #include <li_can_slv/core/li_can_slv_core_defines.h>
 #include <li_can_slv/error/li_can_slv_error_types.h>
 
@@ -852,7 +853,7 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
-		err = lcsa_set_baudrate(baud);
+		err = can_config_set_baudrate(baud);
 	}
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
@@ -1030,7 +1031,7 @@ static li_can_slv_errorcode_t can_reconnect_next_baudrate(void)
 
 	// change to listen only
 	(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
-	err = lcsa_set_baudrate(can_reconnect_bdr_table[can_reconnect.bdr_index]);
+	err = can_config_set_baudrate(can_reconnect_bdr_table[can_reconnect.bdr_index]);
 	can_reconnect.back_bdr = can_reconnect_bdr_table[can_reconnect.bdr_index];
 	if (err == LI_CAN_SLV_ERR_OK)
 	{
