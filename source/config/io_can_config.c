@@ -824,9 +824,9 @@ li_can_slv_errorcode_t can_config_set_baudrate(can_config_bdr_t baudrate)
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 			if (err == LI_CAN_SLV_ERR_OK)
 			{
-#ifdef LI_CAN_SLV_NO_XLOAD_INFO
+#ifndef LI_CAN_SLV_NO_XLOAD_INFO
 				li_can_slv_xload_info_set_can_baudrate(baudrate);
-#endif // #ifdef LI_CAN_SLV_NO_XLOAD_INFO
+#endif // #ifndef LI_CAN_SLV_NO_XLOAD_INFO
 			}
 		}
 	}
