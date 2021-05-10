@@ -195,7 +195,7 @@ typedef enum
  */
 typedef struct can_config_change_module_type_tag
 {
-	li_can_slv_config_module_t *can_config_module;
+	const li_can_slv_config_module_t *can_config_module;
 	void *rx[CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< data pointer to rx data of modules */
 	void *tx[CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< data pointer to tx data of modules */
 	void (*callback)(char_t *module_type);

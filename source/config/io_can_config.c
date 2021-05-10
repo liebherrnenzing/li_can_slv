@@ -525,30 +525,10 @@ li_can_slv_config_module_t can_config_module_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MO
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 can_config_change_module_type_t can_config_change_module_type_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] = /**< can configuration change module type table*/
 {
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 2
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 3
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 4
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 5
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 6
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 7
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
-#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
-	{NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
-#endif
+	NULL,
+	{NULL, NULL, NULL, NULL},
+	{NULL, NULL, NULL, NULL},
+	NULL
 };
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 
@@ -2042,7 +2022,7 @@ li_can_slv_errorcode_t can_config_change_module_type(uint16_t table_pos, char_t 
  * @param pfnc
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
-li_can_slv_errorcode_t can_config_change_module_type_add(char_t *module_type, li_can_slv_config_module_t *can_config_module, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3, void (*pfnc)(char_t *module_type))
+li_can_slv_errorcode_t can_config_change_module_type_add(char_t *module_type, const li_can_slv_config_module_t *can_config_module, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3, void (*pfnc)(char_t *module_type))
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t table_pos;

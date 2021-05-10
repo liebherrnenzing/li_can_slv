@@ -110,7 +110,13 @@ li_can_slv_errorcode_t can_mon_hw_init(void)
 
 li_can_slv_errorcode_t can_mon_hw_deinit(void)
 {
+	uint16_t i;
+
 	CpCoreDriverRelease(&can_port_mon);
+	for (i = 0; i < LI_CAN_SLV_MON_NODE_MAX_NOF_MSG_OBJ; i++)
+	{
+		mon_msg_obj_used[i] = FALSE;
+	}
 
 	return (LI_CAN_SLV_ERR_OK);
 }

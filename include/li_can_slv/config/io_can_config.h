@@ -173,7 +173,7 @@ li_can_slv_errorcode_t li_can_slv_config_set_module_silent_awake_from_type_and_n
 
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 li_can_slv_errorcode_t can_config_change_module_type(uint16_t table_pos, char_t *module_type_change);
-li_can_slv_errorcode_t can_config_change_module_type_add(char_t *module_type, li_can_slv_config_module_t *can_config_module, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3, void (*pfnc)(char_t *module_type));
+li_can_slv_errorcode_t can_config_change_module_type_add(char_t *module_type, const li_can_slv_config_module_t *can_config_module, void *rx0, void *rx1, void *rx2, void *rx3, void *tx0, void *tx1, void *tx2, void *tx3, void (*pfnc)(char_t *module_type));
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 
 #endif // #ifndef IO_CAN_CONFIG_H_
