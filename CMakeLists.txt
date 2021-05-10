@@ -13,10 +13,23 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
 endif()
 
+
+# Determine if li_can_slv is built as a subproject (using add_subdirectory)
+# or if it is the master project.
+if (NOT DEFINED LI_CAN_SLV_MASTER_PROJECT)
+  set(LI_CAN_SLV_MASTER_PROJECT OFF)
+  if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(LI_CAN_SLV_MASTER_PROJECT ON)
+  endif ()
+endif ()
+
+if(LI_CAN_SLV_MASTER_PROJECT)
 # generate version string
 set(PRE_CONFIGURE_FILE "li_can_slv_version.in.h")
 set(POST_CONFIGURE_FILE "include/li_can_slv_version.h")
-include(cmake/git_watcher.cmake)
+include(cmake/git_watcher.cmake) 
+endif(LI_CAN_SLV_MASTER_PROJECT)
+
 
 ########################## core lib => li_can_slv_core
 add_library(${PROJECT_NAME}_core INTERFACE)
