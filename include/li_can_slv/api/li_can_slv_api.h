@@ -224,6 +224,14 @@ extern "C" {
  * @return #LCSA_ERROR_OK if successful
  */
 #define lcsa_sync_set_whole_process_image_valid_cbk(pfnc)	can_sync_set_pr_call_fnc(pfnc)
+
+/**
+ * Set the callback function pointer for the function which should be called if the system time was received.
+ * @def lcsa_set_system_time_cbk(cbk)
+ * @param cbk function pointer to the callback
+ */
+#define lcsa_set_system_time_cbk(cbk) can_sys_set_system_time_cbk(cbk)
+
 /**
  * @}
  */

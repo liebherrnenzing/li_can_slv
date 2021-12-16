@@ -96,6 +96,8 @@
 static uint16_t can_sys_first_status_detect = 0;
 static void(*li_can_slv_sys_first_status_request_cbk)(void) = NULL;
 
+static li_can_slv_sys_system_time_cbk_funcp_t li_can_slv_sys_system_time_cbk = NULL;
+
 #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
 static li_can_slv_factory_reset_cbk_funcp_t li_can_slv_factory_reset_cbk = NULL;
 #endif // #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK
@@ -389,7 +391,14 @@ li_can_slv_errorcode_t can_sys_msg_rx(li_can_slv_module_nr_t module_nr, uint16_t
 
 #if defined(OUTER) || defined(OUTER_APP)
 		case CAN_SYS_M2S_CURRENT_SYSTEM_TIME:
-			return LI_CAN_SLV_ERR_NOT_IMPLEMENTED;
+			if (NULL != li_can_slv_sys_system_time_cbk)
+			{
+				li_can_slv_system_time_t rst;
+				rst.system_time = ((0xFF000000 & (uint32_t)src[2] << 24) | (0x00FF0000 & (uint32_t)src[3] << 16) | (0x0000FF00 & (uint32_t)src[4] << 8) | (0x000000FF & (uint32_t)(src[5])));
+				rst.time_zone_offset = (int8_t)src[6];
+				rst.dst_active = (src[7] != 0) ? (1) : (0);
+				li_can_slv_sys_system_time_cbk(rst);
+			}
 			break;
 #endif // #if defined(OUTER) || defined(OUTER_APP)
 #if defined(OUTER) || defined(OUTER_APP)
@@ -532,6 +541,14 @@ li_can_slv_errorcode_t can_sys_set_first_status_request_call_fnc(void (*pfnc)(vo
 {
 	li_can_slv_sys_first_status_request_cbk = pfnc;
 	return (LI_CAN_SLV_ERR_OK);
+}
+
+void can_sys_set_system_time_cbk(li_can_slv_sys_system_time_cbk_funcp_t cbk)
+{
+	if (NULL == li_can_slv_sys_system_time_cbk)
+	{
+		li_can_slv_sys_system_time_cbk = cbk;
+	}
 }
 
 #ifdef LI_CAN_SLV_SYS_FACTORY_RESET_CBK

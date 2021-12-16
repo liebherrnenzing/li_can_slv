@@ -49,7 +49,7 @@ if on_rtd:
     #subprocess.call('doxygen Doxyfile', cwd=str(Path(".")), shell=True)
 else:
     print("Normal build...")
-    print(os.getcwd())
+    print((os.getcwd()))
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -71,9 +71,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'li_can_slv'
-copyright = u'2018, Liebherr Werk Nenzing'
-author = u'lwn dev'
+project = 'li_can_slv'
+copyright = '2018, Liebherr Werk Nenzing'
+author = 'lwn dev'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -264,8 +264,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'li_can_slv.tex', u'li\\_can\\_slv Documentation',
-     u'lwn', 'manual'),
+    (master_doc, 'li_can_slv.tex', 'li\\_can\\_slv Documentation',
+     'lwn', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -294,7 +294,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'li_can_slv', u'li_can_slv Documentation',
+    (master_doc, 'li_can_slv', 'li_can_slv Documentation',
      [author], 1)
 ]
 
@@ -308,7 +308,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'li_can_slv', u'li_can_slv Documentation',
+    (master_doc, 'li_can_slv', 'li_can_slv Documentation',
      author, 'li_can_slv', 'One line description of project.',
      'Miscellaneous'),
 ]
@@ -328,10 +328,10 @@ texinfo_documents = [
 
 def run_invoke():
     try:
-        retcode = subprocess.call("invoke doxy", shell=True)
+        retcode = subprocess.call("invoke.exe doxy", shell=True)
         print("C1")
         if retcode < 0:
-            sys.stderr.write("invoke doxy terminated by signal %s" % (-retcode))
+            sys.stderr.write("invoke.exe doxy terminated by signal %s" % (-retcode))
     except OSError as e:
         sys.stderr.write("doxygen execution failed: %s" % e)
 
@@ -350,7 +350,7 @@ def generate_doxygen_xml(app):
 
         print("dump file: group__lcs__config__types.xml")
         with open('doxyxml/group__lcs__config__types.xml') as f:
-            print f.read()
+            print(f.read())
 
     else:
         run_invoke()
@@ -358,4 +358,4 @@ def generate_doxygen_xml(app):
 
 def setup(app):
     app.connect("builder-inited", generate_doxygen_xml)
-    app.add_stylesheet('custom.css')
+    app.add_css_file('custom.css')

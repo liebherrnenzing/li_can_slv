@@ -81,11 +81,13 @@ static uint16_t first_status_request_cnt = 0;
 static uint8_t reinit = FALSE;
 static lcsa_errorcode_t err = LCSA_ERROR_OK;
 static uint16_t reset_reason_actual = 0;
+static li_can_slv_system_time_t received_system_time;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
 static void first_status_request_cbk(void);
+static void system_time_cbk(li_can_slv_system_time_t system_time);
 static void factory_reset_cbk(uint8_t reset_reason);
 
 static int doesFileExist(const char *filename);
@@ -447,8 +449,8 @@ void test_sys_msg_broadcast_not_allowed(void)
 }
 
 /**
- * @test test_sys_msg_broadcast_not_allowed
- * @brief This test checks the handling of not allowed broadcast messages.
+ * @test test_sys_msg_broadcast_allowed
+ * @brief This test checks the handling of allowed broadcast messages.
  */
 void test_sys_msg_broadcast_allowed(void)
 {
@@ -477,6 +479,251 @@ void test_sys_msg_broadcast_allowed(void)
 	err = can_sys_msg_rx(module_nr, dlc, rx_data);
 	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, err);
 
+}
+
+/**
+ * @test test_sys_msg_stay_silent_sys
+ *   - Step 1 Status and Version Request -> all modules must answer
+ *   - Step 2 Set MA_W module silent
+ *   - Step 3 Status and Version Request -> all modules except MA_W must answer
+ *   - Step 4 Awake MA_W module
+ *   - Step 5 Status and Version Request -> all modules must answer
+ * @brief This tests if the stay silent command also works with system commands.
+ */
+void test_sys_msg_stay_silent_sys(void)
+{
+	char file_path[_MAX_PATH];
+	lcsa_errorcode_t err = LCSA_ERROR_OK;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	lcsa_module_number_t module_nr = 1;
+	uint16_t dlc = 8;
+	int ret;
+
+	/* Test Status Request CAN_SYS_M2S_STATUS_REQUEST */
+	/* All Modules must answer */
+	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;
+
+	can_main_hw_set_log_file_name("_tc_stay_s_sys_stat_norm.log");
+	ret = can_main_hw_log_open();
+	if (ret == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	can_main_hw_log_close();
+
+	ret = doesFileExist("_tc_stay_s_sys_stat_norm.log");
+	XTFW_ASSERT_EQUAL_INT(1, ret);
+
+	/* compare file content */
+	get_expected_file_path("tc_status_req_expected.log", file_path);
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_stat_norm.log");
+
+	/* -------------------------------------- */
+	/* Test Version Request CAN_SYS_M2S_VERSION_REQUEST */
+	/* All Modules must answer */
+	rx_data[0] = CAN_SYS_M2S_VERSION_REQUEST;
+
+	can_main_hw_set_log_file_name("_tc_stay_s_sys_ver_norm.log");
+	ret = can_main_hw_log_open();
+	if (ret == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	can_main_hw_log_close();
+
+	ret = doesFileExist("_tc_stay_s_sys_ver_norm.log");
+	XTFW_ASSERT_EQUAL_INT(1, ret);
+
+	/* compare file content */
+	get_expected_file_path("tc_version_req_expected.log", file_path);
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_ver_norm.log");
+
+	/* -------------------------------------- */
+	/* Stay Silent MA_W 113 SN:1995998 */
+	rx_data[0] = CAN_SYS_M2S_STAY_SILENT;
+	rx_data[1] = 0x4D; // 'M'
+	rx_data[2] = 0x41; // 'A'
+	rx_data[3] = 0x5F; // '_'
+	rx_data[4] = 0x57; // 'W'
+	rx_data[5] = 0x1E; // serial 1995998 -> hex:0x1e74de
+	rx_data[6] = 0x74;
+	rx_data[7] = 0xDE;
+
+	dlc = 8;
+	module_nr = 113;
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+
+	/* -------------------------------------- */
+	/* Test Status Request CAN_SYS_M2S_STATUS_REQUEST */
+	/* All Modules except MA_W must answer */
+	memset(rx_data, 0x00, 8);
+	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;
+	dlc = 8;
+	module_nr = 1;
+
+	can_main_hw_set_log_file_name("_tc_stay_s_sys_stat_no_ma_w.log");
+	ret = can_main_hw_log_open();
+	if (ret == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	can_main_hw_log_close();
+
+	ret = doesFileExist("_tc_stay_s_sys_stat_no_ma_w.log");
+	XTFW_ASSERT_EQUAL_INT(1, ret);
+
+	/* compare file content */
+	get_expected_file_path("tc_status_req_expected_no_ma_w.log", file_path);
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_stat_no_ma_w.log");
+
+	/* -------------------------------------- */
+	/* Test Version Request CAN_SYS_M2S_VERSION_REQUEST */
+	/* All Modules except MA_W must answer */
+	rx_data[0] = CAN_SYS_M2S_VERSION_REQUEST;
+
+	can_main_hw_set_log_file_name("_tc_stay_s_sys_ver_no_ma_w.log");
+	ret = can_main_hw_log_open();
+	if (ret == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	can_main_hw_log_close();
+
+	ret = doesFileExist("_tc_stay_s_sys_ver_no_ma_w.log");
+	XTFW_ASSERT_EQUAL_INT(1, ret);
+
+	/* compare file content */
+	get_expected_file_path("tc_version_req_expected_no_ma_w.log", file_path);
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_ver_no_ma_w.log");
+
+	/* -------------------------------------- */
+	/* Awake MA_W 113 SN:1995998 */
+	rx_data[0] = CAN_SYS_M2S_AWAKE;
+	rx_data[1] = 0x4D; // 'M'
+	rx_data[2] = 0x41; // 'A'
+	rx_data[3] = 0x5F; // '_'
+	rx_data[4] = 0x57; // 'W'
+	rx_data[5] = 0x1E; // serial 1995998 -> hex:0x1e74de
+	rx_data[6] = 0x74;
+	rx_data[7] = 0xDE;
+
+	dlc = 8;
+	module_nr = 113;
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+
+	/* -------------------------------------- */
+	/* Test Status Request CAN_SYS_M2S_STATUS_REQUEST */
+	/* All Modules must answer */
+	memset(rx_data, 0x00, 8);
+	rx_data[0] = CAN_SYS_M2S_STATUS_REQUEST;
+	dlc = 8;
+	module_nr = 1;
+
+	can_main_hw_set_log_file_name("_tc_stay_s_sys_stat_norm_2.log");
+	ret = can_main_hw_log_open();
+	if (ret == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	can_main_hw_log_close();
+
+	ret = doesFileExist("_tc_stay_s_sys_stat_norm_2.log");
+	XTFW_ASSERT_EQUAL_INT(1, ret);
+
+	/* compare file content */
+	get_expected_file_path("tc_status_req_expected.log", file_path);
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_stat_norm_2.log");
+
+	/* -------------------------------------- */
+	/* Test Version Request CAN_SYS_M2S_VERSION_REQUEST */
+	/* All Modules must answer */
+	rx_data[0] = CAN_SYS_M2S_VERSION_REQUEST;
+
+	can_main_hw_set_log_file_name("_tc_stay_s_sys_ver_norm_2.log");
+	ret = can_main_hw_log_open();
+	if (ret == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	can_main_hw_log_close();
+
+	ret = doesFileExist("_tc_stay_s_sys_ver_norm_2.log");
+	XTFW_ASSERT_EQUAL_INT(1, ret);
+
+	/* compare file content */
+	get_expected_file_path("tc_version_req_expected.log", file_path);
+	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_ver_norm_2.log");
+}
+
+/**
+ * @test test_sys_system_time
+ *   - Step 1 Do not set a system time callback
+ *   - Step 2 Receive a current system time command -> no error must occur.
+ *   - Step 3 Set a system time callback
+ *   - Step 4 Receive a current system time command -> no error must occur and the callback must be called.
+ *   - Step 5 Compare the received system time with the expected system time
+ * @brief This tests the current system time command callback.
+ */
+void test_sys_system_time(void)
+{
+	li_can_slv_system_time_t _empty_sys_time = {0};
+	li_can_slv_system_time_t _expected_sys_time = {.system_time = 1234567, .time_zone_offset = -7, .dst_active = 1};
+	lcsa_errorcode_t err = LCSA_ERROR_OK;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	lcsa_module_number_t module_nr = 1;
+	uint16_t dlc = 8;
+
+	rx_data[0] = CAN_SYS_M2S_CURRENT_SYSTEM_TIME;
+	rx_data[1] = 0x00;
+	rx_data[2] = 0x00; // -
+	rx_data[3] = 0x12; // |_ system time 1234567
+	rx_data[4] = 0xD6; // |
+	rx_data[5] = 0x87; // -
+	rx_data[6] = 0xF9; // time zone -7
+	rx_data[7] = 0x01; // dst active
+
+	memset(&received_system_time, 0x00, sizeof(li_can_slv_system_time_t));
+
+	/* Test without callback */
+	/* Receive current system time command */
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT(_empty_sys_time.system_time == received_system_time.system_time);
+	XTFW_ASSERT(_empty_sys_time.time_zone_offset == received_system_time.time_zone_offset);
+	XTFW_ASSERT(_empty_sys_time.dst_active == received_system_time.dst_active);
+
+	/* Test with callback */
+	/* set system time callback */
+	lcsa_set_system_time_cbk(&system_time_cbk);
+
+	/* Receive current system time command */
+	err = can_sys_msg_rx(module_nr, dlc, rx_data);
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT(_expected_sys_time.system_time == received_system_time.system_time);
+	XTFW_ASSERT(_expected_sys_time.time_zone_offset == received_system_time.time_zone_offset);
+	XTFW_ASSERT(_expected_sys_time.dst_active == received_system_time.dst_active);
 }
 
 /**
@@ -627,6 +874,11 @@ void test_sys_msg_factory_reset(void)
 static void first_status_request_cbk(void)
 {
 	first_status_request_cnt++;
+}
+
+static void system_time_cbk(li_can_slv_system_time_t system_time)
+{
+	received_system_time = system_time;
 }
 
 static void factory_reset_cbk(uint8_t reset_reason)

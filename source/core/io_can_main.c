@@ -523,11 +523,20 @@ void can_main_msg_obj_tx_data_cnfg(uint16_t msg_obj)
  */
 li_can_slv_errorcode_t can_main_send_queue_system_tx(li_can_slv_module_nr_t module_nr, byte_t const *src)
 {
+	can_config_module_silent_t module_silent;
 	uint16_t can_id;
+	uint16_t table_pos;
+	uint16_t module_found;
 
-	/* calculation of CAN identifier */
-	can_id = CAN_CONFIG_SYS_TX_MASK + ((module_nr - 1) << 2);
-	can_main_hw_send_msg(can_id, CAN_CONFIG_SYS_MSG_DLC, src);
+	module_found = 0;
+	if (LI_CAN_SLV_ERR_OK == can_config_module_nr_valid(module_nr, &table_pos, &module_silent, &module_found)
+	        && module_found
+	        && LI_CAN_SLV_CONFIG_MODULE_STATE_AWAKE == module_silent)
+	{
+		/* calculation of CAN identifier */
+		can_id = CAN_CONFIG_SYS_TX_MASK + ((module_nr - 1) << 2);
+		can_main_hw_send_msg(can_id, CAN_CONFIG_SYS_MSG_DLC, src);
+	}
 	return (LI_CAN_SLV_ERR_OK);
 }
 

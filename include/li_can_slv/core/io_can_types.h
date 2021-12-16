@@ -94,6 +94,10 @@ typedef uint16_t li_can_slv_module_nr_t;  /**< module number type */
 
 typedef char_t li_can_slv_module_type_t;  /**< module type type */
 
+/**
+ * @struct li_can_slv_msg_obj_t
+ * @brief defines the li_can_slv message object
+ */
 typedef struct
 {
 	uint8_t dlc;
@@ -101,6 +105,16 @@ typedef struct
 	uint8_t data[8]; /**< 8-bit data bytes */
 } li_can_slv_msg_obj_t;
 
+/**
+ * @struct li_can_slv_system_time_t
+ * @brief system time structure
+ */
+typedef struct
+{
+	uint32_t system_time; /**< system time in seconds elapsed since 00:00:00 UTC, January 1, 1970 */
+	int8_t time_zone_offset; /**< time zone offset in hours */
+	uint8_t dst_active; /**< daylight saving time active */
+} li_can_slv_system_time_t;
 
 /**
  * @typedef li_can_slv_node_mode_t
