@@ -195,7 +195,7 @@ CpStatus_tv CpCoreBufferConfig(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint32
 		if (cp_driver_log != NULL)
 		{
 			fprintf(cp_driver_log, "CpCoreBufferConfig: msg_obj = %d, can_id = %d, ", ubBufferIdxV, ulIdentifierV);
-			fprintf(cp_driver_log, "acceptance_mask = %d, dir = %d\n", ulAcceptMaskV, ubDirectionV);
+			fprintf(cp_driver_log, "acceptance_mask = %d, dir = %d\r\n", ulAcceptMaskV, ubDirectionV);
 		}
 
 		switch (ubFormatV & CP_MASK_MSG_FORMAT)
@@ -390,7 +390,7 @@ CpStatus_tv CpCoreBufferSend(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 				fprintf(can_main_hw_log, "%02X ", atsCan1MsgS[ubBufferIdxV].tuMsgData.aubByte[i]);
 			}
 
-			fprintf(can_main_hw_log, "\n");
+			fprintf(can_main_hw_log, "\r\n");
 		}
 	}
 
@@ -941,7 +941,7 @@ void can_main_hw_set_log_file_name(char *file_name)
 
 int can_main_hw_log_open(void)
 {
-	can_main_hw_log = fopen(can_main_hw_log_file_path, "w+");
+	can_main_hw_log = fopen(can_main_hw_log_file_path, "w+b");
 
 	if (NULL == can_main_hw_log)
 	{
