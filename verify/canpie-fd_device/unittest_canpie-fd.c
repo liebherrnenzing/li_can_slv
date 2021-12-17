@@ -553,7 +553,7 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 
 	(void) strncpy(cp_driver_log_file_path, cp_driver_log_file_name, sizeof(cp_driver_log_file_name));
 
-	cp_driver_log = fopen(cp_driver_log_file_path, "w+");
+	cp_driver_log = fopen(cp_driver_log_file_path, "wb+");
 
 	if (NULL == cp_driver_log)
 	{
@@ -941,7 +941,7 @@ void can_main_hw_set_log_file_name(char *file_name)
 
 int can_main_hw_log_open(void)
 {
-	can_main_hw_log = fopen(can_main_hw_log_file_path, "w+b");
+	can_main_hw_log = fopen(can_main_hw_log_file_path, "wb+");
 
 	if (NULL == can_main_hw_log)
 	{
