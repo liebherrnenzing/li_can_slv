@@ -165,7 +165,8 @@ static volatile li_can_slv_reconnect_t can_reconnect =  /**< */
 	0,
 	0L,
 	0,
-	0
+	0,
+	0L
 };
 
 static volatile uint8_t process_on_off = FALSE;
@@ -225,6 +226,10 @@ static var_change_t can_reconnect_var_change[] = /**< */
 	{VAR_STATE_FRC_SET,	"",		""},
 	{VAR_STATE_FRC_SET,	"",		""},
 	{VAR_STATE_FRC_SET,	"",		""},
+	{VAR_STATE_FRC_SET,	"",		""},
+	{VAR_STATE_FRC_SET,	"",		""},
+	{VAR_STATE_FRC_SET,	"",		""},
+	{VAR_STATE_FRC_SET,	"",		""},
 	{VAR_STATE_FRC_SET,	"",		""}
 };
 
@@ -241,10 +246,14 @@ static const var_const_t can_reconnect_var_const[] = /**< */
 #else // #ifdef IO_SMP
 static const var_const_t can_reconnect_var_const[] = /**< */
 {
-	{"canrc.state",	&can_reconnect.state,	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[0]},
-	{"canrc.cause",	&can_reconnect.cause,	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[1]},
-	{"canrc.back",	&can_reconnect.back,	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[2]},
-	{"canrc.nr",	&can_reconnect.nr,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[3]},
+	{"canrc.state",		&can_reconnect.state,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[0]},
+	{"canrc.cause",		&can_reconnect.cause,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[1]},
+	{"canrc.back",		&can_reconnect.back,			VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[2]},
+	{"canrc.nr",		&can_reconnect.nr,			VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[3]},
+	{"canrc.bdr_index",	&can_reconnect.bdr_index,	VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[4]},
+	{"canrc.id_on",		&can_reconnect.id_on,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[5]},
+	{"canrc.id_off",	&can_reconnect.id_off,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[6]},
+	{"canrc.back_bdr",	&can_reconnect.back_bdr,		VAR_UINT16,	0,	0x0000FFFFL,	1,	VAR_ID_NOT_USED,	NULL,	&can_reconnect_var_change[7]},
 	{VAR_END_OF_TABLE}
 };
 #endif // #ifdef IO_SMP
@@ -258,6 +267,10 @@ static const testsys_var_t can_reconnect_testsys[] = /**< */
 	{&can_reconnect_var_const[1],	1,	2},
 	{&can_reconnect_var_const[2],	1,	3},
 	{&can_reconnect_var_const[3],	1,	4},
+	{&can_reconnect_var_const[4],	1,	5},
+	{&can_reconnect_var_const[5],	1,	6},
+	{&can_reconnect_var_const[6],	1,	7},
+	{&can_reconnect_var_const[7],	1,	8},
 	{TESTSYS_VAR_END_OF_TABLE,		0,	0}
 };
 #endif // #ifdef SHOW_CAN_RECONNECT
@@ -577,7 +590,16 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 				return (LI_CAN_SLV_ERR_OK);
 			}
 
+#ifdef LI_CAN_SLV_RECONNECT_PROCESS_STARTUP_CHECK_LEC
+			/*
+			 * For some implementations you need to check the lec!
+			 * If the startup has no other can node which ACKs the frame you will stay in the reconnect phase
+			 * until the can_reconnect.time is reached
+			 */
+			if (intid == CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK || lec != CAN_LEC_NO_ERROR)
+#else
 			if (intid == CAN_RECONNECT_INTID_LEC_IE_TXOK_RXOK)
+#endif // #ifdef LI_CAN_SLV_RECONNECT_PROCESS_STARTUP_CHECK_LEC
 			{
 				/*----------------------------------------------------------*/
 				/* no valid event on CAN                                    */
@@ -653,11 +675,11 @@ li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec)
 						/*------------------------------------------------------*/
 						/* reset lec_cnt */
 
+						can_reconnect.lec_cnt_bit0 = 0;
 						// switch next baud rate (if time has passed)
 						if (can_port_get_system_ticks() > can_reconnect.time_next_bdr_change)
 						{
 
-							can_reconnect.lec_cnt_bit0 = 0;
 							/* switch next baud rate */
 							can_reconnect_next_baudrate();
 							can_reconnect.idle_cnt = 0;
@@ -787,11 +809,17 @@ static li_can_slv_errorcode_t can_reconnect_on(uint16_t id)
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 
 	can_reconnect.lec_cnt_bit0 = 0;
-	can_reconnect.bdr_index = 0;
 	can_reconnect.id_on = id;
-
-	//update the time stamp of next allowed baud rate change to be able to check idle time
-	can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME);
+	switch (id)
+	{
+		case 1: /* li_can_slv_reconnect_startup */
+			can_reconnect.bdr_index = 0;
+			can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME);
+			break;
+		default:
+			can_reconnect_next_baudrate();
+			break;
+	}
 
 	li_can_slv_reconnect_process_on();
 
@@ -997,6 +1025,7 @@ static li_can_slv_errorcode_t can_reconnect_off(uint16_t id)
 #endif // #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK
 	}
 
+	can_reconnect.back_time = li_can_slv_port_ticks_2_msec(can_port_get_system_ticks()); /* remember when reconnect was finished */
 	return (err);
 }
 
@@ -1043,6 +1072,16 @@ static li_can_slv_errorcode_t can_reconnect_next_baudrate(void)
 
 	return (err);
 }
+
+/*!
+ * \brief Get the time stamp when the reconnect has been finished
+ * \return time stamp of finished reconnect or 0.
+ */
+uint32_t li_can_slv_reconnect_get_back_time_ms(void)
+{
+	return can_reconnect.back_time;
+}
+
 
 #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK
 /**

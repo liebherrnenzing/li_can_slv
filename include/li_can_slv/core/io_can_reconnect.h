@@ -48,6 +48,10 @@
 #define LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME	((uint16_t)(50)) /**< baudrate switch time 50 msec default */
 #endif // #ifndef LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME
 
+#ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME
+#define LI_CAN_SLV_RECONNECT_IGNORE_RX_MS	20
+#endif // #ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME
+
 #ifndef LI_CAN_SLV_RECONNECT_STARTUP_NO_TRAFFIC_TIME
 #define CAN_RECONNECT_STARTUP_NO_TRAFFIC_TIME (600) /**< startup reconnect time 600 msec default */
 #else
@@ -133,6 +137,7 @@ typedef struct
 	uint16_t id_on;
 	uint16_t id_off;
 	li_can_slv_config_bdr_t back_bdr;
+	uint32_t back_time; /**< time stamp reconnect finished */
 } li_can_slv_reconnect_t;
 
 /*--------------------------------------------------------------------------*/
@@ -162,6 +167,7 @@ li_can_slv_errorcode_t li_can_slv_reconnect_on_mon_node_recovery(uint16_t boff);
 void li_can_slv_reconnect_process_on(void);
 void li_can_slv_reconnect_process_off(void);
 li_can_slv_errorcode_t li_can_slv_reconnect_process(int16_t intid, int16_t lec);
+uint32_t li_can_slv_reconnect_get_back_time_ms(void);
 
 #ifdef LI_CAN_SLV_RECONNECT_ONLINE_CHANGE_BAUDRATE_CBK
 void li_can_slv_reconnect_set_online_change_baudrate_start_cbk(li_can_slv_reconnect_online_change_baudrate_start_cbk_funcp_t cbk);

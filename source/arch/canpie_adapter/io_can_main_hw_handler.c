@@ -93,8 +93,10 @@
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
-//static li_can_slv_msg_obj_t can_main_hw_msg_obj;
-
+#ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
+/* if reconnect is enabled the error handler may be called from the 5ms task */
+static volatile uint32_t can_main_hw_handler_error_lock = 0;
+#endif // #ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -120,9 +122,17 @@ uint8_t can_main_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 
 	if (li_can_slv_reconnect_get_state() != CAN_RECONNECT_STATE_OFF)
 	{
+		/*TODO: what happened here ?*/
 		//		li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, CAN_LEC_NO_ERROR);
 		return (LI_CAN_SLV_ERR_OK);
 	}
+#ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME
+	/* ignore incoming frames for a time if the reconnect has finished to prevent TX-Fifo overflow */
+	if (can_port_get_system_ticks() < + can_port_msec_2_ticks((li_can_slv_reconnect_get_back_time_ms() + LI_CAN_SLV_RECONNECT_IGNORE_RX_MS)))
+	{
+		return (LI_CAN_SLV_ERR_OK);
+	}
+#endif // #ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 	// 29Bit is not handled here
@@ -179,71 +189,85 @@ uint8_t can_main_hw_handler_error(void)
 	li_can_slv_config_bdr_t current_baudrate;
 #endif
 
-	(void) CpCoreCanState(&can_port_main, &cp_state);
+#ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
+	if (can_main_hw_handler_error_lock == 0)
+	{
+		li_can_slv_port_disable_irq();
+		can_main_hw_handler_error_lock = 1;
+		li_can_slv_port_enable_irq();
+#endif // #ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
+		(void) CpCoreCanState(&can_port_main, &cp_state);
 #ifdef LI_CAN_SLV_RECONNECT
-	cp_lec = cp_state.ubCanErrType;
+		cp_lec = cp_state.ubCanErrType;
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
-	if ((cp_state.ubCanErrState != CANPIE_STATE_BUS_ACTIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
-	{
+		if ((cp_state.ubCanErrState != CANPIE_STATE_BUS_ACTIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
+		{
 #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
-		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->state:%d\n", cp_state.ubCanErrState);
-		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->type:%d\n", cp_state.ubCanErrType);
-		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->txcnt:%d\n", cp_state.ubCanTrmErrCnt);
-		LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->rxcnt:%d\n", cp_state.ubCanRcvErrCnt);
+			LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->state:%d\n", cp_state.ubCanErrState);
+			LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->type:%d\n", cp_state.ubCanErrType);
+			LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->txcnt:%d\n", cp_state.ubCanTrmErrCnt);
+			LI_CAN_SLV_DEBUG_PRINT("CAN_ERR->rxcnt:%d\n", cp_state.ubCanRcvErrCnt);
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
 
 #ifdef LI_CAN_SLV_RECONNECT
 
 #ifdef LI_CAN_SLV_MAIN_MON
-		if (CAN_MAINMON_TYPE_MAIN == can_mainmon_type)
-		{
-#endif // #ifdef LI_CAN_SLV_MAIN_MON
-			if (CAN_RECONNECT_STATE_OFF == li_can_slv_reconnect_get_state())
+			if (CAN_MAINMON_TYPE_MAIN == can_mainmon_type)
 			{
-				if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
+#endif // #ifdef LI_CAN_SLV_MAIN_MON
+				if (CAN_RECONNECT_STATE_OFF == li_can_slv_reconnect_get_state())
 				{
-					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
-					(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
+					if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
+					{
+						(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+						(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
 
-					li_can_slv_reconnect_on_main_node_recovery(1);
+						li_can_slv_reconnect_on_main_node_recovery(1);
+					}
+
+					if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE))
+						// if ((cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
+						// if (((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE)) && (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE)) // || (cp_state.ubCanErrType == CANPIE_ERR_TYPE_FORM))
+						// if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
+						// if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE) ||  ((cp_state.ubCanErrState == CANPIE_STATE_BUS_ACTIVE) && (cp_state.ubCanErrType == CANPIE_ERR_TYPE_FORM)))
+					{
+
+
+						CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
+
+						//(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+						//(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
+
+						li_can_slv_reconnect_on_main_node_online(1);
+					}
+
 				}
-
-				if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE))
-					// if ((cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
-					// if (((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE)) && (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE)) // || (cp_state.ubCanErrType == CANPIE_ERR_TYPE_FORM))
-					// if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
-					// if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE) ||  ((cp_state.ubCanErrState == CANPIE_STATE_BUS_ACTIVE) && (cp_state.ubCanErrType == CANPIE_ERR_TYPE_FORM)))
-				{
-
-
-					CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
-
-					//(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
-					//(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
-
-					li_can_slv_reconnect_on_main_node_online(1);
-				}
-
-			}
 #ifdef LI_CAN_SLV_MAIN_MON
-		}
-		else
-		{
-			(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
-			(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
-		}
+			}
+			else
+			{
+				(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_STOPPED);
+				(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
+			}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
 #endif // #ifdef LI_CAN_SLV_RECONNECT
-	}
+		}
 
 #ifdef LI_CAN_SLV_RECONNECT
-	// can reconnect process
-	if (CAN_RECONNECT_STATE_OFF != li_can_slv_reconnect_get_state())
-	{
-		li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, cp_lec);
-	}
+		// can reconnect process
+		if (CAN_RECONNECT_STATE_OFF != li_can_slv_reconnect_get_state())
+		{
+			li_can_slv_reconnect_process(li_can_slv_reconnect_main_node_msg_pending, cp_lec);
+		}
 #endif // #ifdef LI_CAN_SLV_RECONNECT
+
+#ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
+		li_can_slv_port_disable_irq();
+		can_main_hw_handler_error_lock = 0;
+		li_can_slv_port_enable_irq();
+	}
+#endif // #ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
 	return 0;
 }
 
