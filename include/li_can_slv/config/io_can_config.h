@@ -133,6 +133,7 @@ li_can_slv_errorcode_t can_config_get_module(li_can_slv_config_module_t **module
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
 li_can_slv_errorcode_t can_config_set_critical(char_t *type);
+li_can_slv_errorcode_t can_config_set_active(char_t *type);
 li_can_slv_errorcode_t can_config_sync_on(uint16_t table_pos);
 void can_config_sync_off(uint16_t table_pos);
 

@@ -1080,6 +1080,68 @@ li_can_slv_errorcode_t can_config_get_module(li_can_slv_config_module_t **module
 /**
  *
  */
+li_can_slv_errorcode_t can_config_set_active(char_t *type)
+{
+	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
+	uint16_t table_pos;
+#ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
+	uint16_t msg_obj, i;
+#endif // #ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
+	err = can_config_module_type_valid(type, &table_pos);
+	if (err != LI_CAN_SLV_ERR_OK)
+	{
+		return (err);
+	}
+
+	/*----------------------------------------------------------------------*/
+	/* switch on synchronous process                                        */
+	/*----------------------------------------------------------------------*/
+	can_config_sync_on(table_pos);
+
+#ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
+	/*----------------------------------------------------------------------*/
+	/* clear CAN message object for receiving synchronous data from         */
+	/* main CAN-controller on monitor CAN-controller                        */
+	/*----------------------------------------------------------------------*/
+	for (i = 0; i < can_config_module_tab[table_pos].tx_obj; i++)
+	{
+		msg_obj = can_config_module_tab[table_pos].tx_msg_obj_mon[i];
+		err = can_msg_obj_init(msg_obj);
+		if (err != LI_CAN_SLV_ERR_OK)
+		{
+			return (err);
+		}
+	}
+
+	/*----------------------------------------------------------------------*/
+	/* clear CAN message object for receiving synchronous data from master  */
+	/* on main & monitor CAN-controller                                     */
+	/*----------------------------------------------------------------------*/
+	for (i = 0; i < can_config_module_tab[table_pos].rx_obj; i++)
+	{
+		msg_obj = can_config_module_tab[table_pos].rx_msg_obj_main[i];
+		err = can_msg_obj_init(msg_obj);
+		if (err != LI_CAN_SLV_ERR_OK)
+		{
+			return (err);
+		}
+
+		msg_obj = can_config_module_tab[table_pos].rx_msg_obj_mon[i];
+		err = can_msg_obj_init(msg_obj);
+		if (err != LI_CAN_SLV_ERR_OK)
+		{
+			return (err);
+		}
+	}
+#endif // #ifdef LI_CAN_SLV_SYNC_CRITICAL_CLEAR_OBJ
+
+	return (err);
+}
+
+
+/**
+ *
+ */
 li_can_slv_errorcode_t can_config_set_critical(char_t *type)
 {
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
