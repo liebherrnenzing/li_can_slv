@@ -28,6 +28,6 @@ As an alternative, li_can_slv can be made available under a commercial license. 
 | Can I redistribute li_can_slv in source code format?                  | yes               | no                 |
 | Can I receive professional technical support on a commercial basis?   | no                | yes                |
 
-Contact Liebherr (oss.lwn(at)liebherr.com) to request additional information and/or a quote for a commercial license.
+Contact Liebherr (foss(at)liebherr.com) to request additional information and/or a quote for a commercial license.
 
 [Documentation for the Stack](http://li-can-slv.readthedocs.io)
