@@ -45,7 +45,7 @@
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
 #ifndef LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME
-#define LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME	((uint16_t)(50)) /**< baudrate switch time 50 msec default */
+#define LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME	((uint16_t)(2)) /**< baudrate switch time 2 msec default */
 #endif // #ifndef LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME
 
 #ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME

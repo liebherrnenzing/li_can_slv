@@ -104,6 +104,20 @@ uint8_t can_mon_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 	uint8_t data[8];
 	uint16_t canid;
 	uint8_t dlc;
+    
+#ifdef LI_CAN_SLV_RECONNECT
+	if (li_can_slv_reconnect_get_state() != CAN_RECONNECT_STATE_OFF)
+	{
+		return (LI_CAN_SLV_ERR_OK);
+	}
+#ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME
+	/* ignore incoming frames for a time if the reconnect has finished to prevent TX-Fifo overflow */
+	if (can_port_get_system_ticks() < + can_port_msec_2_ticks((li_can_slv_reconnect_get_back_time_ms() + LI_CAN_SLV_RECONNECT_IGNORE_RX_MS)))
+	{
+		return (LI_CAN_SLV_ERR_OK);
+	}
+#endif // #ifdef LI_CAN_SLV_RECONNECT_IGNORE_RX_AFTER_RECONNECT_FOR_A_TIME
+#endif // #ifdef LI_CAN_SLV_RECONNECT
 
 	canid = CpMsgGetStdId(ptsCanMsgV);
 	CpCoreBufferGetDlc(&can_port_mon, ubBufferIdxV, &dlc);

@@ -1,4 +1,5 @@
 *.txt text=auto
+*.log text eol=crlf
 
 verify/* linguist-vendored
 docs/* linguist-documentation
