@@ -3,6 +3,7 @@ ignore:
  
 codecov:
   branch: master
+  token: 40e0fd64-4fd4-454f-a308-0618417f68dd
 
 comment:
   layout: "diff"
