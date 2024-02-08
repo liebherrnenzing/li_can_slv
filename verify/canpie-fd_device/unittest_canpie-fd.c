@@ -551,7 +551,7 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 	uint8_t i;
 	CpStatus_tv tvStatusT = eCP_ERR_CHANNEL;
 
-	(void) strncpy(cp_driver_log_file_path, cp_driver_log_file_name, sizeof(cp_driver_log_file_name));
+	(void) strncpy(cp_driver_log_file_path, cp_driver_log_file_name, sizeof(cp_driver_log_file_path));
 
 	cp_driver_log = fopen(cp_driver_log_file_path, "wb+");
 

@@ -7,6 +7,6 @@ sphinxcontrib-inlinesyntaxhighlight==0.2
 sphinxcontrib-plantuml==0.19
 sphinxcontrib-seqdiag==2.0.0
 GitPython==3.1.41
-gcovr==4.2
+gcovr==5.2
 pyparsing==3.0.9
 Jinja2<3.1

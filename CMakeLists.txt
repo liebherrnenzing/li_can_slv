@@ -6,13 +6,15 @@ project(li_can_slv LANGUAGES C VERSION 2.0.0)
 # SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/project/cmake_modules)
 
 # Uncomment if you want to do profiling with gprof
-#SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
-#SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage -save-temps")
+#SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage ")
+#SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage ")
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+	message(STATUS "Do test coverage")
+    SET(CMAKE_CXX_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage")
+    SET(CMAKE_C_FLAGS "-g -O0 -Wall -W -fprofile-arcs -ftest-coverage")
     include(CTest)
 endif()
-
 
 # Determine if li_can_slv is built as a subproject (using add_subdirectory)
 # or if it is the master project.

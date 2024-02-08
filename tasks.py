@@ -13,7 +13,8 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 @task
 def env(ctx):
-    os.environ["PATH"] = os.pathsep.join(ctx.path.values()) + os.pathsep + os.environ["PATH"]
+    pass
+    #os.environ["PATH"] = os.pathsep.join(ctx.path.values()) + os.pathsep + os.environ["PATH"]
 
 
 @task
@@ -33,17 +34,14 @@ def configure(ctx):
 def cov(ctx):
     shutil.rmtree(BUILD_PATH + '/coverage', ignore_errors=True)
     os.mkdir(BUILD_PATH + '/coverage')
-    with ctx.cd(BUILD_PATH):
-        ctx.run('gcovr -r . --html --html-details -k -o ./coverage/coverage-details.html')
-
+    ctx.run('gcovr -v -r . --html --html-details -k --exclude="(.*verify/.*)|(.*source/arch/.*)|(.*include/li_can_slv/arch/.*)|(.*/coverage/.*)" --gcov-filter=".*\.c" -o ' + BUILD_PATH + '/coverage/coverage.html')
     shutil.rmtree('.//verify//artifacts', ignore_errors=True)
     shutil.move(BUILD_PATH + '/coverage', './/verify//artifacts//coverage')
 
 
 @task(env)
 def cov_xml(ctx):
-    with ctx.cd(BUILD_PATH):
-        ctx.run('gcovr -r . --xml -k -o coverage.xml')
+    ctx.run('gcovr -r . --xml -k --exclude="(.*verify/.*)|(.*source/arch/.*)|(.*include/li_can_slv/arch/.*)" --gcov-filter=".*\.c" -o coverage.xml')
 
 
 @task(env)
