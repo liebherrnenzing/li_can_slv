@@ -13,8 +13,7 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 @task
 def env(ctx):
-    pass
-    #os.environ["PATH"] = os.pathsep.join(ctx.path.values()) + os.pathsep + os.environ["PATH"]
+    os.environ["PATH"] = os.pathsep.join(ctx.path.values()) + os.pathsep + os.environ["PATH"]
 
 
 @task

@@ -2,8 +2,8 @@
 SET(CMAKE_SYSTEM_NAME Windows)
 
 # which compilers to use for C and C++
-#SET(TOOLCHAIN_PATH "c:/MinGW/bin")
-SET(TOOLCHAIN_PATH "D:/toolchains/xpacks/@xpack-dev-tools/gcc/11.2.0-1.3/.content/bin")
+SET(TOOLCHAIN_PATH "c:/MinGW/bin")
+#SET(TOOLCHAIN_PATH "D:/toolchains/xpacks/@xpack-dev-tools/gcc/11.2.0-1.3/.content/bin")
 SET(CMAKE_C_COMPILER ${TOOLCHAIN_PATH}/gcc.exe)
 SET(CMAKE_CXX_COMPILER ${TOOLCHAIN_PATH}/g++.exe)
 SET(CMAKE_RC_COMPILER ${TOOLCHAIN_PATH}/windres.exe)
