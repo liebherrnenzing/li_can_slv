@@ -21,6 +21,6 @@ build_script:
 test_script:
 - inv test
 after_test:
-- inv cov_xml
-- cd build
+- inv cov
+- cd build\coverage
 - codecov -X gcov -f coverage.xml
