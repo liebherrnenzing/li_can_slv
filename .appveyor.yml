@@ -14,7 +14,7 @@ environment:
 install:
 - choco install mingw --version=11.2.0
 - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
-- cmd: mklink /D C:\MinGW\bin C:\ProgramData\chocolatey\bin
+- cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
 build_script:
 - cmd: SET
 - cmd: where gcc
