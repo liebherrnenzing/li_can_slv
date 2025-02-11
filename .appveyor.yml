@@ -8,14 +8,14 @@ os:
 cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
-     MINGW: C:\MinGW\bin
      matrix:
      - PYTHON_DIR: C:\Python37-x64
+       MINGW: C:\MinGW\bin
 install:
 - choco install mingw --version=11.2.0
+- SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
 build_script:
-- SET
-- dir C:
-- where gcc
-- python --version
-
+- cmd: SET
+- cmd: where gcc
+- cmd: gcc --version
+- cmd: python --version
