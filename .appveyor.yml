@@ -20,5 +20,4 @@ build_script:
 - cmd: where gcc
 - cmd: gcc --version
 - cmd: python --version
-- cmd: dir C:
-- cmd: dir C:\MinGW\bin
+
