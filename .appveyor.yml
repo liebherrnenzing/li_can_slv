@@ -9,13 +9,17 @@ cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
   matrix:
+  - MINGW: C:\MinGW\bin
   - PYTHON_DIR: C:\Python37-x64
 install:
+- choco install mingw
+- SET PATH=%MINGW%;%PATH%
 - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
 - python -m pip install --upgrade pip
 - pip install -r requirements.txt
 - pip install codecov
 build_script:
+- gcc --version
 - inv configure
 - inv all
 test_script:
