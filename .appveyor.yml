@@ -19,7 +19,7 @@ install:
 - pip install -r requirements.txt
 - pip install codecov
 build_script:
-- SET
+- where gcc
 - inv configure
 - inv all
 test_script:
