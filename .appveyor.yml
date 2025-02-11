@@ -13,12 +13,12 @@ environment:
   - PYTHON_DIR: C:\Python37-x64
 install:
 - choco install mingw
-- SET PATH=%MINGW%;%PATH%
 - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
 - python -m pip install --upgrade pip
 - pip install -r requirements.txt
 - pip install codecov
 build_script:
+- SET PATH=%MINGW%;%PATH%
 - where gcc
 - inv configure
 - inv all
