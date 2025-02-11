@@ -9,8 +9,10 @@ cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
      MINGW: C:\MinGW\bin
-     PYTHON_DIR: C:\Python37-x64
+     matrix:
+     - PYTHON_DIR: C:\Python37-x64
 install:
+- ps: Install-Product
 - choco install mingw --version=11.2.0
 build_script:
 - SET
