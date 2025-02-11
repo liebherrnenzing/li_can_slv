@@ -14,10 +14,21 @@ environment:
 install:
 - choco install mingw --version=11.2.0
 - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
+- python -m pip install --upgrade pip
+- pip install -r requirements.txt
+- pip install codecov
 - cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
 build_script:
 - cmd: SET
 - cmd: where gcc
 - cmd: gcc --version
 - cmd: python --version
+- inv configure
+- inv all
+test_script:
+- inv test
+after_test:
+- inv cov
+- cd build\coverage
+- codecov -X gcov -f coverage.xml
 
