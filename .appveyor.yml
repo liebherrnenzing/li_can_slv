@@ -12,7 +12,6 @@ environment:
      PYTHON_DIR: C:\Python37-x64
 install:
 - choco install mingw --version=11.2.0
-- mklink /D C:\MinGW\bin C:\ProgramData\chocolatey\bin
 build_script:
 - SET
 - dir C:
