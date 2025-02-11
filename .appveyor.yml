@@ -8,25 +8,10 @@ os:
 cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
-  matrix:
-  - MINGW: C:\MinGW\bin
-  - PYTHON_DIR: C:\Python37-x64
-install:
-- choco install mingw --version=11.2.0
-- SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
-- python -m pip install --upgrade pip
-- pip install -r requirements.txt
-- pip install codecov
+     MINGW: C:\MinGW\bin
+     PYTHON_DIR: C:\Python37-x64
 build_script:
 - SET PATH=%MINGW%;%PATH%
+- SET
 - where gcc
-- inv configure
-- inv all
-test_script:
-- inv test
-after_test:
-- inv cov
-- cd build\coverage
-- codecov -X gcov -f coverage.xml
-on_finish:
-- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+- dir C:
