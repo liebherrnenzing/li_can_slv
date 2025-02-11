@@ -12,7 +12,6 @@ environment:
      matrix:
      - PYTHON_DIR: C:\Python37-x64
 install:
-- ps: Install-Product
 - choco install mingw --version=11.2.0
 build_script:
 - SET
