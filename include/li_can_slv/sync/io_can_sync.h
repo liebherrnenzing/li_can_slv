@@ -35,6 +35,7 @@
 #include <li_can_slv/error/li_can_slv_error_types.h>
 #include <li_can_slv/config/li_can_slv_config_defines.h>
 #include <li_can_slv/core/li_can_slv_core_defines.h>
+#include <li_can_slv/api/li_can_slv_api_types.h>
 
 /*--------------------------------------------------------------------------*/
 /* general definitions                                                      */
@@ -186,7 +187,7 @@ uint32_t li_can_slv_sync_get_process_periode(void);
 li_can_slv_errorcode_t li_can_slv_sync_set_process_time_valid_fnc(char_t *type, uint32_t(**pfnc)(void));
 li_can_slv_errorcode_t can_sync_set_pr_call_fnc(void(*pfnc)(void));
 li_can_slv_errorcode_t li_can_slv_sync_set_process_image_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void));
-li_can_slv_errorcode_t li_can_slv_sync_set_process_image_not_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void));
+li_can_slv_errorcode_t li_can_slv_sync_set_process_image_not_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(lcsa_can_sync_err_flag_t));
 li_can_slv_errorcode_t li_can_slv_sync_set_process_request_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void));
 
 
@@ -198,6 +199,7 @@ void li_can_slv_sync_trigger_process_periode(void);
 
 li_can_slv_errorcode_t can_sync_set_first_process_request_call_fnc(void (*pfnc)(void));
 void li_can_slv_sync_process_request_rx(void);
+void li_can_sync_evaluate_error(uint16_t table_pos, li_can_slv_errorcode_t err);
 
 #endif // #ifndef IO_CAN_SYNC_H
 /** @} */

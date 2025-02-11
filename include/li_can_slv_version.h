@@ -2,4 +2,4 @@
 #pragma once
 
 // The output from git --describe (e.g. the most recent tag)
-#define LI_CAN_SLV_VERSION_STRING "v2.0.3-13-ga2e7369"
+#define LI_CAN_SLV_VERSION_STRING "v2.0.3-14-gcf9b8f3"

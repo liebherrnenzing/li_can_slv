@@ -193,6 +193,7 @@ li_can_slv_errorcode_t can_mon_hw_define_msg_obj(uint16_t msg_obj, uint16_t can_
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	enum CpBufferDir_e msg_dir;
 
+	/* TODO: unused */	(void)dlc;
 	ubBufferIdxV = (uint8_t) msg_obj;
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT_HW

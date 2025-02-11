@@ -45,6 +45,10 @@
 
 #include <li_can_slv/error/io_can_errno.h>
 
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+#include <li_can_slv/error/io_can_error.h>
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+
 #include <li_can_slv/core/io_can_main.h>
 #include <li_can_slv/core/io_can_mon.h>
 
@@ -82,10 +86,12 @@ static can_sync_data_t can_sync_data_mon_rx[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
 
 static void (*can_sync_process_call)(void) = NULL;
 static void (*can_sync_process_image_valid_cbk_table[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES])(void);
-static void (*can_sync_process_image_not_valid_cbk_table[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES])(void);
+static void (*can_sync_process_image_not_valid_cbk_table[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES])(lcsa_can_sync_err_flag_t);
 static void (*can_sync_process_request_rx_cbk_table[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES])(void);
 static uint16_t can_sync_first_process_detect = 0;
 static void (*can_sync_first_process_request_call)(void) = NULL;
+static lcsa_can_sync_err_flag_t can_sync_error_flags[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
+static lcsa_can_sync_err_flag_t can_sync_error_flags_message_active[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
 
 #ifdef SHOW_CAN_SYNC
 /*--------------------------------------------------------------------------*/
@@ -408,9 +414,11 @@ li_can_slv_errorcode_t can_sync_init(void)
 	uint16_t i;
 
 #ifdef LI_CAN_SLV_MON
-	can_port_memory_set(can_sync_data_main_tx, 0, sizeof(can_sync_data_t));
-	can_port_memory_set(can_sync_data_mon_rx, 0, sizeof(can_sync_data_t));
+	can_port_memory_set(can_sync_data_main_tx, 0, sizeof(can_sync_data_t) * LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES);
+	can_port_memory_set(can_sync_data_mon_rx, 0, sizeof(can_sync_data_t) * LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES);
 #endif // #ifdef LI_CAN_SLV_MON
+	can_port_memory_set(can_sync_error_flags, 0, sizeof(lcsa_can_sync_err_flag_t) * LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES);
+	can_port_memory_set(can_sync_error_flags_message_active, 0, sizeof(lcsa_can_sync_err_flag_t) * LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES);
 
 	can_sync.pr_periode = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
 	can_sync.pr_cycle_time = LI_CAN_SLV_SYNC_PROCESS_PERIODE_MAX;
@@ -495,13 +503,13 @@ li_can_slv_errorcode_t can_sync_rx_data_main(uint16_t table_pos, uint16_t can_id
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MAIN
 
-#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	li_can_slv_module_nr_t module_nr;
-#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 
 	obj = can_id & CAN_SYNC_OBJ_MASK;
 
-#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
@@ -521,11 +529,11 @@ li_can_slv_errorcode_t can_sync_rx_data_main(uint16_t table_pos, uint16_t can_id
 	{
 		return (ERR_MSG_CAN_MAIN_RX_WRONG_MODULE_NR);
 	}
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	if (dlc != can_config_module_tab[table_pos].rx_dlc_sync[obj])
 	{
 		return (ERR_MSG_CAN_MAIN_RX_WRONG_DLC);
 	}
-#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
@@ -703,20 +711,16 @@ li_can_slv_errorcode_t can_sync_rx_data_mon(uint16_t table_pos, uint16_t can_id,
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MON
 
-#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	li_can_slv_module_nr_t module_nr;
-#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 
-#ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	can = can; // dummy assignment
-#endif // #ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
-#ifndef LI_CAN_SLV_MON
-	dlc = dlc; // dummy assignment
-#endif // #ifndef LI_CAN_SLV_MON
-
+#endif // #ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	obj = can_id & CAN_SYNC_OBJ_MASK;
 
-#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
@@ -734,11 +738,11 @@ li_can_slv_errorcode_t can_sync_rx_data_mon(uint16_t table_pos, uint16_t can_id,
 	{
 		return (ERR_MSG_CAN_MON_RX_WRONG_MODULE_NR);
 	}
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	if (dlc != can_config_module_tab[table_pos].rx_dlc_sync[obj])
 	{
 		return (ERR_MSG_CAN_MON_RX_WRONG_DLC);
 	}
-#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 	/* call monitor RX-conversion code */
 #ifdef LI_CAN_SLV_MON
@@ -790,23 +794,21 @@ li_can_slv_errorcode_t can_sync_tx_data_mon(uint16_t table_pos, uint16_t can_id,
 	uint16_t i;
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_MON
 
-#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	li_can_slv_module_nr_t module_nr;
-#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 
 	uint16_t obj;
 
-#ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	can_id = can_id; // dummy assignment
-	dlc = dlc; // dummy assignment
-	table_pos = table_pos; // dummy assignment
-#endif // #ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#endif // #ifndef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 
 #ifdef LI_CAN_SLV_MON
 	obj = can_id & CAN_SYNC_OBJ_MASK;
 #endif // #ifdef LI_CAN_SLV_MON
 
-#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
+#ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 #ifdef LI_CAN_SLV_MAIN_MON
 	if (can_mainmon_type == CAN_MAINMON_TYPE_MAIN)
 	{
@@ -824,12 +826,11 @@ li_can_slv_errorcode_t can_sync_tx_data_mon(uint16_t table_pos, uint16_t can_id,
 	{
 		return (ERR_MSG_CAN_MON_TX_WRONG_MODULE_NR);
 	}
-
+#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
 	if (dlc != can_config_module_tab[table_pos].tx_dlc_sync[obj])
 	{
 		return (ERR_MSG_CAN_MON_TX_WRONG_DLC);
 	}
-#endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
 #ifdef LI_CAN_SLV_DEBUG_SYNC_MON
 	if (table_pos == 0)
@@ -1012,16 +1013,23 @@ void li_can_slv_sync_check_process_image(void)
 			err = li_can_slv_sync_check_process_image_module(i);
 			if (err != LI_CAN_SLV_ERR_OK)
 			{
+				li_can_sync_evaluate_error(i, err); /* TODO: check */
+			}
+
+			if (can_sync_error_flags[i] != LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR)
+			{
 				can_sync.image_valid[i] = FALSE;
 
 				// call the process call function if the image is not valid
 				if (can_sync_process_image_not_valid_cbk_table[i] != NULL)
 				{
-					can_sync_process_image_not_valid_cbk_table[i]();
+					can_sync_process_image_not_valid_cbk_table[i](can_sync_error_flags[i]);
 				}
 
 				// one or more images are not valid
 				process_image_valid = 0;
+				/* clear the error flags */
+				can_sync_error_flags[i] = LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR;
 			}
 			else
 			{
@@ -1192,7 +1200,7 @@ li_can_slv_errorcode_t li_can_slv_sync_set_process_image_valid_cbk(char_t *type,
  * @param pfnc function pointer for the process call
  * @return #li_can_slv_errorcode_t or #LI_CAN_SLV_ERR_OK if successful
  */
-li_can_slv_errorcode_t li_can_slv_sync_set_process_image_not_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(void))
+li_can_slv_errorcode_t li_can_slv_sync_set_process_image_not_valid_cbk(char_t *type, li_can_slv_module_nr_t module_number, void (*pfnc)(lcsa_can_sync_err_flag_t))
 {
 	li_can_slv_errorcode_t err;
 	uint16_t table_pos;
@@ -1299,6 +1307,53 @@ void li_can_slv_sync_process_request_rx(void)
 		if (can_sync_process_request_rx_cbk_table[i] != NULL)
 		{
 			can_sync_process_request_rx_cbk_table[i]();
+		}
+	}
+}
+
+void li_can_sync_evaluate_error(uint16_t table_pos, li_can_slv_errorcode_t err)
+{
+	lcsa_can_sync_err_flag_t lcsa_err;
+
+	switch (err) {
+		case ERR_MSG_CAN_MAIN_RX_WRONG_DLC:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC;
+			break;
+		case ERR_MSG_CAN_MON_RX_WRONG_DLC:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_DLC;
+			break;
+		case ERR_MSG_CAN_MON_TX_WRONG_DLC:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_DLC;
+			break;
+		case ERR_MSG_CAN_MAIN_MON_DATA_RX:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA;
+			break;
+		case ERR_MSG_CAN_MAIN_MON_DATA_TX:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_TX_DATA;
+			break;
+		case ERR_MSG_CAN_MAIN_NR_OF_RX_DATA:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ;
+			break;
+		case ERR_MSG_CAN_MON_NR_OF_RX_DATA:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ;
+			break;
+		case ERR_MSG_CAN_MON_NR_OF_TX_DATA:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ;
+			break;
+		default:
+			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR;
+			break;
+	}
+
+	if (lcsa_err != LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR)
+	{
+		can_sync_error_flags[table_pos] |= lcsa_err;
+		if (!(can_sync_error_flags_message_active[table_pos] & lcsa_err))
+		{
+			can_sync_error_flags_message_active[table_pos] |= lcsa_err;
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			error_syserr_send(err, ERR_LVL_WARNING, can_config_module_tab[table_pos].module_nr, ERR_LVL_WARNING);
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 		}
 	}
 }

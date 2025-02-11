@@ -523,13 +523,7 @@ li_can_slv_config_module_t can_config_module_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MO
 #endif // #ifdef LI_CAN_SLV_BOOT
 
 #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
-can_config_change_module_type_t can_config_change_module_type_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] = /**< can configuration change module type table*/
-{
-	NULL,
-	{NULL, NULL, NULL, NULL},
-	{NULL, NULL, NULL, NULL},
-	NULL
-};
+can_config_change_module_type_t can_config_change_module_type_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] = {0}; /**< can configuration change module type table*/
 #endif // #ifdef LI_CAN_SLV_SYS_CHANGE_MODULE_TYPE
 
 /*--------------------------------------------------------------------------*/

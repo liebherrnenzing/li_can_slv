@@ -55,7 +55,7 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* monitor only definitions                                                 */
 /*--------------------------------------------------------------------------*/
-//#define LI_CAN_SLV_MON
+#define LI_CAN_SLV_MON
 
 /*--------------------------------------------------------------------------*/
 /* reconnect definitions                                                    */
@@ -63,6 +63,7 @@ extern "C" {
 //#define LI_CAN_SLV_USE_RECONNECT_ON_MAIN_NODE
 //#define LI_CAN_SLV_USE_RECONNECT_CHANGE_BAUDRATE_CALLBACK
 
+#define LI_CAN_SLV_SYS_ERROR_QUEUE
 /*--------------------------------------------------------------------------*/
 /* LI_CAN_SLV System protocol definitions                                   */
 /*--------------------------------------------------------------------------*/
@@ -91,7 +92,11 @@ extern "C" {
 #define LI_CAN_SLV_ARCH_USE_CANPIE_CH1_FOR_MAIN_NODE
 #define LI_CAN_SLV_ARCH_SET_BYTE_ORDER_LITTLE_ENDIAN
 #define LI_CAN_SLV_ARCH_MAIN_NODE_MAX_NOF_MSG_OBJ	(32)
+
+#ifdef LI_CAN_SLV_MON
+#define LI_CAN_SLV_ARCH_USE_CANPIE_CH2_FOR_MON_NODE
 #define LI_CAN_SLV_ARCH_MON_NODE_MAX_NOF_MSG_OBJ	(32)
+#endif // #ifdef LI_CAN_SLV_MON
 
 #ifdef __cplusplus
 }// closing brace for extern "C"

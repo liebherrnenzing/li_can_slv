@@ -212,9 +212,36 @@ extern "C" {
  * @def lcsa_sync_set_process_image_not_valid_cbk(module_type, module_number, pfnc)
  * @param module_type the module type for which the callback is set
  * @param module_number the module number for which the callback is set
- * @param pfnc function pointer to the callback
+ * @param pfnc function pointer to the callback which include an error flag enum as parameter (see lcsa_can_sync_err_flag_t for possible flags)
  * @return #LCSA_ERROR_OK if successful
- **/
+ *
+\rst
+.. tip::
+	The callback will be called if the image for the current module is invalid. Here is an example of a possible implementation:
+	::
+		// add the callback
+		 * void (*pfnc)(lcsa_can_sync_err_flag_t)
+		err = li_can_slv_sync_set_process_image_not_valid_cbk(module_type, module_number, &app_my_module_process_image_not_valid_cbk);
+		if (err == LCSA_ERROR_OK)
+		{
+			return(err);
+		}
+
+		// callback implementation
+		static void app_my_module_process_image_not_valid_cbk(lcsa_can_sync_err_flag_t err_flags)
+		{
+			if (err_flags & LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA)
+			{
+				// kill me
+			}
+
+			if (err_flags & LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ)
+			{
+				// do something or not
+			}
+		}
+\endrst
+ */
 #define lcsa_sync_set_process_image_not_valid_cbk(module_type, module_number, pfnc)	li_can_slv_sync_set_process_image_not_valid_cbk(module_type, module_number, pfnc)
 
 /**

@@ -52,7 +52,9 @@
 
 #include <li_can_slv/core/io_can_main.h>
 #include <li_can_slv/core/io_can_main_handler.h>
+#include <li_can_slv/core/io_can_mon.h>
 #include <li_can_slv/sync/io_can_sync_handler.h>
+
 
 #include "io_app_module_change.h"
 
@@ -80,7 +82,6 @@
 static uint16_t whole_image_valid_cnt = 0;
 static uint16_t first_process_request_cnt = 0;
 static uint8_t reinit = FALSE;
-static lcsa_errorcode_t err = LCSA_ERROR_OK;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
@@ -91,6 +92,13 @@ static void first_process_request_cbk(void);
 static int doesFileExist(const char *filename);
 static void get_expected_file_path(const char *filename, char *filepath);
 
+extern void receive_main_tx_on_mon_rx(void);
+extern uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, uint8_t* data, uint8_t clear_pending);
+extern uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data);
+extern uint32_t send_to_mon_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data);
+
+static void receive_master_output_data(void);
+
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
 /*--------------------------------------------------------------------------*/
@@ -98,8 +106,6 @@ static void get_expected_file_path(const char *filename, char *filepath);
 void setUp(void)
 {
 	static uint8_t init_once = 0;
-
-	lcsa_module_number_t module_nr;
 
 	if (init_once != 1 || reinit == TRUE)
 	{
@@ -112,6 +118,7 @@ void setUp(void)
 
 		app_ma_w_image_valid_cnt = 0;
 		app_ma_w_image_not_valid_cnt = 0;
+		app_ma_w_image_not_valid_err = LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR;
 
 		/* clear module table */
 		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
@@ -119,32 +126,25 @@ void setUp(void)
 		memset(&can_sync, 0x00, sizeof(can_sync));
 
 		li_can_slv_sync_main_rx_msg_obj_used = 0;
+		can_mon_rx_msg_obj_used = 0;
+		can_mon_tx_msg_obj_used = 0;
 
 		/* after initialization no call is set */
-		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);
-		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_init(LCSA_BAUD_RATE_DEFAULT));
 
 		// table 0
-		module_nr = APP_FRC2_MODULE_NR_DEF;
-		err = app_frc2_init(module_nr);
-		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_frc2_init(APP_FRC2_MODULE_NR_DEF));
 
 		// table 1
-		module_nr = APP_INCX_MODULE_NR_DEF;
-		err = app_incx_init(module_nr);
-		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_incx_init(APP_INCX_MODULE_NR_DEF));
 
 		// table 2
-		module_nr = APP_INXY_MODULE_NR_DEF;
-		err = app_inxy_init(module_nr);
-		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_inxy_init(APP_INXY_MODULE_NR_DEF));
 
 		// table 3
-		module_nr = APP_MA_W_MODULE_NR_DEF;
-		err = app_ma_w_init(0,  module_nr);
-		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_ma_w_init(0, APP_MA_W_MODULE_NR_DEF));
 
-		err = lcsa_start();
+		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_start());
 	}
 }
 
@@ -153,8 +153,8 @@ void tearDown(void)
 {
 	// for next test
 	reinit = TRUE;
-	//	li_can_slv_deinit();
-
+	li_can_slv_deinit();
+	can_main_hw_log_close();
 }
 
 /**
@@ -163,13 +163,17 @@ void tearDown(void)
  */
 void test_process_req(void)
 {
-	char file_path[_MAX_PATH];
-	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	int ret;
+	char exp_log_file[] = "tc_process_req_exp.log";
+	char act_log_file[] = "_tc_process_req.log";
+	char exp_log_file_path[_MAX_PATH];
 
-	can_main_hw_set_log_file_name("_tc_process_req.log");
-	ret = can_main_hw_log_open();
-	if (ret == EXIT_FAILURE)
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
 	{
 		TEST_FAIL_MESSAGE("log open fails");
 	}
@@ -186,32 +190,34 @@ void test_process_req(void)
 	app_ma_w_tx1_set_word0(0, 283);
 	app_ma_w_tx3_set_word0(0, 283);
 
-	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
-	uint8_t dlc = 0;
-	uint16_t canid = 0x001;
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
 
-	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
 
 	XTFW_ASSERT_EQUAL_INT(1, first_process_request_cnt);
-
-	can_main_hw_log_close();
-
-	ret = doesFileExist("_tc_process_req.log");
-	XTFW_ASSERT_EQUAL_INT(1, ret);
-
-	/* compare file content */
-	get_expected_file_path("tc_process_req_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "_tc_process_req.log");
 
 	// use a second process request to check that the callback did not happen.
 	first_process_request_cnt = 0;
 
-	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
 
 	XTFW_ASSERT_EQUAL_INT(0, first_process_request_cnt);
 
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
 }
 
 /**
@@ -219,13 +225,17 @@ void test_process_req(void)
  */
 void test_sync_check_image_not_valid(void)
 {
-	char file_path[_MAX_PATH];
-	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	int ret;
+	char exp_log_file[] = "tc_sync_check_image_not_valid_exp.log";
+	char act_log_file[] = "_tc_sync_check_image_not_valid.log";
+	char exp_log_file_path[_MAX_PATH];
 
-	can_main_hw_set_log_file_name("_test_sync_check_image_not_valid.log");
-	ret = can_main_hw_log_open();
-	if (ret == EXIT_FAILURE)
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
 	{
 		TEST_FAIL_MESSAGE("log open fails");
 	}
@@ -240,12 +250,11 @@ void test_sync_check_image_not_valid(void)
 	app_ma_w_tx1_set_word0(0, 283);
 	app_ma_w_tx3_set_word0(0, 283);
 
-	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
-	uint8_t dlc = 0;
-	uint16_t canid = 0x001;
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
 
-	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	receive_main_tx_on_mon_rx();
+	/* do not send rx data from master to modules */
 
 	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
@@ -254,14 +263,14 @@ void test_sync_check_image_not_valid(void)
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
 
-
 	// now check for valid images with next call. ma_w has no rx data
 	// so the check should failed for that module.
+	// additionally the failed module will send an Error Message: ERR_MSG_CAN_MAIN_NR_OF_RX_DATA
 
-	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
 
-	can_main_hw_log_close();
+	receive_main_tx_on_mon_rx();
 
 	XTFW_ASSERT_EQUAL_INT(1, app_frc2_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(1, app_incx_image_valid_cnt);
@@ -270,12 +279,9 @@ void test_sync_check_image_not_valid(void)
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
 
-	ret = doesFileExist("_test_sync_check_image_not_valid.log");
-	XTFW_ASSERT_EQUAL_INT(1, ret);
-
 	/* compare file content */
-	get_expected_file_path("test_sync_check_image_not_valid_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "_test_sync_check_image_not_valid.log");
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
 }
 
 /**
@@ -283,13 +289,17 @@ void test_sync_check_image_not_valid(void)
  */
 void test_sync_check_image_valid(void)
 {
-	char file_path[_MAX_PATH];
-	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	int ret;
+	char exp_log_file[] = "tc_sync_check_image_valid_exp.log";
+	char act_log_file[] = "_tc_sync_check_image_valid.log";
+	char exp_log_file_path[_MAX_PATH];
 
-	can_main_hw_set_log_file_name("_test_sync_check_image_valid.log");
-	ret = can_main_hw_log_open();
-	if (ret == EXIT_FAILURE)
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
 	{
 		TEST_FAIL_MESSAGE("log open fails");
 	}
@@ -304,51 +314,54 @@ void test_sync_check_image_valid(void)
 	app_ma_w_tx1_set_word0(0, 283);
 	app_ma_w_tx3_set_word0(0, 283);
 
-	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
-	uint8_t dlc = 0;
-	uint16_t canid = 0x001;
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
 
-	// process request vom master zum module
-	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	receive_main_tx_on_mon_rx();
 
 	// tx prozessdaten
 
 	// now simulate some process input data for ma_w module number 113
-	// can main def msg obj: 5, id:960, acc mask: 2047, dlc: 8, dir: 0
+	// can main def msg obj: 7, id:960, acc mask: 2047, dlc: 8, dir: 0
 	// can main def msg obj: 8, id:961, acc mask: 2047, dlc: 8, dir: 0
-	// can main def msg obj: 10, id:962, acc mask: 2047, dlc: 8, dir: 0
+	// can main def msg obj: 9, id:962, acc mask: 2047, dlc: 8, dir: 0
 	// can main def msg obj: 11, id:963, acc mask: 2047, dlc: 8, dir: 0
 
-	// none_blocking: msg_obj = 4, can_id = 0x3C0, dlc = 8,  00 00 00 00 00 00 00 00
-	// none_blocking: msg_obj = 1, can_id = 0x3C1, dlc = 8,  00 00 00 00 00 00 00 00
-	// none_blocking: msg_obj = 4, can_id = 0x3C2, dlc = 8,  00 00 00 00 00 00 00 00
-	// none_blocking: msg_obj = 1, can_id = 0x3C3, dlc = 8,  00 00 00 00 00 00 00 00
+	// MAIN
+	// none_blocking: msg_obj = 7, can_id = 0x3C0, dlc = 8,  00 00 00 00 00 00 00 00
+	// none_blocking: msg_obj = 8, can_id = 0x3C1, dlc = 8,  00 00 00 00 00 00 00 00
+	// none_blocking: msg_obj = 9, can_id = 0x3C2, dlc = 8,  00 00 00 00 00 00 00 00
+	// msg_obj = 10 is reserved for process image
+	// none_blocking: msg_obj = 11, can_id = 0x3C3, dlc = 8,  00 00 00 00 00 00 00 00
 
-	ret = can_sync_handler_rx(7, 8, 0x3c0, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	// MON
+	// none_blocking: msg_obj = 9, can_id = 0x3C0, dlc = 8,  00 00 00 00 00 00 00 00
+	// none_blocking: msg_obj = 10, can_id = 0x3C1, dlc = 8,  00 00 00 00 00 00 00 00
+	// none_blocking: msg_obj = 11, can_id = 0x3C2, dlc = 8,  00 00 00 00 00 00 00 00
+	// none_blocking: msg_obj = 12, can_id = 0x3C3, dlc = 8,  00 00 00 00 00 00 00 00
 
-	ret = can_sync_handler_rx(8, 8, 0x3c1, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
 
-	ret = can_sync_handler_rx(9, 8, 0x3c2, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
 
-	ret = can_sync_handler_rx(11, 8, 0x3c3, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
 
 	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
-
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
 
-	// now check for valid images with next call. ma_w has no rx data
-	// so the check should failed for that module.
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
 
-	ret = can_sync_handler_rx(msg_obj, dlc, canid, rx_data);
-	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, err);
+	receive_main_tx_on_mon_rx();
 
 	can_main_hw_log_close();
 
@@ -358,17 +371,734 @@ void test_sync_check_image_valid(void)
 	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_valid_cnt);
 	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
 
-	ret = doesFileExist("_test_sync_check_image_valid.log");
-	XTFW_ASSERT_EQUAL_INT(1, ret);
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC
+ * @brief test ERR_MSG_CAN_MAIN_RX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC
+ */
+void test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_RX_WRONG_DLC_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_RX_WRONG_DLC.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	/* MAIN wrong DLC */
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 7, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC | LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	can_main_hw_log_close();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
 
 	/* compare file content */
-	get_expected_file_path("test_sync_check_image_valid_expected.log", file_path);
-	TEST_ASSERT_BINARY_FILE(file_path, "_test_sync_check_image_valid.log");
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC
+ * @brief test ERR_MSG_CAN_MON_RX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_DLC
+ */
+void test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_RX_WRONG_DLC_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_RX_WRONG_DLC.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	/* MON wrong DLC */
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 7, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	// now check for valid images with next call. ma_w has no rx data
+	// so the check should failed for that module.
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_DLC | LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	can_main_hw_log_close();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC
+ * @brief test ERR_MSG_CAN_MON_TX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_DLC
+ */
+void test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_TX_WRONG_DLC_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_TX_WRONG_DLC.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	byte_t tx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	/* modify frame DLC main_tx to mon_rx */
+	XTFW_ASSERT_EQUAL_UINT(0, modify_pending_frame_main_tx_to_mon_rx(0x5C1, 7, tx_data, 0));
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_DLC | LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	can_main_hw_log_close();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX
+ * @brief test ERR_MSG_CAN_MAIN_MON_DATA_RX and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA
+ */
+void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_RX_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_RX.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	byte_t modified_rx_data[8] = { 0, 0, 0, 0, 1, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	/* Modify MON RX Data */
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, modified_rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA, app_ma_w_image_not_valid_err); /* check error code */
+	app_ma_w_image_not_valid_err = 0;
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR, app_ma_w_image_not_valid_err);
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	/* Modify MAIN RX Data */
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, modified_rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_INT(4, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(4, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(4, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA, app_ma_w_image_not_valid_err); /* check error code */
+
+	can_main_hw_log_close();
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX
+ * @brief test ERR_MSG_CAN_MAIN_MON_DATA_TX and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_TX_DATA
+ */
+void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_TX_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_TX.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	byte_t modified_rx_data[8] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	/* modify frame DATA main_tx to mon_rx (will not be received by MON) */
+	XTFW_ASSERT_EQUAL_UINT(0, modify_pending_frame_main_tx_to_mon_rx(0x5C1, 8, modified_rx_data, 0));
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_TX_DATA | LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+	app_ma_w_image_not_valid_err = 0;
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR, app_ma_w_image_not_valid_err);
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	can_main_hw_log_close();
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA
+ * @brief test ERR_MSG_CAN_MAIN_NR_OF_RX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ
+ */
+void test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	/* No RX message for object 0x3c0 on MAIN */
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	can_main_hw_log_close();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA
+ * @brief test ERR_MSG_CAN_MON_NR_OF_RX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ
+ */
+void test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_NR_OF_RX_DATA_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_NR_OF_RX_DATA.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	/* No RX message for object 0x3c1 on MON */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	can_main_hw_log_close();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
+}
+
+/**
+ * @test test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA
+ * @brief test ERR_MSG_CAN_MON_NR_OF_TX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ
+ */
+void test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA(void)
+{
+	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_NR_OF_TX_DATA_exp.log";
+	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_NR_OF_TX_DATA.log";
+	char exp_log_file_path[_MAX_PATH];
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	get_expected_file_path(exp_log_file, exp_log_file_path);
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	/* modify PENDING_FLAG for main_tx to mon_rx (will not be received by MON) */
+	XTFW_ASSERT_EQUAL_UINT(0, modify_pending_frame_main_tx_to_mon_rx(0x5C1, 0, NULL, 1));
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ, app_ma_w_image_not_valid_err); /* check error code */
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+	receive_master_output_data();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	can_main_hw_log_close();
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+
+	/* compare file content */
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
 }
 
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
+
 static void whole_process_image_valid_cbk(void)
 {
 	whole_image_valid_cnt++;
@@ -379,6 +1109,19 @@ static void first_process_request_cbk(void)
 	first_process_request_cnt++;
 }
 
+static void receive_master_output_data(void)
+{
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	uint16_t can_id = 0;
+	uint8_t dlc = 8;
+
+	for (uint32_t i = 0; i < 4; i++)
+	{
+		can_id = 0x3c0 + i;
+		send_to_main_rx_handler(can_id, dlc, rx_data);
+		send_to_mon_rx_handler(can_id, dlc, rx_data);
+	}
+}
 
 static int doesFileExist(const char *filename)
 {

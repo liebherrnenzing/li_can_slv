@@ -37,8 +37,7 @@
 #define  CP_BUFFER_PND		((uint32_t)0x00000020) // Tx buffer pending
 #define  CP_BUFFER_UPD		((uint32_t)0x00000040) // Rx buffer update
 
-static int8_t filter_to_cp_buffer[MAX_CAN_FILTER_NUMBER];
-static int8_t tx_mailbox_to_buffer[3];
+#define  CP_BUFFER_MAIN_TX_MON_RX_PND	((uint32_t)0x10000000) // TEST flag for emulating TX MAIN -> RX MON
 
 #if CP_STATISTIC > 0
 static uint32_t tx1_counter;
@@ -67,22 +66,31 @@ enum DrvInfo_e
 static CpCanMsg_ts atsCan1MsgS[CP_BUFFER_MAX];
 static CpFifo_ts *aptsCan1FifoS[CP_BUFFER_MAX];
 
+static CpCanMsg_ts atsCan2MsgS[CP_BUFFER_MAX];
+static CpFifo_ts *aptsCan2FifoS[CP_BUFFER_MAX];
+
 /*!
  ** \var aptsPortS
  **
  ** For interrupts we need to know the CAN port information,
  ** so store the pointer to the corresponding global port information.
  */
-static CpPort_ts *aptsPortS[CP_CHANNEL_MAX];
+
+//static CpPort_ts *aptsPortS[CP_CHANNEL_MAX] = {0};
+static CpPort_ts *aptsPortS[2] = {0};
 
 //-------------------------------------------------------------------
 // these pointers store the callback handlers
 //
-static CpRcvHandler_Fn /*@null@*/pfnRcvHandlerS = CPP_NULL;
-static CpTrmHandler_Fn /*@null@*/pfnTrmHandlerS = CPP_NULL;
-static CpErrHandler_Fn /*@null@*/pfnErrHandlerS = CPP_NULL;
 
-/**/
+static CpRcvHandler_Fn pfnCan1RcvHandlerS = CPP_NULL;
+static CpTrmHandler_Fn pfnCan1TrmHandlerS = CPP_NULL;
+static CpErrHandler_Fn pfnCan1ErrHandlerS = CPP_NULL;
+
+static CpRcvHandler_Fn pfnCan2RcvHandlerS = CPP_NULL;
+static CpTrmHandler_Fn pfnCan2TrmHandlerS = CPP_NULL;
+static CpErrHandler_Fn pfnCan2ErrHandlerS = CPP_NULL;
+
 static FILE *can_main_hw_log;
 static char can_main_hw_log_file_path[FILENAME_MAX];
 
@@ -161,8 +169,7 @@ CpStatus_tv CpCoreBitrate(CpPort_ts *ptsPortV, int32_t slNomBitRateV, int32_t sl
 			//
 			if (tvStatusT == eCP_ERR_NONE)
 			{
-
-
+				/* TODO: DO ME! */
 			}
 		}
 		else
@@ -213,24 +220,45 @@ CpStatus_tv CpCoreBufferConfig(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint32
 				break;
 		}
 
-		// save identifier
-		atsCan1MsgS[ubBufferIdxV].ulIdentifier = ulIdentifierV;
-
-		// save format in message control
-		atsCan1MsgS[ubBufferIdxV].ubMsgCtrl = ubFormatV;
-
-		switch (ubDirectionV)
+		switch (ptsPortV->ubPhyIf)
 		{
-			case eCP_BUFFER_DIR_RCV:
-				atsCan1MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_VAL | CP_BUFFER_RCV;
-				break;
+			case eCP_CHANNEL_1:
+				// save identifier
+				atsCan1MsgS[ubBufferIdxV].ulIdentifier = ulIdentifierV;
 
-			case eCP_BUFFER_DIR_TRM:
-				atsCan1MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_VAL | CP_BUFFER_TRM;
+				// save format in message control
+				atsCan1MsgS[ubBufferIdxV].ubMsgCtrl = ubFormatV;
+
+				switch (ubDirectionV)
+				{
+					case eCP_BUFFER_DIR_RCV:
+						atsCan1MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_VAL | CP_BUFFER_RCV;
+						break;
+
+					case eCP_BUFFER_DIR_TRM:
+						atsCan1MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_VAL | CP_BUFFER_TRM;
+						break;
+				}
+				break;
+			case eCP_CHANNEL_2:
+				atsCan2MsgS[ubBufferIdxV].ulIdentifier = ulIdentifierV;
+				atsCan2MsgS[ubBufferIdxV].ubMsgCtrl = ubFormatV;
+
+				switch (ubDirectionV)
+				{
+					case eCP_BUFFER_DIR_RCV:
+						atsCan2MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_VAL | CP_BUFFER_RCV;
+						break;
+
+					case eCP_BUFFER_DIR_TRM:
+						atsCan2MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_VAL | CP_BUFFER_TRM;
+						break;
+				}
+				break;
+			default:
 				break;
 		}
 	}
-
 	return (tvStatusT);
 }
 
@@ -258,13 +286,27 @@ CpStatus_tv CpCoreBufferGetData(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint8
 		}
 		else
 		{
-			//---------------------------------------------------
-			// copy data from simulated CAN buffer
-			//
-			for (ubCntT = ubStartPosV; ubCntT < ubSizeV; ubCntT++)
+			switch (ptsPortV->ubPhyIf)
 			{
-				*pubDestDataV = CpMsgGetData(&atsCan1MsgS[ubBufferIdxV], ubCntT);
-				pubDestDataV++;
+				case eCP_CHANNEL_1:
+					for (ubCntT = ubStartPosV; ubCntT < ubSizeV; ubCntT++)
+					{
+						*pubDestDataV = CpMsgGetData(&atsCan1MsgS[ubBufferIdxV], ubCntT);
+						pubDestDataV++;
+					}
+
+					break;
+
+				case eCP_CHANNEL_2:
+					for (ubCntT = ubStartPosV; ubCntT < ubSizeV; ubCntT++)
+					{
+						*pubDestDataV = CpMsgGetData(&atsCan2MsgS[ubBufferIdxV], ubCntT);
+						pubDestDataV++;
+					}
+					break;
+
+				default:
+					return (eCP_ERR_CHANNEL);
 			}
 		}
 	}
@@ -280,16 +322,25 @@ CpStatus_tv CpCoreBufferGetDlc(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint8_
 {
 	CpStatus_tv tvStatusT;
 
-	//----------------------------------------------------------------
-	// test parameter ptsPortV and ubBufferIdxV
-	//
 	tvStatusT = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_INIT);
 	if (tvStatusT == eCP_ERR_NONE)
 	{
 		//----------------------------------------------------------------
 		// read DLC from simulated CAN buffer
 		//
-		*pubDlcV = atsCan1MsgS[ubBufferIdxV].ubMsgDLC;
+		switch (ptsPortV->ubPhyIf)
+		{
+			case eCP_CHANNEL_1:
+				*pubDlcV = atsCan1MsgS[ubBufferIdxV].ubMsgDLC;
+				break;
+
+			case eCP_CHANNEL_2:
+				*pubDlcV = atsCan2MsgS[ubBufferIdxV].ubMsgDLC;
+				break;
+
+			default:
+				tvStatusT = eCP_ERR_CHANNEL;
+		}
 	}
 
 	return (tvStatusT);
@@ -302,29 +353,27 @@ CpStatus_tv CpCoreBufferGetDlc(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint8_
 CpStatus_tv CpCoreBufferRelease(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 {
 	CpStatus_tv tvStatusT;
-	CpStatus_tv status;
-	uint8_t filter_number;
 
-	//----------------------------------------------------------------
-	// test parameter ptsPortV and ubBufferIdxV
-	//
 	tvStatusT = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_INIT);
 	if (tvStatusT == eCP_ERR_NONE)
 	{
-		// release filter
-
-
-
-		if (eCP_ERR_NONE == status)
+		//-----------------------------------------------------------------
+		// clear the message buffer structure
+		// clearing bit 0 of ulMsgUser disables the buffer
+		//
+		switch (ptsPortV->ubPhyIf)
 		{
+			case eCP_CHANNEL_1:
+				memset(&atsCan1MsgS[ubBufferIdxV], 0x00, sizeof(CpCanMsg_ts));
+				break;
 
+			case eCP_CHANNEL_2:
+				memset(&atsCan2MsgS[ubBufferIdxV], 0x00, sizeof(CpCanMsg_ts));
+				break;
+
+			default:
+				return (eCP_ERR_CHANNEL);
 		}
-
-		// clear buffer
-		memset(&atsCan1MsgS[ubBufferIdxV], 0x00, sizeof(CpCanMsg_ts));
-
-		// set buffer to invalid
-		atsCan1MsgS[ubBufferIdxV].ulMsgUser = CP_BUFFER_IVAL;
 	}
 
 	return (tvStatusT);
@@ -338,7 +387,7 @@ CpStatus_tv CpCoreBufferSend(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 {
 	uint16_t i;
 	CpStatus_tv tvStatusT;
-	uint32_t tx_mailbox;
+//	uint32_t tx_mailbox;
 	uint16_t dlc;
 
 	//----------------------------------------------------------------
@@ -352,46 +401,71 @@ CpStatus_tv CpCoreBufferSend(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 	//		return eCP_ERR_BUFFER;
 	//	}
 
-	if (can_main_hw_log != NULL)
+	if (ptsPortV->ubPhyIf == eCP_CHANNEL_1)
 	{
-
-		fprintf(can_main_hw_log, "CpCoreBufferSend: %d ", ubBufferIdxV);
-
-		dlc = atsCan1MsgS[ubBufferIdxV].ubMsgDLC;
-
-		if (tvStatusT == eCP_ERR_NONE)
+		if (can_main_hw_log != NULL)
 		{
-			//-----------------------------------------------------------------
-			// setup identifier
-			//
-			if (CpMsgIsExtended(&atsCan1MsgS[ubBufferIdxV]))
-			{
-				fprintf(can_main_hw_log, "ext_can_id = 0x%X, dlc = %d, ", atsCan1MsgS[ubBufferIdxV].ulIdentifier, dlc);
-			}
-			else
-			{
-				fprintf(can_main_hw_log, "std_can_id = 0x%X, dlc = %d, ", atsCan1MsgS[ubBufferIdxV].ulIdentifier, dlc);
-			}
 
-			//-----------------------------------------------------------------
-			// check for RTR bit
-			//
-			if (CpMsgIsRemote(&atsCan1MsgS[ubBufferIdxV]))
+			fprintf(can_main_hw_log, "CpCoreBufferSend: %d ", ubBufferIdxV);
+
+			dlc = atsCan1MsgS[ubBufferIdxV].ubMsgDLC;
+
+			if (tvStatusT == eCP_ERR_NONE)
 			{
+				//-----------------------------------------------------------------
+				// setup identifier
+				//
+				if (CpMsgIsExtended(&atsCan1MsgS[ubBufferIdxV]))
+				{
+					fprintf(can_main_hw_log, "ext_can_id = 0x%X, dlc = %d, ", atsCan1MsgS[ubBufferIdxV].ulIdentifier, dlc);
+				}
+				else
+				{
+					fprintf(can_main_hw_log, "std_can_id = 0x%X, dlc = %d, ", atsCan1MsgS[ubBufferIdxV].ulIdentifier, dlc);
+				}
 
+				//-----------------------------------------------------------------
+				// check for RTR bit
+				//
+				if (CpMsgIsRemote(&atsCan1MsgS[ubBufferIdxV]))
+				{
+					/* TODO: DO ME! */
+				}
+				else
+				{
+					/* TODO: DO ME! */
+				}
+
+				for (i = 0; i < dlc; i++)
+				{
+					fprintf(can_main_hw_log, "%02X ", atsCan1MsgS[ubBufferIdxV].tuMsgData.aubByte[i]);
+				}
+
+				fprintf(can_main_hw_log, "\r\n");
+
+				if (pfnCan2RcvHandlerS != CPP_NULL)
+				{
+					/* copy MAIN TX to MON RX buffer */
+					for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
+					{
+						if (atsCan2MsgS[buffer_id].ulIdentifier == atsCan1MsgS[ubBufferIdxV].ulIdentifier )
+						{
+							atsCan2MsgS[buffer_id].ubMsgCtrl = atsCan1MsgS[ubBufferIdxV].ubMsgCtrl;
+							atsCan2MsgS[buffer_id].ubMsgDLC = atsCan1MsgS[ubBufferIdxV].ubMsgDLC;
+							atsCan2MsgS[buffer_id].tuMsgData = atsCan1MsgS[ubBufferIdxV].tuMsgData;
+							atsCan2MsgS[buffer_id].ulMsgUser |= CP_BUFFER_MAIN_TX_MON_RX_PND;
+							break;
+						}
+					}
+				}
 			}
-			else
-			{
-
-			}
-
-			for (i = 0; i < dlc; i++)
-			{
-				fprintf(can_main_hw_log, "%02X ", atsCan1MsgS[ubBufferIdxV].tuMsgData.aubByte[i]);
-			}
-
-			fprintf(can_main_hw_log, "\r\n");
+			fflush(can_main_hw_log);
 		}
+	}
+
+	if (ptsPortV->ubPhyIf == eCP_CHANNEL_2)
+	{
+		while(1);
 	}
 
 	return (tvStatusT);
@@ -421,15 +495,26 @@ CpStatus_tv CpCoreBufferSetData(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint8
 		}
 		else
 		{
-			//---------------------------------------------------
-			// copy data from simulated CAN buffer
-			//
-			for (ubCntT = ubStartPosV; ubCntT < ubSizeV; ubCntT++)
+			switch (ptsPortV->ubPhyIf)
 			{
-				// alternative way but maybe not so fast
-				CpMsgSetData(&atsCan1MsgS[ubBufferIdxV], ubCntT, *pubSrcDataV);
-				//atsCan1MsgS[ubBufferIdxV].tuMsgData.aubByte[ubCntT] = *pubSrcDataV;
-				pubSrcDataV++;
+				case eCP_CHANNEL_1:
+					for (ubCntT = ubStartPosV; ubCntT < ubSizeV; ubCntT++)
+					{
+						CpMsgSetData(&atsCan1MsgS[ubBufferIdxV], ubCntT, *pubSrcDataV);
+						pubSrcDataV++;
+					}
+					break;
+
+				case eCP_CHANNEL_2:
+					for (ubCntT = ubStartPosV; ubCntT < ubSizeV; ubCntT++)
+					{
+						CpMsgSetData(&atsCan2MsgS[ubBufferIdxV], ubCntT, *pubSrcDataV);
+						pubSrcDataV++;
+					}
+					break;
+
+				default:
+					tvStatusT = eCP_ERR_CHANNEL;
 			}
 		}
 	}
@@ -451,14 +536,20 @@ CpStatus_tv CpCoreBufferSetDlc(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint8_
 	tvStatusT = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_INIT);
 	if (tvStatusT == eCP_ERR_NONE)
 	{
-		//--------------------------------------------------------
-		// write DLC to simulated CAN buffer
-		//
-		// alternative way but maybe not so fast
-		// CpMsgSetDlc(atsCan1MsgS[ubBufferIdxV], ubDlcV);
-		atsCan1MsgS[ubBufferIdxV].ubMsgDLC = ubDlcV;
-	}
+		switch (ptsPortV->ubPhyIf)
+		{
+			case eCP_CHANNEL_1:
+				atsCan1MsgS[ubBufferIdxV].ubMsgDLC = ubDlcV;
+				break;
 
+			case eCP_CHANNEL_2:
+				atsCan2MsgS[ubBufferIdxV].ubMsgDLC = ubDlcV;
+				break;
+
+			default:
+				tvStatusT = eCP_ERR_CHANNEL;
+		}
+	}
 	return (tvStatusT);
 }
 
@@ -520,8 +611,8 @@ CpStatus_tv CpCoreCanMode(CpPort_ts *ptsPortV, uint8_t ubModeV)
 //----------------------------------------------------------------------------//
 CpStatus_tv CpCoreCanState(CpPort_ts *ptsPortV, CpState_ts *ptsStateV)
 {
-	uint32_t hal_error;
-	uint32_t hal_esr;
+//	uint32_t hal_error;
+//	uint32_t hal_esr;
 
 	CpStatus_tv tvStatusT = eCP_ERR_CHANNEL;
 
@@ -550,6 +641,7 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 {
 	uint8_t i;
 	CpStatus_tv tvStatusT = eCP_ERR_CHANNEL;
+	(void)ubConfigV;
 
 	(void) strncpy(cp_driver_log_file_path, cp_driver_log_file_name, sizeof(cp_driver_log_file_path));
 
@@ -560,65 +652,74 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 		return tvStatusT;
 	}
 
-	//----------------------------------------------------------------
-	// test physical CAN channel
-	//
-	if (ubPhyIfV == eCP_CHANNEL_1)
-	{
-
 #if CP_STATISTIC > 0
 		tx1_counter = 0;
 		rx1_counter = 0;
 		err1_counter = 0;
 #endif
 
-		//--------------------------------------------------------
-		// test CAN port
-		//
-		if (ptsPortV != (CpPort_ts *) 0L)
+	//--------------------------------------------------------
+	// test CAN port
+	//
+	if (ptsPortV != (CpPort_ts *) 0L)
+	{
+		if (ptsPortV->ubDrvInfo == eDRV_INFO_OFF)
 		{
-			if (ptsPortV->ubDrvInfo == eDRV_INFO_OFF)
+			switch (ubPhyIfV)
 			{
-				ptsPortV->ubPhyIf = eCP_CHANNEL_1;
-				ptsPortV->ubDrvInfo = eDRV_INFO_INIT;
+				case eCP_CHANNEL_1:
+					aptsPortS[0] = ptsPortV; /* MAIN port */
+					ptsPortV->ubPhyIf = eCP_CHANNEL_1;
+					ptsPortV->ubDrvInfo = eDRV_INFO_INIT;
 
-				// save port
-				aptsPortS[0] = ptsPortV;
+					pfnCan1RcvHandlerS = CPP_NULL;
+					pfnCan1TrmHandlerS = CPP_NULL;
+					pfnCan1ErrHandlerS = CPP_NULL;
 
-				//----------------------------------------------
-				// hardware initialization
-				//
+					// release all buffers and
+					for (i = eCP_BUFFER_1; i < CP_BUFFER_MAX; i++)
+					{
+						CpCoreBufferRelease(ptsPortV, i);
+					}
+					tvStatusT = eCP_ERR_NONE;
+					break;
+				case eCP_CHANNEL_2:
 
-				// clear filter to buffer mapping
-				for (i = 0; i < MAX_CAN_FILTER_NUMBER; i++)
-				{
-					filter_to_cp_buffer[i] = BUFFER_NONE;
-				}
+					aptsPortS[1] = ptsPortV; /* MON port CpPort_ts * */
+					ptsPortV->ubPhyIf = eCP_CHANNEL_2;
+					ptsPortV->ubDrvInfo = eDRV_INFO_INIT;
 
-				// release all buffers and
-				for (i = eCP_BUFFER_1; i < CP_BUFFER_MAX; i++)
-				{
-					CpCoreBufferRelease(ptsPortV, i);
-				}
+					pfnCan2RcvHandlerS = CPP_NULL;
+					pfnCan2TrmHandlerS = CPP_NULL;
+					pfnCan2ErrHandlerS = CPP_NULL;
 
+					for (i = eCP_BUFFER_1; i < CP_BUFFER_MAX; i++)
+					{
+						CpCoreBufferRelease(ptsPortV, i);
+					}
 
-				tvStatusT = eCP_ERR_NONE;
+					tvStatusT = eCP_ERR_NONE;
+					break;
+				default:
+					break;
 			}
-			else
-			{
-				//---------------------------------------------
-				// already initialized
-				//
-				tvStatusT = eCP_ERR_INIT_FAIL;
-			}
+
+			tvStatusT = eCP_ERR_NONE;
 		}
 		else
 		{
-			//-----------------------------------------------------
-			// parameter ptsPortV is not correct
+			//---------------------------------------------
+			// already initialized
 			//
-			tvStatusT = eCP_ERR_PARAM;
+			tvStatusT = eCP_ERR_INIT_FAIL;
 		}
+	}
+	else
+	{
+		//-----------------------------------------------------
+		// parameter ptsPortV is not correct
+		//
+		tvStatusT = eCP_ERR_PARAM;
 	}
 
 	return (tvStatusT);
@@ -648,6 +749,12 @@ CpStatus_tv CpCoreDriverRelease(CpPort_ts *ptsPortV)
 			tvStatusT = CpCoreCanMode(ptsPortV, eCP_MODE_STOP);
 			ptsPortV->ubDrvInfo = eDRV_INFO_OFF;
 
+			/* release Buffers */
+			for (uint32_t n = eCP_BUFFER_1; n < CP_BUFFER_MAX; n++)
+			{
+				CpCoreBufferRelease(ptsPortV, n);
+			}
+
 		}
 		else
 		{
@@ -674,7 +781,24 @@ CpStatus_tv CpCoreFifoConfig(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, CpFifo_t
 	{
 		if (ptsFifoV != (CpFifo_ts *) 0)
 		{
-			aptsCan1FifoS[ubBufferIdxV] = ptsFifoV;
+			switch (ptsPortV->ubPhyIf)
+			{
+				case eCP_CHANNEL_1:
+
+					aptsCan1FifoS[ubBufferIdxV] = ptsFifoV;
+
+					tvStatusT = eCP_ERR_NONE;
+					break;
+				case eCP_CHANNEL_2:
+
+					aptsCan2FifoS[ubBufferIdxV] = ptsFifoV;
+
+					tvStatusT = eCP_ERR_NONE;
+					break;
+				default:
+					tvStatusT = eCP_ERR_CHANNEL;
+					break;
+			}
 		}
 		else
 		{
@@ -705,11 +829,19 @@ CpStatus_tv CpCoreFifoRead(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, CpCanMsg_t
 		{
 			if (ptsCanMsgV != (CpCanMsg_ts *) 0L)
 			{
-				ptsFifoT = aptsCan1FifoS[ubBufferIdxV];
+				switch (ptsPortV->ubPhyIf)
+				{
+					case eCP_CHANNEL_1:
+						ptsFifoT = aptsCan1FifoS[ubBufferIdxV];
+						break;
+					case eCP_CHANNEL_2:
+						ptsFifoT = aptsCan2FifoS[ubBufferIdxV];
+						break;
+					default:
+						tvStatusT = eCP_ERR_CHANNEL;
+						break;
+				}
 
-				//----------------------------------------------------------------
-				// check the FIFO
-				//
 				if (ptsFifoT == 0L)
 				{
 					return (eCP_ERR_FIFO_PARAM);
@@ -731,7 +863,6 @@ CpStatus_tv CpCoreFifoRead(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, CpCanMsg_t
 					*pulBufferSizeV = 1;
 					tvStatusT = eCP_ERR_NONE;
 				}
-
 			}
 		}
 	}
@@ -753,7 +884,19 @@ CpStatus_tv CpCoreFifoRelease(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 	tvStatusT = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_INIT);
 	if (tvStatusT == eCP_ERR_NONE)
 	{
-		aptsCan1FifoS[ubBufferIdxV] = 0L;
+		switch (ptsPortV->ubPhyIf)
+		{
+			case eCP_CHANNEL_1:
+				aptsCan1FifoS[ubBufferIdxV] = 0L;
+				break;
+
+			case eCP_CHANNEL_2:
+				aptsCan2FifoS[ubBufferIdxV] = 0L;
+				break;
+
+			default:
+				tvStatusT = eCP_ERR_CHANNEL;
+		}
 	}
 
 	return (tvStatusT);
@@ -787,11 +930,19 @@ CpStatus_tv CpCoreFifoWrite(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, CpCanMsg_
 		{
 			if (ptsCanMsgV != (CpCanMsg_ts *) 0L)
 			{
-				ptsFifoT = aptsCan1FifoS[ubBufferIdxV];
+				switch (ptsPortV->ubPhyIf)
+				{
+					case eCP_CHANNEL_1:
+						ptsFifoT = aptsCan1FifoS[ubBufferIdxV];
+						break;
+					case eCP_CHANNEL_2:
+						ptsFifoT = aptsCan2FifoS[ubBufferIdxV];
+						break;
+					default:
+						tvStatusT = eCP_ERR_CHANNEL;
+						break;
+				}
 
-				//----------------------------------------------------------------
-				// check the FIFO
-				//
 				if (ptsFifoT == 0L)
 				{
 					return (eCP_ERR_FIFO_PARAM);
@@ -880,7 +1031,7 @@ CpStatus_tv CpCoreHDI(CpPort_ts *ptsPortV, CpHdi_ts *ptsHdiV)
 //----------------------------------------------------------------------------//
 CpStatus_tv CpCoreIntFunctions(CpPort_ts *ptsPortV, CpRcvHandler_Fn pfnRcvHandlerV, CpTrmHandler_Fn pfnTrmHandlerV, CpErrHandler_Fn pfnErrHandlerV)
 {
-	CpStatus_tv tvStatusT = eCP_ERR_CHANNEL;
+	CpStatus_tv tvStatusT = eCP_ERR_NONE;
 
 	//----------------------------------------------------------------
 	// test CAN port
@@ -889,19 +1040,30 @@ CpStatus_tv CpCoreIntFunctions(CpPort_ts *ptsPortV, CpRcvHandler_Fn pfnRcvHandle
 	{
 		if (ptsPortV->ubDrvInfo > eDRV_INFO_OFF)
 		{
-			tvStatusT = eCP_ERR_NONE;
-
 			//-----------------------------------------------------
 			// store the new callback
 			//
-			pfnRcvHandlerS = pfnRcvHandlerV;
-			pfnTrmHandlerS = pfnTrmHandlerV;
-			pfnErrHandlerS = pfnErrHandlerV;
+			switch (ptsPortV->ubPhyIf)
+			{
+				case eCP_CHANNEL_1:
+					pfnCan1RcvHandlerS = pfnRcvHandlerV;
+					pfnCan1TrmHandlerS = pfnTrmHandlerV;
+					pfnCan1ErrHandlerS = pfnErrHandlerV;
+					break;
+				case eCP_CHANNEL_2:
+					pfnCan2RcvHandlerS = pfnRcvHandlerV;
+					pfnCan2TrmHandlerS = pfnTrmHandlerV;
+					pfnCan2ErrHandlerS = pfnErrHandlerV;
+					break;
+				default:
+					tvStatusT = eCP_ERR_CHANNEL;
+					break;
+			}
 		}
 	}
-
 	return (tvStatusT);
 }
+
 
 //----------------------------------------------------------------------------//
 // CpCoreStatistic()                                                          //
@@ -934,6 +1096,88 @@ CpStatus_tv CpCoreStatistic(CpPort_ts *ptsPortV, CpStatistic_ts *ptsStatsV)
 	return (tvStatusT);
 }
 
+void receive_main_tx_on_mon_rx(void)
+{
+	if (pfnCan2RcvHandlerS != CPP_NULL)
+	{
+		for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
+		{
+			if (atsCan2MsgS[buffer_id].ulMsgUser & CP_BUFFER_MAIN_TX_MON_RX_PND)
+			{
+				atsCan2MsgS[buffer_id].ulMsgUser ^= CP_BUFFER_MAIN_TX_MON_RX_PND;
+				/* call MON handler */
+				// typedef uint8_t (* CpRcvHandler_Fn)(CpCanMsg_ts *ptsMsgV, uint8_t ubBufferV);
+				pfnCan2RcvHandlerS(&atsCan2MsgS[buffer_id], buffer_id);
+			}
+		}
+	}
+}
+
+uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, uint8_t* data, uint8_t clear_pending)
+{
+	uint32_t ret = 1;
+	if (pfnCan2RcvHandlerS != CPP_NULL)
+	{
+		for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
+		{
+			if ((atsCan2MsgS[buffer_id].ulMsgUser & CP_BUFFER_MAIN_TX_MON_RX_PND)
+					&& (atsCan2MsgS[buffer_id].ulIdentifier == (uint32_t)can_id))
+			{
+				if (clear_pending != 0)
+				{
+					atsCan2MsgS[buffer_id].ulMsgUser ^= CP_BUFFER_MAIN_TX_MON_RX_PND;
+				}
+				else
+				{
+					atsCan2MsgS[buffer_id].ubMsgDLC = dlc;
+					memcpy(&atsCan2MsgS[buffer_id].tuMsgData, data, dlc);
+				}
+				ret = 0;
+			}
+		}
+	}
+	return ret;
+}
+
+uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data)
+{
+	uint32_t ret = 1;
+	if (dlc < 9 && data != NULL)
+	{
+		for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
+		{
+			if (atsCan1MsgS[buffer_id].ulIdentifier == (uint32_t)can_id)
+			{
+				atsCan1MsgS[buffer_id].ubMsgDLC = dlc;
+				memcpy(&atsCan1MsgS[buffer_id].tuMsgData, data, dlc);
+				pfnCan1RcvHandlerS(&atsCan1MsgS[buffer_id], buffer_id);
+				ret = 0;
+			}
+		}
+	}
+	return ret;
+}
+
+uint32_t send_to_mon_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data)
+{
+	uint32_t ret = 1;
+	if (dlc < 9 && data != NULL)
+	{
+		for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
+		{
+			if (atsCan2MsgS[buffer_id].ulIdentifier == (uint32_t)can_id)
+			{
+				atsCan2MsgS[buffer_id].ubMsgDLC = dlc;
+				memcpy(&atsCan2MsgS[buffer_id].tuMsgData, data, dlc);
+				pfnCan2RcvHandlerS(&atsCan2MsgS[buffer_id], buffer_id);
+				ret = 0;
+			}
+		}
+	}
+	return ret;
+}
+
+
 void can_main_hw_set_log_file_name(char *file_name)
 {
 	(void) strcpy(can_main_hw_log_file_path, file_name);
@@ -954,4 +1198,9 @@ int can_main_hw_log_open(void)
 void can_main_hw_log_close(void)
 {
 	(void) fclose(can_main_hw_log);
+}
+
+char* get_can_main_hw_log_file_path(void)
+{
+	return can_main_hw_log_file_path;
 }

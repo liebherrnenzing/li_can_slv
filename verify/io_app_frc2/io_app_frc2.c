@@ -54,7 +54,7 @@ volatile uint32_t app_frc2_image_not_valid_cnt = 0;
 /*--------------------------------------------------------------------------*/
 static void app_frc2_process_request_cbk(void);
 static void app_frc2_process_image_valid_cbk(void);
-static void app_frc2_process_image_not_valid_cbk(void);
+static void app_frc2_process_image_not_valid_cbk(lcsa_can_sync_err_flag_t err_flag);
 
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
@@ -196,8 +196,9 @@ static void app_frc2_process_image_valid_cbk(void)
 	app_frc2_image_valid_cnt++;
 }
 
-static void app_frc2_process_image_not_valid_cbk(void)
+static void app_frc2_process_image_not_valid_cbk(lcsa_can_sync_err_flag_t err_flag)
 {
+	(void)err_flag;
 	app_frc2_image_not_valid_cnt++;
 }
 

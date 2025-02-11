@@ -49,13 +49,14 @@ volatile uint32_t app_ma_w_image_valid_cnt = 0;
 volatile uint32_t app_ma_w_process_req_cnt = 0;
 volatile uint32_t app_ma_w_process_time_valid = 0;
 volatile uint32_t app_ma_w_image_not_valid_cnt = 0;
+volatile lcsa_can_sync_err_flag_t app_ma_w_image_not_valid_err = LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR;
 
 /*--------------------------------------------------------------------------*/
 /* function prototypes (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
 static void app_ma_w_process_request_cbk(void);
 static void app_ma_w_process_image_valid_cbk(void);
-static void app_ma_w_process_image_not_valid_cbk(void);
+static void app_ma_w_process_image_not_valid_cbk(lcsa_can_sync_err_flag_t err_flag);
 
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
@@ -371,8 +372,9 @@ static void app_ma_w_process_image_valid_cbk(void)
 {
 	app_ma_w_image_valid_cnt++;
 }
-static void app_ma_w_process_image_not_valid_cbk(void)
+static void app_ma_w_process_image_not_valid_cbk(lcsa_can_sync_err_flag_t err_flag)
 {
+	app_ma_w_image_not_valid_err = err_flag;
 	app_ma_w_image_not_valid_cnt++;
 }
 

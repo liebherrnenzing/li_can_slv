@@ -147,7 +147,12 @@ uint8_t can_sync_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint8
 #endif // #ifdef LI_CAN_SLV_DEBUG_SYNC_RX_EXTENDED
 
 			// call synchrony receive routine of main CAN controller
-			can_sync_rx_data_main(table_pos, canid, dlc, data);
+			err = can_sync_rx_data_main(table_pos, canid, dlc, data);
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				li_can_sync_evaluate_error(table_pos, err);
+			}
+
 #ifdef CAN_MAIN_DIAGNOSE
 			can_main_diagnose.syncrx++;
 #endif // #ifdef CAN_MAIN_DIAGNOSE
@@ -329,7 +334,11 @@ uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, u
 #endif // #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_EXTENDED
 
 			// call synchronous receive routine of don CAN controller
-			can_sync_rx_data_mon(table_pos, canid, dlc, data);
+			err = can_sync_rx_data_mon(table_pos, canid, dlc, data);
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				li_can_sync_evaluate_error(table_pos, err);
+			}
 
 #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_DATA
 			LI_CAN_SLV_DEBUG_PRINT("\ndata_mon: ");
@@ -367,7 +376,11 @@ uint8_t can_sync_handler_rx_mon(uint16_t msg_obj, uint8_t dlc, uint16_t canid, u
 #endif // #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_FROM_MAIN_EXTENDED
 
 			// call synchrony receive routine of mon CAN controller
-			can_sync_tx_data_mon(table_pos, canid, dlc, data);
+			err = can_sync_tx_data_mon(table_pos, canid, dlc, data);
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				li_can_sync_evaluate_error(table_pos, err);
+			}
 
 #ifdef LI_CAN_SLV_DEBUG_MON_SYNC_RX_FROM_MAIN_DATA
 			LI_CAN_SLV_DEBUG_PRINT("\ndata_mon: ");

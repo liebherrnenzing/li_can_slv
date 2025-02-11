@@ -1,0 +1,29 @@
+CpCoreBufferSend: 10 std_can_id = 0x500, dlc = 2, 00 66 
+CpCoreBufferSend: 10 std_can_id = 0x518, dlc = 2, 01 F4 
+CpCoreBufferSend: 10 std_can_id = 0x538, dlc = 4, 00 32 00 2C 
+CpCoreBufferSend: 10 std_can_id = 0x5C0, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C1, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C2, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C3, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x500, dlc = 2, 00 66 
+CpCoreBufferSend: 10 std_can_id = 0x518, dlc = 2, 01 F4 
+CpCoreBufferSend: 10 std_can_id = 0x538, dlc = 4, 00 32 00 2C 
+CpCoreBufferSend: 10 std_can_id = 0x5C0, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C1, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C2, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C3, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x1C3, dlc = 8, 03 75 00 00 15 00 08 75 
+CpCoreBufferSend: 10 std_can_id = 0x500, dlc = 2, 00 66 
+CpCoreBufferSend: 10 std_can_id = 0x518, dlc = 2, 01 F4 
+CpCoreBufferSend: 10 std_can_id = 0x538, dlc = 4, 00 32 00 2C 
+CpCoreBufferSend: 10 std_can_id = 0x5C0, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C1, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C2, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C3, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x500, dlc = 2, 00 66 
+CpCoreBufferSend: 10 std_can_id = 0x518, dlc = 2, 01 F4 
+CpCoreBufferSend: 10 std_can_id = 0x538, dlc = 4, 00 32 00 2C 
+CpCoreBufferSend: 10 std_can_id = 0x5C0, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C1, dlc = 8, 00 00 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C2, dlc = 8, 01 1B 00 00 00 00 00 00 
+CpCoreBufferSend: 10 std_can_id = 0x5C3, dlc = 8, 00 00 00 00 00 00 00 00 

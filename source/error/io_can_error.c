@@ -186,7 +186,7 @@ li_can_slv_errorcode_t can_error_sys_error_send_full(msg_code_t msg_code, byte_t
 #endif // #ifdef ERROR_MAIN_MON
 
 #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
-	sint16_t free;
+	int16_t free;
 #endif //  #ifdef LI_CAN_SLV_SYS_ERROR_QUEUE
 
 	byte_t group_subgroup;
@@ -237,7 +237,7 @@ li_can_slv_errorcode_t can_error_sys_error_send_full(msg_code_t msg_code, byte_t
 
 		// add the message to the sys error queue
 		// check if the queue has 2 entries
-		free = (sint16_t)(LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE - (can_error_sys_error_queue.count + 2));
+		free = (int16_t)(LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE - (can_error_sys_error_queue.count + 2));
 
 		if (free < 0)
 		{
@@ -439,7 +439,7 @@ li_can_slv_errorcode_t can_error_sys_error_peek(uint16_t idx, msg_code_t *pmsg_c
 	}
 	else if (idx >= LI_CAN_SLV_ERROR_SYSERR_QUEUE_SIZE)
 	{
-		err = ERR_SYS_ERR_QUEUE_INDEX_TOO_BIG;
+		err = ERR_MSG_CAN_ERR_NO_ENTRY;
 	}
 	else if (idx >= can_error_sys_error_queue.count)
 	{

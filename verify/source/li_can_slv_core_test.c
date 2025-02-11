@@ -51,6 +51,7 @@
 #include <string.h>
 
 #include <li_can_slv/core/io_can_main.h>
+#include <li_can_slv/core/io_can_mon.h>
 #include <li_can_slv/core/io_can_main_handler.h>
 #include <li_can_slv/sync/io_can_sync_handler.h>
 
@@ -112,6 +113,8 @@ void setUp(void)
 		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
 
 		li_can_slv_sync_main_rx_msg_obj_used = 0;
+		can_mon_rx_msg_obj_used = 0;
+		can_mon_tx_msg_obj_used = 0;
 
 		/* after initialization no call is set */
 		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);
@@ -188,7 +191,7 @@ void test_sys_msg_first_status_req(void)
 	XTFW_ASSERT_EQUAL_UINT16(1, first_status_request_cnt);
 
 	/* compare file content */
-	get_expected_file_path("tc_first_status_req_expected.log", file_path);
+	get_expected_file_path("tc_first_status_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_first_status_req.log");
 }
 
@@ -221,7 +224,7 @@ void test_sys_msg_status_req(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_status_req_expected.log", file_path);
+	get_expected_file_path("tc_status_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_status_req.log");
 }
 
@@ -257,7 +260,7 @@ void test_sys_msg_status_req_broadcast(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_status_req_broadcast_ma_w_expected.log", file_path);
+	get_expected_file_path("tc_status_req_broadcast_ma_w_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_status_req_broadcast_ma_w.log");
 }
 
@@ -292,7 +295,7 @@ void test_sys_msg_version_req(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_version_req_expected.log", file_path);
+	get_expected_file_path("tc_version_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_version_req.log");
 }
 
@@ -330,7 +333,7 @@ void test_sys_msg_version_req_broadcast(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_version_req_broadcast_frc2_expected.log", file_path);
+	get_expected_file_path("tc_version_req_broadcast_frc2_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_version_req_broadcast_frc2.log");
 }
 
@@ -409,7 +412,7 @@ void test_sys_msg_invalid_module_number(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_status_req_invalid_module_number_expected.log", file_path);
+	get_expected_file_path("tc_status_req_invalid_module_number_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_status_req_invalid_module_number.log");
 }
 
@@ -518,7 +521,7 @@ void test_sys_msg_stay_silent_sys(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_status_req_expected.log", file_path);
+	get_expected_file_path("tc_status_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_stat_norm.log");
 
 	/* -------------------------------------- */
@@ -541,7 +544,7 @@ void test_sys_msg_stay_silent_sys(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_version_req_expected.log", file_path);
+	get_expected_file_path("tc_version_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_ver_norm.log");
 
 	/* -------------------------------------- */
@@ -584,7 +587,7 @@ void test_sys_msg_stay_silent_sys(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_status_req_expected_no_ma_w.log", file_path);
+	get_expected_file_path("tc_status_req_no_ma_w_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_stat_no_ma_w.log");
 
 	/* -------------------------------------- */
@@ -607,7 +610,7 @@ void test_sys_msg_stay_silent_sys(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_version_req_expected_no_ma_w.log", file_path);
+	get_expected_file_path("tc_version_req_no_ma_w_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_ver_no_ma_w.log");
 
 	/* -------------------------------------- */
@@ -650,7 +653,7 @@ void test_sys_msg_stay_silent_sys(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_status_req_expected.log", file_path);
+	get_expected_file_path("tc_status_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_stat_norm_2.log");
 
 	/* -------------------------------------- */
@@ -673,7 +676,7 @@ void test_sys_msg_stay_silent_sys(void)
 	XTFW_ASSERT_EQUAL_INT(1, ret);
 
 	/* compare file content */
-	get_expected_file_path("tc_version_req_expected.log", file_path);
+	get_expected_file_path("tc_version_req_exp.log", file_path);
 	TEST_ASSERT_BINARY_FILE(file_path, "_tc_stay_s_sys_ver_norm_2.log");
 }
 

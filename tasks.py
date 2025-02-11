@@ -33,7 +33,7 @@ def configure(ctx):
 def cov(ctx):
     shutil.rmtree(BUILD_PATH + '/coverage', ignore_errors=True)
     os.mkdir(BUILD_PATH + '/coverage')
-    ctx.run('gcovr -v -r . --html=' + BUILD_PATH + '/coverage/coverage.html --html-details --xml=' + BUILD_PATH + '/coverage/coverage.xml -k --exclude="(.*verify/.*)|(.*source/arch/.*)|(.*include/li_can_slv/arch/.*)|(.*/coverage/.*)" --gcov-filter=".*\.c"')
+    ctx.run('gcovr -r . --html=' + BUILD_PATH + '/coverage/coverage.html --html-details --xml=' + BUILD_PATH + '/coverage/coverage.xml -k --exclude="(.*verify/.*)|(.*source/arch/.*)|(.*include/li_can_slv/arch/.*)|(.*/coverage/.*)" --gcov-filter=".*\.c"')
     shutil.rmtree('.//verify//artifacts', ignore_errors=True)
     os.mkdir('./verify/artifacts')
     shutil.copytree(BUILD_PATH + '/coverage', './verify/artifacts/coverage')

@@ -61,7 +61,7 @@ target_include_directories(${PROJECT_NAME}_core INTERFACE
 add_library(${PROJECT_NAME}_core_mon INTERFACE)
 
 target_sources(${PROJECT_NAME}_core_mon INTERFACE 
-	${CMAKE_CURRENT_SOURCE_DIR}/source/${arch}/io_can_mon_hw.c)
+	${CMAKE_CURRENT_SOURCE_DIR}/source/core/io_can_mon.c)
 
 target_include_directories(${PROJECT_NAME}_core_mon INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -112,8 +112,10 @@ target_sources(${PROJECT_NAME}_arch_canpie INTERFACE
 	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_hw.c
 	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_main_hw.c
 	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_main_hw_handler.c
-	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_async_hw.c)
-		
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_async_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_mon_hw.c
+	${CMAKE_CURRENT_SOURCE_DIR}/source/arch/canpie_adapter/io_can_mon_hw_handler.c)
+			
 target_include_directories(${PROJECT_NAME}_arch_canpie INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/li_can_slv/arch/canpie_adapter>
 	$<INSTALL_INTERFACE:include/li_can_slv/arch/canpie_adapter>)

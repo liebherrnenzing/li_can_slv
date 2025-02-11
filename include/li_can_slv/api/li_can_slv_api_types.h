@@ -60,6 +60,28 @@ typedef enum
 } lcsa_state_t;
 
 /**
+ * @typedef lcsa_can_sync_err_flag_t
+ * @brief Are the error flags for the process_image_not_valid_cbk
+ */
+typedef enum
+{
+	LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR		 			= 0x00000000,
+
+	LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC			= 0x00000001,	/**< Wrong DLC for RX sync object on MAIN controller (ERR_MSG_CAN_MAIN_RX_WRONG_DLC) */
+//	LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_TX_DLC			= 0x00000002,	/**< Wrong DLC for RX sync object on MAIN controller (N/A) */
+	LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_DLC 			= 0x00000004,	/**< Wrong DLC for RX sync object on MON controller (ERR_MSG_CAN_MON_RX_WRONG_DLC) */
+	LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_DLC 			= 0x00000008,	/**< Wrong DLC for TX sync object on MON controller (ERR_MSG_CAN_MON_TX_WRONG_DLC) */
+
+	LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA		= 0x00000010,	/**< Received data on MAIN and MON not identically for RX sync object (ERR_MSG_CAN_MAIN_MON_DATA_RX) */
+	LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_TX_DATA		= 0x00000020,	/**< Transmitted data on MAIN and MON not identically for TX sync object (ERR_MSG_CAN_MAIN_MON_DATA_TX) */
+
+	LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ 	= 0x00000100,	/**< Missing RX sync data object on MAIN (ERR_MSG_CAN_MAIN_NR_OF_RX_DATA) */
+//	LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_TX_MISSING_OBJ	= 0x00000200,	/**< Missing TX sync data object on MAIN (ERR_MSG_CAN_MAIN_NR_OF_TX_DATA) */
+	LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ  	= 0x00000400,	/**< Missing RX sync data object on MON (ERR_MSG_CAN_MON_NR_OF_RX_DATA) */
+	LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ  	= 0x00000800	/**< Missing TX sync data object on MON (ERR_MSG_CAN_MON_NR_OF_TX_DATA) */
+} lcsa_can_sync_err_flag_t;
+
+/**
  * @defgroup li_can_slv_api_types Typedefs
  * @addtogroup li_can_slv_api_types
  * @{
