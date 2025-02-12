@@ -8,14 +8,21 @@ os:
 cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
-  matrix:
-  - PYTHON_DIR: C:\Python37-x64
+     matrix:
+     - PYTHON_DIR: C:\Python37-x64
+       MINGW: C:\MinGW\bin
 install:
+- choco install mingw --version=11.2.0
 - SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
 - python -m pip install --upgrade pip
 - pip install -r requirements.txt
 - pip install codecov
+- cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
 build_script:
+- cmd: SET
+- cmd: where gcc
+- cmd: gcc --version
+- cmd: python --version
 - inv configure
 - inv all
 test_script:
@@ -24,3 +31,4 @@ after_test:
 - inv cov
 - cd build\coverage
 - codecov -X gcov -f coverage.xml
+
