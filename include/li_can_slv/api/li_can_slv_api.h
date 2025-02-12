@@ -212,7 +212,7 @@ extern "C" {
  * @def lcsa_sync_set_process_image_not_valid_cbk(module_type, module_number, pfnc)
  * @param module_type the module type for which the callback is set
  * @param module_number the module number for which the callback is set
- * @param pfnc function pointer to the callback which include an error flag enum as parameter (see lcsa_can_sync_err_flag_t for possible flags)
+ * @param pfnc function pointer to the callback which includes an #lcsa_can_sync_err_flag_t for possible error flags)
  * @return #LCSA_ERROR_OK if successful
  *
 \rst
