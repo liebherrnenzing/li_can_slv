@@ -146,6 +146,7 @@ li_can_slv_config_module_t can_config_module_tab =
 	LI_CAN_SLV_CONFIG_DEF_MOD_NR1
 };
 #else // #ifdef LI_CAN_SLV_BOOT
+uint8_t can_config_module_sync_deactivated_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] = {0};
 li_can_slv_config_module_t can_config_module_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES] = /**< can configuration module table*/
 {
 #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 1
@@ -1242,6 +1243,7 @@ void can_config_sync_off(uint16_t table_pos)
 	{
 		can_config_module_tab[table_pos].rx_main[i](&clear_data[0], can_config_module_tab[table_pos].rx[i], can_config_module_tab[table_pos].rx_dlc[i]);
 	}
+	can_config_module_sync_deactivated_tab[table_pos] = 0x01;
 }
 
 /**
@@ -1284,6 +1286,7 @@ li_can_slv_errorcode_t can_config_sync_on(uint16_t table_pos)
 #endif // #ifdef LI_CAN_SLV_MON
 	}
 
+	can_config_module_sync_deactivated_tab[table_pos] = 0x00;
 	return (err);
 }
 #endif // #if defined(OUTER) || defined(OUTER_APP)

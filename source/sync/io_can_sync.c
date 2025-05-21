@@ -530,6 +530,10 @@ li_can_slv_errorcode_t can_sync_rx_data_main(uint16_t table_pos, uint16_t can_id
 		return (ERR_MSG_CAN_MAIN_RX_WRONG_MODULE_NR);
 	}
 #endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
+	if (can_config_module_sync_deactivated_tab[table_pos] != 0x00)
+	{
+		return (LI_CAN_SLV_ERR_OK);
+	}
 	if (dlc != can_config_module_tab[table_pos].rx_dlc_sync[obj])
 	{
 		return (ERR_MSG_CAN_MAIN_RX_WRONG_DLC);
@@ -739,6 +743,10 @@ li_can_slv_errorcode_t can_sync_rx_data_mon(uint16_t table_pos, uint16_t can_id,
 		return (ERR_MSG_CAN_MON_RX_WRONG_MODULE_NR);
 	}
 #endif // #ifdef LI_CAN_SLV_SYNC_CHECK_MODULE_NR
+	if (can_config_module_sync_deactivated_tab[table_pos] != 0x00)
+	{
+		return (LI_CAN_SLV_ERR_OK);
+	}
 	if (dlc != can_config_module_tab[table_pos].rx_dlc_sync[obj])
 	{
 		return (ERR_MSG_CAN_MON_RX_WRONG_DLC);

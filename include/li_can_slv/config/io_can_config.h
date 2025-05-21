@@ -62,6 +62,7 @@ extern li_can_slv_config_module_t can_config_module_tab;
 #endif // #ifndef LI_CAN_SLV_BOOT
 
 #if (defined(OUTER) || defined(OUTER_APP))
+extern uint8_t can_config_module_sync_deactivated_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
 extern li_can_slv_config_module_t can_config_module_tab[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES];
 #endif // #if (defined(OUTER) || defined(OUTER_APP))
 
