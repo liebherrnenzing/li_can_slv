@@ -466,13 +466,15 @@ li_can_slv_errorcode_t can_sync_init(void)
  */
 li_can_slv_errorcode_t can_sync_rx_process_main(uint16_t dlc, byte_t const *can)
 {
+	uint32_t tmp;
 #ifdef CAN_MAIN_DIAGNOSE
 	can_main_diagnose.pr++;
 #endif // #ifdef CAN_MAIN_DIAGNOSE
 
 	can = can; // suppress warning
 
-	can_sync.pr_periode = can_port_ticks_2_msec(can_port_get_system_ticks() - can_sync.main_pr_timestamp);
+	tmp = can_port_get_system_ticks() - can_sync.main_pr_timestamp;
+	can_sync.pr_periode = can_port_ticks_2_msec(tmp);
 	can_sync.main_pr_timestamp = can_port_get_system_ticks();
 
 	can_sync.main_pr_cnt++;
