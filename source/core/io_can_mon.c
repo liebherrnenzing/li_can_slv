@@ -277,6 +277,21 @@ li_can_slv_errorcode_t can_mon_init(void)
 	return err;
 }
 
+li_can_slv_errorcode_t can_mon_deinit(void)
+{
+	can_mon_isr_inp_mask_rx = 0x00000000L;
+	can_mon_isr_inp_mask_rx_main = 0x00000000L;
+	can_mon_objs_mask = 0x00000000L;
+
+	li_can_slv_port_memory_set(can_mon_rx_msg_obj, 0x00, sizeof(can_mon_rx_msg_obj));
+	can_mon_rx_msg_obj_used = 0;
+
+	li_can_slv_port_memory_set(can_mon_tx_msg_obj, 0x00, sizeof(can_mon_tx_msg_obj));
+	can_mon_tx_msg_obj_used = 0;
+
+	return can_mon_hw_deinit();
+}
+
 /**
  * @return li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
  */

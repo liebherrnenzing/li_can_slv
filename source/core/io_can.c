@@ -278,7 +278,7 @@ li_can_slv_errorcode_t li_can_slv_init(can_config_bdr_t baudrate)
 
 li_can_slv_errorcode_t li_can_slv_deinit(void)
 {
-	can_main_hw_deinit();
+	can_main_deinit();
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 	can_mon_hw_deinit();
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)

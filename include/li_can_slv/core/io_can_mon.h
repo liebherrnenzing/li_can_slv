@@ -142,6 +142,7 @@ extern can_mon_diagnose_t can_mon_diagnose;
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_mon_init(void);
+li_can_slv_errorcode_t can_mon_deinit(void);
 li_can_slv_errorcode_t can_mon_enable(void);
 li_can_slv_errorcode_t can_mon_disable(void);
 li_can_slv_errorcode_t can_mon_process_stop(void);

@@ -544,6 +544,7 @@ extern "C" {
  */
 #endif // #ifdef LI_CAN_SLV_DLOAD
 extern lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate);
+extern lcsa_errorcode_t lcsa_deinit(void);
 
 #ifndef LI_CAN_SLV_BOOT
 /**

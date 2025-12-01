@@ -96,6 +96,11 @@ lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate)
 	return li_can_slv_init(baudrate);
 }
 
+lcsa_errorcode_t lcsa_deinit(void)
+{
+	return li_can_slv_deinit();
+}
+
 #ifndef LI_CAN_SLV_BOOT
 lcsa_errorcode_t lcsa_start(void)
 {

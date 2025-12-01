@@ -132,6 +132,7 @@ extern can_main_diagnose_t can_main_diagnose;
 /* function prototypes                                                      */
 /*--------------------------------------------------------------------------*/
 li_can_slv_errorcode_t can_main_init(void);
+li_can_slv_errorcode_t can_main_deinit(void);
 li_can_slv_errorcode_t can_main_send_queue_system_tx(li_can_slv_module_nr_t module_nr, byte_t const *src);
 #if defined(OUTER) || defined(OUTER_APP)
 li_can_slv_errorcode_t can_main_process_start(void);
