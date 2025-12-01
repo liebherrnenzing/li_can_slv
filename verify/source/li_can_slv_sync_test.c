@@ -957,6 +957,8 @@ void test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
 	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
 	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
 
+	XTFW_ASSERT_EQUAL_HEX32(LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR, app_ma_w_image_not_valid_err);
+
 	receive_main_tx_on_mon_rx();
 
 	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
