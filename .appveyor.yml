@@ -1,34 +1,43 @@
-version: 1.0.0-{build}
-branches:
-     only:
-     - master
-     - dev
-os:
-- Visual Studio 2019
-cache:
-- '%LOCALAPPDATA%\pip\Cache'
-environment:
-     matrix:
-     - PYTHON: C:\Python37-x64
-       MINGW: C:\MinGW\bin
-install:
-- choco install mingw --version=11.2.0
-- SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
-- python -m pip install --upgrade pip
-- pip install -r requirements.txt
-- pip install codecov
-- cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
-build_script:
-- cmd: SET
-- cmd: where gcc
-- cmd: gcc --version
-- cmd: python --version
-- inv configure
-- inv all
-test_script:
-- inv test
-after_test:
-- inv cov
-- cd build\coverage
-- codecov -X gcov -f coverage.xml
 
+version: 1.0.0-{build}
+image: Visual Studio 2019
+
+branches:
+  only:
+    - master
+    - dev
+
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
+
+environment:
+  matrix:
+    - PYTHON: C:\Python37-x64
+      MINGW: C:\MinGW\bin
+
+init:
+  # Make sure Python is first in PATH for all steps
+  - cmd: SETX PATH "%PYTHON%;%PYTHON%\Scripts;%PATH%"
+
+install:
+  - choco install mingw --version=11.2.0
+  - refreshenv
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+  - pip install codecov
+  - cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
+
+build_script:
+  - cmd: where python
+  - cmd: python --version
+  - cmd: where gcc
+  - cmd: gcc --version
+  - inv configure
+  - inv all
+
+test_script:
+  - inv test
+
+after_test:
+  - inv cov
+  - cd build\coverage
