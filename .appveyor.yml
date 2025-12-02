@@ -9,11 +9,11 @@ cache:
 - '%LOCALAPPDATA%\pip\Cache'
 environment:
      matrix:
-     - PYTHON_DIR: C:\Python37-x64
+     - PYTHON: C:\Python37-x64
        MINGW: C:\MinGW\bin
 install:
 - choco install mingw --version=11.2.0
-- SET PATH=%PYTHON_DIR%;%PYTHON_DIR%\Scripts;%PATH%
+- SET PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
 - python -m pip install --upgrade pip
 - pip install -r requirements.txt
 - pip install codecov
