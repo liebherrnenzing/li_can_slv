@@ -107,14 +107,12 @@ void setUp(void)
 	if (init_once != 1 || reinit == TRUE)
 	{
 		init_once = 1;
-		reinit = FALSE;
 
-		/* clear module table */
-		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
-
-		li_can_slv_sync_main_rx_msg_obj_used = 0;
-		can_mon_rx_msg_obj_used = 0;
-		can_mon_tx_msg_obj_used = 0;
+		if (reinit == TRUE)
+		{
+			reinit = FALSE;
+			lcsa_deinit();
+		}
 
 		/* after initialization no call is set */
 		err = lcsa_init(LCSA_BAUD_RATE_DEFAULT);
@@ -147,7 +145,7 @@ void setUp(void)
 // tearDown will be called after each test
 void tearDown(void)
 {
-	//li_can_slv_deinit();
+
 }
 
 /**

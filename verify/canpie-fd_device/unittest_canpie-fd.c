@@ -387,7 +387,7 @@ CpStatus_tv CpCoreBufferSend(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 {
 	uint16_t i;
 	CpStatus_tv tvStatusT;
-//	uint32_t tx_mailbox;
+	//	uint32_t tx_mailbox;
 	uint16_t dlc;
 
 	//----------------------------------------------------------------
@@ -448,7 +448,7 @@ CpStatus_tv CpCoreBufferSend(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 					/* copy MAIN TX to MON RX buffer */
 					for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
 					{
-						if (atsCan2MsgS[buffer_id].ulIdentifier == atsCan1MsgS[ubBufferIdxV].ulIdentifier )
+						if (atsCan2MsgS[buffer_id].ulIdentifier == atsCan1MsgS[ubBufferIdxV].ulIdentifier)
 						{
 							atsCan2MsgS[buffer_id].ubMsgCtrl = atsCan1MsgS[ubBufferIdxV].ubMsgCtrl;
 							atsCan2MsgS[buffer_id].ubMsgDLC = atsCan1MsgS[ubBufferIdxV].ubMsgDLC;
@@ -465,7 +465,7 @@ CpStatus_tv CpCoreBufferSend(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 
 	if (ptsPortV->ubPhyIf == eCP_CHANNEL_2)
 	{
-		while(1);
+		while (1);
 	}
 
 	return (tvStatusT);
@@ -611,8 +611,8 @@ CpStatus_tv CpCoreCanMode(CpPort_ts *ptsPortV, uint8_t ubModeV)
 //----------------------------------------------------------------------------//
 CpStatus_tv CpCoreCanState(CpPort_ts *ptsPortV, CpState_ts *ptsStateV)
 {
-//	uint32_t hal_error;
-//	uint32_t hal_esr;
+	//	uint32_t hal_error;
+	//	uint32_t hal_esr;
 
 	CpStatus_tv tvStatusT = eCP_ERR_CHANNEL;
 
@@ -653,9 +653,9 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 	}
 
 #if CP_STATISTIC > 0
-		tx1_counter = 0;
-		rx1_counter = 0;
-		err1_counter = 0;
+	tx1_counter = 0;
+	rx1_counter = 0;
+	err1_counter = 0;
 #endif
 
 	//--------------------------------------------------------
@@ -1113,7 +1113,7 @@ void receive_main_tx_on_mon_rx(void)
 	}
 }
 
-uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, uint8_t* data, uint8_t clear_pending)
+uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, uint8_t *data, uint8_t clear_pending)
 {
 	uint32_t ret = 1;
 	if (pfnCan2RcvHandlerS != CPP_NULL)
@@ -1121,7 +1121,7 @@ uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, ui
 		for (uint32_t buffer_id = 0; buffer_id < CP_BUFFER_MAX; buffer_id++)
 		{
 			if ((atsCan2MsgS[buffer_id].ulMsgUser & CP_BUFFER_MAIN_TX_MON_RX_PND)
-					&& (atsCan2MsgS[buffer_id].ulIdentifier == (uint32_t)can_id))
+			        && (atsCan2MsgS[buffer_id].ulIdentifier == (uint32_t)can_id))
 			{
 				if (clear_pending != 0)
 				{
@@ -1139,7 +1139,7 @@ uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, ui
 	return ret;
 }
 
-uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data)
+uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t *data)
 {
 	uint32_t ret = 1;
 	if (dlc < 9 && data != NULL)
@@ -1158,7 +1158,7 @@ uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data)
 	return ret;
 }
 
-uint32_t send_to_mon_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data)
+uint32_t send_to_mon_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t *data)
 {
 	uint32_t ret = 1;
 	if (dlc < 9 && data != NULL)
@@ -1200,7 +1200,7 @@ void can_main_hw_log_close(void)
 	(void) fclose(can_main_hw_log);
 }
 
-char* get_can_main_hw_log_file_path(void)
+char *get_can_main_hw_log_file_path(void)
 {
 	return can_main_hw_log_file_path;
 }

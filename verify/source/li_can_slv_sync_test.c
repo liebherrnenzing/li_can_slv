@@ -93,9 +93,9 @@ static int doesFileExist(const char *filename);
 static void get_expected_file_path(const char *filename, char *filepath);
 
 extern void receive_main_tx_on_mon_rx(void);
-extern uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, uint8_t* data, uint8_t clear_pending);
-extern uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data);
-extern uint32_t send_to_mon_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t* data);
+extern uint32_t modify_pending_frame_main_tx_to_mon_rx(uint16_t can_id, uint8_t dlc, uint8_t *data, uint8_t clear_pending);
+extern uint32_t send_to_main_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t *data);
+extern uint32_t send_to_mon_rx_handler(uint16_t can_id, uint8_t dlc, uint8_t *data);
 
 static void receive_master_output_data(void);
 
@@ -119,15 +119,6 @@ void setUp(void)
 		app_ma_w_image_valid_cnt = 0;
 		app_ma_w_image_not_valid_cnt = 0;
 		app_ma_w_image_not_valid_err = LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR;
-
-		/* clear module table */
-		memset(can_config_module_tab, 0x00, sizeof(can_config_module_tab));
-		/* clean sync structure */
-		memset(&can_sync, 0x00, sizeof(can_sync));
-
-		li_can_slv_sync_main_rx_msg_obj_used = 0;
-		can_mon_rx_msg_obj_used = 0;
-		can_mon_tx_msg_obj_used = 0;
 
 		/* after initialization no call is set */
 		XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_init(LCSA_BAUD_RATE_DEFAULT));
@@ -153,7 +144,7 @@ void tearDown(void)
 {
 	// for next test
 	reinit = TRUE;
-	li_can_slv_deinit();
+	lcsa_deinit();
 	can_main_hw_log_close();
 }
 

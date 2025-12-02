@@ -104,7 +104,7 @@ uint8_t can_mon_hw_handler_rx(CpCanMsg_ts *ptsCanMsgV, uint8_t ubBufferIdxV)
 	uint8_t data[8];
 	uint16_t canid;
 	uint8_t dlc;
-    
+
 #ifdef LI_CAN_SLV_RECONNECT
 	if (li_can_slv_reconnect_get_state() != CAN_RECONNECT_STATE_OFF)
 	{

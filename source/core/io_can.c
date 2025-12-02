@@ -280,7 +280,7 @@ li_can_slv_errorcode_t li_can_slv_deinit(void)
 {
 	can_main_deinit();
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
-	can_mon_hw_deinit();
+	can_mon_deinit();
 #endif // #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 	return LI_CAN_SLV_ERR_OK;
 }

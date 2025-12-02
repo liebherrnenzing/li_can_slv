@@ -31,6 +31,7 @@ list (APPEND li_can_slv_test_SOURCE
 get_filename_component(li_can_slv_core_test_absolute_path "source/li_can_slv_core_test.c" REALPATH CACHE)
 get_filename_component(li_can_slv_error_test_absolute_path "source/li_can_slv_error_test.c" REALPATH CACHE)
 get_filename_component(li_can_slv_sync_test_absolute_path "source/li_can_slv_sync_test.c" REALPATH CACHE)
+get_filename_component(li_can_slv_config_test_absolute_path "source/li_can_slv_config_test.c" REALPATH CACHE)
 
 execute_process(
  COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_core_test_absolute_path}
@@ -42,6 +43,10 @@ execute_process(
 
 execute_process(
  COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_sync_test_absolute_path}
+)
+
+execute_process(
+ COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_config_test_absolute_path}
 )
 
 #find_program(CMAKE_C_CPPCHECK NAMES cppcheck)
@@ -82,22 +87,32 @@ target_compile_options(li_can_slv_sync_test PUBLIC -O0 -ggdb)
 target_link_libraries(li_can_slv_sync_test li_can_slv_core li_can_slv_core_mon li_can_slv_xload li_can_slv_arch_canpie)
 add_test(NAME li_can_slv_sync_test COMMAND li_can_slv_sync_test)
 
+add_executable(li_can_slv_config_test source/li_can_slv_config_test.c source/li_can_slv_config_test_Runner.c ${li_can_slv_test_SOURCE})
+target_include_directories(li_can_slv_config_test PUBLIC ${li_can_slv_test_HEADER})
+target_compile_definitions(li_can_slv_config_test PRIVATE UNITY_INCLUDE_CONFIG_H)
+target_compile_options(li_can_slv_config_test PUBLIC -O0 -ggdb)
+target_link_libraries(li_can_slv_config_test li_can_slv_core li_can_slv_core_mon li_can_slv_xload li_can_slv_arch_canpie)
+add_test(NAME li_can_slv_config_test COMMAND li_can_slv_config_test)
+
 add_custom_target(unittest_run
 	COMMAND 
 	li_can_slv_core_test.exe > result.testresult & 
 	li_can_slv_error_test.exe >> result.testresult & 
 	li_can_slv_sync_test.exe >> result.testresult &
+	li_can_slv_config_test.exe >> result.testresult &
 	type result.testresult
 )
 
 add_custom_target(unittest_prepare
 	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_core_test_absolute_path}
 	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_error_test_absolute_path}
-	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_sync_test_absolute_path}	
+	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_sync_test_absolute_path}
+	COMMAND ruby ${CMAKE_CURRENT_SOURCE_DIR}/unity/auto/generate_test_runner.rb ${li_can_slv_config_test_absolute_path}	
 )
 
 list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_core_test_Runner.c")
 list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_error_test_Runner.c")
 list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_sync_test_Runner.c")
+list(APPEND extra_clean_files "${CMAKE_CURRENT_SOURCE_DIR}/source/li_can_slv_config_test_Runner.c")
 
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${extra_clean_files}")

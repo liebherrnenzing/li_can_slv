@@ -403,7 +403,8 @@ li_can_slv_errorcode_t can_main_deinit(void)
 	can_main_async_objs_mask = 0;
 	can_main_async_ctrl_objs_mask = 0;
 
-	li_can_slv_port_memory_set((void*)li_can_slv_sync_main_rx_msg_obj, 0x00, sizeof(li_can_slv_sync_main_rx_msg_obj));
+	li_can_slv_port_memory_set((void *)li_can_slv_sync_main_rx_msg_obj, 0x00, sizeof(li_can_slv_sync_main_rx_msg_obj));
+	li_can_slv_sync_main_rx_msg_obj_used = 0;
 	li_can_slv_sync_main_tx_msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC;
 
 	return can_main_hw_init();

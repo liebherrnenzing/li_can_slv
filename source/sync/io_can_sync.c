@@ -413,6 +413,7 @@ li_can_slv_errorcode_t can_sync_init(void)
 	li_can_slv_errorcode_t err = LI_CAN_SLV_ERR_OK;
 	uint16_t i;
 
+	can_port_memory_set(&can_sync, 0x00, sizeof(can_sync));
 #ifdef LI_CAN_SLV_MON
 	can_port_memory_set(can_sync_data_main_tx, 0, sizeof(can_sync_data_t) * LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES);
 	can_port_memory_set(can_sync_data_mon_rx, 0, sizeof(can_sync_data_t) * LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES);
@@ -1325,7 +1326,8 @@ void li_can_sync_evaluate_error(uint16_t table_pos, li_can_slv_errorcode_t err)
 {
 	lcsa_can_sync_err_flag_t lcsa_err;
 
-	switch (err) {
+	switch (err)
+	{
 		case ERR_MSG_CAN_MAIN_RX_WRONG_DLC:
 			lcsa_err = LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC;
 			break;
