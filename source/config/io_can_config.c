@@ -1010,7 +1010,6 @@ li_can_slv_errorcode_t can_config_add_module(const li_can_slv_config_module_t *m
 				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
 			}
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
-			err = LI_CAN_SLV_ERR_OK;
 			goto clear_exit;
 		}
 		i++;
@@ -2176,12 +2175,17 @@ static li_can_slv_errorcode_t can_config_set_module(uint16_t table_pos, const li
 	uint16_t can_id, msg_obj;
 	uint16_t can_id_or, can_id_and, mask;
 
+	if (module_nr > CAN_CONFIG_MAX_POSSIBLE_MODULE_NR)
+	{
+		return ERR_MSG_CAN_CONFIG_INVALID;
+	}
+
 	can_port_memory_cpy(&can_config_module_tab[table_pos], module, sizeof(li_can_slv_config_module_t));
 
 	// limit module number
-	if ((module_nr > CAN_CONFIG_MAX_MODULE_NR) || (module_nr < CAN_CONFIG_MIN_MODULE_NR))
+	if (module_nr < CAN_CONFIG_MIN_MODULE_NR)
 	{
-		module_nr = LI_CAN_SLV_CONFIG_DEF_MOD_NR1 + table_pos;
+		module_nr = LI_CAN_SLV_CONFIG_DEF_MOD_NR1;
 	}
 
 #ifdef LI_CAN_SLV_DEBUG_CAN_INIT

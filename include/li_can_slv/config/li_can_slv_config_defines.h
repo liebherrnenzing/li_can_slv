@@ -180,8 +180,9 @@ extern "C" {
 
 #define CAN_CONFIG_NR_OF_MODULE_OBJS (4u) /*!< number of module msg objects */
 
-#define CAN_CONFIG_MIN_MODULE_NR	(2u) /*!< minimum valid module number */
-#define CAN_CONFIG_MAX_MODULE_NR	(124u) /*!< maximum valid module number */
+#define CAN_CONFIG_MIN_MODULE_NR			(2u) /*!< minimum valid module number */
+#define CAN_CONFIG_MAX_MODULE_NR			(124u) /*!< maximum valid module number */
+#define CAN_CONFIG_MAX_POSSIBLE_MODULE_NR	(127u) /*!< maximum possible but invalid module number */
 
 #define LI_CAN_SLV_CONFIG_TABLE_POS_MAIN_MODULE (0u)
 
