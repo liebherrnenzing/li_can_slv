@@ -1,37 +1,42 @@
 
 version: 1.0.0-{build}
-image: Visual Studio 2019
+
+# Use Python 3.7 stack provided by AppVeyor
+stack: python 3.7
 
 branches:
   only:
     - master
     - dev
 
+# Cache pip packages for faster builds
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
+# Environment variables (optional if you need MinGW path)
 environment:
-  matrix:
-    - PYTHON: C:\Python37-x64
-      MINGW: C:\MinGW\bin
-
-init:
-  # Make sure Python is first in PATH for all steps
-  - cmd: SETX PATH "%PYTHON%;%PYTHON%\Scripts;%PATH%"
+  MINGW: C:\MinGW\bin
 
 install:
+  # Install MinGW via Chocolatey
   - choco install mingw --version=11.2.0
+  # Refresh environment variables after installing packages
   - refreshenv
+  # Verify Python version from stack
+  - python --version
+  # Upgrade pip and install dependencies
   - python -m pip install --upgrade pip
   - pip install -r requirements.txt
   - pip install codecov
+  # Create symbolic link for MinGW if needed
   - cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
 
 build_script:
+  # Debug info
   - cmd: where python
-  - cmd: python --version
   - cmd: where gcc
   - cmd: gcc --version
+  # Your build commands
   - inv configure
   - inv all
 
