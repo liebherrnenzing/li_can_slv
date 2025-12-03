@@ -41,5 +41,5 @@ sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-seqdiag==2.0.0
 sphinxcontrib-serializinghtml==1.1.5
 typing_extensions==4.7.1
-urllib3==2.0.7
+urllib3==2.5.0
 webcolors==1.13
