@@ -23,7 +23,7 @@ Pillow==9.5.0
 Pygments==2.17.2
 pyparsing==3.0.9
 pytz==2024.1
-requests==2.31.0
+requests==2.32.4
 seqdiag==3.0.0
 setuptools==80.9.0
 six==1.16.0
