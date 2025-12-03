@@ -10,7 +10,7 @@ funcparserlib==1.0.1
 gcovr==5.2
 gitdb==4.0.11
 GitPython==3.1.41
-idna==3.6
+idna==3.7
 imagesize==1.4.1
 invoke==2.2.1
 Jinja2==3.0.3
