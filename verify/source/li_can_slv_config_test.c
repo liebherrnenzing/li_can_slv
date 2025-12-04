@@ -123,6 +123,46 @@ void test_lcsa_init_deinit(void)
 }
 
 /**
+ * @test test_lcsa_init_reinit
+ * @brief init and deinit of lcsa
+ */
+void test_lcsa_init_reinit(void)
+{
+	uint16_t next_free_object_number = 0;
+
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_init(LCSA_BAUD_RATE_DEFAULT));
+
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_frc2_init(APP_FRC2_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_incx_init(APP_INCX_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_inxy_init(APP_INXY_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_ma_w_init(0, APP_MA_W_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_start());
+
+	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, can_main_get_next_free_msg_obj(&next_free_object_number));
+	XTFW_ASSERT_EQUAL_UINT(13, next_free_object_number);
+
+	/* check if next free object is 13 */
+	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, can_mon_get_next_free_msg_obj(&next_free_object_number));
+	XTFW_ASSERT_EQUAL_UINT(13, next_free_object_number);
+
+	/* reinit stack */
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_reinit(LCSA_BAUD_RATE_DEFAULT));
+
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_frc2_init(APP_FRC2_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_incx_init(APP_INCX_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_inxy_init(APP_INXY_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, app_ma_w_init(0, APP_MA_W_MODULE_NR_DEF));
+	XTFW_ASSERT_EQUAL_UINT(LCSA_ERROR_OK, lcsa_start());
+
+	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, can_main_get_next_free_msg_obj(&next_free_object_number));
+	XTFW_ASSERT_EQUAL_UINT(13, next_free_object_number);
+
+	/* re-check after deinit if the next free object is still 13 */
+	XTFW_ASSERT_EQUAL_UINT(LI_CAN_SLV_ERR_OK, can_mon_get_next_free_msg_obj(&next_free_object_number));
+	XTFW_ASSERT_EQUAL_UINT(13, next_free_object_number);
+}
+
+/**
  * @test test_can_conifg_max_module_numbers
  * @brief test if max module numbers are 125
  */

@@ -407,7 +407,7 @@ li_can_slv_errorcode_t can_main_deinit(void)
 	li_can_slv_sync_main_rx_msg_obj_used = 0;
 	li_can_slv_sync_main_tx_msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC;
 
-	return can_main_hw_init();
+	return can_main_hw_deinit();
 }
 
 #if defined(OUTER) || defined(OUTER_APP)

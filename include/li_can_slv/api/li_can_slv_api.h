@@ -545,11 +545,17 @@ extern "C" {
 #endif // #ifdef LI_CAN_SLV_DLOAD
 extern lcsa_errorcode_t lcsa_init(lcsa_bdr_t baudrate);
 
- /**
-  * @brief This function is used to de-initialize the stack.
-  * @return #LCSA_ERROR_OK if successful
-  */
+/**
+ * @brief This function is used to de-initializes the stack.
+ * @return #LCSA_ERROR_OK if successful
+ */
 extern lcsa_errorcode_t lcsa_deinit(void);
+
+/**
+ * @brief This function is used to re-initializes the stack (deinit -> init).
+ * @return #LCSA_ERROR_OK if successful
+ */
+extern lcsa_errorcode_t lcsa_reinit(lcsa_bdr_t baudrate);
 
 #ifndef LI_CAN_SLV_BOOT
 /**
