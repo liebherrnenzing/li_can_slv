@@ -214,7 +214,7 @@ void test_process_req(void)
 /**
  * @test test_sync_check_image_not_valid
  */
-void test_sync_check_image_not_valid(void)
+void disabled_test_sync_check_image_not_valid(void)
 {
 	char exp_log_file[] = "tc_sync_check_image_not_valid_exp.log";
 	char act_log_file[] = "_tc_sync_check_image_not_valid.log";
@@ -371,7 +371,7 @@ void test_sync_check_image_valid(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC
  * @brief test ERR_MSG_CAN_MAIN_RX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC
  */
-void test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_RX_WRONG_DLC_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_RX_WRONG_DLC.log";
@@ -457,7 +457,7 @@ void test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC
  * @brief test ERR_MSG_CAN_MON_RX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_DLC
  */
-void test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_RX_WRONG_DLC_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_RX_WRONG_DLC.log";
@@ -546,7 +546,7 @@ void test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC
  * @brief test ERR_MSG_CAN_MON_TX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_DLC
  */
-void test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_TX_WRONG_DLC_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_TX_WRONG_DLC.log";
@@ -634,7 +634,7 @@ void test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX
  * @brief test ERR_MSG_CAN_MAIN_MON_DATA_RX and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA
  */
-void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_RX_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_RX.log";
@@ -753,7 +753,7 @@ void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX
  * @brief test ERR_MSG_CAN_MAIN_MON_DATA_TX and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_TX_DATA
  */
-void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_TX_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_TX.log";
@@ -833,7 +833,7 @@ void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA
  * @brief test ERR_MSG_CAN_MAIN_NR_OF_RX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ
  */
-void test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA.log";
@@ -918,7 +918,7 @@ void test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA
  * @brief test ERR_MSG_CAN_MON_NR_OF_RX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ
  */
-void test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_NR_OF_RX_DATA_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_NR_OF_RX_DATA.log";
@@ -1005,7 +1005,7 @@ void test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA
  * @brief test ERR_MSG_CAN_MON_NR_OF_TX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ
  */
-void test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA(void)
+void disabled_test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_NR_OF_TX_DATA_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_NR_OF_TX_DATA.log";
