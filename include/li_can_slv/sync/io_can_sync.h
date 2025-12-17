@@ -42,8 +42,9 @@
 /*--------------------------------------------------------------------------*/
 #define CAN_SYNC_VALID_NR_OF_PROCESS_REQUEST    1 /**< valid number of of process requests */
 #define CAN_SYNC_VALID_DLC_MAX_PROCESS_REQUEST	1 /**< maximal valid data length code of process requests */
-#define CAN_SYNC_VALID_NR_OF_RX_DATA		1 /**< valid number of received data objects */
-#define CAN_SYNC_VALID_NR_OF_TX_DATA		1 /**< valid number of transmit data objects */
+#define CAN_SYNC_VALID_NR_OF_RX_DATA		    1 /**< valid number of received data objects */
+#define CAN_SYNC_VALID_NR_OF_TX_DATA		    1 /**< valid number of transmit data objects */
+#define CAN_SYNC_VALID_PRE_NR					2 /**< pre-threshold for valid checks */
 
 #ifndef LI_CAN_SLV_SYNC_PROCESS_SAFETY_TIME
 #define LI_CAN_SLV_SYNC_PROCESS_SAFETY_TIME	(100) /**< process safety time in milliseconds */
@@ -86,6 +87,13 @@ typedef struct can_sync_err_tag
 	uint16_t mon_tx_cnt[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES]; /**< mon tx counter*/
 #endif // #ifdef LI_CAN_SLV_MON
 	uint16_t data[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES]; /**< error data*/
+    
+    uint8_t main_rx_cnt_pre[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES][CAN_CONFIG_NR_OF_MODULE_OBJS];/**< main rx pre counter*/
+#ifdef LI_CAN_SLV_MON
+    uint8_t mon_rx_cnt_pre[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES][CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< mon rx pre counter*/
+    uint8_t mon_tx_cnt_pre[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES][CAN_CONFIG_NR_OF_MODULE_OBJS]; /**< mon tx pre counter*/
+#endif // #ifdef LI_CAN_SLV_MON
+    uint8_t data_pre[LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES][CAN_CONFIG_NR_OF_MODULE_OBJS];       /**< main rx pre counter*/
 } can_sync_err_t;
 
 /**
@@ -99,10 +107,12 @@ typedef struct can_sync_tag
 #ifdef LI_CAN_SLV_MON
 	uint32_t mon_pr_timestamp; /*!< time stamp of received process request on monitor */
 #endif // #ifdef LI_CAN_SLV_MON
-	uint16_t main_pr_cnt; /*!< main process request counter */
+	uint32_t main_pr_cnt_all; 
+    uint16_t main_pr_cnt; /*!< main process request counter */
 	uint16_t main_pr_dlc; /*!< main data length code of process request */
 	//uint16_t main_pr_index; /*!< main index of process request */
 #ifdef LI_CAN_SLV_MON
+    uint32_t mon_pr_cnt_all; 
 	uint16_t mon_pr_cnt; /*!< monitor process request counter */
 	uint16_t mon_pr_dlc; /*!< monitor data length code of process request */
 	//uint16_t mon_pr_index; /*!< monitor index of process request */
@@ -203,4 +213,3 @@ void li_can_sync_evaluate_error(uint16_t table_pos, li_can_slv_errorcode_t err);
 
 #endif // #ifndef IO_CAN_SYNC_H
 /** @} */
-
