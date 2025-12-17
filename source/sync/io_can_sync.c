@@ -478,7 +478,9 @@ li_can_slv_errorcode_t can_sync_rx_process_main(uint16_t dlc, byte_t const *can)
 	can_sync.pr_periode = can_port_ticks_2_msec(tmp);
 	can_sync.main_pr_timestamp = can_port_get_system_ticks();
 
-	can_sync.main_pr_cnt++;
+	can_sync.main_pr_cnt_all++;
+	
+    can_sync.main_pr_cnt++;
 	can_sync.main_pr_dlc = dlc;
 	//	can_sync.main_pr_index = (uint16_t) can[0];
 	can_sync.main_pr_flag = 0xFFFF;
@@ -690,6 +692,8 @@ li_can_slv_errorcode_t can_sync_rx_process_mon(uint16_t dlc, byte_t const *can)
 
 	can_sync.mon_pr_timestamp = can_port_get_system_ticks();
 
+	can_sync.mon_pr_cnt_all++;
+    
 	can_sync.mon_pr_cnt++;
 	can_sync.mon_pr_dlc = dlc;
 	//	can_sync.mon_pr_index = (uint16_t) can[0];
@@ -1422,9 +1426,20 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 #ifdef LI_CAN_SLV_MON
 		if (can_sync.mon_tx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_TX_DATA)
 		{
-			can_sync.err.mon_tx_cnt[table_pos]++;
-			return (ERR_MSG_CAN_MON_NR_OF_TX_DATA);
+            can_sync.err.mon_tx_cnt_pre[table_pos][i]++;
+            
+            if (can_sync.err.mon_tx_cnt_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
+            {   // pre-counter reached
+                can_sync.err.mon_tx_cnt[table_pos]++;
+                return (ERR_MSG_CAN_MON_NR_OF_TX_DATA);
+            }
 		}
+        else
+        {
+            // reset pre-counter
+            can_sync.err.mon_tx_cnt_pre[table_pos][i] = 0;
+        }
+            
 #endif // #ifdef LI_CAN_SLV_MON
 	}
 
@@ -1433,23 +1448,53 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 	{
 		if (can_sync.main_rx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_RX_DATA)
 		{
-			can_sync.err.main_rx_cnt[table_pos]++;
-			return (ERR_MSG_CAN_MAIN_NR_OF_RX_DATA);
+            can_sync.err.main_rx_cnt_pre[table_pos][i]++;
+            
+            if (can_sync.err.main_rx_cnt_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
+            {   // pre-counter reached
+                can_sync.err.main_rx_cnt[table_pos]++;
+                return (ERR_MSG_CAN_MAIN_NR_OF_RX_DATA);
+            }
 		}
+        else
+        {
+            // reset pre-counter
+            can_sync.err.main_rx_cnt_pre[table_pos][i] = 0;
+        }
 
 #ifdef LI_CAN_SLV_MON
 		if (can_sync.mon_rx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_RX_DATA)
 		{
-			can_sync.err.mon_rx_cnt[table_pos]++;
-			return (ERR_MSG_CAN_MON_NR_OF_RX_DATA);
+			can_sync.err.mon_rx_cnt_pre[table_pos][i]++;
+            
+            if (can_sync.err.mon_rx_cnt_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
+            {   // pre-counter reached
+                can_sync.err.mon_rx_cnt[table_pos]++;
+                return (ERR_MSG_CAN_MON_NR_OF_RX_DATA);
+            }
 		}
+        else
+        {
+            // reset pre-counter
+            can_sync.err.mon_rx_cnt_pre[table_pos][i] = 0;
+        }
 
 		// check the receive data, compare received data of main and monitor CAN controller
 		if (can_port_memory_cmp(&can_sync_data_mon_rx[table_pos].data[i][0], (byte_t *)can_config_module_tab[table_pos].rx[i], can_config_module_tab[table_pos].rx_dlc_sync[i]) != 0)
 		{
-			can_sync.err.data[table_pos]++;
-			return (ERR_MSG_CAN_MAIN_MON_DATA_RX);
+			can_sync.err.data_pre[table_pos][i]++;
+            
+            if (can_sync.err.data_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
+            {   // pre-counter reached
+                can_sync.err.data[table_pos]++;
+                return (ERR_MSG_CAN_MAIN_MON_DATA_RX);
+            }
 		}
+        else
+        {
+            // reset pre-counter
+            can_sync.err.data_pre[table_pos][i] = 0;
+        }
 #endif // #ifdef LI_CAN_SLV_MON
 	}
 
