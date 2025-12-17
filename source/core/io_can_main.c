@@ -407,6 +407,9 @@ li_can_slv_errorcode_t can_main_deinit(void)
 	li_can_slv_sync_main_rx_msg_obj_used = 0;
 	li_can_slv_sync_main_tx_msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_TX_SYNC;
 
+	li_can_slv_port_memory_set((void* )&can_main_sync_process_tx_data_ctrl, 0x00, sizeof(can_main_sync_process_tx_data_ctrl));
+	can_main_sync_process_tx_data_ctrl.send_reg = CAN_MAIN_PROCESS_DATA_TX_SEND_CLEAR;
+
 	return can_main_hw_deinit();
 }
 
