@@ -371,6 +371,11 @@ li_can_slv_errorcode_t can_main_init(void)
 	li_can_slv_errorcode_t err;
 
 	err = can_main_hw_init();
+
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+	can_error_reset();
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+
 #ifdef CAN_MAIN_DIAGNOSE
 #ifdef SHOW_CAN_MAIN
 	/*----------------------------------------------------------------------*/

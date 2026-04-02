@@ -44,7 +44,12 @@
 #define CAN_SYNC_VALID_DLC_MAX_PROCESS_REQUEST	1 /**< maximal valid data length code of process requests */
 #define CAN_SYNC_VALID_NR_OF_RX_DATA		    1 /**< valid number of received data objects */
 #define CAN_SYNC_VALID_NR_OF_TX_DATA		    1 /**< valid number of transmit data objects */
+
+#ifndef LI_CAN_SLV_DISABLE_SYNC_VALID_PRE_THRESHOLD
 #define CAN_SYNC_VALID_PRE_NR					2 /**< pre-threshold for valid checks */
+#else
+#define CAN_SYNC_VALID_PRE_NR					0
+#endif // #ifndef LI_CAN_SLV_DISABLE_SYNC_VALID_PRE_THRESHOLD
 
 #ifndef LI_CAN_SLV_SYNC_PROCESS_SAFETY_TIME
 #define LI_CAN_SLV_SYNC_PROCESS_SAFETY_TIME	(100) /**< process safety time in milliseconds */

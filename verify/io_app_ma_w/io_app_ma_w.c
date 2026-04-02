@@ -371,6 +371,7 @@ static void app_ma_w_process_request_cbk(void)
 static void app_ma_w_process_image_valid_cbk(void)
 {
 	app_ma_w_image_valid_cnt++;
+	app_ma_w_image_not_valid_err = LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR;
 }
 static void app_ma_w_process_image_not_valid_cbk(lcsa_can_sync_err_flag_t err_flag)
 {

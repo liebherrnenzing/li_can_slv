@@ -71,6 +71,7 @@ li_can_slv_errorcode_t can_error_sys_error_send_full(msg_code_t msg_code, byte_t
 li_can_slv_errorcode_t can_error_sys_error_get_full(msg_code_t *pmsg_code, byte_t *padd_info, err_prio_t *ppriority, byte_t *pgroup_subgroup, li_can_slv_module_nr_t *pmodule_nr);
 li_can_slv_errorcode_t can_error_sys_error_get(li_can_slv_module_nr_t *pmodule_nr, li_can_slv_errorcode_t *perrnum, err_prio_t *ppriority);
 uint16_t can_error_sys_error_count(void);
+void can_error_reset(void);
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
 #ifdef __cplusplus

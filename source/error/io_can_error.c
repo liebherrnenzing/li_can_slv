@@ -491,6 +491,15 @@ uint16_t can_error_sys_error_count(void)
 }
 #endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
 
+
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+void can_error_reset(void)
+{
+	can_error_sys_error_state = CAN_ERR_SYS_NOT_INITIALIZED;
+}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+
+
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/

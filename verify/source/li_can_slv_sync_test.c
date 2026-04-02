@@ -214,7 +214,7 @@ void test_process_req(void)
 /**
  * @test test_sync_check_image_not_valid
  */
-void disabled_test_sync_check_image_not_valid(void)
+void test_sync_check_image_not_valid(void)
 {
 	char exp_log_file[] = "tc_sync_check_image_not_valid_exp.log";
 	char act_log_file[] = "_tc_sync_check_image_not_valid.log";
@@ -371,7 +371,7 @@ void test_sync_check_image_valid(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC
  * @brief test ERR_MSG_CAN_MAIN_RX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_DLC
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
+void test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_RX_WRONG_DLC_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_RX_WRONG_DLC.log";
@@ -457,7 +457,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MAIN_RX_WRONG_DLC(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC
  * @brief test ERR_MSG_CAN_MON_RX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_DLC
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
+void test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_RX_WRONG_DLC_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_RX_WRONG_DLC.log";
@@ -546,7 +546,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MON_RX_WRONG_DLC(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC
  * @brief test ERR_MSG_CAN_MON_TX_WRONG_DLC and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_DLC
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
+void test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_TX_WRONG_DLC_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_TX_WRONG_DLC.log";
@@ -634,7 +634,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MON_TX_WRONG_DLC(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX
  * @brief test ERR_MSG_CAN_MAIN_MON_DATA_RX and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_RX_DATA
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
+void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_RX_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_RX.log";
@@ -753,7 +753,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_RX(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX
  * @brief test ERR_MSG_CAN_MAIN_MON_DATA_TX and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_MON_TX_DATA
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
+void test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_TX_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_MON_DATA_TX.log";
@@ -833,7 +833,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MAIN_MON_DATA_TX(void)
  * @test test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA
  * @brief test ERR_MSG_CAN_MAIN_NR_OF_RX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
+void test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA.log";
@@ -918,7 +918,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MAIN_NR_OF_RX_DATA(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA
  * @brief test ERR_MSG_CAN_MON_NR_OF_RX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
+void test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_NR_OF_RX_DATA_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_NR_OF_RX_DATA.log";
@@ -1005,7 +1005,7 @@ void disabled_test_sync_image_ERR_MSG_CAN_MON_NR_OF_RX_DATA(void)
  * @test test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA
  * @brief test ERR_MSG_CAN_MON_NR_OF_TX_DATA and callback with LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ
  */
-void disabled_test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA(void)
+void test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA(void)
 {
 	char exp_log_file[] = "tc_sync_ERR_MSG_CAN_MON_NR_OF_TX_DATA_exp.log";
 	char act_log_file[] = "_tc_sync_ERR_MSG_CAN_MON_NR_OF_TX_DATA.log";
@@ -1089,13 +1089,136 @@ void disabled_test_sync_image_ERR_MSG_CAN_MON_NR_OF_TX_DATA(void)
 }
 
 /**
- * @test test_sync_sync_critical_module_no_error
+ * @test test_sync_NO_MON_DATA
+ * @brief test if monitor doesn't receive any data
+ */
+void test_sync_NO_MON_DATA(void)
+{
+	char act_log_file[] = "_tc_sync_NO_MON_DATA.log";
+
+	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
+	uint16_t msg_obj_mon = CAN_CONFIG_MSG_MON_OBJ_RX_PROCESS;
+	byte_t rx_data[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+	can_main_hw_set_log_file_name(act_log_file);
+	if (can_main_hw_log_open() == EXIT_FAILURE)
+	{
+		TEST_FAIL_MESSAGE("log open fails");
+	}
+
+	lcsa_sync_set_whole_process_image_valid_cbk(&whole_process_image_valid_cbk);
+
+	app_incx_set_incx(500);
+	app_inxy_set_incx(50);
+	app_inxy_set_incy(44);
+	app_frc2_set_force(102);
+
+	app_ma_w_tx1_set_word0(0, 283);
+	app_ma_w_tx3_set_word0(0, 283);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x3c0, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x3c1, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x3c2, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x3c3, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(0, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x001, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_INT(1, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(0, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x000, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x000, rx_data));
+
+	receive_main_tx_on_mon_rx();
+
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_not_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ, app_ma_w_image_not_valid_err);
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x000, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x000, rx_data));
+
+	XTFW_ASSERT_EQUAL_INT(LI_CAN_SLV_SYNC_ERR_FLAG_MON_RX_MISSING_OBJ, app_ma_w_image_not_valid_err);
+	XTFW_ASSERT_EQUAL_INT(2, app_ma_w_image_not_valid_cnt);
+
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(7, 8, 0x3c0, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(9, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(8, 8, 0x3c1, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(10, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(9, 8, 0x3c2, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(11, 8, 0x000, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(11, 8, 0x3c3, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(12, 8, 0x000, rx_data));
+
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx(msg_obj, 0, 0x001, rx_data));
+	XTFW_ASSERT_EQUAL_UINT(0, can_sync_handler_rx_mon(msg_obj_mon, 0, 0x000, rx_data));
+
+
+	XTFW_ASSERT_EQUAL_INT(LI_CAN_SLV_SYNC_ERR_FLAG_MON_TX_MISSING_OBJ, app_ma_w_image_not_valid_err);
+	XTFW_ASSERT_EQUAL_INT(3, app_ma_w_image_not_valid_cnt);
+
+	XTFW_ASSERT_EQUAL_INT(3, app_frc2_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_incx_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_inxy_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(1, app_ma_w_image_valid_cnt);
+	XTFW_ASSERT_EQUAL_INT(3, app_ma_w_image_not_valid_cnt);
+
+	lcsa_reinit(LCSA_BAUD_RATE_DEFAULT);
+
+	can_main_hw_log_close();
+	XTFW_ASSERT_EQUAL_INT(1, doesFileExist(act_log_file));
+}
+
+/**
+ * @test test_sync_critical_module_no_error
  * @brief test if a critical module does not send any error messages
  */
-void test_sync_sync_critical_module_no_error(void)
+void test_sync_critical_module_no_error(void)
 {
 	char exp_log_file[] = "tc_sync_critical_module_no_error_exp.log";
-	char act_log_file[] = "_tc_sync_critical_module_no_error_exp.log";
+	char act_log_file[] = "_tc_sync_critical_module_no_error.log";
 	char exp_log_file_path[_MAX_PATH];
 
 	uint16_t msg_obj = CAN_CONFIG_MSG_MAIN_OBJ_RX_PROCESS;
@@ -1235,6 +1358,7 @@ void test_sync_reinit_stack_no_tx_data(void)
 	TEST_ASSERT_BINARY_FILE(exp_log_file_path, act_log_file);
 }
 
+
 /*--------------------------------------------------------------------------*/
 /* function definition (private/not exported)                               */
 /*--------------------------------------------------------------------------*/
@@ -1255,6 +1379,7 @@ static void receive_master_output_data(void)
 	uint16_t can_id = 0;
 	uint8_t dlc = 8;
 
+	/* MAW 113 output objects */
 	for (uint32_t i = 0; i < 4; i++)
 	{
 		can_id = 0x3c0 + i;

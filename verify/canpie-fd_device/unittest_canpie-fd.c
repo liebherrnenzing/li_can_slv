@@ -352,10 +352,14 @@ CpStatus_tv CpCoreBufferGetDlc(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV, uint8_
 //----------------------------------------------------------------------------//
 CpStatus_tv CpCoreBufferRelease(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 {
-	CpStatus_tv tvStatusT;
+	CpStatus_tv tvStatusT_init;
+	CpStatus_tv tvStatusT_off;
+	CpStatus_tv ret = eCP_ERR_NONE;
 
-	tvStatusT = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_INIT);
-	if (tvStatusT == eCP_ERR_NONE)
+	tvStatusT_init = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_INIT);
+	tvStatusT_off = CheckParam(ptsPortV, ubBufferIdxV, eDRV_INFO_OFF);
+
+	if (tvStatusT_init == eCP_ERR_NONE || tvStatusT_off == eCP_ERR_NONE)
 	{
 		//-----------------------------------------------------------------
 		// clear the message buffer structure
@@ -372,11 +376,11 @@ CpStatus_tv CpCoreBufferRelease(CpPort_ts *ptsPortV, uint8_t ubBufferIdxV)
 				break;
 
 			default:
-				return (eCP_ERR_CHANNEL);
+				ret = eCP_ERR_CHANNEL;
 		}
 	}
 
-	return (tvStatusT);
+	return ret;
 }
 
 //----------------------------------------------------------------------------//
@@ -681,6 +685,9 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 					{
 						CpCoreBufferRelease(ptsPortV, i);
 					}
+
+					memset(aptsCan1FifoS, 0, sizeof(aptsCan1FifoS));
+
 					tvStatusT = eCP_ERR_NONE;
 					break;
 				case eCP_CHANNEL_2:
@@ -697,6 +704,8 @@ CpStatus_tv CpCoreDriverInit(uint8_t ubPhyIfV, CpPort_ts *ptsPortV, uint8_t ubCo
 					{
 						CpCoreBufferRelease(ptsPortV, i);
 					}
+
+					memset(aptsCan2FifoS, 0, sizeof(aptsCan2FifoS));
 
 					tvStatusT = eCP_ERR_NONE;
 					break;
@@ -741,6 +750,7 @@ CpStatus_tv CpCoreDriverRelease(CpPort_ts *ptsPortV)
 
 		if (cp_driver_log != NULL)
 		{
+			fflush(cp_driver_log);
 			(void) fclose(cp_driver_log);
 		}
 
@@ -1197,7 +1207,11 @@ int can_main_hw_log_open(void)
 
 void can_main_hw_log_close(void)
 {
-	(void) fclose(can_main_hw_log);
+	if (can_main_hw_log != NULL)
+	{
+		fflush(can_main_hw_log);
+		(void) fclose(can_main_hw_log);
+	}
 }
 
 char *get_can_main_hw_log_file_path(void)

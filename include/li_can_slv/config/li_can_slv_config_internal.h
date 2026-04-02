@@ -336,6 +336,23 @@ extern "C" {
 #endif
 #endif // #ifdef __DOXYGEN__
 
+/**
+ * @addtogroup li_can_slv_defines_synchrony
+ * @{
+ */
+#ifdef __DOXYGEN__
+/**
+ * Disable the pre-threshold for valid checks.
+ * Setting this will make the stack more susceptible to CAN Errors and will commence re-connect and autobaud early.
+ * Not setting will make the stack more tolerant to CAN Errors.
+ */
+#define LI_CAN_SLV_DISABLE_SYNC_VALID_PRE_THRESHOLD
+#else // #ifdef __DOXYGEN__
+#ifdef LI_CAN_SLV_DISABLE_SYNC_VALID_PRE_THRESHOLD
+#define LI_CAN_SLV_DISABLE_SYNC_VALID_PRE_THRESHOLD
+#endif
+#endif // #ifdef __DOXYGEN__
+
 #ifdef __DOXYGEN__
 /**
  \rst

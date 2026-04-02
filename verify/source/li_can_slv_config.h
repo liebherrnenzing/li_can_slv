@@ -76,6 +76,7 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 /* LI_CAN_SLV Synchronous protocol definitions                              */
 /*--------------------------------------------------------------------------*/
+#define LI_CAN_SLV_DISABLE_SYNC_VALID_PRE_THRESHOLD
 #define LI_CAN_SLV_SET_SYNC_PROCESS_PERIODE_MAX (50)
 #define LI_CAN_SLV_SYNC_CHECK_MODULE_NR_AND_DLC
 
