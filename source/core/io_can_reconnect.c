@@ -85,6 +85,8 @@
 /*--------------------------------------------------------------------------*/
 #include <li_can_slv/core/io_can_reconnect.h>
 
+#include <li_can_slv/arch/canpie_adapter/io_can_main_hw_handler.h>
+
 #ifdef IO_SMP
 #include "io_smp.h"
 #endif // #ifdef IO_SMP
@@ -814,7 +816,7 @@ static li_can_slv_errorcode_t can_reconnect_on(uint16_t id)
 	{
 		case 1: /* li_can_slv_reconnect_startup */
 			can_reconnect.bdr_index = 0;
-			can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME);
+			can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME_STARTUP);
 			break;
 		default:
 			can_reconnect_next_baudrate();
@@ -1064,7 +1066,16 @@ static li_can_slv_errorcode_t can_reconnect_next_baudrate(void)
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_RECONNECT
 
 	//update the time stamp of next allowed baud rate change to be able to check idle time
-	can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME);
+	switch (can_reconnect.cause)
+	{
+		case CAN_RECONNECT_CAUSE_STARTUP_NO_TRAFFIC:
+		case CAN_RECONNECT_CAUSE_STARTUP:
+			can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME_STARTUP);
+			break;
+		default:
+			can_reconnect.time_next_bdr_change = can_port_get_system_ticks() + can_port_msec_2_ticks(LI_CAN_SLV_RECONNECT_BAUDRATE_SWITCH_TIME_ONLINE);
+			break;
+	}
 
 #if defined(LI_CAN_SLV_MON) || defined(CAN_NODE_B_USED_FOR_RECONNECT_ONLY)
 	can_mon_enable();

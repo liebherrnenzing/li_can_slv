@@ -93,6 +93,7 @@
 /*--------------------------------------------------------------------------*/
 /* global variables (private/not exported)                                  */
 /*--------------------------------------------------------------------------*/
+
 #ifdef LI_CAN_SLV_RECONNECT_ENA_ERR_HANDLER_LOCK
 /* if reconnect is enabled the error handler may be called from the 5ms task */
 static volatile uint32_t can_main_hw_handler_error_lock = 0;
@@ -201,6 +202,56 @@ uint8_t can_main_hw_handler_error(void)
 		cp_lec = cp_state.ubCanErrType;
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 
+#ifdef LI_CAN_SLV_USE_BUS_CALMDOWN
+		/* ----- Bus calm-down -----
+		 * When the controller is in error-passive or bus-off, switch to
+		 * silent (listen-only) mode for LI_CAN_SLV_BUS_CALMDOWN_MS. While
+		 * silent the controller does not transmit, generates no error
+		 * frames and does not retry, so the bus disturbance can pass.
+		 * CpCoreCanMode() re-runs HAL_CAN_Init which implicitly clears
+		 * TEC/REC via the INRQ cycle, so on return we restart from a
+		 * clean error-active state.
+		 *
+		 * Gated on the reconnect FSM being idle so it does not fight the
+		 * startup baudrate scan.
+		 *
+		 * Complements (does not replace) the bxCAN hardware ABOM bus-off
+		 * auto-recovery; it kicks in earlier, at passive, before TEC
+		 * reaches 256.
+		 */
+		if (CAN_RECONNECT_STATE_OFF == li_can_slv_reconnect_get_state())
+		{
+			static uint8_t  calmdown_active   = 0u;
+			static uint32_t calmdown_end_tick = 0u;
+			uint32_t        now_tick = can_port_get_system_ticks();
+
+			if (calmdown_active != 0u)
+			{
+				if ((int32_t)(now_tick - calmdown_end_tick) >= 0)
+				{
+					(void) CpCoreCanMode(&can_port_main, eCP_MODE_OPERATION);
+					calmdown_active = 0u;
+#ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
+					LI_CAN_SLV_DEBUG_PRINT("CAN_CALMDOWN end\n");
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
+				}
+			}
+			else if ((cp_state.ubCanErrState == CANPIE_STATE_BUS_PASSIVE)
+			      || (cp_state.ubCanErrState == CANPIE_STATE_BUS_OFF))
+			{
+#ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
+				LI_CAN_SLV_DEBUG_PRINT("CAN_CALMDOWN start state:%d tec:%d rec:%d\n",
+						cp_state.ubCanErrState,
+						cp_state.ubCanTrmErrCnt,
+						cp_state.ubCanRcvErrCnt);
+#endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
+				(void) CpCoreCanMode(&can_port_main, CANPIE_MODE_LISTEN_ONLY);
+				calmdown_end_tick = now_tick + can_port_msec_2_ticks(LI_CAN_SLV_BUS_CALMDOWN_MS);
+				calmdown_active = 1u;
+			}
+		}
+#endif // #ifdef LI_CAN_SLV_USE_BUS_CALMDOWN
+
 		if ((cp_state.ubCanErrState != CANPIE_STATE_BUS_ACTIVE) || (cp_state.ubCanErrType != CANPIE_ERR_TYPE_NONE))
 		{
 #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
@@ -211,6 +262,7 @@ uint8_t can_main_hw_handler_error(void)
 #endif // #ifdef LI_CAN_SLV_DEBUG_CAN_ERROR
 
 #ifdef LI_CAN_SLV_RECONNECT
+#ifndef LI_CAN_SLV_RECONNECT_DISABLE_ONLINE
 
 #ifdef LI_CAN_SLV_MAIN_MON
 			if (CAN_MAINMON_TYPE_MAIN == can_mainmon_type)
@@ -251,6 +303,8 @@ uint8_t can_main_hw_handler_error(void)
 				(void)li_can_slv_set_node_mode(LI_CAN_SLV_MODE_LISTEN_ONLY);
 			}
 #endif // #ifdef LI_CAN_SLV_MAIN_MON
+
+#endif // #ifndef LI_CAN_SLV_RECONNECT_DISABLE_ONLINE
 #endif // #ifdef LI_CAN_SLV_RECONNECT
 		}
 
