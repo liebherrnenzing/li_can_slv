@@ -1426,7 +1426,10 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 #ifdef LI_CAN_SLV_MON
 		if (can_sync.mon_tx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_TX_DATA)
 		{
-            can_sync.err.mon_tx_cnt_pre[table_pos][i]++;
+			if (can_sync.err.mon_tx_cnt_pre[table_pos][i] < CAN_SYNC_VALID_PRE_NR)
+			{
+				can_sync.err.mon_tx_cnt_pre[table_pos][i]++;
+			}
             
             if (can_sync.err.mon_tx_cnt_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
             {   // pre-counter reached
@@ -1448,7 +1451,10 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 	{
 		if (can_sync.main_rx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_RX_DATA)
 		{
-            can_sync.err.main_rx_cnt_pre[table_pos][i]++;
+			if (can_sync.err.main_rx_cnt_pre[table_pos][i] < CAN_SYNC_VALID_PRE_NR)
+			{
+				can_sync.err.main_rx_cnt_pre[table_pos][i]++;
+			}
             
             if (can_sync.err.main_rx_cnt_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
             {   // pre-counter reached
@@ -1465,7 +1471,10 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 #ifdef LI_CAN_SLV_MON
 		if (can_sync.mon_rx_cnt[table_pos][i] != CAN_SYNC_VALID_NR_OF_RX_DATA)
 		{
-			can_sync.err.mon_rx_cnt_pre[table_pos][i]++;
+			if (can_sync.err.mon_rx_cnt_pre[table_pos][i] < CAN_SYNC_VALID_PRE_NR)
+			{
+				can_sync.err.mon_rx_cnt_pre[table_pos][i]++;
+			}
             
             if (can_sync.err.mon_rx_cnt_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
             {   // pre-counter reached
@@ -1482,7 +1491,10 @@ static li_can_slv_errorcode_t li_can_slv_sync_check_process_image_module(uint16_
 		// check the receive data, compare received data of main and monitor CAN controller
 		if (can_port_memory_cmp(&can_sync_data_mon_rx[table_pos].data[i][0], (byte_t *)can_config_module_tab[table_pos].rx[i], can_config_module_tab[table_pos].rx_dlc_sync[i]) != 0)
 		{
-			can_sync.err.data_pre[table_pos][i]++;
+			if (can_sync.err.data_pre[table_pos][i] < CAN_SYNC_VALID_PRE_NR)
+			{
+				can_sync.err.data_pre[table_pos][i]++;
+			}
             
             if (can_sync.err.data_pre[table_pos][i] >= CAN_SYNC_VALID_PRE_NR)
             {   // pre-counter reached
