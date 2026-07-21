@@ -27,6 +27,9 @@ install:
   - pip install codecov
   - cmd: mklink /D C:\MinGW C:\ProgramData\chocolatey
 
+# Disable the automatic MSBuild phase; this project is built via the custom build_script below
+build: off
+
 build_script:
   - cmd: where python
   - cmd: where gcc
