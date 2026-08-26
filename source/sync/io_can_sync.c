@@ -401,6 +401,42 @@ static uint32_t can_sync_get_pr_time_valid_module7(void);
 static uint32_t can_sync_get_pr_time_valid_module8(void);
 #endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+static uint32_t can_sync_get_pr_time_valid_module9(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+static uint32_t can_sync_get_pr_time_valid_module10(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+static uint32_t can_sync_get_pr_time_valid_module11(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+static uint32_t can_sync_get_pr_time_valid_module12(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+static uint32_t can_sync_get_pr_time_valid_module13(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+static uint32_t can_sync_get_pr_time_valid_module14(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+static uint32_t can_sync_get_pr_time_valid_module15(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+static uint32_t can_sync_get_pr_time_valid_module15(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+static uint32_t can_sync_get_pr_time_valid_module16(void);
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+
 /*--------------------------------------------------------------------------*/
 /* function definition (public/exported)                                    */
 /*--------------------------------------------------------------------------*/
@@ -1168,6 +1204,55 @@ li_can_slv_errorcode_t li_can_slv_sync_set_process_time_valid_fnc(char_t *type, 
 			*pfnc = &can_sync_get_pr_time_valid_module8;
 			break;
 #endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+		case 8:
+			*pfnc = &can_sync_get_pr_time_valid_module9;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+		case 9:
+			*pfnc = &can_sync_get_pr_time_valid_module10;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+		case 10:
+			*pfnc = &can_sync_get_pr_time_valid_module11;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+		case 11:
+			*pfnc = &can_sync_get_pr_time_valid_module12;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+		case 12:
+			*pfnc = &can_sync_get_pr_time_valid_module13;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+		case 13:
+			*pfnc = &can_sync_get_pr_time_valid_module14;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+		case 14:
+			*pfnc = &can_sync_get_pr_time_valid_module15;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+		case 15:
+			*pfnc = &can_sync_get_pr_time_valid_module16;
+			break;
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+
 		default:
 			break;
 
@@ -1589,5 +1674,93 @@ static uint32_t can_sync_get_pr_time_valid_module8(void)
 	return (can_sync.pr_time_valid_module[7]);
 }
 #endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+/**
+ * @brief can_sync_get_pr_time_valid_module9
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module9(void)
+{
+	return (can_sync.pr_time_valid_module[8]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+/**
+ * @brief can_sync_get_pr_time_valid_module10
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module10(void)
+{
+	return (can_sync.pr_time_valid_module[9]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+/**
+ * @brief can_sync_get_pr_time_valid_module11
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module11(void)
+{
+	return (can_sync.pr_time_valid_module[10]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+/**
+ * @brief can_sync_get_pr_time_valid_module12
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module12(void)
+{
+	return (can_sync.pr_time_valid_module[11]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+/**
+ * @brief can_sync_get_pr_time_valid_module13
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module13(void)
+{
+	return (can_sync.pr_time_valid_module[12]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+/**
+ * @brief can_sync_get_pr_time_valid_module14
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module14(void)
+{
+	return (can_sync.pr_time_valid_module[13]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+/**
+ * @brief can_sync_get_pr_time_valid_module15
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module15(void)
+{
+	return (can_sync.pr_time_valid_module[14]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+/**
+ * @brief can_sync_get_pr_time_valid_module15
+ * @return	li_can_slv_errorcode_t or LI_CAN_SLV_ERR_OK if successful
+ */
+static uint32_t can_sync_get_pr_time_valid_module16(void)
+{
+	return (can_sync.pr_time_valid_module[15]);
+}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
 
 /** @} */
