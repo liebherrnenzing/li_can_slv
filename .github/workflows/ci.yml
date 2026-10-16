@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install MinGW
+        shell: pwsh
+        run: |
+          choco install mingw --version=11.2.0 --yes --no-progress
+          if (-not (Test-Path C:\MinGW)) {
+            New-Item -ItemType SymbolicLink -Path C:\MinGW -Target C:\ProgramData\chocolatey | Out-Null
+          }
+          Add-Content -Path $env:GITHUB_PATH -Value 'C:\MinGW\bin'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Configure
+        run: inv configure
+
+      - name: Build
+        run: inv all
+
+      - name: Test
+        run: inv test
+
+      - name: Generate coverage report
+        run: inv cov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: build/coverage/coverage.xml
+          disable_search: true
+          fail_ci_if_error: false
