@@ -76,6 +76,14 @@ extern "C" {
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL6_RX	(5u) /*!< used CAN message object for receiving asynchronous control data (logical module 6) */
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL7_RX	(6u) /*!< used CAN message object for receiving asynchronous control data (logical module 7) */
 #define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL8_RX	(7u) /*!< used CAN message object for receiving asynchronous control data (logical module 8) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL9_RX	(8u) /*!< used CAN message object for receiving asynchronous control data (logical module 9) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL10_RX	(9u) /*!< used CAN message object for receiving asynchronous control data (logical module 10) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL11_RX	(10u) /*!< used CAN message object for receiving asynchronous control data (logical module 11) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL12_RX	(11u) /*!< used CAN message object for receiving asynchronous control data (logical module 12) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL13_RX	(12u) /*!< used CAN message object for receiving asynchronous control data (logical module 13) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL14_RX	(13u) /*!< used CAN message object for receiving asynchronous control data (logical module 14) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL15_RX	(14u) /*!< used CAN message object for receiving asynchronous control data (logical module 15) */
+#define CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL16_RX	(15u) /*!< used CAN message object for receiving asynchronous control data (logical module 16) */
 #endif // #ifdef LI_CAN_SLV_ASYNC
 
 #ifndef LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
@@ -161,6 +169,14 @@ extern "C" {
 #define LI_CAN_SLV_CONFIG_DEF_MOD_NR6		(127u) /*!< default module number6 */
 #define LI_CAN_SLV_CONFIG_DEF_MOD_NR7		(127u) /*!< default module number7 */
 #define LI_CAN_SLV_CONFIG_DEF_MOD_NR8		(127u) /*!< default module number8 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR9		(127u) /*!< default module number9 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR10		(127u) /*!< default module number10 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR11		(127u) /*!< default module number11 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR12		(127u) /*!< default module number12 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR13		(127u) /*!< default module number13 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR14		(127u) /*!< default module number14 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR15		(127u) /*!< default module number15 */
+#define LI_CAN_SLV_CONFIG_DEF_MOD_NR16		(127u) /*!< default module number16 */
 
 #define CAN_CONFIG_DIR_TX	(CAN_DIR_TX) /*!< CAN direction transmit */
 #define CAN_CONFIG_DIR_RX	(CAN_DIR_RX) /*!< CAN direction receive */

@@ -229,6 +229,143 @@ uint8_t can_async_handler_rx(uint16_t msg_obj, uint8_t dlc, uint16_t canid, uint
 #endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 8
 
 #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+		/*------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 9 on obj_async_ctrl9   */
+		/*------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL9_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL9_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 9
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 10 on obj_async_ctrl10   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL10_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL10_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 10
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 11 on obj_async_ctrl11   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL11_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL11_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 11
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 12 on obj_async_ctrl12   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL12_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL12_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 12
+
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 13 on obj_async_ctrl13   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL13_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL13_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 13
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 14 on obj_async_ctrl14   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL14_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL14_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 14
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 15 on obj_async_ctrl15   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL15_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL15_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 15
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+		/*--------------------------------------------------------------------------------*/
+		/* asynchronous control data received for logical module 16 on obj_async_ctrl16   */
+		/*--------------------------------------------------------------------------------*/
+		if ((rxi == (can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL16_RX])))
+		{
+			msg_obj = can_config_async_ctrl_rx_objs[CAN_CONFIG_MSG_MAIN_OBJ_ASYNC_CTRL16_RX];
+			err = can_async_send_data_to_async_ctrl_rx_queue(module_nr, &data[0]);
+#ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+			if (err != LI_CAN_SLV_ERR_OK)
+			{
+				error_syserr_send(err, ERR_LVL_INFO, can_config_get_module_nr_main(), ERR_LVL_INFO);
+			}
+#endif // #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
+		}
+#endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 16
+
+#if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES >= 17
 #warning LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES out of range!
 #endif // #if LI_CAN_SLV_MAX_NR_OF_LOGICAL_MODULES
 	}

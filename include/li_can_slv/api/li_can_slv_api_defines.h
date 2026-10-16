@@ -53,6 +53,14 @@ extern "C" {
 #define LCSA_DEF_MODULE_NR6		(LI_CAN_SLV_CONFIG_DEF_MOD_NR6) /**< default module for can module 6 */
 #define LCSA_DEF_MODULE_NR7		(LI_CAN_SLV_CONFIG_DEF_MOD_NR7) /**< default module for can module 7 */
 #define LCSA_DEF_MODULE_NR8		(LI_CAN_SLV_CONFIG_DEF_MOD_NR8) /**< default module for can module 8 */
+#define LCSA_DEF_MODULE_NR9		(LI_CAN_SLV_CONFIG_DEF_MOD_NR9) /**< default module for can module 9 */
+#define LCSA_DEF_MODULE_NR10	(LI_CAN_SLV_CONFIG_DEF_MOD_NR10) /**< default module for can module 10 */
+#define LCSA_DEF_MODULE_NR11	(LI_CAN_SLV_CONFIG_DEF_MOD_NR11) /**< default module for can module 11 */
+#define LCSA_DEF_MODULE_NR12	(LI_CAN_SLV_CONFIG_DEF_MOD_NR12) /**< default module for can module 12 */
+#define LCSA_DEF_MODULE_NR13	(LI_CAN_SLV_CONFIG_DEF_MOD_NR13) /**< default module for can module 13 */
+#define LCSA_DEF_MODULE_NR14	(LI_CAN_SLV_CONFIG_DEF_MOD_NR14) /**< default module for can module 14 */
+#define LCSA_DEF_MODULE_NR15	(LI_CAN_SLV_CONFIG_DEF_MOD_NR15) /**< default module for can module 15 */
+#define LCSA_DEF_MODULE_NR16	(LI_CAN_SLV_CONFIG_DEF_MOD_NR16) /**< default module for can module 16 */
 /**
  * @}
  */
