@@ -1329,6 +1329,8 @@ void li_can_slv_sync_process_request_rx(void)
 void li_can_sync_evaluate_error(uint16_t table_pos, li_can_slv_errorcode_t err)
 {
 	lcsa_can_sync_err_flag_t lcsa_err;
+	uint16_t loop;
+	uint8_t send_msg;
 
 	switch (err)
 	{
@@ -1364,7 +1366,28 @@ void li_can_sync_evaluate_error(uint16_t table_pos, li_can_slv_errorcode_t err)
 	if (lcsa_err != LI_CAN_SLV_SYNC_ERR_FLAG_NO_ERR)
 	{
 		can_sync_error_flags[table_pos] |= lcsa_err;
-		if (!(can_sync_error_flags_message_active[table_pos] & lcsa_err))
+		/* No main RX data at all for this module is a valid state (module not
+		   used by the master, only the process request is sent) and is not sent
+		   to the master as a diagnostic message. A wrong number of RX data (some
+		   objects missing or received more than once) is still reported. */
+		send_msg = TRUE;
+		if (lcsa_err == LI_CAN_SLV_SYNC_ERR_FLAG_MAIN_RX_MISSING_OBJ)
+		{
+			send_msg = FALSE;
+			for (loop = 0; loop < can_config_module_tab[table_pos].rx_obj_sync; loop++)
+			{
+				if (can_sync.main_rx_cnt[table_pos][loop] != 0)
+				{
+					send_msg = TRUE;
+					break;
+				}
+			}
+		}
+		if (can_sync_error_flags_message_active[table_pos] & lcsa_err)
+		{
+			send_msg = FALSE;
+		}
+		if (send_msg == TRUE)
 		{
 			can_sync_error_flags_message_active[table_pos] |= lcsa_err;
 #ifdef LI_CAN_SLV_SYS_MODULE_ERROR
